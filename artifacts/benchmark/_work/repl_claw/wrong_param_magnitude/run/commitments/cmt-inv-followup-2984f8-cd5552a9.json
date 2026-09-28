@@ -1,0 +1,48 @@
+{
+  "commitment_id": "cmt-inv-followup-2984f8-cd5552a9",
+  "claim_id": "claim-wrong_param_magnitude",
+  "agent_id": "inv-followup-2984f8",
+  "role": "falsifier",
+  "content_hash": "e0c14b6fefa86a35d115bdbd747b171c504db6bf918ea4afa6d3769a9b61cdda",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:20:14.044205+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "refuted",
+    "statement": "published RR=3.0 vs raw-event RR=1.500 (95% CI [1.283,1.753]); CI excludes 1 → effect real",
+    "plan": "recompute RR and CI from raw event counts; compare to published figure",
+    "evidence": {
+      "rr_published": 3.0,
+      "rr_raw": 1.4999999999999998,
+      "ci": [
+        1.283,
+        1.753
+      ],
+      "ci_excludes_one": true,
+      "mismatch": true
+    },
+    "confidence": 0.7,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:20:14.044798+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "published RR=3.0 vs raw-event RR=1.500 (95% CI [1.283,1.753]); CI excludes 1 → effect real",
+    "plan": "recompute RR and CI from raw event counts; compare to published figure",
+    "evidence": {
+      "rr_published": 3.0,
+      "rr_raw": 1.4999999999999998,
+      "ci": [
+        1.283,
+        1.753
+      ],
+      "ci_excludes_one": true,
+      "mismatch": true
+    },
+    "confidence": 0.7,
+    "executable": true
+  },
+  "seal_hash": "acafa2358b44961d753e29927abaa6e1f49ee32c37a549f71e4591c8c5bff5f5"
+}

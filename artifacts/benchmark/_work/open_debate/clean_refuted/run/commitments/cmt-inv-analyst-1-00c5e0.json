@@ -1,0 +1,26 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-00c5e0",
+  "claim_id": "claim-clean_refuted",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "31f674e14e9630ac7a10baec6ccc133f21e6ff259b25c57a3ab2833a3c440e8f",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:20:13.929276+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "uncertain",
+    "statement": "standardized effect size d=0.00",
+    "plan": "pooled effect size from bundled per-arm stats",
+    "evidence": {
+      "effect_size": 0.0,
+      "significant": false
+    },
+    "confidence": 0.6,
+    "executable": true
+  },
+  "seal_hash": "3e21c26f325b7bd996baf59dd32c1db57c8dfd8802aba09db2802490058982ce"
+}

@@ -1,0 +1,37 @@
+{
+  "claim_id": "claim-misleading_wrong_test",
+  "label": "REFUTED",
+  "confidence": 0.256,
+  "n_support": 2,
+  "n_contradict": 2,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 4,
+  "unresolved_conflicts": [
+    {
+      "agents": [
+        "inv-analyst-1",
+        "inv-falsifier-1",
+        "inv-followup-12ce60",
+        "inv-statistician-1"
+      ],
+      "support": [
+        "ev-inv-analyst-1-031e785f",
+        "ev-inv-statistician-1-633a5aeb"
+      ],
+      "contradict": [
+        "ev-inv-falsifier-1-221eabca",
+        "ev-inv-followup-12ce60-a4133efe"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "ev-inv-analyst-1-031e785f",
+    "ev-inv-statistician-1-633a5aeb",
+    "ev-inv-falsifier-1-221eabca",
+    "ev-inv-followup-12ce60-a4133efe"
+  ],
+  "reasoning": "Independent conflict between ['inv-analyst-1', 'inv-falsifier-1', 'inv-followup-12ce60', 'inv-statistician-1'] was ADJUDICATED by independent follow-up inv-followup-12ce60 (contradicts, executable=True); weighted score +0.12. Recovery from misleading evidence.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:20:14.028953+00:00"
+}

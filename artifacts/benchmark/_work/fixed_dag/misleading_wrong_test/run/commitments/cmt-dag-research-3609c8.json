@@ -1,0 +1,26 @@
+{
+  "commitment_id": "cmt-dag-research-3609c8",
+  "claim_id": "claim-misleading_wrong_test",
+  "agent_id": "dag-research",
+  "role": "analyst",
+  "content_hash": "eb5badd140633a82b0429fa3e52790284d9c25fdef0859d440bd462380e5e241",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:18:51.517498+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "standardized effect size d=-1.41",
+    "plan": "pooled effect size from bundled per-arm stats",
+    "evidence": {
+      "effect_size": -1.414,
+      "significant": true
+    },
+    "confidence": 0.6,
+    "executable": true
+  },
+  "seal_hash": "e345e3bf7ab964c62c6dc61c5753bba5ac659498e46ea31e3e4281ce04406602"
+}

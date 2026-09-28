@@ -1,0 +1,19 @@
+{
+  "claim_id": "claim-clean_supported",
+  "label": "SUPPORTED",
+  "confidence": 0.594,
+  "n_support": 1,
+  "n_contradict": 0,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 3,
+  "unresolved_conflicts": [],
+  "evidence_refs": [
+    "ev-dag-research-986e9840",
+    "ev-dag-analysis-3686511e",
+    "ev-dag-critic-ff154524"
+  ],
+  "reasoning": "Weighted evidence score +1.91 in favor; 1 support / 0 contradict; 0 replication(s). No unresolved independent conflict.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:20:13.880135+00:00"
+}

@@ -1,0 +1,28 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-d849f8",
+  "claim_id": "claim-clean_refuted",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "1f292596443fa267446f262b3243ab14aaf72222d4456b1cae03d614989e1a6c",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:18:51.530899+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "uncertain",
+    "statement": "two-sample t-test: t=0.00, p=1.0000 (alpha=0.05)",
+    "plan": "independent two-sample t-test on bundled per-arm means",
+    "evidence": {
+      "t": 0.0,
+      "p": 1.0,
+      "significant": false,
+      "risk_ratio_observed": 1.0
+    },
+    "confidence": 0.5,
+    "executable": true
+  },
+  "seal_hash": "641bcf9712c2b9ceb3358a1c421f32b51569985e3f1eb7beabceb23176d091e5"
+}

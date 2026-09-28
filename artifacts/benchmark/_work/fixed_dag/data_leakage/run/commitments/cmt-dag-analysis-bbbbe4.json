@@ -1,0 +1,28 @@
+{
+  "commitment_id": "cmt-dag-analysis-bbbbe4",
+  "claim_id": "claim-data_leakage",
+  "agent_id": "dag-analysis",
+  "role": "statistician",
+  "content_hash": "11a1d5fb7499eb5502ee0cec509af85a56997386977e626ccbbd58d7d3199fe3",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:18:51.514415+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "two-sample t-test: t=-14.14, p=0.0000 (alpha=0.05)",
+    "plan": "independent two-sample t-test on bundled per-arm means",
+    "evidence": {
+      "t": -14.142,
+      "p": 0.0,
+      "significant": true,
+      "risk_ratio_observed": 1.0499999999999998
+    },
+    "confidence": 0.9,
+    "executable": true
+  },
+  "seal_hash": "8bc82ca5095e18117f525a029ecc329e27599abeba09232b4575fa11a9cb7713"
+}

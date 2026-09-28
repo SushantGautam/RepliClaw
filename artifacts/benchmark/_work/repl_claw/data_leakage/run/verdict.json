@@ -1,0 +1,37 @@
+{
+  "claim_id": "claim-data_leakage",
+  "label": "REFUTED",
+  "confidence": 0.256,
+  "n_support": 2,
+  "n_contradict": 2,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 4,
+  "unresolved_conflicts": [
+    {
+      "agents": [
+        "inv-analyst-1",
+        "inv-falsifier-1",
+        "inv-followup-d2aab2",
+        "inv-statistician-1"
+      ],
+      "support": [
+        "ev-inv-analyst-1-e833cc61",
+        "ev-inv-statistician-1-3f7e4e7e"
+      ],
+      "contradict": [
+        "ev-inv-falsifier-1-ab20cede",
+        "ev-inv-followup-d2aab2-4f36b8ea"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "ev-inv-analyst-1-e833cc61",
+    "ev-inv-statistician-1-3f7e4e7e",
+    "ev-inv-falsifier-1-ab20cede",
+    "ev-inv-followup-d2aab2-4f36b8ea"
+  ],
+  "reasoning": "Independent conflict between ['inv-analyst-1', 'inv-falsifier-1', 'inv-followup-d2aab2', 'inv-statistician-1'] was ADJUDICATED by independent follow-up inv-followup-d2aab2 (contradicts, executable=True); weighted score +0.12. Recovery from misleading evidence.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:20:14.012972+00:00"
+}
