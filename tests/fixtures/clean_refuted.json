@@ -1,0 +1,24 @@
+{
+  "id": "clean_refuted",
+  "truth": "refuted",
+  "seeded_fault": null,
+  "description": "No genuine effect: means identical (p=1) and raw-event RR CI includes 1; published RR=1.5 not reproducible from raw events.",
+  "claim": {
+    "statement": "Treatment increases the event rate by 50% (published RR=1.5) versus control.",
+    "domain": "clinical",
+    "reference_truth": "refuted",
+    "data": {
+      "n": 400,
+      "mean_treat": 6.0,
+      "mean_ctrl": 6.0,
+      "sd_treat": 1.0,
+      "sd_ctrl": 1.0,
+      "alpha": 0.05,
+      "baseline_rr": 1.5,
+      "events_treat": 200,
+      "events_ctrl": 200,
+      "tot_treat": 1000,
+      "tot_ctrl": 1000
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "misleading_wrong_test",
+  "truth": "refuted",
+  "seeded_fault": "wrong_stat_test",
+  "description": "Fault mode: means are separated (naive means test is significant -> analyst/statistician 'support') but the RAW EVENT COUNTS show RR=1.0 with a CI including 1. The published RR=1.5 is not reproducible from raw events. The falsifier lens (recompute from raw events) is the only one that catches it, creating a genuine independent conflict that the follow-up must adjudicate.",
+  "claim": {
+    "statement": "Treatment increases the event rate by 50% (published RR=1.5) versus control.",
+    "domain": "clinical",
+    "reference_truth": "refuted",
+    "seeded_fault": "wrong_stat_test",
+    "data": {
+      "n": 400,
+      "mean_treat": 5.0,
+      "mean_ctrl": 6.0,
+      "sd_treat": 1.0,
+      "sd_ctrl": 1.0,
+      "alpha": 0.05,
+      "baseline_rr": 1.5,
+      "events_treat": 200,
+      "events_ctrl": 200,
+      "tot_treat": 1000,
+      "tot_ctrl": 1000
+    }
+  }
+}
