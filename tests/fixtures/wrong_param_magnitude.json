@@ -1,0 +1,25 @@
+{
+  "id": "wrong_param_magnitude",
+  "truth": "refuted",
+  "seeded_fault": "wrong_param",
+  "description": "Fault mode: incorrect parameter / unit. The reported effect magnitude is inflated (published RR=3.0) and is not consistent with the raw events (raw RR=1.5). The means test is significant, so naive analysts support the claim, but the falsifier recomputing from raw events flags the parameter mismatch and refutes.",
+  "claim": {
+    "statement": "Treatment triples the event rate (published RR=3.0) versus control.",
+    "domain": "clinical",
+    "reference_truth": "refuted",
+    "seeded_fault": "wrong_param",
+    "data": {
+      "n": 400,
+      "mean_treat": 5.0,
+      "mean_ctrl": 6.0,
+      "sd_treat": 1.0,
+      "sd_ctrl": 1.0,
+      "alpha": 0.05,
+      "baseline_rr": 3.0,
+      "events_treat": 300,
+      "events_ctrl": 200,
+      "tot_treat": 1000,
+      "tot_ctrl": 1000
+    }
+  }
+}
