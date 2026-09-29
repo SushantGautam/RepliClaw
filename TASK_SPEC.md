@@ -186,3 +186,7 @@ The final demo should be able to show, using real generated outputs:
 
 ## Engineering quality bar
 Prefer a small testable core with explicit interfaces. Maintain deterministic fixtures where possible. Separate orchestration/coordination policy from scientific task adapters so baselines differ primarily in coordination regime rather than unrelated code.
+
+
+## 2026-10-08 competition extension — authoritative for new work
+The acceptance criteria AC01–AC18 above describe historical prototype scope, NOT the current scientific competition finish line. Active acceptance tickets F00–F10, dependency order and verification gates are in `IMPLEMENTATION_PLAN.md`, `docs/COMPETITION_STRATEGY.md`, `docs/QUALITY_GATES.md`. Competition COMPLETE requires a *real executable scientific finding*, genuinely decentralized need claim/fulfillment, verified per-agent commit-before-reveal, faithful resource-matched baselines plus ablations, independent scientific and code reviews, and reproducible experiment artifacts. Cross-team demonstration is bonus but should be actively sought. Keep negative/null outcomes. Do not invent final submission details.
