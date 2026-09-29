@@ -248,3 +248,18 @@ DECISIONS.md / PROGRESS.md / EXECUTION_STATE.md / IMPLEMENTATION_PLAN.md
 | AC16 | `repliclaw demo` → artifacts/demo*/ (deterministic, committed) + artifacts/demo-llm (live) |
 | AC17 | this README (hypothesis, architecture, baselines, reproduction, not-a-fixed-DAG) |
 | AC18 | all reported numbers computed by the harness at run time; demo shows real model outputs with per-call usage accounting |
+
+
+## Active ScienceClaw 2026 competition program (October 8, 2026)
+**Important:** This README documents the existing prototype and its archived six-fixture benchmark, NOT a proven competition-winning scientific result. The real live-LLM misleading-case comparison in `artifacts/demo-llm/` shows all five strategies succeed; no RepliClaw advantage has yet been demonstrated. The new competition program is **WORKING**.
+
+- [Competition strategy / rubric](docs/COMPETITION_STRATEGY.md)
+- [Active implementation tickets F00–F10](IMPLEMENTATION_PLAN.md)
+- [VS Code parallel-agent fleet](docs/FLEET_PLAYBOOK.md)
+- [Quality gates and independent judges](docs/QUALITY_GATES.md)
+- [Current execution state](EXECUTION_STATE.md)
+- [Checkpoint history](docs/checkpoints/CP-20261008-PLAN.md)
+- [Agent seed prompt](SEED_PROMPT.md)
+- [Submission checklist](docs/SUBMISSION_CHECKLIST.md)
+
+The immediate next step is G0 (reproduce current tests and scientific evidence), then staged fleet work in isolated worktree sessions. Existing runnable CLI/tests remain unchanged by the planning update.
