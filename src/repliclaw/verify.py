@@ -26,8 +26,9 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
+from .investigators import LLMConfig
 from .models import Claim, InvestigatorConfig
 from .protocol import RepliClawProtocol
 
@@ -110,7 +111,7 @@ class VerificationReport:
 def _render_markdown(claim, proto_result, backend: str) -> str:
     v = proto_result.verdict
     lines = [
-        f"# RepliClaw Verification Report",
+        "# RepliClaw Verification Report",
         "",
         f"**Claim:** {claim.statement}",
         f"**Backend:** {backend}",
@@ -180,7 +181,8 @@ def verify(
     run_root = Path(config.get("run_root", DEFAULT_OUT))
     # Each verify() call gets its own sub-run directory so runs are hermetic
     # and independent (no cross-run commitment/event leakage).
-    import time as _time, uuid as _uuid
+    import time as _time
+    import uuid as _uuid
     run_root = run_root / f"{_time.strftime('%Y%m%d-%H%M%S')}-{_uuid.uuid4().hex[:6]}"
 
     # Normalize claim.

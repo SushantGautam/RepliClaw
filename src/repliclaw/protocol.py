@@ -14,12 +14,12 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 from . import canonical
-from .evidence import build_evidence_graph, detect_conflicts
+from . import scienceclaw_adapter as sc
+from .evidence import detect_conflicts
 from .isolation import ContextEnforcer, PhaseGate
 from .models import (
     Claim,
     Commitment,
-    CommitmentPhase,
     Evidence,
     EvidenceRelation,
     FollowUpNeed,
@@ -29,11 +29,9 @@ from .models import (
     ResourceUsage,
     RunMetadata,
     Verdict,
-    VerdictLabel,
     commit_payload,
 )
-from .runstore import RunStore, RevealMismatchError
-from . import scienceclaw_adapter as sc
+from .runstore import RevealMismatchError, RunStore
 from .verdict import compute_verdict
 
 STRATEGY_REPLICLAW = "repl_claw_blind_commit_reveal"
@@ -228,7 +226,6 @@ class RepliClawProtocol:
             self.store.append_evidence(ev)
             evidence.append(ev)
 
-        graph = build_evidence_graph(evidence)
         conflicts = detect_conflicts(evidence)
         agreement = self._agreement(conclusions)
         self.store.event(
@@ -270,7 +267,6 @@ class RepliClawProtocol:
                                  evidence_id=followup_ev.evidence_id)
                 # Re-score conflicts after follow-up.
                 conflicts = detect_conflicts(evidence)
-                graph = build_evidence_graph(evidence)
             else:
                 self.store.event("need_unfulfilled", need_id=need.need_id)
         else:

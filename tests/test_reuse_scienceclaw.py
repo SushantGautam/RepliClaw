@@ -1,7 +1,6 @@
 """Reuse contract: RepliClaw genuinely reuses ScienceClaw primitives
 (DECISIONS.md D01/D04). Proves the adapter is not a fork and that run-local
 isolation, content hashing, lineage, and deterministic pressure all work."""
-from pathlib import Path
 
 from repliclaw import scienceclaw_adapter as sc
 
@@ -73,7 +72,11 @@ def test_pressure_score_is_deterministic_and_positive():
 
 def test_needs_bridge_to_native_needitem():
     items = sc.needs_to_need_items([
-        {"artifact_type": "analysis_result", "query": "recheck", "rationale": "investigators disagree; independent re-analysis required"},
+        {
+            "artifact_type": "analysis_result",
+            "query": "recheck",
+            "rationale": "investigators disagree; independent re-analysis required",
+        },
     ])
     assert isinstance(items[0], sc.NeedItem)
     assert items[0].query == "recheck"

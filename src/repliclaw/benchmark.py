@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import csv
 import json
+import shutil
 import time
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
@@ -83,7 +84,7 @@ def correctness_metrics(rows: List[Dict[str, Any]]) -> Dict[str, float]:
     }
 
 
-def recovery_metrics(rows: List[Dict[str, Any]]) -> Dict[str, float]:
+def recovery_metrics(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     """Recovery = on tasks with a seeded fault (truth=refuted), the fraction
     the strategy got RIGHT (recovered from the misleading artifact)."""
     faulted = [r for r in rows if r.get("seeded_fault") and r["truth"] == "refuted"]
@@ -112,7 +113,7 @@ def resource_metrics(rows: List[Dict[str, Any]]) -> Dict[str, float]:
     }
 
 
-def compute_all(rows: List[Dict[str, Any]]) -> Dict[str, Dict[str, float]]:
+def compute_all(rows: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
     return {
         "correctness": correctness_metrics(rows),
         "recovery": recovery_metrics(rows),
@@ -163,6 +164,10 @@ def run_benchmark(
         for fx in fixtures:
             claim = fixture_to_claim(fx)
             run_dir = work / strat / fx["id"]
+            if run_dir.exists():
+                # Fresh run dir per benchmark run: the RunStore appends to
+                # needs.jsonl, so a dirty dir would inflate n_needs on re-runs.
+                shutil.rmtree(run_dir)
             res = run_strategy(strat, claim, investigator_factory, run_dir)
             v = res.verdict
             ev = res.evidence
@@ -198,7 +203,7 @@ def run_benchmark(
     per_strategy: Dict[str, Dict[str, Any]] = {}
     for strat in strategies:
         srows = [r for r in rows if r["strategy"] == strat]
-        m = compute_all(srows)
+        m: Dict[str, Any] = compute_all(srows)
         m["avg_agents"] = per_strategy_agent.get(strat, 0)
         per_strategy[strat] = m
 
@@ -258,11 +263,13 @@ def _write_outputs(out: Path, report: Dict[str, Any]) -> None:
         "",
         "## Per-strategy metrics",
         "",
-        "| strategy | correctness | false-accept | false-reject | inconclusive | recovery (faulted) | avg agents | avg latency (s) |",
+        "| strategy | correctness | false-accept | false-reject | inconclusive | "
+        "recovery (faulted) | avg agents | avg latency (s) |",
         "|---|---|---|---|---|---|---|---|",
     ]
     for strat, m in report["per_strategy"].items():
-        c = m["correctness"]; rec = m["recovery"]
+        c = m["correctness"]
+        rec = m["recovery"]
         rec_s = f"{rec['recovery_rate']:.3f} (n={rec['n_faulted']})" if rec["recovery_rate"] is not None else "n/a"
         md.append(
             f"| {strat} | {c['correctness']:.3f} | {c['false_accept_rate']:.3f} | "
@@ -284,7 +291,6 @@ def _write_outputs(out: Path, report: Dict[str, Any]) -> None:
         "| task | truth | fault | " + " | ".join(report["strategies"]) + " |",
     ]
     md.append("|" + "---|" * (3 + len(report["strategies"])))
-    per_task = {r["task"]: r for r in []}
     for tid in report["tasks"]:
         trows = [r for r in report["rows"] if r["task"] == tid]
         cells = []

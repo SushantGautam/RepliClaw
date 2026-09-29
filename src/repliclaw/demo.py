@@ -25,11 +25,11 @@ from __future__ import annotations
 import json
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from .benchmark import FIXTURES_DIR
 from .models import Claim
-from .strategies import STRATEGY_RUNNERS, run_strategy
+from .strategies import run_strategy
 from .verify import make_investigator_factory, verify
 
 

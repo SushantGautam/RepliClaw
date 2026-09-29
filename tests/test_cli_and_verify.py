@@ -6,10 +6,7 @@ from pathlib import Path
 import pytest
 
 from repliclaw import Claim, verify
-from repliclaw.benchmark import run_benchmark
 from repliclaw.cli import build_parser, main
-from repliclaw.investigators import DeterministicInvestigator
-
 
 SUPPORTED_DATA = {
     "n": 400, "mean_treat": 6.0, "mean_ctrl": 5.0, "sd_treat": 1.0,

@@ -24,23 +24,22 @@ Layout:
 from __future__ import annotations
 
 import json
-import os
 import threading
 from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from . import canonical
 from .models import (
+    Claim,
     Commitment,
     CommitmentPhase,
-    Claim,
     Evidence,
     EvidenceRelation,
     FollowUpNeed,
     Verdict,
 )
-from . import canonical
 
 _LOCK = threading.Lock()
 
@@ -293,7 +292,7 @@ class RunStore:
         p = self.root / "needs.jsonl"
         if not p.exists():
             return []
-        return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+        return [json.loads(line) for line in p.read_text(encoding="utf-8").splitlines() if line.strip()]
 
     # ---- verdict ----------------------------------------------------------
     def save_verdict(self, verdict: Verdict) -> None:

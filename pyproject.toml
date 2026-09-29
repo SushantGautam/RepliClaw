@@ -18,7 +18,7 @@ dependencies = [
 
 [project.optional-dependencies]
 otel = ["opentelemetry-api>=1.20", "opentelemetry-sdk>=1.20"]
-dev = ["pytest>=8.0"]
+dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.8"]
 
 [project.scripts]
 repliclaw = "repliclaw.cli:main"
@@ -29,3 +29,25 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# Default (E, F, W) + a few high-signal rules; keep the set pragmatic for a
+# research prototype rather than enforcing a full style opinion.
+select = ["E", "F", "W", "I001", "B006", "B008"]
+
+[tool.mypy]
+python_version = "3.10"
+mypy_path = "src:deps/scienceclaw"
+ignore_missing_imports = true
+check_untyped_defs = false
+disallow_untyped_defs = false
+# Vendored ScienceClaw `artifacts.*` and `networkx` ship without type stubs.
+[[tool.mypy.overrides]]
+module = ["artifacts.*", "networkx", "openai", "pydantic"]
+ignore_missing_imports = true
+follow_imports = "skip"

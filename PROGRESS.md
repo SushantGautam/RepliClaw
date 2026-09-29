@@ -68,3 +68,21 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
   - Independent code review (code-review subagent): 2 HIGH narrative issues found → both fixed (data-driven heading/interpretation, fulfillment gated on evidence); re-review scope = no blocking issues.
 - Result: All 18 ACs have concrete, committed evidence (map in README §Acceptance-criteria evidence map).
 - Next: final state-file pass → status COMPLETE.
+
+## 2026-10-07 — Post-COMPLETE audit: lint/type hardening + stale-artifact correction (AC15 strengthened)
+- Trigger: user "continue!" after the COMPLETE claim. Independently re-audited rather than trusting prior evidence.
+- What changed:
+  - `pyproject.toml`: added `[tool.ruff]` (line-length 120; select E,F,W,I001,B006,B008) + `[tool.mypy]` (mypy_path `src:deps/scienceclaw`; un-stubbed overrides); `dev` extras now `pytest, ruff, mypy`.
+  - 26 ruff findings fixed (8 manual + 18 auto): dead vars, unused imports, E702 semicolon (benchmark.py), `F821 LLMConfig` (module-level import, no circular), import sorting.
+  - 10 mypy findings fixed: real `List[str]`→`List[Dict[str,Any]]` bug on `Verdict.unresolved_conflicts`; `None`-guard; int/dict annotation (benchmark); `_risk_ratio`/statistician float pattern + `n<=0` early-return guard (investigators); annotations in evidence/strategies/verify.
+  - Regenerated canonical `artifacts/benchmark/` — the committed CSV was **stale** (`n_needs=4` from M8-era code; current code yields `n_needs=1`). Table story unchanged (repl_claw 1.000/0.000/0.000/0.000, recovery 1.000).
+  - **Benchmark reproducibility bug found + fixed (root cause of the stale CSV):** `RunStore.append_need` is append-mode, so re-running the benchmark into a dirty `_work/` inflated `n_needs` (4 was accumulated, not real). Fix: `run_benchmark` now `shutil.rmtree`s each per-run `run_dir` before running; added regression test `test_benchmark_is_deterministic_across_reruns` (runs twice into one dir, asserts cols 1–15 identical + `n_needs<=1`).
+  - `README.md` AC15 row + Install/test block now document ruff + mypy.
+- Commands/evidence:
+  - `ruff check src/repliclaw/ tests/` → **All checks passed!** (0 errors)
+  - `mypy src/repliclaw/` → **no issues found in 15 source files**
+  - `python -m pytest` → **62 passed** (61 + new reproducibility regression test)
+  - Behavior-preservation proof: `diff` of cols 1–14 of (working-tree regen) vs (clean `acaefbb` stash regen) → **IDENTICAL**.
+  - No-accumulation proof: two consecutive `run_benchmark` into one dir → both `n_needs={1}`.
+  - Decisions: D13 recorded.
+- Result: AC15 upgraded from "compileall OK" to a full static gate (compileall + ruff + mypy + suite); a real reproducibility defect in the AC11 harness was found and fixed with a regression guard. All 18 ACs still hold; COMPLETE remains accurate and is now stronger.

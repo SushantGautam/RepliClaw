@@ -231,7 +231,7 @@ class Verdict:
     n_replicate: int = 0
     n_fail_replicate: int = 0
     independent_evidence_count: int = 0
-    unresolved_conflicts: List[str] = field(default_factory=list)
+    unresolved_conflicts: List[Dict[str, Any]] = field(default_factory=list)
     evidence_refs: List[str] = field(default_factory=list)
     reasoning: str = ""
     error_correlation: Optional[float] = None  # -1..1 proxy

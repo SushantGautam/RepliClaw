@@ -44,6 +44,30 @@ def test_benchmark_computes_all_ac11_metrics(tmp_path):
         assert (tmp_path / "bench" / f).exists()
 
 
+def test_benchmark_is_deterministic_across_reruns(tmp_path):
+    """AC11/AC18: the harness is reproducible. Re-running into the same out dir
+    must not change the measured columns (regression guard for the needs.jsonl
+    append-accumulation bug that once inflated n_needs on dirty _work/)."""
+    out = tmp_path / "bench"
+    run_benchmark(out, make_inv)
+    first = [
+        (line.split(",")[:15])  # everything except trailing wall_clock_s
+        for line in (out / "benchmark_results.csv").read_text(encoding="utf-8").splitlines()[1:]
+        if line.strip()
+    ]
+    run_benchmark(out, make_inv)  # same out dir, second run
+    second = [
+        (line.split(",")[:15])
+        for line in (out / "benchmark_results.csv").read_text(encoding="utf-8").splitlines()[1:]
+        if line.strip()
+    ]
+    assert first == second, "benchmark columns changed across re-runs (needs/evidence accumulation)"
+    # n_needs (col index 12) must never exceed 1 per repl_claw row.
+    for row in second:
+        if row[0] == "repl_claw":
+            assert int(row[12]) <= 1, f"n_needs accumulated: {row}"
+
+
 def test_no_fabricated_values_metrics_are_bounded(tmp_path):
     """AC18: reported metrics are derived, bounded, and internally consistent."""
     rep = run_benchmark(tmp_path / "bench", make_inv)

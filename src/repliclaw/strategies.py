@@ -25,9 +25,9 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List
 
-from . import scienceclaw_adapter as sc
+from . import canonical
 from .evidence import detect_conflicts
 from .isolation import ContextEnforcer, PhaseGate
 from .models import (
@@ -39,7 +39,6 @@ from .models import (
     ResourceUsage,
     Verdict,
 )
-from . import canonical
 from .protocol import RepliClawProtocol
 from .runstore import RunStore
 from .verdict import compute_verdict
@@ -273,8 +272,7 @@ def run_repl_claw(claim, factory, tmp: Path) -> StrategyResult:
     proto = RepliClawProtocol(run_root=tmp / "run", investigator_factory=factory,
                               min_independent=3)
     res = proto.run(claim)
-    from .protocol import RepliClawProtocol as _P
-    agreement = {}
+    agreement: Dict[str, Any] = {}
     return StrategyResult(
         strategy="repl_claw", claim_id=claim.claim_id, verdict=res.verdict,
         evidence=res.evidence, commitments=res.commitments, needs=res.needs,

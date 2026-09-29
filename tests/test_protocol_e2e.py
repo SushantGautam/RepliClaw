@@ -5,7 +5,7 @@ from pathlib import Path
 
 from repliclaw.investigators import DeterministicInvestigator
 from repliclaw.models import Claim
-from repliclaw.protocol import RepliClawProtocol, STRATEGY_REPLICLAW
+from repliclaw.protocol import STRATEGY_REPLICLAW, RepliClawProtocol
 
 FIX = Path(__file__).resolve().parent / "fixtures"
 
