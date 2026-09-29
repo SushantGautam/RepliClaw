@@ -3,15 +3,16 @@ Last updated: 2026-10-08 13:55
 status: WORKING
 program: ScienceClaw competition readiness (NEW; prototype remains historically complete)
 branch: repl-claw-dev
-base_SHA: 2ba5847 (fleet contracts committed; test baseline a14fa67)
-current_milestone: Wave A parallel fleet F01–F05 running in isolated worktrees
-gate: G0 PASS (66 passed, ruff clean, mypy clean — logs/G0-baseline-20261008.txt, @ a14fa67)
-current_ticket: F01+F02+F03+F04+F05 (parallel)
-running_workers: W1 F01 (w1/F01-baseline-validity, .worktrees/f01), W2 F02 (w2/F02-execution-honesty, .worktrees/f02), W3 F03 (w3/F03-eval-fairness, .worktrees/f03), W4 F04 design-only (w4/F04-need-dispatch, .worktrees/f04), W5 F05 (w5/F05-science-feasibility, .worktrees/f05)
+HEAD: 2ccb629 (F04 merged; fleet contracts 2ba5847; test baseline a14fa67)
+current_milestone: Wave A — F04 integrated; F01 awaiting science judge; F02/F03/F05 workers running
+gate: G0 PASS (66 passed, ruff/mypy clean @ a14fa67); post-F04-merge: 66 passed + 8 skipped, ruff/mypy clean @ 2ccb629
+current_ticket: F01 (judging), F02 (W2 running), F03 (W3 running), F05 (W5 running)
+done_workers: W1 F01 @ 6fad37f (Code Judge PASS; Science Judge pending), W4 F04 @ 0ca2e61 MERGED (Code+Science PASS)
+running_workers: W2 F02 (w2/F02-execution-honesty, .worktrees/f02), W3 F03 (w3/F03-eval-fairness, .worktrees/f03), W5 F05 (w5/F05-science-feasibility, .worktrees/f05)
 worker_contracts: docs/fleet/README.md + docs/fleet/F01..F05.md
-integration_owner: primary VS Code orchestrator session (this session); merges F01→F02→F03→F05, F04 design feeds DECISIONS.md/F06
-latest_checkpoint: docs/checkpoints/CP-20261008-G0.md
-next_action: Await worker handoffs; per P0 ticket run Code Judge + Science Judge reviews; fix blockers; merge one at a time with full gate; checkpoint each merge.
+integration_owner: primary VS Code orchestrator session (this session); merges F01→F02→F03→F05; F06 ticket must carry the 8 F04 carry-over items (see CP-20261008-F04.md)
+latest_checkpoint: docs/checkpoints/CP-20261008-F04.md
+next_action: (1) F01 science judge verdict → merge w1/F01-baseline-validity + full gate + checkpoint. (2) Await W2/W3/W5 handoffs → dual judges per ticket → merge in order F02→F03→F05. (3) Then write F06 ticket from NEED_DISPATCH.md + carry-overs, dispatch W6.
 blockers: none verified
 source_of_truth: docs/COMPETITION_STRATEGY.md, IMPLEMENTATION_PLAN.md, docs/QUALITY_GATES.md
 
