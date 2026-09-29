@@ -102,3 +102,10 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
   - `mypy src/repliclaw/` → **no issues found in 16 source files**
   - Debug note: a real run emitted the tree with correct parenting (root ← investigator + phase); the follow-up span appears on the misleading-wrong-test conflict path.
 - Result: D06's "RepliClaw emits OpenTelemetry spans" is now literally true and independently verified. Studio remains an *out-of-scope OTLP consumer* (non-goal) — the seam is real, the core stays hermetic. All 18 ACs still hold; COMPLETE remains accurate and is now stronger.
+
+## 2026-10-08 13:55 — G0 PASS + Wave A fleet dispatched (orchestrator session)
+- What changed: created fresh `.venv` (anaconda python breaks build isolation), committed fleet worker contracts `docs/fleet/{README,F01..F05}.md`, created 5 isolated git worktrees `.worktrees/f01..f05` each with own venv + editable install pointing at its own src, wrote G0 checkpoint.
+- Commands run: `pip install -e ".[dev,otel]"`; `.venv/bin/python -m pytest` → 66 passed; `.venv/bin/ruff check src/repliclaw/ tests/` → clean; `.venv/bin/mypy src/repliclaw/` → clean (16 files). All at a14fa67, clean tree.
+- Observed: baseline honest — prototype green, competition program NOT complete. Confirmed G3/G4/G5 defects in source (strategies.py debate revealed=False hardcode; isolated_vote full-verdict; self-attested executable; dev-only fixtures).
+- Artifacts: logs/G0-baseline-20261008.txt, docs/checkpoints/CP-20261008-G0.md, docs/fleet/*.md.
+- Next: W1–W5 implementing in worktrees; per-ticket judge reviews (code + science) → integrate F01→F02→F03→F05 → checkpoints; then F06 distributed dispatch.
