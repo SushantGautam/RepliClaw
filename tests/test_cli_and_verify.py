@@ -3,6 +3,8 @@ outputs under artifacts/."""
 import json
 from pathlib import Path
 
+import pytest
+
 from repliclaw import Claim, verify
 from repliclaw.benchmark import run_benchmark
 from repliclaw.cli import build_parser, main
@@ -10,7 +12,7 @@ from repliclaw.investigators import DeterministicInvestigator
 
 
 SUPPORTED_DATA = {
-    "n": 400, "mean_treat": 5.0, "mean_ctrl": 6.0, "sd_treat": 1.0,
+    "n": 400, "mean_treat": 6.0, "mean_ctrl": 5.0, "sd_treat": 1.0,
     "sd_ctrl": 1.0, "alpha": 0.05, "baseline_rr": 1.5,
     "events_treat": 300, "events_ctrl": 200, "tot_treat": 1000, "tot_ctrl": 1000,
 }
@@ -64,6 +66,22 @@ def test_verify_artifacts_bundled(tmp_path):
     assert rep.verdict_label == "SUPPORTED"
 
 
+def test_verify_artifact_with_data_block(tmp_path):
+    """A cross-team artifact that bundles a raw `data` block must be merged
+    into the claim so the analytical lenses can actually compute on it (this
+    is how `repliclaw verify --artifact file.json` feeds data)."""
+    # Claim has NO top-level data; everything arrives via the artifact.
+    rep = verify(
+        {"statement": "Treatment increases the event rate by 50% (RR=1.5) vs control"},
+        artifacts=[{"type": "raw_counts", "data": MISLEADING_DATA}],
+        config={"backend": "deterministic", "run_root": str(tmp_path)},
+    )
+    # MISLEADING_DATA has raw RR=1.0 while the claim asserts RR=1.5 → the
+    # falsifier refutes → a conflict the follow-up adjudicates → REFUTED.
+    assert rep.verdict_label == "REFUTED"
+    assert rep.n_evidence >= 3
+
+
 def test_cli_verify(tmp_path, capsys):
     code = main([
         "verify",
@@ -109,3 +127,21 @@ def test_cli_unknown_backend_fails_cleanly(tmp_path):
     parser = build_parser()
     with pytest.raises(SystemExit):
         parser.parse_args(["verify", "--claim", "x", "--backend", "bogus"])
+
+
+def test_llm_factory_wraps_config_not_client(monkeypatch, tmp_path):
+    """_llm_factory must receive an LLMConfig (not a client) and each
+    investigator gets a fresh client with a real LLMConfig — guards against
+    the LLMClient(LLMClient) double-wrap that silently degraded LLM runs."""
+    from repliclaw.investigators import LLMClient, LLMConfig, LLMInvestigator
+    from repliclaw.models import InvestigatorConfig, InvestigatorRole
+    from repliclaw.verify import make_investigator_factory
+
+    monkeypatch.setenv("CUSTOM_SIMULACHAT_KEY", "test-key")
+    factory = make_investigator_factory("llm")
+    inv = factory(InvestigatorConfig(agent_id="x", role=InvestigatorRole.ANALYST))
+    assert isinstance(inv, LLMInvestigator)
+    assert isinstance(inv.client.cfg, LLMConfig)
+    assert inv.client.cfg.api_key == "test-key"
+    with pytest.raises(TypeError):
+        LLMClient(inv.client)

@@ -1,0 +1,28 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-100617",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "7d5d542a744e210e0aebeb5f2dcb17339fba48fa6397b8f8b499c0b92b1e718e",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:52:20.244980+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "two-sample t-test: t=14.14, p=0.0000 (alpha=0.05)",
+    "plan": "independent two-sample t-test on bundled per-arm means",
+    "evidence": {
+      "t": 14.142,
+      "p": 0.0,
+      "significant": true,
+      "risk_ratio_observed": 1.0
+    },
+    "confidence": 0.9,
+    "executable": true
+  },
+  "seal_hash": "d8161a83f74602a73a7754210e5dc0749e53e42f8b1d8717a7b24cd0b3a71e96"
+}

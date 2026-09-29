@@ -1,0 +1,35 @@
+{
+  "commitment_id": "cmt-dag-analysis-afdbc9",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "dag-analysis",
+  "role": "statistician",
+  "content_hash": "73cc14dc40526ffd2e2fadefc05a20bc6011059389c52726379b187c2bc7dc27",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:52:49.146300+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The raw data shows equal event rates in treatment and control groups (20% vs 20%), yielding a Relative Risk of 1.0, which directly contradicts the claimed RR of 1.5.",
+    "plan": "Calculate the observed Relative Risk (RR) from the bundled event counts and compare it to the claimed baseline_rr. Additionally, perform a Chi-square test for independence on the 2x2 contingency table to determine if the difference in proportions is statistically significant.",
+    "evidence": {
+      "events_treat": 200,
+      "tot_treat": 1000,
+      "rate_treat": 0.2,
+      "events_ctrl": 200,
+      "tot_ctrl": 1000,
+      "rate_ctrl": 0.2,
+      "observed_rr": 1.0,
+      "claimed_rr": 1.5,
+      "chi_square_statistic": 0.0,
+      "p_value_chi_square": 1.0,
+      "consistency_check": "Inconsistent: Observed RR (1.0) does not match Claimed RR (1.5)."
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "seal_hash": "7e16cad026aae8dda013da6a8d0fdd7d2a83b84b75e6b252ed216f734512d03d"
+}

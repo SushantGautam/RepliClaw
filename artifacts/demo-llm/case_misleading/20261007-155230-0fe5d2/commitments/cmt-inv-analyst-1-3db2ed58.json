@@ -1,0 +1,54 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-3db2ed58",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "41f26c7abbf388ab195c30d753b358760e09b49fb0d4508f46bdc4735df25199",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:52:38.286379+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "refuted",
+    "statement": "The claim is refuted because the raw event counts in the bundled data yield a Relative Risk of 1.0, not 1.5.",
+    "plan": "Calculate the observed Relative Risk (RR) from the provided event and total counts for treatment and control groups. Compare this calculated RR to the claimed published RR of 1.5. Additionally, compute Cohen's d from the mean/SD data as per role instructions to assess effect size consistency.",
+    "evidence": {
+      "calculated_rr": 1.0,
+      "claimed_rr": 1.5,
+      "events_treat": 200,
+      "tot_treat": 1000,
+      "rate_treat": 0.2,
+      "events_ctrl": 200,
+      "tot_ctrl": 1000,
+      "rate_ctrl": 0.2,
+      "cohens_d": 0.7071,
+      "pooled_sd": 1.0,
+      "mean_diff": 1.0
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:52:38.290012+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The claim is refuted because the raw event counts in the bundled data yield a Relative Risk of 1.0, not 1.5.",
+    "plan": "Calculate the observed Relative Risk (RR) from the provided event and total counts for treatment and control groups. Compare this calculated RR to the claimed published RR of 1.5. Additionally, compute Cohen's d from the mean/SD data as per role instructions to assess effect size consistency.",
+    "evidence": {
+      "calculated_rr": 1.0,
+      "claimed_rr": 1.5,
+      "events_treat": 200,
+      "tot_treat": 1000,
+      "rate_treat": 0.2,
+      "events_ctrl": 200,
+      "tot_ctrl": 1000,
+      "rate_ctrl": 0.2,
+      "cohens_d": 0.7071,
+      "pooled_sd": 1.0,
+      "mean_diff": 1.0
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "1de9125b932a91ed56c4fcbbda1d297c78a43c2e86003c8e0287ee270b4280da"
+}

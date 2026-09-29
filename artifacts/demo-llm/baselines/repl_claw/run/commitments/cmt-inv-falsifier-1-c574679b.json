@@ -1,0 +1,44 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-c574679b",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "15c541ca00df99426a2c45c30b758e01d9347bb37a3fa17eff77b427cc94c295",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:53:13.062517+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "refuted",
+    "statement": "The raw event counts yield a relative risk of 1.0, which contradicts the claimed RR of 1.5 and indicates no difference between treatment and control.",
+    "plan": "Computed the raw Relative Risk (RR) using the formula (events_treat/tot_treat)/(events_ctrl/tot_ctrl). Calculated the 95% confidence interval using the log-normal method: exp(ln(RR) ± 1.96*sqrt(1/e_t + 1/e_c)). Compared the calculated raw RR and its CI to the published baseline_rr of 1.5.",
+    "evidence": {
+      "raw_rr": 1.0,
+      "published_rr": 1.5,
+      "ci_lower": 0.847,
+      "ci_upper": 1.182,
+      "includes_one": true,
+      "discrepancy": "Raw RR (1.0) does not match published RR (1.5), and the 95% CI [0.847, 1.182] includes 1.0."
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:53:13.064854+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The raw event counts yield a relative risk of 1.0, which contradicts the claimed RR of 1.5 and indicates no difference between treatment and control.",
+    "plan": "Computed the raw Relative Risk (RR) using the formula (events_treat/tot_treat)/(events_ctrl/tot_ctrl). Calculated the 95% confidence interval using the log-normal method: exp(ln(RR) ± 1.96*sqrt(1/e_t + 1/e_c)). Compared the calculated raw RR and its CI to the published baseline_rr of 1.5.",
+    "evidence": {
+      "raw_rr": 1.0,
+      "published_rr": 1.5,
+      "ci_lower": 0.847,
+      "ci_upper": 1.182,
+      "includes_one": true,
+      "discrepancy": "Raw RR (1.0) does not match published RR (1.5), and the 95% CI [0.847, 1.182] includes 1.0."
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "2dd5e35398f9f43116d7db011a4dc67f9ca3552ada035b7e4f81ea509bb389df"
+}

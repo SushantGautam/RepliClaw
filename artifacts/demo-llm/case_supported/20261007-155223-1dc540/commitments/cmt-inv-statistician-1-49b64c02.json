@@ -1,0 +1,42 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-49b64c02",
+  "claim_id": "demo-clean_supported",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "a3babc0e94d3d045aba99944a6028907cfb6c5eab470e64801299baa0e796d70",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:52:30.955551+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The calculated relative risk from the bundled event counts is exactly 1.5, matching the claim.",
+    "plan": "Calculate the Relative Risk (RR) using the provided event and total counts for treatment and control groups: RR = (events_treat / tot_treat) / (events_ctrl / tot_ctrl). Compare the calculated RR to the claimed value of 1.5.",
+    "evidence": {
+      "risk_treatment": 0.3,
+      "risk_control": 0.2,
+      "calculated_rr": 1.5,
+      "claimed_rr": 1.5,
+      "match": true
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:52:30.962736+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The calculated relative risk from the bundled event counts is exactly 1.5, matching the claim.",
+    "plan": "Calculate the Relative Risk (RR) using the provided event and total counts for treatment and control groups: RR = (events_treat / tot_treat) / (events_ctrl / tot_ctrl). Compare the calculated RR to the claimed value of 1.5.",
+    "evidence": {
+      "risk_treatment": 0.3,
+      "risk_control": 0.2,
+      "calculated_rr": 1.5,
+      "claimed_rr": 1.5,
+      "match": true
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "seal_hash": "042328cb22041366dd5067d01edf6393a9b6341fe14bf7e8da51f98d6fb2a3e6"
+}

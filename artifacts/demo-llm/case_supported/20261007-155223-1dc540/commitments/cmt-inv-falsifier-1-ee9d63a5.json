@@ -1,0 +1,42 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-ee9d63a5",
+  "claim_id": "demo-clean_supported",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "2bbc6f3b3d0f841504c9b86dc2017281007248a8bcb60eb1c1676a3e8e63fb19",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:52:30.956269+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The raw event counts independently reproduce the claimed relative risk of 1.5 with a 95% confidence interval that excludes 1.",
+    "plan": "Calculated the raw Relative Risk (RR) using the formula (events_treat/tot_treat)/(events_ctrl/tot_ctrl). Computed the 95% Confidence Interval using the log-normal method: exp(ln(RR) ± 1.96*sqrt(1/events_treat + 1/events_ctrl)). Compared the calculated RR and CI to the published baseline_rr of 1.5.",
+    "evidence": {
+      "raw_rr": 1.5,
+      "ci_lower": 1.348,
+      "ci_upper": 1.67,
+      "published_rr": 1.5,
+      "ci_excludes_1": true
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:52:30.963620+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The raw event counts independently reproduce the claimed relative risk of 1.5 with a 95% confidence interval that excludes 1.",
+    "plan": "Calculated the raw Relative Risk (RR) using the formula (events_treat/tot_treat)/(events_ctrl/tot_ctrl). Computed the 95% Confidence Interval using the log-normal method: exp(ln(RR) ± 1.96*sqrt(1/events_treat + 1/events_ctrl)). Compared the calculated RR and CI to the published baseline_rr of 1.5.",
+    "evidence": {
+      "raw_rr": 1.5,
+      "ci_lower": 1.348,
+      "ci_upper": 1.67,
+      "published_rr": 1.5,
+      "ci_excludes_1": true
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "b6d95b39880ddaa6826d75897ece22c059298823b126f18f79be5ec3eb1fc43c"
+}

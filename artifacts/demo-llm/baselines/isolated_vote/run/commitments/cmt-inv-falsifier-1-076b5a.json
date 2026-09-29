@@ -1,0 +1,30 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-076b5a",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "6c1a741c9d8646616c8448be528133931b7255440301ec617d81a93a2991c3f9",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:52:58.428124+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The raw event counts yield a relative risk of 1.0, which contradicts the claimed RR of 1.5 and indicates no treatment effect.",
+    "plan": "Computed the raw Relative Risk (RR) using the formula (events_treat/tot_treat)/(events_ctrl/tot_ctrl). Calculated the 95% confidence interval using the log-normal method: exp(ln(RR) ± 1.96*sqrt(1/e_t + 1/e_c)). Compared the computed RR and CI against the published baseline_rr of 1.5.",
+    "evidence": {
+      "raw_rr": 1.0,
+      "published_rr": 1.5,
+      "ci_lower": 0.847,
+      "ci_upper": 1.182,
+      "includes_null": true,
+      "discrepancy": "Raw RR (1.0) does not match Published RR (1.5). The 95% CI [0.847, 1.182] includes 1.0, indicating no statistically significant difference."
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "d4004277aeebdd6ff5721e2db1e67e95b7b688b16f7b087bca03e46d5a2362e4"
+}

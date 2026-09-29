@@ -75,6 +75,18 @@ def cmd_verify(args) -> int:
     return 0
 
 
+def cmd_demo(args) -> int:
+    from repliclaw.demo import run_demo
+
+    out = run_demo(Path(args.out), backend=args.backend)
+    print(f"Demo complete (backend resolved from --backend={args.backend})")
+    print()
+    print(f"  {out/'demo_transcript.md'}")
+    print(f"  {out/'demo_summary.md'}")
+    print(f"  {out/'demo_summary.json'}")
+    return 0
+
+
 def cmd_benchmark(args) -> int:
     from repliclaw.benchmark import run_benchmark
     from repliclaw.verify import make_investigator_factory
@@ -134,6 +146,13 @@ def build_parser() -> argparse.ArgumentParser:
     pb.add_argument("--strategies", default=None,
                     help="Comma-separated subset (default: all five)")
     pb.set_defaults(func=cmd_benchmark)
+
+    pd = sub.add_parser("demo", help="Reproducible demo with inspectable outputs (AC16)")
+    pd.add_argument("--out", default="artifacts/demo", help="Output dir (default: artifacts/demo)")
+    pd.add_argument("--backend", default="auto",
+                    choices=["auto", "deterministic", "llm"],
+                    help="auto = llm if an API key is present, else deterministic")
+    pd.set_defaults(func=cmd_demo)
     return p
 
 

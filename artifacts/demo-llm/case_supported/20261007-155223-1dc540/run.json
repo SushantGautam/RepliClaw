@@ -1,0 +1,27 @@
+{
+  "run_id": "run-6b035e9ffbcf",
+  "claim_id": "demo-clean_supported",
+  "strategy": "repl_claw_blind_commit_reveal",
+  "protocol_version": "v1",
+  "model": "default",
+  "n_investigators": 3,
+  "config": {
+    "min_independent": 3,
+    "shared_public_materials": [],
+    "investigators": [
+      "inv-analyst-1",
+      "inv-statistician-1",
+      "inv-falsifier-1"
+    ]
+  },
+  "created_at": "2026-10-07T13:52:23.311950+00:00",
+  "completed_at": "2026-10-07T13:52:30Z",
+  "usage": {
+    "prompt_tokens": 1874,
+    "completion_tokens": 691,
+    "total_tokens": 2565,
+    "tool_calls": 0,
+    "llm_calls": 3,
+    "wall_clock_s": 0.0
+  }
+}

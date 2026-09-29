@@ -42,13 +42,13 @@ def _deterministic_factory(cfg: InvestigatorConfig):
     return DeterministicInvestigator(cfg)
 
 
-def _llm_factory(cfg_template):
+def _llm_factory(client_cfg: "LLMConfig"):
     from .investigators import LLMClient, LLMInvestigator
 
     def factory(cfg: InvestigatorConfig):
         # Fresh client per investigator so per-agent usage accounting is exact
         # (the protocol adds each investigator's client.usage once).
-        return LLMInvestigator(cfg, LLMClient(cfg_template))
+        return LLMInvestigator(cfg, LLMClient(client_cfg))
     return factory
 
 
@@ -65,7 +65,7 @@ def make_investigator_factory(backend: str = "deterministic", **client_kwargs):
                 "backend='llm' needs an API key: set REPLICLAW_LLM_API_KEY "
                 "(or CUSTOM_SIMULACHAT_KEY), or use backend='deterministic'."
             )
-        return _llm_factory(client)
+        return _llm_factory(cfg)
     return _deterministic_factory
 
 
@@ -201,6 +201,13 @@ def verify(
         # Bundle artifact references into the claim's data for investigators.
         claim.data = dict(claim.data or {})
         claim.data.setdefault("bundled_artifacts", artifacts)
+        # Artifacts that carry a raw `data` block (e.g. raw event counts) are
+        # merged into the claim's data so the analytical lenses can compute on
+        # them — this is how cross teams submit data via `--artifact file.json`.
+        for a in artifacts:
+            if isinstance(a, dict) and isinstance(a.get("data"), dict):
+                for k, v in a["data"].items():
+                    claim.data.setdefault(k, v)
 
     run_root.mkdir(parents=True, exist_ok=True)
     # Only LLMClient-relevant knobs are forwarded to the backend; the rest of
