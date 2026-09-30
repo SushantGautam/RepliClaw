@@ -1,3 +1,6 @@
+# ACTIVE PROJECT OVERRIDE — REPLICLAW V2 2026-10-08
+Old F00–F10 fleet may still have local uncommitted work. Before dispatch/pivot, read docs/AGENT_MIGRATION.md and snapshot all worktrees/sessions; do not reset/discard. Read root AGENTS.md then SEED_PROMPT.md, docs/EVIDENCE_ESCROW_SWARM.md, docs/EXPERIMENT_PROTOCOL_V2.md, IMPLEMENTATION_PLAN.md, EXECUTION_STATE.md. Use the new P00–P12 tickets. Independent reviewer must challenge novelty overlap with AutoScientists (2026), root-cause diagnosis overlap with AgentRx, and scientific fairness. Strong centrally adaptive manager S3 is mandatory. SOTA/competition claims require reproducible evidence; no fake run results, team approval or submitted forms. Code changes only in separate feature worktrees; preserve safe integration and explicit human confirmation for submissions.
+
 # RepliClaw / ScienceClaw hackathon workspace instructions
 Read root AGENTS.md first. The **active** program is docs/COMPETITION_STRATEGY.md, not the archived AC01–AC18 prototype completion claim.
 Read, in order: TASK_SPEC.md, EXECUTION_STATE.md, IMPLEMENTATION_PLAN.md, docs/FLEET_PLAYBOOK.md, docs/QUALITY_GATES.md.
