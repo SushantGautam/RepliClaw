@@ -1,3 +1,9 @@
+# ACTIVE OVERRIDE — OCT 8 V2 EVIDENCE-ESCROW SCIENTIFIC SWARM
+
+**Read this before everything below:** The authoritative new ScienceClaw research program is `docs/EVIDENCE_ESCROW_SWARM.md`, `docs/PRIOR_ART_NOVELTY_GATE.md`, `docs/EXPERIMENT_PROTOCOL_V2.md`, `IMPLEMENTATION_PLAN.md`, `EXECUTION_STATE.md`, and `docs/AGENT_MIGRATION.md`. The earlier F01–F10 plan, Tox21-first recommendation and SEED_PROMPT_V1 are superseded for **new** work. Existing code/WIP must be preserved and salvaged; old agents are not stopped automatically. Begin with human-approved safe checkpoint + migration, NOT a git reset. Do not claim that self-organizing decentralized scientific teams are novel; AutoScientists (2026) already does this. Distinguish using verified pre-outcome forecasts + causally discriminating SimpleAudit interventions + local task reallocation, with a strong adaptive central manager comparator. New autonomous start seed: `SEED_PROMPT.md`. Team acceptance of Hans's direction remains pending. Do not fabricate tests, claims, rubric results or submissions.
+
+---
+
 # Autonomous Engineering Agent Constitution
 
 ## Mission
