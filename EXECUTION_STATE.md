@@ -7,9 +7,12 @@ HEAD: 2ccb629 (F04 merged; fleet contracts 2ba5847; test baseline a14fa67)
 current_milestone: Wave A — F04 integrated; F01 awaiting science judge; F02/F03/F05 workers running
 gate: G0 PASS (66 passed, ruff/mypy clean @ a14fa67); post-F04-merge: 66 passed + 8 skipped, ruff/mypy clean @ 2ccb629
 current_ticket: F01 (judging), F02 (W2 running), F03 (W3 running), F05 (W5 running)
-done_workers: W4 F04 @ 0ca2e61 MERGED (Code+Science PASS), W5 F05 @ 083b4aa (dual judges running)
-repair_rounds: W1 F01 @ 6fad37f — Code Judge PASS; Science Judge PASS w/ 4 Majors → REMEDIATION ROUND 1 dispatched (audit includes_peer_materials fidelity, PhaseGate bypass guard, handoff benchmark-disclosure, test sentinel tightening + flag-pinning test). Re-review by BOTH judges required after repair.
-running_workers: W1 F01 remediation, W2 F02 (w2/F02-execution-honesty, .worktrees/f02), W3 F03 (w3/F03-eval-fairness, .worktrees/f03), W5 F05 judges (2ed0948f code / d27584c2 science)
+done_workers: W4 F04 @ 0ca2e61 MERGED (Code+Science PASS)
+repair_rounds:
+  - W1 F01 @ 6fad37f — Code PASS; Science PASS w/ 4 Majors → R1 dispatched (audit includes_peer_materials, PhaseGate guard, handoff disclosure, test sentinel+flag-pinning). BOTH judges re-review after.
+  - W5 F05 @ 083b4aa — Code PASS (no blockers); Science PASS conditional w/ 1 MAJOR → R1 dispatched (paired-McNemar F08 hook + claim_freeze.json + CI/p-value/label minors). Re-review after.
+f08_carry_overs: (a) Tox21 case arms are PAIRED — F08 falsifier must use McNemar (b=9, c=25, p=0.009), not independent two-arm RR; (b) statistician/analyst need mean_*/sd_*/n keys + a claim-threshold slot the lens can consume (code-judge M1); (c) metrics.json now carries paired_discordant + n_pairs.
+running_workers: W1 F01 R1, W2 F02, W3 F03, W5 F05 R1
 worker_contracts: docs/fleet/README.md + docs/fleet/F01..F05.md
 integration_owner: primary VS Code orchestrator session (this session); merges F01→F02→F03→F05; F06 ticket must carry the 8 F04 carry-over items (see CP-20261008-F04.md)
 latest_checkpoint: docs/checkpoints/CP-20261008-F04.md
