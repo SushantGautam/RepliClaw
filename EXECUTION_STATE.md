@@ -1,7 +1,8 @@
 # RepliClaw — Active execution state
-Last updated: 2026-10-08 13:55
-status: WORKING
-program: ScienceClaw competition readiness (NEW; prototype remains historically complete)
+Last updated: 2026-10-08 15:05
+status: PAUSED (pre-pivot checkpoint complete; awaiting PR #1 migration)
+program: ScienceClaw competition readiness — OLD program (superseded by PR #1 Evidence-Escrow pivot; do NOT resume old tickets)
+full_inventory: docs/checkpoints/CP-PRE-PIVOT-20261008-fleet.md (authoritative resume record)
 branch: repl-claw-dev
 HEAD: 2ccb629 (F04 merged; fleet contracts 2ba5847; test baseline a14fa67)
 current_milestone: Wave A — F04 integrated; F01 awaiting science judge; F02/F03/F05 workers running
