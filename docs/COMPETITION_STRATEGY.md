@@ -1,3 +1,7 @@
+> **SUPERSEDED STRATEGY V1 BELOW (preserved for historical rationale).** Active v2: [RepliClaw Evidence-Escrow Swarm](EVIDENCE_ESCROW_SWARM.md), [Novelty vs AutoScientists/AgentRx](PRIOR_ART_NOVELTY_GATE.md), [Flagship SimpleAudit interventions](FLAGSHIP_CASE.md), [Experimental protocol](EXPERIMENT_PROTOCOL_V2.md), [current plan](../IMPLEMENTATION_PLAN.md). No firstness or winning guarantees. Preserve existing agents' work with [migration guide](AGENT_MIGRATION.md).
+
+---
+
 # ScienceClaw 2026: RepliClaw competition strategy
 Last verified: 2026-10-08. This is the active *new* research program; the six-task prototype is a baseline, not the final scientific result.
 

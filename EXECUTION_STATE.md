@@ -1,24 +1,24 @@
-# RepliClaw — Active execution state
-Last updated: 2026-10-08
+# RepliClaw — Execution State (current v2 transition)
+Last edited: 2026-10-08 (strategy PR; does not report state of local VS Code agents)
 status: WORKING
-program: ScienceClaw competition readiness (NEW; prototype remains historically complete)
-branch: repl-claw-dev
-baseline_before_docs: 76da6b02956a503c980d07cb460fe61b163a65f7
-current_milestone: F00 baseline verification and parallel-fleet dispatch
-gate: G0 NOT_STARTED
-current_ticket: F00
-running_workers: none verified
-worker_assignments: pending runtime capability discovery
-integration_owner: primary VS Code orchestrator session, not yet started
-latest_checkpoint: docs/checkpoints/CP-20261008-PLAN.md
-next_action: Checkout repl-claw-dev, inspect HEAD/status, rerun tests/ruff/mypy, save output; then assign F01 F02 F03 and F04 F05.
-blockers: none verified
-source_of_truth: docs/COMPETITION_STRATEGY.md, IMPLEMENTATION_PLAN.md, docs/QUALITY_GATES.md
+program: EESS proposed competition pivot; pre-merge strategy branch
+target_integration_branch: repl-claw-dev
+strategy_review_branch: strategy/evidence-escrow-swarm-20261008
+base_git_sha_at_branch_creation: a14fa6766aa3af51e92c8272f8a344fab144569a
+current_milestone: P00 SAFE_MIGRATION + G0 (both NOT_STARTED by new fleet)
+gate: G0 NOT_STARTED / historical prototype results not rerun
+running_worker_state: UNKNOWN (GitHub cannot inspect local VS Code sessions)
+pre_pivot_checkpoint: NOT_OBSERVED
+changes_to_engine_in_strategy_branch: NONE (docs/agent instructions only)
+current_task: after old workers save checkpoints, user reviews and merges strategy PR; new orchestrator begins migration inventory and tests
+next_action: read docs/AGENT_MIGRATION.md, reconcile worktrees, update this cursor based on actual observations
+latest_scientific_evidence: old six curated deterministic fixtures and one live case where all strategies REFUTED; no superiority measured
+novelty_risk: AutoScientists May 2026 already implements decentralized self-organizing scientific swarms
+application_deadline: October 16, 2026 early; current official final hand-in format UNKNOWN
+user_actions: human must checkpoint/stop existing VS Code sessions and merge strategy PR when safe
 
-## Baseline honesty
-Old EXECUTION_STATE.md stated COMPLETE for 18 prototype criteria, reported 66 passing tests, and saved deterministic + live demos. This NEW program is NOT complete. Prior reports are historical evidence and have not been independently rerun in this planning update.
-Scientific gap: deterministic 6/6 on toy fixtures; the live-model misleading case is a tie across 5 strategies. No causal proof of distributed collective advantage, no documented independent cross-team use.
-Engineering gap: direct central follow-up, context-only blindness, erroneous debate peer serialization, model-self-certified execution, non-budget-matched comparator suite.
+## What completion really requires
+Do not call COMPLETE until: real frozen SimpleAudit counterfactual interventions; verified pre-outcome independent commitments; unscripted locally selected and claimed subsequent experiment; final auditable evidence; correctly resource-matched strong adaptive manager comparisons; science/code reviews and clean replay; exact official hand-in verified; actual application submitted by human. Honest negative experiments acceptable, fabricated positive claims not.
 
-## State update contract
-Only the orchestrator/integration owner updates this file, after verifying underlying branch/tests. Record current ticket, owner/worktree, HEAD, gate status, command outputs, latest checkpoint, blockers and next action. Never mark COMPLETE without docs/QUALITY_GATES.md G6 and real-science evidence. Never infer running sessions just because a work plan exists.
+## State writer contract
+One orchestrator writes this file after observing git status, branch, running workers and tests. Log observed SHA/results and checkpoint references. Do not assume this strategy branch automatically stops existing agents or modifies their private worktree. Do not make user-visible factual assertions based only on this proposed state.

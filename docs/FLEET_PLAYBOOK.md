@@ -1,3 +1,9 @@
+# EESS V2 FLEET OVERRIDE
+
+This fleet guide remains valid for worktree isolation, review and checkpoint mechanics, **but its old F01–F05 "Ready-to-run first fleet" table is superseded** by P00–P12 in [../IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md). BEFORE launching workers, safely migrate ongoing agents per [AGENT_MIGRATION.md](AGENT_MIGRATION.md). Salvage old worker outputs; a GitHub planning PR cannot observe unpushed work. First vertical slice: real frozen SimpleAudit counterfactual intervention, verified forecast escrow and autonomous evidence-dependent local choice. Primary science gate: proper strong adaptive central manager comparison. Apply same resource budget and evaluator to all variants. No user-invisible overwrite of local worktrees.
+
+---
+
 # Parallel VS Code agent fleet — operating protocol
 Active from 2026-10-08. The orchestrator must use the exact current `EXECUTION_STATE.md` as a cursor, not blindly trust old 'COMPLETE' logs.
 
