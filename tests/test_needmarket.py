@@ -322,3 +322,66 @@ def test_budget_enforced(tmp_path: Path):
     # A different agent with its own budget can still claim b2.
     l2 = broker.claim("b2", "wB", agent_budget_tokens=200)
     assert l2 is not None
+
+
+# 9. Expired-tombstone re-claim is atomic under real process contention.
+#    Code judge B1 reproduction: N processes race ONE expired lock; the
+#    old unlink+O_EXCL pair let 2-3 of them win. The fix must yield
+#    exactly one non-None lease and exactly one need_claimed event.
+def test_expired_reclaim_single_winner(tmp_path: Path):
+    n_procs = 6
+    root = tmp_path / "broker"
+    root.mkdir()
+    # Create the need and a now-EXPIRED lock (generation 1, dead holder).
+    seed = NeedBroker(root, lease_ttl_s=300.0)
+    seed.publish(make_need("n9"))
+    first = seed.claim("n9", "dead-holder")
+    assert first is not None
+    # Force-expire by rewriting the lock with a past deadline.
+    lock = root / "locks" / "n9.lock"
+    payload = json.loads(lock.read_text())
+    payload["deadline"] = time.monotonic() - 100
+    lock.write_text(json.dumps(payload, sort_keys=True))
+
+    barrier = tmp_path / "go"
+    wins = tmp_path / "wins"
+    wins.mkdir()
+    script = f"""
+import sys, time, os
+sys.path.insert(0, {SRC!r})
+from pathlib import Path
+from repliclaw.needmarket import NeedBroker
+b = NeedBroker(Path({str(root)!r}), lease_ttl_s=300.0)
+while not Path({str(barrier)!r}).exists():
+    time.sleep(0.002)
+lease = b.claim("n9", os.environ["WORKER"])
+if lease is not None:
+    (Path({str(wins)!r}) / os.environ["WORKER"]).write_text("won")
+"""
+    procs = [
+        subprocess.Popen(
+            [sys.executable, "-c", script],
+            env=dict(os.environ, WORKER=f"w{i}"),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        for i in range(n_procs)
+    ]
+    barrier.write_text("go")
+    for p in procs:
+        _, err = p.communicate(timeout=60)
+        assert p.returncode == 0, err.decode()
+
+    broker = NeedBroker(root, lease_ttl_s=300.0)
+    claimed = [e for e in broker.events() if e["kind"] == "need_claimed"]
+    reclaims = [e for e in claimed if e["payload"]["holder_id"] != "dead-holder"]
+    assert len(reclaims) == 1, (
+        f"expected exactly ONE re-claim winner, got {len(reclaims)}: "
+        f"{[e['payload']['holder_id'] for e in reclaims]}"
+    )
+    # The winner's lease is the live lock, generation bumped to 2.
+    live = broker._read_lock("n9")
+    assert live is not None
+    assert live.generation == 2
+    assert live.holder_id == reclaims[0]["payload"]["holder_id"]
+    assert (wins / live.holder_id).exists()

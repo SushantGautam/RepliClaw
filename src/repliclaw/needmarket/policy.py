@@ -47,6 +47,8 @@ class ActionPolicy(Protocol):
         rng_seed: int,
     ) -> List["RankedAction"]: ...
 
+    def set_discriminability(self, mapping: "Discriminability") -> None: ...
+
 
 @dataclass(frozen=True)
 class RankedAction:
