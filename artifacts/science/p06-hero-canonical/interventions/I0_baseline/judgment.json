@@ -1,0 +1,1 @@
+{"abs_diff":0.0,"arm_id":"I0_baseline","case_sha256":"19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88","measured_mean_delta_logp":0.0,"measurement":"rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)","n_molecules":48,"severity":"pass","tolerance_abs_delta_logp":0.001,"within_tolerance":true}
