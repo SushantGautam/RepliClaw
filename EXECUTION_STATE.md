@@ -4,10 +4,10 @@ status: WORKING
 program: EESS — Evidence-Escrow Scientific Swarm (docs/EVIDENCE_ESCROW_SWARM.md)
 branch: repl-claw-dev
 HEAD: 50dd599 (state) on repl-claw-dev
-current_milestone: P02+P03+P04 ALL COMPLETE (committed, gates green) → P05 comparators + P06 secondary case running as background builder agents in .worktrees/p05, .worktrees/p06
-gate: P02 @ 3f452b2: 62 passed/8 skipped, ruff+mypy clean; P03 @ ba71a4d: 69 passed/8 skipped, ruff+mypy clean; P04 @ 1b48ac2: 74 passed/8 skipped, ruff clean, mypy clean (22 files) — docs/checkpoints/CP-P02.md, CP-P03.md, CP-P04.md
+current_milestone: P02+P03+P04+P05 ALL COMPLETE (all committed, all gates independently re-verified) → p07/integration worktree merges P02+P03+P04+P05 (93→112 passed, ruff+mypy clean); dual judges (code+science) running on it. P06 + P08-prereg + P09-draft + novelty-scan workers in flight.
+gate: P02 @ 3f452b2: 62/8; P03 @ ba71a4d: 69/8; P04 @ 1b48ac2: 74/8; P05 @ 7fa4f68: 85/8 (re-run by orchestrator, matches claim); MERGED p07/integration: **112 passed, 8 skipped, ruff clean, mypy clean (36 files)** — simpleaudit installed editable from pinned local checkout /Users/sushantgautam/Documents/SimpleAudit @ 9783293 (0.3.3)
 pre_pivot_checkpoint: docs/checkpoints/CP-PRE-PIVOT-20261008-fleet.md (authoritative inventory)
-running_worker_state: 3 background agents live — p05-comparators (1047a496, RepliClaw Builder, non-thinking model), p06-secondary-case (d7624f80, RepliClaw Builder), novelty-research (0bb3b985, research agent)
+running_worker_state: 6 background agents live — p06-secondary-case (d7624f80), p08-prereg-draft (725c798b), p09-application-draft (eaf630c8), code-judge-p07 (9f3c5294), science-judge-p07 (ca89d310), novelty-research-2 (8b3f2f2a). NOTE: harness ID↔description labeling has been unreliable this session — verify by content, not by displayed description. Failed/recovered: first novelty-research agent (0bb3b985) produced no report (research agent type default model unavailable; recovered via model override on retry 8b3f2f2a). P05 first dispatch (builder type) failed on same model error; retry (1047a496, non-thinking model) succeeded → 7fa4f68.
 application_deadline: October 16, 2026 early; final hand-in format UNKNOWN until event
 
 ## Salvaged WIP inventory (all work preserved, worktrees clean)
