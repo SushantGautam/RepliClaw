@@ -252,7 +252,11 @@ def run_open_debate(claim, factory, tmp: Path) -> StrategyResult:
         if revealed:
             ctx.revealed_materials = dict(revealed)
         inv = factory(cfg)
-        finding = inv.run(ctx)
+        # S4 open-sharing: the whole point is that each agent sees the prior
+        # agents' REVEALED conclusions, so the prompt must actually include
+        # the revealed peer materials (revealed=True). S0/S3 never set
+        # revealed_materials, so they are unaffected by this flag.
+        finding = inv.run(ctx, revealed=True)
         c = _commit(store, cfg.agent_id, cfg.role.value, finding, claim.claim_id)
         revealed[cfg.agent_id] = finding
         evidence.append(_ev(cfg.agent_id, finding, c.commitment_id, claim.claim_id))

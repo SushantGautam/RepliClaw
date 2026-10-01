@@ -1,0 +1,1 @@
+{"arm_id":"I2_Cl","case_sha256":"19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88","element":"Cl","functionalization":"chlorination","intervention":"directed_aromatic_functionalization","measurement":"rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)","n_molecules":48,"site":"first_aromatic_implicit_h_carbon (lowest atom index)"}
