@@ -1,0 +1,42 @@
+{
+  "schema": "repliclaw.sealed_oracle/v1",
+  "case": "policy_rag_v1",
+  "true_cause": "retrieval_omission",
+  "hypothesis": "H_R",
+  "seeded_fault": "retrieval serves the stale 14-day v1 snippet as top-1 and omits the current 30-day v2 snippet",
+  "fault_marker": "14-day-stale-top1",
+  "expected_arm_outcomes": {
+    "I0_baseline": {
+      "severity": "pass",
+      "target_window_days": 14,
+      "interpretation": "stale rubric (14d) matches stale target (14d) -> failure HIDDEN"
+    },
+    "I_R_retrieval_fix": {
+      "severity": "critical",
+      "target_window_days": 30,
+      "interpretation": "fixed retrieval makes target say 30d; stale rubric (14d) now flags FAIL -> failure EXPOSED, output changed. Supports H_R."
+    },
+    "I_P_policy_conflict": {
+      "severity": "pass",
+      "target_window_days": 14,
+      "output_identical_to": "I0_baseline",
+      "interpretation": "policy-conflict rendering does not reach the deterministic target -> output byte-identical. H_P NOT supported."
+    },
+    "I_J_judge_fix": {
+      "severity": "critical",
+      "target_window_days": 14,
+      "output_identical_to": "I0_baseline",
+      "interpretation": "only the rubric changes; target still says 14d -> output byte-identical but verdict flips to FAIL. Stale judge was hiding a real violation."
+    },
+    "I_C_retrieval_judge": {
+      "severity": "pass",
+      "target_window_days": 30,
+      "interpretation": "control: fixed retrieval (30d target) + fixed rubric (30d) -> consistent PASS. Documents the two-factor interaction."
+    }
+  },
+  "supports_hypothesis": {
+    "H_R": "I_R",
+    "H_P": "none (I_P byte-identical)",
+    "stale_judge_mechanism": "I_J"
+  }
+}
