@@ -202,7 +202,7 @@ class Investigator:
     def __init__(self, config: InvestigatorConfig):
         self.config = config
 
-    def run(self, context) -> Dict[str, Any]:  # pragma: no cover - interface
+    def run(self, context, revealed: bool = False) -> Dict[str, Any]:  # pragma: no cover - interface
         raise NotImplementedError
 
     def name(self) -> str:
@@ -214,8 +214,8 @@ class LLMInvestigator(Investigator):
         super().__init__(config)
         self.client = client
 
-    def run(self, context) -> Dict[str, Any]:
-        prompt = context.to_prompt_block(revealed=False)
+    def run(self, context, revealed: bool = False) -> Dict[str, Any]:
+        prompt = context.to_prompt_block(revealed=revealed)
         prompt += (
             "\n\n# ROLE METHOD\n"
             + _ROLE_METHOD.get(context.investigator.role.value, _ROLE_METHOD_DEFAULT)
@@ -255,7 +255,7 @@ class DeterministicInvestigator(Investigator):
     disagreement → follow-up → verdict path in tests without a network.
     """
 
-    def run(self, context) -> Dict[str, Any]:
+    def run(self, context, revealed: bool = False) -> Dict[str, Any]:
         data = context.claim.data or {}
         role = self.config.role.value
         finding = self._analyze(role, data, context.claim)
