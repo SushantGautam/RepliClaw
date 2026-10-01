@@ -1,43 +1,62 @@
-# RepliClaw — Execution State (v2 Evidence-Escrow program, post-migration)
-Last updated: 2026-10-10 (orchestrator session, post-P04)
+# RepliClaw — Execution State (v2 Evidence-Escrow program)
+Last updated: 2026-10-08 evening (orchestrator, post-fleet-recovery segment)
 status: WORKING
 program: EESS — Evidence-Escrow Scientific Swarm (docs/EVIDENCE_ESCROW_SWARM.md)
-branch: repl-claw-dev
-HEAD: 50dd599 (state) on repl-claw-dev
-current_milestone: P02+P03+P04+P05 ALL COMPLETE (all committed, all gates independently re-verified) → p07/integration worktree merges P02+P03+P04+P05 (93→112 passed, ruff+mypy clean); dual judges (code+science) running on it. P06 + P08-prereg + P09-draft + novelty-scan workers in flight.
-gate: P02 @ 3f452b2: 62/8; P03 @ ba71a4d: 69/8; P04 @ 1b48ac2: 74/8; P05 @ 7fa4f68: 85/8 (re-run by orchestrator, matches claim); MERGED p07/integration: **112 passed, 8 skipped, ruff clean, mypy clean (36 files)** — simpleaudit installed editable from pinned local checkout /Users/sushantgautam/Documents/SimpleAudit @ 9783293 (0.3.3)
-pre_pivot_checkpoint: docs/checkpoints/CP-PRE-PIVOT-20261008-fleet.md (authoritative inventory)
-running_worker_state: 6 background agents live — p06-secondary-case (d7624f80), p08-prereg-draft (725c798b), p09-application-draft (eaf630c8), code-judge-p07 (9f3c5294), science-judge-p07 (ca89d310), novelty-research-2 (8b3f2f2a). NOTE: harness ID↔description labeling has been unreliable this session — verify by content, not by displayed description. Failed/recovered: first novelty-research agent (0bb3b985) produced no report (research agent type default model unavailable; recovered via model override on retry 8b3f2f2a). P05 first dispatch (builder type) failed on same model error; retry (1047a496, non-thinking model) succeeded → 7fa4f68.
-application_deadline: October 16, 2026 early; final hand-in format UNKNOWN until event
+branch: repl-claw-dev (run branch)
+HEAD: 8781bdc (artifact contract) on repl-claw-dev — PUSHED to origin
+current_milestone: P02–P08 OFFLINE STACK COMPLETE + MERGED INTO RUN BRANCH. P08 LIVE WINDOW (2026-10-10) GATED: science judge REJECTED prereg v1.0 ON READINESS (design endorsed); 8 blocking items → 4 parallel builds in flight (live EESS arm, runner CLI + usage-invalidation, oracle-gated scorer, prereg v1.1 rewrite). Window stays 2026-10-10→23 but start is conditional on pre-flight green.
 
-## Salvaged WIP inventory (all work preserved, worktrees clean)
-| Worktree | Branch @ HEAD | State | Salvage map (old→new) |
+## Current gates (executed, real output)
+| Tree | SHA | Gate |
+|---|---|---|
+| p07/integration (full stack + S5 arm + N1/N3) | 7ccfbaa | 134 passed, 8 skipped; ruff clean; mypy clean (45 files) |
+| **repl-claw-dev (RUN BRANCH)** | **8781bdc** (merge f78b119 + contract 8781bdc) | **134 passed, 8 skipped** (incl. P05 parity suite on merged tree); ruff clean; mypy clean; PUSHED |
+| p08/s5-arm | 14a485d | 25 comparator tests; merged clean into p07 |
+| p06/secondary-case (Tox21) | 859aa4e | green (ruff clean, mypy 22 files) — merged into run branch |
+| judge race-repro (N1 pre-fix) | — | anchor inconsistency 2/4 runs with widened latency (reproduced) |
+| N1 stress (post-fix) | — | 8 procs × 30 appends × 5 runs, widened window: 5/5 seq 1..240 contiguous, anchor==last, verify_ledger()==[] |
+
+## Judge verdicts (persisted in docs/fleet/reviews/)
+- **CODE-JUDGE-P07 (2026-10-08)**: REJECT → all fixed (B1 broker atomic claim via staging+os.link, M2/M3/M4 ledger) → re-review **APPROVE-WITH-CONDITIONS** (N1 anchor-outside-lock MAJOR + N2 + N3) → N1/N2/N3 **closed @ d634e00** (stress-verified).
+- **SCIENCE-JUDGE-P07 (2026-10-08)**: CONDITIONAL → B1 (no S5 arm) closed @ 14a485d/7ccfbaa; B2 (no slice) closed @ c570971; B3 (0-token harness) — the deterministic slice IS the offline proof; M2 discriminability, M3 S4 revealed-fix closed; M1/M4/M5 = narrative/prereg-level (handled in v1.1).
+- **SCIENCE-JUDGE-PREREG-P08 (2026-10-08)**: **REJECT on readiness (not merit)**. 16 Q answered; 8 blocking items: (1) scorer absent, (2) usage zero-fill, (3) P3 cites excluded A2, (4) S5 cited to non-existent file — live arm must be built OR run re-scoped deterministic, (5) S4 fix not on run branch (NOW ON: f78b119), (6) arms run different tasks (C1), (7) P07 not on run branch (NOW ON: f78b119), (8) runner CLI absent + wrong Tox21 path. **8-item v1.1 re-submission checklist.** Live window CANNOT open until checklist green.
+
+## Fleet (this segment)
+| Worker | id | Status | Deliverable |
 |---|---|---|---|
-| main | repl-claw-dev | G0 green; F04 design merged @ 2ccb629 | F00→P00, F04→P04 foundation |
-| .worktrees/f01 | w1/F01-baseline-validity @ c4c95c8 | R1 landed; R2 re-review never ran | → P05 (open_debate/isolated_vote comparators = mandatory S2/S4) |
-| .worktrees/f02 | w2/F02-execution-honesty @ 2afa7df | execution.py + runner/verifier; 2 red tests (self-attest, swapped-record), 1 mypy arity error | → P02 DONE (execution.py ported; 6/6 green) |
-| .worktrees/f03 | w3/F03-eval-fairness @ 32b6330 | 9 held-out fixtures + manifest + 10 RED eval-API tests; eval.py not started | → P05/P08 (denominators, paired metrics, held-out eval) |
-| .worktrees/f05 | w5/F05-science-feasibility @ ef3584b | Tox21 AR-agonist case complete (McNemar p=0.009, claim_freeze.json); R2 pending | → P06 secondary case (held-out controlled case, offline) |
-| .worktrees/p02 | p02/simpleaudit-counterfactual @ 3f452b2 | counterfactual/ package + execution.py + policy_rag_v1 canonical run (replay.sh pinned); 12 new tests green | DONE — merge at P07 integration gate |
-| .worktrees/p03 | p03/evidence-escrow @ ba71a4d | escrow/ package (packet+phase+ledger+verify); 7 red-first tests green; 69 passed/8skipped, ruff+mypy clean | DONE — merge at P07 integration gate |
-| .worktrees/p04 | p04/need-market @ 1b48ac2 | needmarket/ package (needs/broker/policy/worker/replay); 8 red-first tests incl. real-subprocess race + SIGKILL crash; 74 passed/8skipped, ruff+mypy clean | DONE — merge at P07 integration gate |
-| .worktrees/p05 | p05/comparators (bg builder agent 1047a496) | build in progress | matched-budget comparators |
-| .worktrees/p06 | p06/secondary-case (bg builder agent d7624f80) | build in progress | Tox21 secondary case (salvage f05) |
+| code-judge re-review | 9f3c5294 | DONE | APPROVE-WITH-CONDITIONS (report persisted) |
+| slice-tests builder | (completed) | DONE | 7 slice tests + demo @ d634e00 |
+| comparators S5 builder | (completed) | DONE | EESSArm + S4 fix @ 14a485d, merged 7ccfbaa |
+| science-judge prereg answers | ca89d310 | DONE | REJECT + 16 answers (persisted) |
+| **live-eess-arm** | e7ac1011 | RUNNING | live S5/A1/A3 (judge item 4/C2) @ .worktrees/p08-live |
+| **runner-cli-usage** | d250675d | RUNNING | runner CLI + usage-invalidation (items 7,8) @ .worktrees/p08-runner |
+| **oracle-scorer** | 9a107634 | RUNNING | repliclaw.p08.score (item 1/Q12) @ .worktrees/p08-scorer |
+| **prereg-v11** | aacb1b1c | RUNNING | PREREG-2026-10-v1.1.md (item 3 + all Q fixes) @ .worktrees/p08-prereg |
 
-## Environment note (verified 2026-10-08)
-- Anaconda system python 3.11 breaks pip build isolation. ALWAYS use a venv: main tree `.venv/`; each worktree `.worktrees/fNN/.venv/` (install `-e ".[dev,otel]"` from INSIDE the worktree).
-- Live LLM API key exists in env but fleet workers are FORBIDDEN to use it (quota + fairness); live runs are P08-only with explicit budgets.
-- Gate commands: `.venv/bin/python -m pytest` / `ruff check src tests` / `mypy src` (root-level ruff/mypy scan .venv — wrong targets, do not use).
+Workers FORBIDDEN live LLM keys. Shared interface: docs/experiments/P08-ARTIFACT-CONTRACT.md (frozen v1).
+
+## Branch/worktree map
+- repl-claw-dev @ 8781bdc PUSHED (run branch = full P02-P08 stack + docs + contract)
+- p07/integration @ 7ccfbaa PUSHED; p08/s5-arm @ 14a485d PUSHED; p06 @ 859aa4e (merged)
+- .worktrees/p08-live (p08/live-eess), p08-runner (p08/runner-cli), p08-scorer (p08/scorer), p08-prereg (p08/prereg-v11) — all @ f78b119, in flight
+- backup/pre-rebase-20261010: KEEP until final submission
+- simpleaudit: editable install from /Users/sushantgautam/Documents/SimpleAudit @ 9783293 (0.3.3) in root + p07 + p08-s5 venvs
+
+## Next actions (critical path to window)
+1. Collect 4 workers → verify each gate (pytest/ruff/mypy) + code-review diffs → merge live/runner/scorer into repl-claw-dev one at a time, re-running full gate + P05 parity after each.
+2. Re-verify: scorer self-test green on merged tree; runner CLI §10.1 commands actually execute (offline arms); same-task parity (S5 vs S4 on same case) demonstrated.
+3. Run scripts/measure_live_token_floor.py with the real key (authorized orchestrator ONLY) → re-derive 60k headroom + 10.8M ceiling (Q6 condition).
+4. Re-submit PREREG-2026-10-v1.1.md to science judge for fast approval (its 8-item checklist now demonstrated by artifacts).
+5. Two-key start: judge approval + HUMAN AUTHORIZATION recorded here before ANY live run. Window 2026-10-10→23, shortenable not extendable.
+6. After window: scorer → scorecard (counterevidence-first), application/submission readiness (deadline Oct 16), push everything.
+
+## Environment note (verified)
+- Anaconda system python breaks pip build isolation → ALWAYS `.venv/bin/*` inside the worktree. rdkit + simpleaudit installed in root, p07, p08-s5 venvs.
+- Gate commands (from INSIDE worktree): `.venv/bin/python -m pytest -o addopts="" -q`, `.venv/bin/ruff check src tests scripts`, `.venv/bin/mypy src`.
+- Live LLM key exists in env; fleet workers FORBIDDEN; live runs P08-only under envelope.
 
 ## State update contract
-Only the orchestrator/integration owner updates this file, after verifying underlying branch/tests. Record current ticket, owner/worktree, HEAD, gate status, command outputs, latest checkpoint, blockers and next action. Never mark COMPLETE without docs/QUALITY_GATES.md G6 and real-science evidence. Never infer running sessions just because a work plan exists.
+Only the orchestrator/integration owner updates this file, after verifying branch/tests. Never mark COMPLETE without G6 + real-science evidence. No fabricated results, novelty, approvals, or success.
 
 ## What completion really requires
-Do not call COMPLETE until: real frozen SimpleAudit counterfactual interventions; verified pre-outcome independent commitments; unscripted locally selected and claimed subsequent experiment; final auditable evidence; correctly resource-matched strong adaptive manager comparisons; science/code reviews and clean replay; exact official hand-in verified; actual application submitted by human. Honest negative experiments acceptable, fabricated positive claims not.
-
-## Next actions
-1. Await P05 (comparators) and P06 (secondary case) background builders → verify their gates, dual-judge review, integrate.
-2. Integrate P02+P03+P04 into one branch + run G0-equivalent merged gate; dual judges (code + science) per ticket.
-3. P07 vertical slice (wire P02 executor into P04 worker `execute` callback; P03 escrow around predictions; P05 comparators at matched budget).
-4. P08 live runs (preregistration + science-judge approval FIRST), P09 application/submission readiness (deadline Oct 16).
-5. Push local commits to origin when safe (main is 17+ ahead).
+Real frozen SimpleAudit counterfactual interventions (DONE @ P02/P07); verified pre-outcome independent commitments (DONE @ P03 + slice); unscripted locally selected+claimed experiments (DONE @ P04 + slice choice_trace); final auditable evidence (scorer in flight); matched-budget strong adaptive-manager comparisons (arms+parity DONE offline; live runs gated); science/code reviews (DONE, see verdicts); clean replay (replay.sh pinned); exact official hand-in + human submission (P09, deadline Oct 16).
