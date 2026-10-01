@@ -18,3 +18,6 @@ Early application: https://scienceclawhack.ai/apply.html ; early deadline **Octo
 
 ## Official rubric
 Scientific/technical impact 25; collective capability 25; problem significance 20; decentralized agency 20; execution/validation 10; collaboration bonus up to 10.
+
+## V2 submission alignment (2026-10-08)
+Use **exact public application fields** and human approval at [APPLICATION_V2.md](APPLICATION_V2.md). Application selection criteria: meaningful problem, decentralized motivation, relevant experience, complementary skills. Deadline early Oct 16, decisions Oct 19. **Form submission itself is not done by this planning PR**. [DEMO_AND_FINAL_HANDIN_V2.md](DEMO_AND_FINAL_HANDIN_V2.md) has a recommended evidence package, but do not confuse it with official final requirements, which were not publicly specified as of 2026-10-08. First get real validated causal finding and honest comparison; no manufactured score. Team must check Hans/Michael/Sushant approvals and teammate consent.
