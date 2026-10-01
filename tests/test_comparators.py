@@ -279,9 +279,14 @@ def test_harness_runs_all_arms_and_reports_parity(tmp_path):
     claim, _ = load_claim("clean_supported")
     harness = ComparatorHarness(det_factory)
     out = harness.run(claim, make_envelope(), tmp_path / "harness")
-    assert set(out["arms"]) == {"single_agent", "adaptive_central", "open_sharing_swarm"}
+    assert set(out["arms"]) == {
+        "single_agent",
+        "adaptive_central",
+        "open_sharing_swarm",
+        "eess",
+    }
     assert out["parity"]["parity"] is True
-    assert out["parity"]["n_arms"] == 3
+    assert out["parity"]["n_arms"] == 4
     # Each arm's result is present with a comparable schema.
     for name, res in out["arms"].items():
         assert res["arm_name"] == name
@@ -305,3 +310,139 @@ def test_arm_result_is_frozen():
     res = _mk_result("single_agent", make_envelope())
     with pytest.raises(Exception):
         res.total_tokens = 999  # type: ignore[misc]
+
+
+# ---------------------------------------------------------------------------
+# 7. S4 open-sharing actually reaches the model prompt (science-judge M3)
+# ---------------------------------------------------------------------------
+def test_s4_prompt_includes_peer_materials(tmp_path):
+    """The S4 open-sharing arm sets ``ctx.revealed_materials`` for every agent
+    after the first, so the peer's conclusion MUST appear in the prompt the
+    model is actually given. Regression: the prompt was built with
+    ``to_prompt_block(revealed=False)`` so peer conclusions never reached the
+    model. We drive the real ``run_open_debate`` strategy with a factory that
+    captures the prompt string (no live LLM)."""
+    from repliclaw.strategies import run_open_debate
+
+    claim, _ = load_claim("clean_supported")
+    captured: list[str] = []
+
+    class PromptCapturingInvestigator:
+        def __init__(self, cfg):
+            self.config = cfg
+
+        def run(self, context, revealed=False):
+            # This is the exact prompt-building call the LLM path makes.
+            captured.append(context.to_prompt_block(revealed=revealed))
+            return {
+                "conclusion": "supported",
+                "statement": f"PEER-CONCLUSION-MARKER from {self.config.agent_id}",
+                "plan": "captured prompt",
+                "evidence": {},
+                "confidence": 0.9,
+                "executable": True,
+            }
+
+    run_open_debate(claim, PromptCapturingInvestigator, tmp_path / "s4")
+
+    # The first agent runs with no peers; later agents must see the earlier
+    # agents' revealed conclusions in their prompt.
+    assert len(captured) >= 3
+    assert "PEER MATERIALS" not in captured[0], "first agent has no peers to reveal"
+    # A peer's conclusion string must appear in a later agent's prompt.
+    assert any("PEER-CONCLUSION-MARKER from inv-analyst-1" in p for p in captured[1:])
+    # And the revealed block is present in those later prompts.
+    assert any("PEER MATERIALS" in p for p in captured[1:])
+
+
+def test_s0_prompt_does_not_include_peer_materials(tmp_path):
+    """S0 (isolated single agent) must NOT leak any peer material into its
+    prompt — the fix is scoped to the open-sharing arm only."""
+    from repliclaw.strategies import run_single_agent
+
+    claim, _ = load_claim("clean_supported")
+    captured: list[str] = []
+
+    class PromptCapturingInvestigator:
+        def __init__(self, cfg):
+            self.config = cfg
+
+        def run(self, context, revealed=False):
+            captured.append(context.to_prompt_block(revealed=revealed))
+            return {
+                "conclusion": "supported",
+                "statement": "single agent",
+                "plan": "captured prompt",
+                "evidence": {},
+                "confidence": 0.9,
+                "executable": True,
+            }
+
+    run_single_agent(claim, PromptCapturingInvestigator, tmp_path / "s0")
+    assert len(captured) == 1
+    assert "PEER MATERIALS" not in captured[0]
+
+
+# ---------------------------------------------------------------------------
+# 8. S5 / EESS arm (science-judge B1)
+# ---------------------------------------------------------------------------
+def test_s5_in_arm_registry():
+    """The EESS arm must be registered so the headline 'EESS vs matched central
+    manager' comparison is executable."""
+    reg = arm_registry()
+    assert "eess" in reg
+    arm = reg["eess"](det_factory)
+    assert arm.name() == "eess"
+
+
+def test_s5_result_shape_matches(tmp_path):
+    """S5's result dict must expose the SAME metric keys as S3/S4 so the
+    comparison lines up (verdict/accuracy + budget accounting)."""
+    claim, _ = load_claim("clean_supported")
+    s5 = _run_arm("eess", claim, tmp_path)
+    s3 = _run_arm("adaptive_central", claim, tmp_path)
+    s4 = _run_arm("open_sharing_swarm", claim, tmp_path)
+    assert set(s5.to_dict()) == set(s3.to_dict()) == set(s4.to_dict())
+    # The keys that make matched-budget parity assertable are present.
+    for key in ("verdict_label", "total_tokens", "total_wall_s", "n_agents",
+                "envelope_sha256"):
+        assert key in s5.to_dict()
+
+
+def test_s5_budget_parity(tmp_path):
+    """S5 must run under the SAME envelope as S3/S4 for the same case: the
+    envelope content hash (and thus the budget ceiling) is identical."""
+    claim, _ = load_claim("clean_supported")
+    env = make_envelope()
+    hashes = set()
+    for name in ("adaptive_central", "open_sharing_swarm", "eess"):
+        arm = arm_registry()[name](det_factory)
+        ledger = BudgetLedger(env)
+        spec = ArmSpec(arm_name=name, claim_id=claim.claim_id, envelope=env)
+        res = arm.run(claim, ledger, spec, tmp_path / name)
+        hashes.add(res.envelope_sha256)
+    assert len(hashes) == 1, f"S5 consumed a different envelope: {hashes}"
+    assert hashes == {env.sha256()}
+
+
+def test_s5_routes_through_eess(tmp_path):
+    """S5 is not a no-op: it must carry a genuine EESS artifact (verified
+    evidence + a local need-choice trace) that distinguishes it from S4."""
+    claim, _ = load_claim("clean_supported")
+    s5 = _run_arm("eess", claim, tmp_path)
+    s4 = _run_arm("open_sharing_swarm", claim, tmp_path)
+
+    detail = s5.to_dict()["detail"]
+    # EESS marker: the arm genuinely routed through the EESS pipeline.
+    assert detail.get("eess") is True
+    # A real, non-trivial EESS result (not an empty dict).
+    assert detail.get("eess_result"), "S5 must carry a non-empty EESS result"
+    # Verified evidence artifact + a local need-choice trace (the EESS path).
+    assert detail["eess_result"]["published_evidence"] >= 1
+    assert detail["eess_result"]["revealed_verified"] >= 1
+    assert isinstance(detail["eess_result"]["choice_trace"], list)
+    assert detail["eess_result"]["evidence_snapshot_sha256"]
+
+    # S5 is NOT identical to S4 by construction: S4 has no EESS artifact.
+    assert "eess" not in s4.to_dict()["detail"]
+    assert s5.to_dict() != s4.to_dict()
