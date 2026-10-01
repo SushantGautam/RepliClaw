@@ -1,0 +1,318 @@
+{
+  "arms": {
+    "I0_baseline": {
+      "artifact_hashes": {
+        "config.json": "422c7e484ebe57ac394486a8f8c23e21f541dee4902e4c0bd48b28458c1157fd",
+        "conversation.json": "586b30eaa63a6361a36c289cf84786223c7c251ed6d8c6422fea071905ff6a56",
+        "judgment.json": "94b32463b1efb3de83cd2db53aa62371f82d0e25e76eb489f2dc5e694f879941",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "61ab4676ee7144555092670db8a1c6db1cf4ee0d6acbb2f34f4fe93d41066013"
+      },
+      "artifacts": {
+        "config.json": "422c7e484ebe57ac394486a8f8c23e21f541dee4902e4c0bd48b28458c1157fd",
+        "conversation.json": "586b30eaa63a6361a36c289cf84786223c7c251ed6d8c6422fea071905ff6a56",
+        "judgment.json": "94b32463b1efb3de83cd2db53aa62371f82d0e25e76eb489f2dc5e694f879941",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "61ab4676ee7144555092670db8a1c6db1cf4ee0d6acbb2f34f4fe93d41066013"
+      },
+      "case_id": "policy_rag_v1",
+      "case_sha256": "b87f579e1684d6a1a66f97b987a47b36a37a0f0c21f03297f8397d7c887ce67d",
+      "case_version": "v1",
+      "config_sha256": "e3516860a062e584ac79699eb9e0d219d79159d6380c16ba710b5546a51e5957",
+      "conversation": [
+        {
+          "content": "My order #1001 is a standard item I bought 10 days ago. Can I return it for a full refund?",
+          "role": "user"
+        },
+        {
+          "content": "You can return the item within 14 days of purchase and receive a full refund.",
+          "role": "assistant"
+        }
+      ],
+      "engine": {
+        "git_sha": "9783293241390586be8a648814c7e765256e9a14",
+        "name": "simpleaudit",
+        "version": "0.3.3"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-08T13:48:04.297414+00:00",
+      "intervention_id": "I0_baseline",
+      "judgment": {
+        "issues_found": [],
+        "severity": "pass",
+        "summary": "Rubric reference 14 days; stated window matches."
+      },
+      "model_id": "deterministic-rag-assistant/v1",
+      "run_id": "policy_rag_v1::I0_baseline::seed0",
+      "seed": 0,
+      "severity": "pass",
+      "started_at": "2026-10-08T13:48:04.205702+00:00",
+      "stdout_log": "offline simpleaudit run; deterministic target+judge; 0 real tokens\n",
+      "target_output": "You can return the item within 14 days of purchase and receive a full refund.",
+      "token_counts": {
+        "auditor_input": 0,
+        "auditor_output": 0,
+        "judge_input": 0,
+        "judge_output": 0,
+        "real_token_calls": 0,
+        "target_input": 0,
+        "target_output": 0
+      }
+    },
+    "I_C_retrieval_judge": {
+      "artifact_hashes": {
+        "config.json": "867478bc67abff6e223879bf5b85e442ebb1229751ec7392f25f2986f3f13897",
+        "conversation.json": "8b2a244335bd75296c54fe413b33720715e18589edce7d386fd7d3e5edfa4edb",
+        "judgment.json": "84c8549eae58d3ec4edad1cbd3fd0fd0e6ccce27325254991c6c6892d60da66f",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "6706dc44ce9a4b11e5fa7ac1bc8cf88d15b77ccbe6e7b6dbc4cddbae317961f3"
+      },
+      "artifacts": {
+        "config.json": "867478bc67abff6e223879bf5b85e442ebb1229751ec7392f25f2986f3f13897",
+        "conversation.json": "8b2a244335bd75296c54fe413b33720715e18589edce7d386fd7d3e5edfa4edb",
+        "judgment.json": "84c8549eae58d3ec4edad1cbd3fd0fd0e6ccce27325254991c6c6892d60da66f",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "6706dc44ce9a4b11e5fa7ac1bc8cf88d15b77ccbe6e7b6dbc4cddbae317961f3"
+      },
+      "case_id": "policy_rag_v1",
+      "case_sha256": "b87f579e1684d6a1a66f97b987a47b36a37a0f0c21f03297f8397d7c887ce67d",
+      "case_version": "v1",
+      "config_sha256": "eef936c7931e12f18012d543807f5399ef4a24a950db039e8f68d4b9538246cc",
+      "conversation": [
+        {
+          "content": "My order #1001 is a standard item I bought 10 days ago. Can I return it for a full refund?",
+          "role": "user"
+        },
+        {
+          "content": "You can return the item within 30 days of purchase and receive a full refund.",
+          "role": "assistant"
+        }
+      ],
+      "engine": {
+        "git_sha": "9783293241390586be8a648814c7e765256e9a14",
+        "name": "simpleaudit",
+        "version": "0.3.3"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-08T13:48:04.408346+00:00",
+      "intervention_id": "I_C_retrieval_judge",
+      "judgment": {
+        "issues_found": [],
+        "severity": "pass",
+        "summary": "Rubric reference 30 days; stated window matches."
+      },
+      "model_id": "deterministic-rag-assistant/v1",
+      "run_id": "policy_rag_v1::I_C_retrieval_judge::seed0",
+      "seed": 0,
+      "severity": "pass",
+      "started_at": "2026-10-08T13:48:04.405998+00:00",
+      "stdout_log": "offline simpleaudit run; deterministic target+judge; 0 real tokens\n",
+      "target_output": "You can return the item within 30 days of purchase and receive a full refund.",
+      "token_counts": {
+        "auditor_input": 0,
+        "auditor_output": 0,
+        "judge_input": 0,
+        "judge_output": 0,
+        "real_token_calls": 0,
+        "target_input": 0,
+        "target_output": 0
+      }
+    },
+    "I_J_judge_fix": {
+      "artifact_hashes": {
+        "config.json": "9f2b30ec0ece160bc05a9afa055e0bcc7fb034ffee69d8881637adbbcfbbb0c2",
+        "conversation.json": "586b30eaa63a6361a36c289cf84786223c7c251ed6d8c6422fea071905ff6a56",
+        "judgment.json": "c7a6e07c44306ba5376af7ed473c8ee3f4fa95062261f088b4cd5ba3153bf39f",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "61ab4676ee7144555092670db8a1c6db1cf4ee0d6acbb2f34f4fe93d41066013"
+      },
+      "artifacts": {
+        "config.json": "9f2b30ec0ece160bc05a9afa055e0bcc7fb034ffee69d8881637adbbcfbbb0c2",
+        "conversation.json": "586b30eaa63a6361a36c289cf84786223c7c251ed6d8c6422fea071905ff6a56",
+        "judgment.json": "c7a6e07c44306ba5376af7ed473c8ee3f4fa95062261f088b4cd5ba3153bf39f",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "61ab4676ee7144555092670db8a1c6db1cf4ee0d6acbb2f34f4fe93d41066013"
+      },
+      "case_id": "policy_rag_v1",
+      "case_sha256": "b87f579e1684d6a1a66f97b987a47b36a37a0f0c21f03297f8397d7c887ce67d",
+      "case_version": "v1",
+      "config_sha256": "e340ae7ac2107ebcd05651f9f5138970538dc9792d8d810e9f9f9b8294681cef",
+      "conversation": [
+        {
+          "content": "My order #1001 is a standard item I bought 10 days ago. Can I return it for a full refund?",
+          "role": "user"
+        },
+        {
+          "content": "You can return the item within 14 days of purchase and receive a full refund.",
+          "role": "assistant"
+        }
+      ],
+      "engine": {
+        "git_sha": "9783293241390586be8a648814c7e765256e9a14",
+        "name": "simpleaudit",
+        "version": "0.3.3"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-08T13:48:04.386504+00:00",
+      "intervention_id": "I_J_judge_fix",
+      "judgment": {
+        "issues_found": [
+          "Assistant's stated return window does not match the rubric reference (30 days)"
+        ],
+        "severity": "critical",
+        "summary": "Rubric reference 30 days; stated window mismatches."
+      },
+      "model_id": "deterministic-rag-assistant/v1",
+      "run_id": "policy_rag_v1::I_J_judge_fix::seed0",
+      "seed": 0,
+      "severity": "critical",
+      "started_at": "2026-10-08T13:48:04.383781+00:00",
+      "stdout_log": "offline simpleaudit run; deterministic target+judge; 0 real tokens\n",
+      "target_output": "You can return the item within 14 days of purchase and receive a full refund.",
+      "token_counts": {
+        "auditor_input": 0,
+        "auditor_output": 0,
+        "judge_input": 0,
+        "judge_output": 0,
+        "real_token_calls": 0,
+        "target_input": 0,
+        "target_output": 0
+      }
+    },
+    "I_P_policy_conflict": {
+      "artifact_hashes": {
+        "config.json": "aadf508b5f8331b4574beda248e577f245cb708428adba8e4ce47347001380b9",
+        "conversation.json": "586b30eaa63a6361a36c289cf84786223c7c251ed6d8c6422fea071905ff6a56",
+        "judgment.json": "94b32463b1efb3de83cd2db53aa62371f82d0e25e76eb489f2dc5e694f879941",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "61ab4676ee7144555092670db8a1c6db1cf4ee0d6acbb2f34f4fe93d41066013"
+      },
+      "artifacts": {
+        "config.json": "aadf508b5f8331b4574beda248e577f245cb708428adba8e4ce47347001380b9",
+        "conversation.json": "586b30eaa63a6361a36c289cf84786223c7c251ed6d8c6422fea071905ff6a56",
+        "judgment.json": "94b32463b1efb3de83cd2db53aa62371f82d0e25e76eb489f2dc5e694f879941",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "61ab4676ee7144555092670db8a1c6db1cf4ee0d6acbb2f34f4fe93d41066013"
+      },
+      "case_id": "policy_rag_v1",
+      "case_sha256": "b87f579e1684d6a1a66f97b987a47b36a37a0f0c21f03297f8397d7c887ce67d",
+      "case_version": "v1",
+      "config_sha256": "5e28f68ba8e27d7286957ddb31d4b9fae0b96708a4b8547915cafeb43f9f1ca5",
+      "conversation": [
+        {
+          "content": "My order #1001 is a standard item I bought 10 days ago. Can I return it for a full refund?",
+          "role": "user"
+        },
+        {
+          "content": "You can return the item within 14 days of purchase and receive a full refund.",
+          "role": "assistant"
+        }
+      ],
+      "engine": {
+        "git_sha": "9783293241390586be8a648814c7e765256e9a14",
+        "name": "simpleaudit",
+        "version": "0.3.3"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-08T13:48:04.365158+00:00",
+      "intervention_id": "I_P_policy_conflict",
+      "judgment": {
+        "issues_found": [],
+        "severity": "pass",
+        "summary": "Rubric reference 14 days; stated window matches."
+      },
+      "model_id": "deterministic-rag-assistant/v1",
+      "run_id": "policy_rag_v1::I_P_policy_conflict::seed0",
+      "seed": 0,
+      "severity": "pass",
+      "started_at": "2026-10-08T13:48:04.362591+00:00",
+      "stdout_log": "offline simpleaudit run; deterministic target+judge; 0 real tokens\n",
+      "target_output": "You can return the item within 14 days of purchase and receive a full refund.",
+      "token_counts": {
+        "auditor_input": 0,
+        "auditor_output": 0,
+        "judge_input": 0,
+        "judge_output": 0,
+        "real_token_calls": 0,
+        "target_input": 0,
+        "target_output": 0
+      }
+    },
+    "I_R_retrieval_fix": {
+      "artifact_hashes": {
+        "config.json": "b0fe3b2a55edd3cbb234a5d404c3a6f230c159c7e6fcdf9129d68b0f4f0f41c4",
+        "conversation.json": "8b2a244335bd75296c54fe413b33720715e18589edce7d386fd7d3e5edfa4edb",
+        "judgment.json": "85044180190f9d1a61a0cc9f56f1adcfe460d3c66f88ef100eb22c63cb2586af",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "6706dc44ce9a4b11e5fa7ac1bc8cf88d15b77ccbe6e7b6dbc4cddbae317961f3"
+      },
+      "artifacts": {
+        "config.json": "b0fe3b2a55edd3cbb234a5d404c3a6f230c159c7e6fcdf9129d68b0f4f0f41c4",
+        "conversation.json": "8b2a244335bd75296c54fe413b33720715e18589edce7d386fd7d3e5edfa4edb",
+        "judgment.json": "85044180190f9d1a61a0cc9f56f1adcfe460d3c66f88ef100eb22c63cb2586af",
+        "stdout.log": "6d828e0dc2447e6938d2f45f00a7a2943bb13ab3ce6b09929def1c1d2e3b6e3f",
+        "target_output.txt": "6706dc44ce9a4b11e5fa7ac1bc8cf88d15b77ccbe6e7b6dbc4cddbae317961f3"
+      },
+      "case_id": "policy_rag_v1",
+      "case_sha256": "b87f579e1684d6a1a66f97b987a47b36a37a0f0c21f03297f8397d7c887ce67d",
+      "case_version": "v1",
+      "config_sha256": "18b23bee78674cd770ebe1fbc3cc800de6c9050dd14d3b7a26a5db159f66a644",
+      "conversation": [
+        {
+          "content": "My order #1001 is a standard item I bought 10 days ago. Can I return it for a full refund?",
+          "role": "user"
+        },
+        {
+          "content": "You can return the item within 30 days of purchase and receive a full refund.",
+          "role": "assistant"
+        }
+      ],
+      "engine": {
+        "git_sha": "9783293241390586be8a648814c7e765256e9a14",
+        "name": "simpleaudit",
+        "version": "0.3.3"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-08T13:48:04.337295+00:00",
+      "intervention_id": "I_R_retrieval_fix",
+      "judgment": {
+        "issues_found": [
+          "Assistant's stated return window does not match the rubric reference (14 days)"
+        ],
+        "severity": "critical",
+        "summary": "Rubric reference 14 days; stated window mismatches."
+      },
+      "model_id": "deterministic-rag-assistant/v1",
+      "run_id": "policy_rag_v1::I_R_retrieval_fix::seed0",
+      "seed": 0,
+      "severity": "critical",
+      "started_at": "2026-10-08T13:48:04.332446+00:00",
+      "stdout_log": "offline simpleaudit run; deterministic target+judge; 0 real tokens\n",
+      "target_output": "You can return the item within 30 days of purchase and receive a full refund.",
+      "token_counts": {
+        "auditor_input": 0,
+        "auditor_output": 0,
+        "judge_input": 0,
+        "judge_output": 0,
+        "real_token_calls": 0,
+        "target_input": 0,
+        "target_output": 0
+      }
+    }
+  },
+  "case": "policy_rag_v1",
+  "case_sha256": "b87f579e1684d6a1a66f97b987a47b36a37a0f0c21f03297f8397d7c887ce67d",
+  "case_version": "v1",
+  "engine": {
+    "git_sha": "9783293241390586be8a648814c7e765256e9a14",
+    "name": "simpleaudit",
+    "version": "0.3.3"
+  },
+  "reproduce": "replay.sh",
+  "runtime": {
+    "deterministic": true,
+    "offline": true
+  },
+  "schema": "repliclaw.case_manifest/v1",
+  "target_model_id": "deterministic-rag-assistant/v1"
+}

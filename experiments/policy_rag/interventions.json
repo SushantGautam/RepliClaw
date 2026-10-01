@@ -1,0 +1,33 @@
+[
+  {
+    "intervention_id": "I0_baseline",
+    "case_id": "policy_rag_v1"
+  },
+  {
+    "intervention_id": "I_R_retrieval_fix",
+    "case_id": "policy_rag_v1",
+    "retrieval": [
+      "Returns Policy (current, v2 2025-01): Standard items can be returned within 30 days of purchase for a full refund.",
+      "Clearance Items: Clearance items are not eligible for return or refund."
+    ]
+  },
+  {
+    "intervention_id": "I_P_policy_conflict",
+    "case_id": "policy_rag_v1",
+    "policy_conflict": "policy_docs order: [clearance_rule, returns_policy_v2]; conflict_resolution: explicit-supersede (returns_policy_v2 explicitly marked current and rendered as the governing rule; 14-day stale text excluded from the policy section)"
+  },
+  {
+    "intervention_id": "I_J_judge_fix",
+    "case_id": "policy_rag_v1",
+    "judge_reference_days": 30
+  },
+  {
+    "intervention_id": "I_C_retrieval_judge",
+    "case_id": "policy_rag_v1",
+    "retrieval": [
+      "Returns Policy (current, v2 2025-01): Standard items can be returned within 30 days of purchase for a full refund.",
+      "Clearance Items: Clearance items are not eligible for return or refund."
+    ],
+    "judge_reference_days": 30
+  }
+]
