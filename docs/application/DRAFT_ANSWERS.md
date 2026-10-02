@@ -77,59 +77,123 @@ evidence analysis) [F17 — human to confirm]. `[PENDING: TEAM]` — exact teamm
 backgrounds, and public profile links to be inserted before submission; we do not add unsupported
 metrics or prizes.
 
-**What is already built and machine-verified (as of 2026-10-08).** We have a working,
-test-verified vertical prototype built on ScienceClaw primitives — not a claim of superiority.
-On a frozen pre-parallel-development base, three independently-built, independently-gated modules
-are committed on feature branches:
+**What is already built and machine-verified (as of 2026-10-08, run branch `repl-claw-dev` @
+`1012ff7`).** We have a working, test-verified vertical prototype built on ScienceClaw primitives
+— not a claim of superiority. The module gates below (P02/P03/P04) are the historical per-module
+checkpoints; since then the components have been integrated on the run branch, whose **full gate
+is 149 passed, 8 skipped; ruff clean; mypy clean (54 files)**, with the scorer self-test passing
+[**F20**]. The building blocks:
 
-- **Real SimpleAudit counterfactual execution (P02, branch `p02/simpleaudit-counterfactual` @
-  `3f452b2`).** We drive a real `ModelAuditor.run_scenario` (SimpleAudit engine 0.3.3 pinned)
-  with a deterministic RAG target and a frozen offline judge, so each intervention is a genuine,
-  replayable execution — not a model self-report of "executable". `pytest` → **78 passed, 8
-  skipped**; ruff clean; mypy clean (21 files) [F1]. On one controlled case (a returns-policy RAG
-  assistant that cites a stale 14-day window because retrieval omits the current 30-day doc), the
-  five-arm canonical run **discriminates the cause factor**: fixing retrieval (I_R) changes the
-  target output 14d→30d; changing the judge's reference (I_J) leaves the output byte-identical but
-  flips the verdict (showing the baseline "pass" was an evaluator artifact); changing policy
-  conflict resolution (I_P) leaves the output byte-identical (ruling that factor out); retrieval +
-  judge together (I_C) pass. The canonical run replays byte-identical (sha256-pinned), and the
-  ground-truth oracle is sealed and never on any code path [F4][F5][F6][F7].
-- **Evidence-escrow ledger (P03, branch `p03/evidence-escrow` @ `ba71a4d`).** Pre-outcome
-  prediction packets follow a COMMIT→REVEAL→EXECUTE→RESOLVE protocol with byte-level pre-reveal
-  isolation, tamper-detecting hash chaining, and deterministic content-addressed snapshots.
-  `pytest` → **73 passed, 8 skipped**; ruff clean; mypy clean (20 files) [F2]. We are explicit
-  about what it does **not** guarantee: it detects tampering but does not prevent it, and it does
-  not establish wall-clock ordering, process isolation, or epistemic independence [F8][F9][F10].
-- **Decentralized need market (P04, branch `p04/need-market` @ `1b48ac2`).** Agents rank unmet
-  needs locally and claim work atomically; two **real OS subprocesses** racing one `O_EXCL` claim
+- **Real SimpleAudit counterfactual execution (P02, module checkpoint @ `3f452b2`).** We drive a
+  real `ModelAuditor.run_scenario` (SimpleAudit engine 0.3.3 pinned) with a deterministic RAG
+  target and a frozen offline judge, so each intervention is a genuine, replayable execution — not
+  a model self-report of "executable". Module gate: **78 passed, 8 skipped**; ruff clean; mypy
+  clean (21 files) [F1]. On one controlled case (a returns-policy RAG assistant that cites a stale
+  14-day window because retrieval omits the current 30-day doc), the five-arm canonical run
+  **discriminates the cause factor**: fixing retrieval (I_R) changes the target output 14d→30d;
+  changing the judge's reference (I_J) leaves the output byte-identical but flips the verdict
+  (showing the baseline "pass" was an evaluator artifact); changing policy conflict resolution
+  (I_P) leaves the output byte-identical (ruling that factor out); retrieval + judge together (I_C)
+  pass. The canonical run replays byte-identical (sha256-pinned), and the ground-truth oracle is
+  sealed and never on any code path [F4][F5][F6][F7].
+- **Evidence-escrow ledger (P03, module checkpoint @ `ba71a4d`).** Pre-outcome prediction packets
+  follow a COMMIT→REVEAL→EXECUTE→RESOLVE protocol with byte-level pre-reveal isolation,
+  tamper-detecting hash chaining, and deterministic content-addressed snapshots. Module gate:
+  **73 passed, 8 skipped**; ruff clean; mypy clean (20 files) [F2]. We are explicit about what it
+  does **not** guarantee: it detects tampering but does not prevent it, and it does not establish
+  wall-clock ordering, process isolation, or epistemic independence [F8][F9][F10].
+- **Decentralized need market (P04, module checkpoint @ `1b48ac2`).** Agents rank unmet needs
+  locally and claim work atomically; two **real OS subprocesses** racing one `O_EXCL` claim
   produced exactly one winner with no partial lock files, a SIGKILL crash matrix exercised lease
   expiry and a generation-2 re-claim, and we observed a genuine evidence-induced ranking flip
   (I_R→I_J) recorded with the prior and new ranking and the snapshot hash that caused it. The
   broker exposes **no** ranking/assignment API, so the service enforces but does not direct.
-  `pytest` → **74 passed, 8 skipped**; ruff clean; mypy clean (22 files) [F3][F11][F12][F13][F14].
+  Module gate: **74 passed, 8 skipped**; ruff clean; mypy clean (22 files) [F3][F11][F12][F13][F14].
+
+**Integrated on the run branch now (2026-10-08).** Beyond the modules above, the following are
+committed on `repl-claw-dev` and green under the 149/8 full gate [F20]:
+
+- **A runnable offline, deterministic, matched-budget comparison campaign (0-token, no network).**
+  The comparator harness runs the four named offline arms — **S0 single-agent (`single_agent`),
+  S3 adaptive central manager (`adaptive_central`), S4 open-sharing swarm (`open_sharing_swarm`),
+  and S5 EESS** (offline parity arm `eess`) — under ONE shared frozen `BudgetEnvelope`, and emits
+  a machine-checked **budget-parity report** (parity is true only if every arm consumed the same
+  envelope hash and none overran it; parity is never faked) [**F21**][**F23**]. It is runnable
+  today; we ran it during this fact-check and all four arms returned with `parity=True` and 0 live
+  tokens. This is the *feasibility + offline-parity* arm, **not** the live primary subject.
+- **A wired EESS vertical slice (end-to-end):** three agents (alpha/beta/gamma) holding the
+  competing falsifiable hypotheses **H_R (retrieval), H_P (policy conflict), H_J (judge error)**,
+  committing pre-outcome packets, executing real SimpleAudit arms, and resolving with a genuine
+  evidence-induced re-rank (a `choice_changed` event with the causing snapshot hash). Runnable now
+  via `scripts/demo_slice.py` (prints `DEMO OK`, re-verified by independent re-execution) [**F22**].
+- **A secondary, independent, deterministic case (Tox21 AR-agonist functionalization)** as a
+  transfer study of a different failure family [**F24**].
+- **An oracle-gated scorer (`repliclaw.p08.score`).** It is the *only* code path that may read the
+  sealed oracle, and only after every run directory under every arm is verified complete — on any
+  gap it writes `run_manifest_incomplete.json` and aborts without touching the oracle. Its
+  **P02 replay self-test passes** (`python -m repliclaw.p08.score --self-test` → `SELF-TEST:
+  PASS`) and it is covered by 8 exact-number/oracle-gate tests [**F25**].
+- **A LIVE-LLM arm, `repliclaw.eess_live`** — the escrowed EESS full protocol with the A1
+  no-escrow and A3 random-select scaffolds (`EESSLiveS5Arm` / `EESSLiveA1Arm` / `EESSLiveA3Arm`,
+  registry keys `eess` / `eess_no_escrow` / `eess_random_select`). It is **implemented and
+  unit/contract-tested offline under a fake LLM client (no network, no key)** — 7 contract tests
+  green (escrow pass-through never gates, A3 seeded determinism, budget abort, invalid-usage
+  invalidation, canonical run, artifact-set contract, shared-envelope hash) [**F26**]. **We state
+  this precisely: the live arm is *implemented + tested*; the *live LLM runs themselves have NOT
+  been executed yet.***
 
 **Honesty about limits.** These are foundations, not proof of scientific advantage. The baseline
 we started from (G0, `a14fa676`) passed 66 tests but we confirmed real defects (peer conclusions
 never reached the debate prompt, the "isolate-and-vote" mode ran the full verdict engine, the
 "executable" flag was model self-attestation, and the evaluation was a 6-fixture dev set with no
-held-out split, no budget parity, no confidence intervals) [F15]. **Our matched-budget comparison
-— escrow swarm vs. a strong adaptive central manager, plus single-agent, DAG, open-sharing and
-ablation variants — is not yet a measured result: [PENDING: P05/P08].** A secondary held-out case
-of a different failure family is [PENDING: P06]; the wired end-to-end swarm run is [PENDING: P07];
-real token/cost metering and a live-model run are [PENDING: P08]. We will report whatever those
-produce, including null or negative results.
+held-out split, no budget parity, no confidence intervals) [F15]. What is and is **not** a
+measured result, precisely:
 
-**Research / prior-art posture.** As of 2026-10-08, across the prior art we surveyed —
-AutoScientists (Gao, Fang, Zitnik 2026), Co-Scientist (DeepMind 2026), Robin (FutureHouse 2026),
-AgentRx (Microsoft Research 2026), and the experiment-selection theory of Dubova et al. (2026)
-[F16] — decentralized multi-agent science already exists. We therefore **do not claim firstness.**
-Our scoped, testable contribution is the **combination and evaluation** of (i) sealed pre-outcome
-predictions, (ii) causally discriminating executed interventions, and (iii) locally-chosen
-post-evidence reallocation, measured against a strong adaptive central manager — not any single
-primitive.
+- **Measured now (offline/deterministic):** the parity machinery (arms under one shared envelope,
+  parity report), the four-arm offline campaign, the end-to-end EESS slice, the Tox21 secondary
+  case, and the scorer + its P02 replay self-test — all green on the run branch [F20][F21][F22][F23][F24][F25].
+- **Implemented + tested, but NOT yet run live:** the live-LLM EESS arm (S5/A1/A3). It is
+  contract-tested under a fake client only; **no live LLM run has been executed** [F26].
+- **Still to be measured (the actual headline result):** the **live** matched-budget comparison —
+  escrow swarm vs. a strong adaptive central manager, plus single-agent, open-sharing and
+  no-escrow / random-select ablations, on the live model at a measured token budget. That is
+  **scheduled for the run window (2026-10-10 → 2026-10-23) and is gated on two keys: science-judge
+  approval of prereg v1.1 + human (project-lead) authorization** [F27][F28]. Also in flight before
+  the window can open: the runner CLI, the same-task `case_loader`, usage-invalidation wiring, the
+  D-10 hyperparameter pin (λ=μ=0.5, max_cycles=6, offer TTL=120s), and a measured live token floor
+  — none of these are yet complete [F27].
+
+We will report whatever the live runs produce, including null or negative results. **We do not
+present the implemented-and-tested live arm as if live runs have been executed, and we do not
+present the offline parity numbers as the live matched-budget result.**
+
+**Research / prior-art posture.** As of 2026-10-08, across the prior art we surveyed
+[F16][F29] — **AutoScientists** (decentralized long-running agents that self-organize around
+hypotheses, share experimental state and run controlled, budgeted, ablated experiments),
+**Co-Scientist** (an asynchronous, specialized agent coalition with debate/tournaments and a
+central supervisor), **Robin** (end-to-end iterative hypothesis → experiment → analysis →
+update), and **AgentRx** (debugging agent trajectories with executable constraint checks and fault
+localization), plus the experiment-selection theory of Dubova et al. — decentralized and
+self-organizing multi-agent science already exists. We therefore **do not claim firstness**, and we
+are explicit that **each individual piece of our mechanism is not novel on its own**: pre-outcome
+commitment has prior art, open-sharing swarms are AutoScientists' model, executable
+constrained-checks debugging is AgentRx' model, and a utility/ranking heuristic is neither novel
+nor our claim. Our scoped, testable contribution is the **combination and evaluation** of the
+**Evidence-Escrow mechanism** — *escrow-gated pre-outcome commitments* (predictions sealed until
+a phase boundary, execution-verified before entering a shared ledger) **+ provenance** (every
+published observation carries its run/config/artifact hashes) **+ local, evidence-driven
+selection** (agents re-rank and atomically claim their next experiment from the updated evidence;
+the broker enforces leases/budgets but never ranks the science) **+ a matched-budget comparison**
+against a strong adaptive central manager and the open-sharing and ablation arms. We test whether
+that specific combination — *predict before you believe, intervene before you conclude, and show
+which evidence changed your mind* — improves *validated* causal diagnosis of AI failure relative to
+each named prior system's paradigm. This is an honest boundary claim, not a novelty-by-declaration.
 
 <sub>Verified-fact basis (strip before submit): all per-fact source + commit SHA are in
-`FACT_CHECK_LIST.md` F1–F19. Do not submit any number without a matching green entry there.</sub>
+`FACT_CHECK_LIST.md` F1–F19 (historical modules) and F20–F28 (run-branch live-arm, scorer,
+offline campaign, Tox21, window). Do not submit any number without a matching green entry there.
+"Implemented + tested" and "live runs executed" are distinct claims — only the former is made
+for the live arm.</sub>
 
 ---
 
@@ -152,10 +216,13 @@ helps in three specific ways we can actually measure:
 3. **Specialization + honest comparison.** Agents can specialize across retrieval, policy
    reasoning, evaluator validity and statistical testing with distinct tools. Critically, we
    compare the escrow swarm against a **strong adaptive central manager** with the same tools,
-   evidence, concurrency and budget — plus single-agent, DAG, open-sharing, no-escrow,
-   no-local-choice and random/diversity variants. The ablations, not the architecture, tell us
-   whether independent commitments and local selection actually help; if not, we report the
-   limitation. The comparison numbers are [PENDING: P05/P08].
+   evidence, concurrency and budget — plus single-agent, open-sharing, no-escrow and random-select
+   variants (the DAG / no-local-choice / no-verified-evidence variants are defined in the prereg
+   but only a subset are built now). The **offline, deterministic** parity comparison of the four
+   named arms is implemented and runnable now [F21][F23]; the **live** matched-budget comparison
+   and its ablation numbers are the pending measured result, scheduled for the run window (see
+   Field 2) [PENDING: P08 live]. The ablations, not the architecture, tell us whether independent
+   commitments and local selection actually help; if not, we report the limitation.
 
 We are explicit about the boundary of the claim: a hash proves later consistency of a packet, not
 secrecy or epistemic independence; and "causal" here means *distinguished by controlled executed
@@ -225,7 +292,12 @@ NOT demonstrated.</sub>
   generation; "proven to beat central workflows"; "cryptographic guarantees of reasoning
   independence"; or "actual causal proof from LLM opinions alone." (Per
   `docs/PRIOR_ART_NOVELTY_GATE.md` "Prohibited novelty claims".)
-- We distinguish **already built and machine-verified** (P02/P03/P04, above) from **proposed for
-  the event window** (matched-budget comparison, secondary case, end-to-end swarm run, live model).
+- We distinguish three states, and never blur them: (a) **already built, integrated and
+  machine-verified on the run branch** (P02/P03/P04 modules + P05 comparators/parity, P06 Tox21
+  case, P07 end-to-end slice, P08 scorer + self-test, P08 live-LLM arm *implemented and
+  contract-tested offline*); (b) **runnable deterministic now** (the offline 4-arm parity
+  campaign and the slice demo, 0-token); (c) **scheduled for the event window, not yet executed**
+  (the *live* matched-budget runs, gated on judge + human authorization). "Implemented + tested"
+  is never written as "live runs executed."
 - No number without a green entry in `FACT_CHECK_LIST.md`; anything unresolved is an explicit
   `[PENDING: …]`.
