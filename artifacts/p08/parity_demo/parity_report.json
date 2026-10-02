@@ -1,0 +1,139 @@
+{
+  "arms": {
+    "adaptive_central": {
+      "arm_name": "adaptive_central",
+      "claim_id": "claim-clean_refuted",
+      "detail": {
+        "agreement": {},
+        "confidence": 0.534,
+        "errors": [],
+        "n_evidence": 4,
+        "n_needs": 1,
+        "strategy": "repl_claw"
+      },
+      "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+      "n_agents": 4,
+      "total_tokens": 0,
+      "total_wall_s": 0.01219,
+      "verdict_label": "REFUTED"
+    },
+    "eess": {
+      "arm_name": "eess",
+      "claim_id": "claim-clean_refuted",
+      "detail": {
+        "agreement": {},
+        "confidence": 0.6667,
+        "eess": true,
+        "eess_result": {
+          "agent_ids": [
+            "alpha",
+            "beta",
+            "gamma"
+          ],
+          "case_id": "policy_rag_v1",
+          "choice_trace": [
+            {
+              "agent_id": "beta",
+              "cycle": 2,
+              "new_top": "need_I0_baseline_alpha",
+              "prev_top": "need_I_R_retrieval_fix_alpha",
+              "snapshot_sha": "7f806fe9af3ddf0568dc78e363ba561dc1bbda152cb07a2ea5289764a316c19e"
+            }
+          ],
+          "evidence_snapshot_sha256": "38a3fa16d225d8c137b7bee42a698d112f4cd47a0d62339212ef451576a3dd89",
+          "predictions_outcome": {
+            "alpha": {
+              "agent_id": "alpha",
+              "hypothesis_id": "H_R",
+              "intervention_id": "I_R_retrieval_fix",
+              "outcome": "supported"
+            },
+            "beta": {
+              "agent_id": "beta",
+              "hypothesis_id": "H_P",
+              "intervention_id": "I_P_policy_conflict",
+              "outcome": "refuted"
+            },
+            "gamma": {
+              "agent_id": "gamma",
+              "hypothesis_id": "H_J",
+              "intervention_id": "I_J_judge_fix",
+              "outcome": "supported"
+            }
+          },
+          "published_evidence": 4,
+          "revealed_mismatch": 0,
+          "revealed_verified": 3,
+          "stop_reason": "all_needs_fulfilled"
+        },
+        "errors": [],
+        "n_evidence": 4,
+        "n_needs": 7,
+        "strategy": "eess"
+      },
+      "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+      "n_agents": 3,
+      "total_tokens": 3500,
+      "total_wall_s": 0.464837,
+      "verdict_label": "SUPPORTED"
+    },
+    "open_sharing_swarm": {
+      "arm_name": "open_sharing_swarm",
+      "claim_id": "claim-clean_refuted",
+      "detail": {
+        "agreement": {
+          "label": "mixed",
+          "majority": 0.3333333333333333,
+          "unresolved": true
+        },
+        "confidence": 0.601,
+        "errors": [],
+        "n_evidence": 3,
+        "n_needs": 0,
+        "strategy": "open_debate"
+      },
+      "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+      "n_agents": 3,
+      "total_tokens": 0,
+      "total_wall_s": 0.003508,
+      "verdict_label": "REFUTED"
+    },
+    "single_agent": {
+      "arm_name": "single_agent",
+      "claim_id": "claim-clean_refuted",
+      "detail": {
+        "agreement": {
+          "label": "single",
+          "majority": 1.0,
+          "unresolved": false
+        },
+        "confidence": 0.3,
+        "errors": [],
+        "n_evidence": 1,
+        "n_needs": 0,
+        "strategy": "single_agent"
+      },
+      "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+      "n_agents": 1,
+      "total_tokens": 0,
+      "total_wall_s": 0.001979,
+      "verdict_label": "INCONCLUSIVE"
+    }
+  },
+  "claim_id": "claim-clean_refuted",
+  "envelope": {
+    "max_agents": 4,
+    "max_tokens": 60000,
+    "max_wall_s": 900.0
+  },
+  "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+  "parity": {
+    "envelope_hashes": [
+      "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c"
+    ],
+    "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+    "n_arms": 4,
+    "over_budget_arms": [],
+    "parity": true
+  }
+}
