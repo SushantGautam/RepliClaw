@@ -1,0 +1,30 @@
+{
+  "schema": "p08.live_token_floor/1",
+  "harness_seed": 20261010,
+  "case_id": "policy_rag_v1",
+  "arm": "S5",
+  "live_llm": true,
+  "date": "2026-10-08T18:57:47Z",
+  "frozen_params": {
+    "lambda": 0.5,
+    "mu": 0.5,
+    "max_cycles": 6,
+    "offer_ttl_s": 120.0
+  },
+  "envelope": {
+    "max_tokens": 60000,
+    "max_wall_s": 900.0,
+    "max_agents": 3
+  },
+  "status": "completed",
+  "verdict": "uncertain",
+  "measured_floor_tokens": 1358,
+  "measured_wall_s": 11.4,
+  "per_agent": [],
+  "headroom": {
+    "committed_ceiling_tokens": 60000,
+    "measured_usage_fraction": 0.0226,
+    "margin_x": 44.18
+  },
+  "work_dir": "artifacts/p08/live_token_floor/work"
+}
