@@ -19,7 +19,7 @@ which escrow object they get (prereg: "implement as an option, not a copy").
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 from ..escrow import (
