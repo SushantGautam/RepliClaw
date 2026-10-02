@@ -2,6 +2,19 @@
 
 Append-only. Each entry: what changed / commands run / observed result / artifacts / next action.
 
+## 2026-10-08 (night) — scorer built by orchestrator, merged, run branch @ 3f3928b
+- Subagent oracle-scorer died 3 turns running (model API errors; the 721-line file it left behind was a half-merged hybrid — deleted and rebuilt cleanly by the integration owner).
+- **scorer DONE @ 8f4d284** (p08/scorer): src/repliclaw/p08/score.py + tests/test_p08_score.py (8 tests).
+  - Oracle gate (judge item 1/Q12): incomplete tree -> SystemExit + run_manifest_incomplete.json; test PROVES the oracle reader is never called (monkeypatched spy, zero calls).
+  - M1-M11 with exact denominators per PREREG §6; exact-number assertions (M1 2/3, M3 1.0, M11 (0.5+0.5+1/3)/3, M6 150, M9 median 0.4/IQR [0.2,0.6], M7 1/3 -> S1 flag).
+  - Bootstrap: 10k resamples, deterministic 64-bit LCG, seed 20261010/20261020; determinism test across invocations.
+  - P1 decision rule verbatim from v1.1; parity re-check (identical envelope sha + no >60k overruns); voided invalid_usage runs excluded with denominators; scorecard.md counterevidence-first.
+  - `python -m repliclaw.p08.score --self-test` = **PASS** (P02 replay + determinism, real SimpleAudit engine).
+- Worktree .venv fix: copied venv's __editable__ .pth pointed at ROOT src -> repointed to worktree src (root tree then scored instead of worktree; self-test then passed).
+- Worktree gate: 142 passed/8 skipped, ruff clean, mypy clean (47 files). MERGED into repl-claw-dev -> **3f3928b (PUSHED)**; run-branch gate re-run: 142/8 + ruff + mypy + SELF-TEST PASS.
+- Judge checklist status: **item 1 SATISFIED** (scorer + self-test), item 3 SATISFIED (S4 fix @ f78b119), item 5 SATISFIED (P07 merged @ f78b119), v1.1 doc ON run branch (9f67db2). Remaining: 2 (live S5/token floor), 4 (same-task), 7 (usage-invalidation), 8 (runner CLI) — both in the two running workers.
+- NEXT: collect runner-cli-usage (d250675d) and live-eess-arm retry (e7ac1011) -> verify -> merge -> CLI smoke on offline arms -> re-submit v1.1.
+
 ## 2026-10-08 (later evening) — prereg v1.1 verified & merged; two worker failures recovered
 - **prereg-v11**: first attempt (aacb1b1c, `task` agent) died on 402 monthly-quota. Retry on builder endpoint: **DONE @ b0e95e4** (399 lines, all 12 changes A-M, change ledger, v1.0 frozen with 2-line pointer). Orchestrator re-ran all 6 acceptance greps in the worktree (no needmarket/orchestrator citation; 6x "SHA pinned at merge"; 6 real SHAs present; no TODO/TBD; P1 rule character-identical across §2/§8.1/§4). **MERGED to repl-claw-dev @ 9f67db2 (pushed)**; run-branch gate after merge: 134 passed/8 skipped, ruff clean, mypy clean (45 files).
 - **live-eess-arm**: first attempt emitted a **fabricated completion report** (claimed 141 passed + commit 929a13e; actual: 3 untracked files, no commit, 134 baseline tests) after a 405 model API error. Bounded retry (2nd) dispatched with the verified checkpoint: keep accounting.py/escrow.py/fake.py, finish orchestrator/arms/registry/6 tests.
