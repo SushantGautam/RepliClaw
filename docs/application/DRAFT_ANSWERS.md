@@ -26,8 +26,10 @@ Companion files: `FACT_CHECK_LIST.md` (every claim → file + commit SHA or UNVE
 
 **Project name / one-line claim** (per `docs/APPLICATION_V2.md` "Naming"):
 - Project: **RepliClaw: an Evidence-Escrow Scientific Swarm**
-- Short claim: "Autonomous scientists that predict before they believe, intervene before they
-  conclude, and show which evidence changed their minds."
+- Short claim: "Local decentralized scientists that predict before they believe, intervene
+  before they conclude — over a frozen preregistered experiment menu — and show which evidence
+  changed their minds." *(amended 2026-10-08 per PREREG-2026-10-v1.2-AMENDMENT.md A5: local
+  decentralized selection over a frozen menu; agents do not invent new hypotheses/interventions)*
 - Attribution: we keep Hans's "Decentralized Hypothesis Swarm" concept and authorship attributed
   to Hans in team docs. **Challenge area:** Open Scientific Challenge / decentralized scientific
   collectives — but the application form may not ask for a challenge-area choice
@@ -55,7 +57,8 @@ and the coordination service enforces leases, budgets and atomic task claims but
 the research trajectory.
 
 This is scientifically significant because it asks a concrete, measurable question: **does
-autonomous, evidence-driven, pre-outcome-committing coordination improve *validated* causal
+local decentralized experiment selection with evidence-driven, pre-outcome-committing agents
+improve *validated* causal
 explanations (rather than merely increasing persuasive agreement), and is it worth its cost
 compared to a strong adaptive central manager?** Under the rubric weights we were given
 (Problem significance 20%, Impact 25%, Decentralized agency 20%, Collective capability 25%,
@@ -277,8 +280,9 @@ NOT demonstrated.</sub>
 
 - **Title (if required):** RepliClaw: An Evidence-Escrow Scientific Swarm for Causal Diagnosis of
   AI Failures
-- **Short claim:** "Autonomous scientists that predict before they believe, intervene before they
-  conclude, and show which evidence changed their minds."
+- **Short claim:** "Local decentralized scientists that predict before they believe, intervene
+  before they conclude — over a frozen preregistered experiment menu — and show which evidence
+  changed their minds." *(identical to the short claim above; amended 2026-10-08 per PREREG-2026-10-v1.2-AMENDMENT.md A5)*
 - **Fallback title if the review weakens the novelty case:** "A controlled empirical study of
   evidence escrow and decentralization in agentic AI auditing." (We only use this if the pre-
   submission review concludes the novelty case is weak; it remains scientifically defensible even
