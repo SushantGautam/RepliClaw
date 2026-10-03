@@ -183,6 +183,7 @@ class LiveEESSOrchestrator:
         cost_tokens_per_arm: int = COST_TOKENS_PER_ARM,
         deadline_s: Optional[float] = None,
         on_event: Optional[Callable[[str, Dict[str, Any]], None]] = None,
+        lease_ttl_s: float = LEASE_TTL_S,
     ) -> None:
         self.claim = claim
         self.out_root = Path(out_root)
@@ -193,10 +194,11 @@ class LiveEESSOrchestrator:
         self.harness_seed = int(harness_seed)
         self.max_cycles = int(max_cycles)
         self.cost_tokens_per_arm = int(cost_tokens_per_arm)
+        self.lease_ttl_s = float(lease_ttl_s)
         self.case = load_case(CASE_ID)
         self.interventions = {i.intervention_id: i for i in load_interventions(CASE_ID)}
         self.ledger = LiveBudgetLedger(envelope)
-        self.broker = NeedBroker(self.out_root / "needs", lease_ttl_s=LEASE_TTL_S)
+        self.broker = NeedBroker(self.out_root / "needs", lease_ttl_s=self.lease_ttl_s)
         self.run_cache: Dict[str, Any] = {}
         self.choice_trace: List[Dict[str, Any]] = []
         self.traces: List[Dict[str, Any]] = []

@@ -47,7 +47,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
-from repliclaw.canonical import canonical_json
+from repliclaw.canonical import canonical_json, sha256_hex
 from repliclaw.needmarket.needs import Need
 
 LOCK_STALE_S = 0.0  # a lock file older than its own deadline is dead
@@ -79,6 +79,20 @@ class Lease:
     acquired_at: float
     deadline: float
     generation: int
+
+
+def _deterministic_claim_token(
+    need_id: str, holder_id: str, generation: int
+) -> str:
+    """uuid4-shaped (``c-`` + 12 hex) but content-derived, so same-seed
+    reruns produce identical broker event logs (P08 determinism). The token
+    still uniquely identifies a lease *within* a run: a given (need, holder,
+    generation) triple is claimed at most once, and cross-run uniqueness is
+    not required for verification (verification uses need_id + generation).
+    """
+    return "c-" + sha256_hex(
+        canonical_json({"need": need_id, "holder": holder_id, "gen": generation})
+    )[:12]
 
 
 def _append_line(path: Path, line: str) -> None:
@@ -373,7 +387,7 @@ class NeedBroker:
         lease = Lease(
             need_id=need_id,
             holder_id=agent_id,
-            claim_token=f"c-{uuid.uuid4().hex[:12]}",
+            claim_token=_deterministic_claim_token(need_id, agent_id, 1),
             acquired_at=self.now,
             deadline=self.now + self.lease_ttl_s,
             generation=1,
@@ -418,7 +432,7 @@ class NeedBroker:
         lease = Lease(
             need_id=need_id,
             holder_id=agent_id,
-            claim_token=f"c-{uuid.uuid4().hex[:12]}",
+            claim_token=_deterministic_claim_token(need_id, agent_id, gen),
             acquired_at=self.now,
             deadline=self.now + self.lease_ttl_s,
             generation=gen,

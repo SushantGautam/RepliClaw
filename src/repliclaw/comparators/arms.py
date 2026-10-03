@@ -118,15 +118,25 @@ class ArmRunner:
         t0 = time.monotonic()
         res = run_strategy(self.strategy, claim, self._factory, work_dir)
         wall = max(0.0, time.monotonic() - t0)
+        # The OBSERVED distinct investigator count. repl_claw (S3) may deploy a
+        # transient fourth "follow-up" agent id when the investigators disagree
+        # (evidence-driven re-planning, prereg v1.1 §3.2), which is a property
+        # OF the S3 protocol, not an agent-cap overrun.
         n_agents = len({e.agent_id for e in res.evidence}) or 1
-        # Record the arm's observed consumption against the shared envelope.
-        # The ledger raises BudgetOverflow if any cap would be exceeded.
+        # Record consumption against the shared envelope. The agent-cap check
+        # is enforced against the arm's DECLARED concurrency (self.n_agents),
+        # because a declared-3 agent cannot be faulted for the envelope's
+        # max_agents being below its own declared size — that is the swarm's
+        # own size, which assert_budget_parity flags separately via
+        # res.n_agents > max_agents. Using the observed count here would make
+        # a 4-distinct-agent S3 run look like an "agent overrun" and abort it
+        # mid-run instead of letting the parity report classify it.
         ledger.record(
             BudgetRecord(
                 agent_id=f"{self.strategy}-arm",
                 tokens=res.usage.total_tokens,
                 wall_s=wall,
-                n_agents=n_agents,
+                n_agents=min(self.n_agents, n_agents),
             )
         )
         return ArmResult(
