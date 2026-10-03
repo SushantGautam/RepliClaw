@@ -12,8 +12,8 @@ next: WAIT for in-flight workers; on each completion: gate @ worktree + (H1/H2) 
 active_workers (actual IDs — post-compaction; list_agents labels are shuffled, read_agent is authoritative):
   - H1 (P1 rule + scorer align): **84468580** (scorer-align), worktree .worktrees/p08-scorer-align → p08/scorer-align @ dc0e78f
   - H2 (evidence in verdict prompt): **6079ec46** (prompt-evidence), worktree .worktrees/p08-prompt-ev → p08/prompt-evidence @ dc0e78f
-  - preflight gate 5 (runner-CLI smoke): **9270dbfe** (NonThinking), main tree, preflight.sh only
-  - P09 hero demo: **cec5d6ea**, worktree .worktrees/p08-demo → p08/demo-prep @ acb2ada
+  - preflight gate 5 (runner-CLI smoke): **DONE @ 6a9f2b7** (9270dbfe, NonThinking) — all 5 gates PASS, pushed
+  - P09 hero demo: **cec5d6ea** running, worktree .worktrees/p08-demo → p08/demo-prep @ acb2ada
 merged_this_segment:
   - dc0e78f: stream-preserving RandomPolicy fix (code-judge 2000-seed sweep independently derived the SAME fix as the merged one)
   - ae68211: p08/leak-guard ff-merge (H5: two-layer no-oracle-leak, 9 tests)
