@@ -22,6 +22,29 @@ from .arms import ArmResult, ArmSpec
 from .budget import BudgetEnvelope, BudgetLedger
 from .managers import AdaptiveCentralManager, EESSArm, OpenSharingSwarm, SingleAgentBaseline
 
+# Evaluator/sealed-truth fields that must NEVER be carried by an arm-side
+# ``Claim``. An arm constructing a REPORTED verdict (or an artifact) from any
+# of these would leak the oracle into a scored output. See
+# PREREG-2026-10 v1.2 A6 and CODE-JUDGE-HARNESS-20261008 item 3 (the
+# harness-layer redaction of the two-layer no-oracle-leak fix).
+_ARM_SIDE_TRUTH_FIELDS = ("reference_truth", "seeded_fault")
+
+
+def redact_claim_for_arms(claim: Claim) -> Claim:
+    """Return a copy of ``claim`` with all evaluator/sealed-truth fields
+    nulled, for safe hand-off to an arm.
+
+    This is the HARNESS-layer guard of the two-layer no-oracle-leak fix
+    (CODE-JUDGE-HARNESS-20261008 item 3): the arm must be constructible
+    without any ground-truth label, so no arm object can carry it. The
+    fallback-layer guard (``EESSArm._verdict`` no longer consulting
+    ``claim.reference_truth``) is defense in depth.
+
+    Returns a NEW ``Claim`` (the caller's object is not mutated); the
+    statement/data the arm actually reasons over are preserved.
+    """
+    return claim.model_copy(update={f: None for f in _ARM_SIDE_TRUTH_FIELDS})
+
 
 def arm_registry() -> Dict[str, Callable[[Callable[[InvestigatorConfig], Any]], Any]]:
     """The named comparator arms, keyed by arm name.
@@ -88,6 +111,11 @@ class ComparatorHarness:
         work_root: Path,
     ) -> Dict[str, Any]:
         work_root = Path(work_root)
+        # Harness-layer no-oracle-leak guard: redact evaluator/sealed truth
+        # BEFORE any arm is constructed (CODE-JUDGE-HARNESS-20261008 item 3).
+        # The shared claim passed to every arm must carry no ground-truth
+        # label; ``claim.model_copy`` keeps the caller's object intact.
+        claim = redact_claim_for_arms(claim)
         registry = arm_registry()
         results: List[ArmResult] = []
         for name, ctor in registry.items():
@@ -109,4 +137,5 @@ __all__ = [
     "ComparatorHarness",
     "arm_registry",
     "assert_budget_parity",
+    "redact_claim_for_arms",
 ]
