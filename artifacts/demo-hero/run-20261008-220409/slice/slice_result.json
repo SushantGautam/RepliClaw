@@ -1,0 +1,42 @@
+{
+  "agent_ids": [
+    "alpha",
+    "beta",
+    "gamma"
+  ],
+  "case_id": "policy_rag_v1",
+  "choice_trace": [
+    {
+      "agent_id": "beta",
+      "cycle": 2,
+      "new_top": "need_I0_baseline_alpha",
+      "prev_top": "need_I_R_retrieval_fix_alpha",
+      "snapshot_sha": "6e2d3712451e3da5225496e8c9005fd135c7091edd8091005a93da7eb72d1375"
+    }
+  ],
+  "evidence_snapshot_sha256": "9442d74787416c3d1de245226ec0ef2add1b754d6acab39452ebac510c065941",
+  "predictions_outcome": {
+    "alpha": {
+      "agent_id": "alpha",
+      "hypothesis_id": "H_R",
+      "intervention_id": "I_R_retrieval_fix",
+      "outcome": "supported"
+    },
+    "beta": {
+      "agent_id": "beta",
+      "hypothesis_id": "H_P",
+      "intervention_id": "I_P_policy_conflict",
+      "outcome": "refuted"
+    },
+    "gamma": {
+      "agent_id": "gamma",
+      "hypothesis_id": "H_J",
+      "intervention_id": "I_J_judge_fix",
+      "outcome": "supported"
+    }
+  },
+  "published_evidence": 4,
+  "revealed_mismatch": 0,
+  "revealed_verified": 3,
+  "stop_reason": "all_needs_fulfilled"
+}

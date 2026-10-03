@@ -1,0 +1,29 @@
+{
+  "arm": "eess_offline",
+  "arm_key": "eess_offline",
+  "case_id": "policy_rag_v1",
+  "client_factory": "none",
+  "end_ts": "2026-10-08T22:06:28.229273+00:00",
+  "endpoint": "offline",
+  "envelope": {
+    "max_agents": 4,
+    "max_tokens": 60000,
+    "max_wall_s": 900.0,
+    "sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c"
+  },
+  "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+  "harness_seed": 20261010,
+  "lam": null,
+  "lease_ttl_s": null,
+  "max_cycles": null,
+  "model": "deterministic",
+  "mu": null,
+  "offline_arm": true,
+  "run_id": "eess_offline/run-01",
+  "schema": "p08.run_metadata/1",
+  "start_ts": "2026-10-08T22:06:28.229223+00:00",
+  "status": "completed",
+  "temperature": null,
+  "tree_sha": "acb2ada53cce7bb9eb90b71d1736ec30ad5e83c3",
+  "wall_s": 0.214151
+}

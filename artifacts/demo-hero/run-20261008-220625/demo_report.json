@@ -1,0 +1,186 @@
+{
+  "arms": {
+    "S0": {
+      "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+      "run_dir": "/Users/sushantgautam/Documents/ScienceClawHackathon/.worktrees/p08-demo/artifacts/demo-hero/run-20261008-220625/arms/S0/run-01",
+      "runner_exit": 0,
+      "status": "completed",
+      "verdict": "inconclusive"
+    },
+    "eess_offline": {
+      "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+      "run_dir": "/Users/sushantgautam/Documents/ScienceClawHackathon/.worktrees/p08-demo/artifacts/demo-hero/run-20261008-220625/arms/eess_offline/run-01",
+      "runner_exit": 0,
+      "status": "completed",
+      "verdict": "supported"
+    }
+  },
+  "arms_run": [
+    "S0",
+    "eess_offline"
+  ],
+  "case": "policy_rag",
+  "client_factory": "fake",
+  "determinism": {
+    "note": "the seeded science subtree (runs/**) is bit-for-bit reproducible and identical between the slice and the eess_offline arm; the escrow bookkeeping (uuid packet ids, timestamps, prev_event_sha256 chain, evidence_snapshot_sha256) intentionally differs per run",
+    "science_runs_eess_offline": "76ce5f350f2401f65ccd2325cc77657af79c8d8b6498aef1cc4d52053a0a22eb",
+    "science_runs_slice": "76ce5f350f2401f65ccd2325cc77657af79c8d8b6498aef1cc4d52053a0a22eb",
+    "slice_runs_equal_eess_runs": true
+  },
+  "eess_offline_science_runs_digest": "76ce5f350f2401f65ccd2325cc77657af79c8d8b6498aef1cc4d52053a0a22eb",
+  "generated_at": "2026-10-08T22:06:28.384082+00:00",
+  "honest": {
+    "not_demonstrated": [
+      "live-LLM performance claims (no live model / API key / network here); the live arm S5/A1/A3 and any live-vs-offline performance gap are OUT of scope for this offline run",
+      "bulk S5 (full EESS) campaign run \u2014 only the offline eess_offline slice is shown; a full multi-agent live EESS run is not demonstrated",
+      "byte-identity of the WHOLE run directory across runs: the escrow bookkeeping (per-run UUID packet ids, wall-clock timestamps, the prev_event_sha256 hash chain, and the derived evidence_snapshot_sha256) intentionally differs run-to-run \u2014 only the science subtree + pinned hashes.json are reproducible",
+      "third-party / other-team verify() integration is NOT shown (label bonus unachieved in this offline slice)",
+      "the slice produces per-hypothesis supported/refuted outcomes, not a single calibrated confidence score; the comparator arms' verdicts are shown, and where they disagree the disagreement is displayed honestly"
+    ],
+    "real": [
+      "offline deterministic substrate: seeded SimpleAudit counterfactual runs (runs/**) and their pinned hashes.json are bit-for-bit reproducible and identical between the slice and the eess_offline arm",
+      "escrow integrity: hash-only prediction commitments are sealed and reveal-verified against the committed commitment_sha256 (3/3 verified, 0 mismatch)",
+      "independent re-verification: persisted arms are re-executed and the pinned artifact hashes re-derived and compared (never self-attested)",
+      "matched-budget same-task comparison structure (C1): two offline arms share one envelope hash under --client-factory fake"
+    ]
+  },
+  "offline": true,
+  "pin": {
+    "branch": "p08/demo-prep",
+    "commit_sha": "acb2ada53cce7bb9eb90b71d1736ec30ad5e83c3",
+    "dirty": true,
+    "short_sha": "acb2ada"
+  },
+  "run_root": "/Users/sushantgautam/Documents/ScienceClawHackathon/.worktrees/p08-demo/artifacts/demo-hero/run-20261008-220625",
+  "schema": "p09.demo_report/1",
+  "seed": 0,
+  "slice": {
+    "choice_trace": [
+      {
+        "agent_id": "beta",
+        "cycle": 2,
+        "new_top": "need_I0_baseline_alpha",
+        "prev_top": "need_I_R_retrieval_fix_alpha",
+        "snapshot_sha": "594468bf22b8d25273990635751e15fb1463a3b78a6e18c3b78eeb674e0e8fa5"
+      }
+    ],
+    "evidence_snapshot_sha256": "b4b2e79ed2c1c472be11e80614ad51b4db4c46754e21899a76a3604903a156e1",
+    "full_slice_result": {
+      "agent_ids": [
+        "alpha",
+        "beta",
+        "gamma"
+      ],
+      "case_id": "policy_rag_v1",
+      "choice_trace": [
+        {
+          "agent_id": "beta",
+          "cycle": 2,
+          "new_top": "need_I0_baseline_alpha",
+          "prev_top": "need_I_R_retrieval_fix_alpha",
+          "snapshot_sha": "594468bf22b8d25273990635751e15fb1463a3b78a6e18c3b78eeb674e0e8fa5"
+        }
+      ],
+      "evidence_snapshot_sha256": "b4b2e79ed2c1c472be11e80614ad51b4db4c46754e21899a76a3604903a156e1",
+      "predictions_outcome": {
+        "alpha": {
+          "agent_id": "alpha",
+          "hypothesis_id": "H_R",
+          "intervention_id": "I_R_retrieval_fix",
+          "outcome": "supported"
+        },
+        "beta": {
+          "agent_id": "beta",
+          "hypothesis_id": "H_P",
+          "intervention_id": "I_P_policy_conflict",
+          "outcome": "refuted"
+        },
+        "gamma": {
+          "agent_id": "gamma",
+          "hypothesis_id": "H_J",
+          "intervention_id": "I_J_judge_fix",
+          "outcome": "supported"
+        }
+      },
+      "published_evidence": 4,
+      "revealed_mismatch": 0,
+      "revealed_verified": 3,
+      "stop_reason": "all_needs_fulfilled"
+    },
+    "predictions_outcome": {
+      "alpha": {
+        "agent_id": "alpha",
+        "hypothesis_id": "H_R",
+        "intervention_id": "I_R_retrieval_fix",
+        "outcome": "supported"
+      },
+      "beta": {
+        "agent_id": "beta",
+        "hypothesis_id": "H_P",
+        "intervention_id": "I_P_policy_conflict",
+        "outcome": "refuted"
+      },
+      "gamma": {
+        "agent_id": "gamma",
+        "hypothesis_id": "H_J",
+        "intervention_id": "I_J_judge_fix",
+        "outcome": "supported"
+      }
+    },
+    "published_evidence": 4,
+    "revealed_mismatch": 0,
+    "revealed_verified": 3,
+    "run_root": "/Users/sushantgautam/Documents/ScienceClawHackathon/.worktrees/p08-demo/artifacts/demo-hero/run-20261008-220625/slice",
+    "science_runs_digest": "76ce5f350f2401f65ccd2325cc77657af79c8d8b6498aef1cc4d52053a0a22eb",
+    "stable_science": {
+      "agent_ids": [
+        "alpha",
+        "beta",
+        "gamma"
+      ],
+      "case_id": "policy_rag_v1",
+      "choice_trace": [
+        {
+          "agent_id": "beta",
+          "cycle": 2,
+          "new_top": "need_I0_baseline_alpha",
+          "prev_top": "need_I_R_retrieval_fix_alpha"
+        }
+      ],
+      "predictions_outcome": {
+        "alpha": {
+          "agent_id": "alpha",
+          "hypothesis_id": "H_R",
+          "intervention_id": "I_R_retrieval_fix",
+          "outcome": "supported"
+        },
+        "beta": {
+          "agent_id": "beta",
+          "hypothesis_id": "H_P",
+          "intervention_id": "I_P_policy_conflict",
+          "outcome": "refuted"
+        },
+        "gamma": {
+          "agent_id": "gamma",
+          "hypothesis_id": "H_J",
+          "intervention_id": "I_J_judge_fix",
+          "outcome": "supported"
+        }
+      },
+      "published_evidence": 4,
+      "revealed_mismatch": 0,
+      "revealed_verified": 3,
+      "stop_reason": "all_needs_fulfilled"
+    },
+    "stop_reason": "all_needs_fulfilled"
+  },
+  "ts": "20261008-220625",
+  "verification": {
+    "c1_envelope_identical": true,
+    "envelope_sha256": {
+      "S0": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+      "eess_offline": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c"
+    },
+    "slice_reverify": true
+  }
+}
