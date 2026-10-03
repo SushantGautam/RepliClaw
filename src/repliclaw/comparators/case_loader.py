@@ -24,14 +24,13 @@ tox21 module is never imported at claim-load time).
 from __future__ import annotations
 
 import ast
-import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from .budget import BudgetEnvelope
 from ..models import Claim
+from .budget import BudgetEnvelope
 
 # Canonical case directories (relative to the repo root).
 _POLICY_RAG_DIR = Path("experiments") / "policy_rag"
