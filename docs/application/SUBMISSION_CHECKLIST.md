@@ -12,7 +12,7 @@ Do the steps **in order**. Each step ends with ✅ when done.
 
 1. Open `FACT_CHECK_LIST.md`. It lists every claim with its source + status: **F1–F17/F19** (the
    historical per-module checkpoints P02/P03/P04 + G0 + prior art/team/rubric) and **F20–F29**
-   (the run-branch state: 149/8 full gate, offline 4-arm parity campaign, EESS slice, Tox21 case,
+   (the run-branch state: 202/8 full gate, offline 4-arm parity campaign, EESS slice, Tox21 case,
    oracle-gated scorer + passing self-test, live arm *implemented + tested*, live window, novelty
    positioning). It also records a **critical test-count discrepancy** (P09 re-verified the
    historical module counts **78 / 73 / 74**, not the 62 / 69 / 74 the old checkpoint docs record).
@@ -47,7 +47,7 @@ Find them all: `grep -n 'PENDING' docs/application/DRAFT_ANSWERS.md`
   a fake client** (F26). Say exactly that: *implemented + tested*, **not** "live runs executed."
 
 If any of the now-built items regressed by submit time, re-mark it honestly as in progress — but as
-of 2026-10-08 (`repl-claw-dev` @ `1012ff7`) all are green in the 149/8 run-branch gate (F20).
+of 2026-10-08 (`repl-claw-dev` @ `617b329`) all are green in the 202/8 run-branch gate (F20).
 
 **Rule:** a `[PENDING]` that cannot be resolved with a *verified* result must become an honest
 "not yet measured / in progress" sentence — never a fabricated number.
@@ -58,18 +58,23 @@ of 2026-10-08 (`repl-claw-dev` @ `1012ff7`) all are green in the 149/8 run-branc
 ## Step 2 — Re-verify the test gates you will cite (run these, don't assume)
 
 **Primary gate now lives on the run branch, not the module worktrees.** The application cites the
-run-branch full gate (149 passed, 8 skipped; ruff clean; mypy clean, 54 files) and the scorer
+run-branch full gate (202 passed, 8 skipped; ruff clean; mypy clean, 55 files) and the scorer
 self-test (F20/F25). Run **this first** — it is the number the draft actually makes:
 
 ```bash
 cd /Users/sushantgautam/Documents/ScienceClawHackathon
-git rev-parse --short HEAD          # expect 1012ff7 (or the current run-branch tip)
+git rev-parse --short HEAD          # expect 617b329 (or the current run-branch tip)
 
-.venv/bin/python -m pytest -o addopts="" -q     # expect: 149 passed, 8 skipped
+.venv/bin/python -m pytest -o addopts="" -q     # expect: 202 passed, 8 skipped
 .venv/bin/ruff check src tests scripts          # expect: All checks passed!
-.venv/bin/python -m mypy src                    # expect: Success: no issues found in 54 source files
+.venv/bin/python -m mypy src                    # expect: Success: no issues found in 55 source files
 .venv/bin/python -m repliclaw.p08.score --self-test   # expect: SELF-TEST: PASS (exit 0)
 ```
+
+> **Re-run note (2026-10-08):** the gate was re-verified at `617b329` after the leak-guard
+> (`ae68211`/`a934a48`), runner CLI (`d269a15`) and preflight gate 5 (`6a9f2b7`) merges — the
+> count moved from 149/8 (54 files) at `1012ff7` to **202/8 (55 files)**. If the tip has moved
+> again by submit time, re-run this block there and trust the fresh number, not this one.
 
 The per-module counts below (P02 78 / P03 73 / P04 74) are **historical module checkpoints**
 cited in the draft for provenance; they still reproduce at their exact clean checkpoint commits,
@@ -101,7 +106,7 @@ done
 ```
 
 The p07/p05/p08 branches have since been **merged into the run branch** (see the primary gate
-above, `repl-claw-dev` @ `1012ff7`). The `.worktrees/p07` "112 passed @ 251dead" line from the
+above, `repl-claw-dev` @ `617b329`). The `.worktrees/p07` "112 passed @ 251dead" line from the
 original checklist is **superseded** — run the primary gate above instead. If you must re-check a
 specific module worktree, the per-module block above is still valid at its checkpoint commits.
 
@@ -171,7 +176,8 @@ Recommended questions to the event (email/form) if anything is unclear:
 **Demo / evidence link:** use the **public** repo
 `https://github.com/SushantGautam/ScienceClawHackathon`. Before sharing, confirm it is set to
 **public** and pin the link to the **run branch `repl-claw-dev` at a specific commit** (as of this
-rework, `1012ff7`) so the reviewer sees exactly what the test counts were measured on. The full
+rework, `617b329` — re-verified 2026-10-08; re-run the Step-2 gate at the pinned SHA before
+submitting) so the reviewer sees exactly what the test counts were measured on. The full
 P02–P08 stack now lives on that branch; the old feature branches (`p02/…`, `p03/…`, `p04/…`,
 `p07/integration`) are merged and historical.
 
@@ -180,7 +186,7 @@ P02–P08 stack now lives on that branch; the old feature branches (`p02/…`, `
   `parity` report) — see `src/repliclaw/comparators/runner.py` + `tests/test_comparators.py` (F21/F23).
 - The **EESS slice demo** — `scripts/demo_slice.py` → `DEMO OK` + independent re-execution (F22).
 - The **scorer self-test** — `.venv/bin/python -m repliclaw.p08.score --self-test` → `SELF-TEST: PASS` (F25).
-- The **full run-branch gate** — `pytest`/`ruff`/`mypy` (149/8) (F20).
+- The **full run-branch gate** — `pytest`/`ruff`/`mypy` (202/8) (F20).
 Do **not** attach live-LLM run artifacts — none exist yet (live runs are scheduled, F26/F27).
 ✅ _questions asked (or confirmed from the form); demo link ready and public_
 
@@ -219,14 +225,18 @@ Do **not** attach live-LLM run artifacts — none exist yet (live runs are sched
 
 The live campaign is **scheduled** for the run window (2026-10-10 → 2026-10-23) and is **not**
 part of application verification. It may only start under a **two-key start** (F27/F28): science-judge
-approval of prereg v1.1 **and** human (project-lead) authorization, both recorded in
+approval of prereg **v1.1 + v1.2-AMENDMENT** (the amendment is DRAFT and unsigned — no live run on
+v1.1 alone while it is unsigned) **and** human (project-lead) authorization, both recorded in
 `EXECUTION_STATE.md`. If both keys are in place at the event:
 
 1. **Pre-flight (all must be green before run 1):** the primary run-branch gate (F20), the scorer
    `--self-test` (F25), P02 leakage test, the P05 parity suite (F23), and — before the window can
-   open — the in-flight pieces must be landed and pinned: the runner CLI, the same-task
-   `case_loader`, usage-invalidation, the D-10 hyperparameter pin (λ=μ=0.5, max_cycles=6, offer
-   TTL=120s), and a measured live token floor committed to git (F27).
+   open — the remaining in-flight pieces must be landed and pinned: the measured live token floor
+   committed to git, the v1.2-AMENDMENT science-judge sign-off, and the `score.py` P1-rule
+   alignment to the v1.2 canonical rule (F25/F27/F28). The runner CLI, same-task `case_loader`,
+   usage-invalidation and the D-10 hyperparameter pin (λ=μ=0.5, max_cycles=6, offer TTL=120s)
+   are already landed (`d269a15`); `experiments/policy_rag/preflight.sh` runs all 5 gates
+   (including the runner CLI smoke, gate 5, added at `6a9f2b7`).
 2. **Run the preregistered arms** (S5 live EESS, S3 adaptive central, S4 open-sharing, S0
    single-agent, and the A1 no-escrow / A3 random-select ablations) under the shared frozen
    `BudgetEnvelope`, same task/case/oracle. The arms already exist on the run branch
