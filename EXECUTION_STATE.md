@@ -44,6 +44,8 @@ All 6 prior background agents lost (session compaction cleared them). Recovery a
 | science-judge-prereg-v11 (70515a08) | superseded | NOT re-dispatched — subsumed by redflags2 + the v1.2 amendment doc (1bdc6490) which operationalizes its checklist. |
 | NEW | unblocked by R1 | **prereg-v12-amendment (1bdc6490)** — drafts docs/experiments/PREREG-2026-10-v1.2-AMENDMENT.md (corrected P1 rule, P2 check, S3 relabel, A4 prompt amendment, honesty framing, sign-off block). Docs-only, no commits. |
 | NEW | unblocked by floor merge | **floor-tests-port (ddf44a39)** — ports the 18-test offline suite for scripts/measure_live_token_floor.py from 4af1d0d to the current main-tree script. Single-file commit. |
+| NEW | A6 pre-start fix | **random-policy-fix (ee467dab)** — worktree .worktrees/p08-random-policy (p08/random-policy @ f2657d1): single-RNG-draw fix + selection-order byte-identity proof (amendment A6 test 3). |
+| NEW | A6 pre-start fix | **leak-guard-canary (3c2177bc)** — worktree .worktrees/p08-leak-guard (p08/leak-guard @ f2657d1): canary no-oracle-leak tests + reference_truth fallback removal (amendment A6 test 1). |
 
 Model allocation (actual support): this VS Code task tool exposes NO per-worker thinking-level parameter; model override IS supported (enum incl. `sigma2.no-NonThinking/Qwen3.8-27B`). Recorded as effective config: all 5 recovery workers on default reasoning model (tasks are integration-grade: amendment text, adjudication, recovery build). Non-thinking variant reserved for the next mechanical dispatch (docs/fixtures/lint).
 
@@ -69,6 +71,7 @@ Workers FORBIDDEN live LLM keys EXCEPT token-floor-measure (single authorized me
 - **R7:** RandomPolicy double RNG draw (policy.py:167-168) → trace mislabel; one-line fix, selection-neutral.
 - **NO BULK LIVE RUN** until: R1 amendment approved + R2 fix + R5 guard + independent science approval + human authorization.
 - Adjudication in flight: science-judge-red-flags (6eef2110) + code-judge-harness (17b9f336), reports → docs/fleet/reviews/SCIENCE-JUDGE-HARNESS-RED-FLAGS-20261008.md / CODE-JUDGE-HARNESS-20261008.md.
+- **v1.2 amendment DRAFT committed @ 6eeaaea** (docs/experiments/PREREG-2026-10-v1.2-AMENDMENT.md): corrected P1 string (S5−S4, CI lower bound ≥ 0, 20-run final, 10-run interim = directional-only screen) byte-identical ×3; P2 M11→M6 fix; S3 relabel + confound disclosure; A4 prompt amendment with gates; A5 honesty label; A6 negative-path test list; sign-off block (science judge + human). **Verified: scorer score.py:445-468 still implements the OLD rule — A1.7 scorer alignment is a gated code change, not done.** A5 application-text fixes applied @ f2657d1.
 
 ## Model/harness configuration (actual, per docs/FLEET_MODEL_THINKING_AND_REUSE.md)
 - **Effective engineering model:** all 7 active workers run on the orchestrator default (this Copilot SDK session model). No per-worker thinking-level control exists in this VS Code agent interface — the task tool exposes no thinking-effort parameter, so the requested low/medium/high/xhigh split is **NOT claimable**; recorded as unsupported, not faked. (Historical idle workers show `sigma2.no-NonThinking/Qwen3.8-27B` was used when explicitly selected for mechanical tasks.)
