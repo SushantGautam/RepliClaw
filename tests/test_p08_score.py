@@ -15,6 +15,28 @@ import pytest
 from repliclaw import p08
 from repliclaw.p08 import score as sc
 
+# PREREG v1.2 A1.3 canonical P1 rule string, transcribed VERBATIM from
+# docs/experiments/PREREG-2026-10-v1.2-AMENDMENT.md (the A1.3 block quote that
+# follows the sentence 'Replace the quoted rule string ... with exactly:').
+# Markdown blockquote + outer quotes stripped only; 1224 chars; no embedded
+# double quotes. This is an INDEPENDENT copy: test_p1_rule_string_is_canonical
+# asserts the scorer's p1_decision.rule is character-identical to it.
+CANONICAL_P1_RULE_V1_2 = (
+    "P1 decision rule (prereg v1.2; character-identical in §2 and §8.1 S4). Estimand: Δ = M1(S5) − M1(S4)"
+    ", the run-level mean difference in correct-diagnosis rate (M1, higher is better) between the escrow "
+    "arm (S5) and the open-sharing swarm (S4), on the same case/oracle at the matched envelope. Polarity "
+    "/ null: H0: Δ ≤ 0 (S5 does not exceed S4); favorable direction: Δ > 0 (S5 better than S4). CI conven"
+    "tion: bootstrap percentile 95% CI on Δ, 10,000 resamples, seed 20261010, run-level within-case resam"
+    "pling (resample run indices independently within each arm; Δ_b = mean_b(M1,S5) − mean_b(M1,S4)). Fin"
+    "al decision (primary, n_run = 20 per arm): P1 SUPPORTED (S5 beats S4) iff CI_lower(Δ) > 0. P1 FALSIF"
+    "IED (S5 worse) iff CI_upper(Δ) < 0; the report leads with this falsification per §8.1 and preserves "
+    "all S5 artifacts verbatim. Otherwise (CI contains 0): P1 NOT SUPPORTED; report descriptively (point "
+    "estimate + 95% CI). Interim screen (n_run = 10 per arm, first 10 runs): the 10-run 95% CI on Δ is a "
+    "screening device only. It supports and falsifies nothing, triggers no stop, no amendment, and no rep"
+    "ort change; it is reported solely to monitor whether the 20-run block is tracking toward or away fro"
+    "m the decision boundary."
+)
+
 ENV = {"max_tokens": 60000, "max_wall_s": 900.0, "max_agents": 3, "sha256": "e" * 64}
 ENV_SHA = "e" * 64
 
@@ -199,11 +221,16 @@ def test_exact_metric_values(tmp_path: Path) -> None:
     assert res["parity"]["ok"] is True
     assert res["parity"]["identical_envelope_sha256"] is True
 
-    # P1 difference CI exists (3 vs 3 runs) and is within [-1, 1].
-    lo_d, hi_d = res["p1_decision"]["ci95"]
-    assert -1.0 <= lo_d <= hi_d <= 1.0
-    assert res["p1_decision"]["s5_m1_mean"] == pytest.approx(2 / 3)
-    assert res["p1_decision"]["s3_m1_mean"] == pytest.approx(0.0)
+    # P1 (prereg v1.2 A1): the comparator is now S4 (open-sharing swarm), NOT S3.
+    # This synthetic tree has no S4 arm, so the paired bootstrap is undefined and
+    # the decision is the explicit no-valid-runs branch (not success/falsification).
+    p1 = res["p1_decision"]
+    assert "ci95" not in p1
+    assert "s4_m1_mean" in p1 and "s3_m1_mean" not in p1
+    assert p1["s5_m1_mean"] == pytest.approx(2 / 3)
+    assert p1["s4_m1_mean"] is None
+    assert p1["decision"] == "no_valid_runs"
+    assert "S5/S4" in p1["note"]
 
     # Outputs exist.
     out = root / "scores"
@@ -343,6 +370,165 @@ def test_usage_below_threshold_is_incomplete(tmp_path: Path, monkeypatch: pytest
     with pytest.raises(sc.ScoreError, match="usage_present"):
         sc.score_runs(root, "policy_rag_v1")
     assert calls == []
+
+
+# ---------------------------------------------------------------------------
+# 8. PREREG v1.2 A1.7 sealed-fixture re-validation (judge H1).
+#
+# Two controlled, NO-LIVE-DATA sealed fixtures exercise the corrected P1
+# decision rule (comparator S4, STRICT CI branches, A1.3/A1.4):
+#   * S5 M1 > S4 M1 strongly  -> SUPPORTED, but ONLY because the 95% CI lower
+#     bound is > 0 (the exact branch the CI yields is asserted);
+#   * S5 M1 < S4 M1 strongly  -> FALSIFIED because the 95% CI upper bound < 0.
+# The per-run metric structures are built with the SAME construction pattern
+# as the rest of this module (_write_run), matching exactly what score()
+# consumes (final_verdict + budget_ledger + traces + run_metadata per run dir).
+#
+# Impact noted per the code judge (CODE-JUDGE-HARNESS-20261008 item 1): the P1
+# estimand drives M1 (primary) and, via the verdict it gates, M10.
+# ---------------------------------------------------------------------------
+def _sealed_fixture(root: Path, *, s5_correct: int, s4_correct: int, n: int = 20) -> None:
+    """Build n runs/arm: the first ``s*_correct`` runs of each arm are correct.
+
+    Correct for policy_rag_v1 == defect_class == oracle true_cause AND a
+    non-null target_artifact (``_diagnosis_correct``); anything else scores
+    M1 = 0.0. This yields S5 M1 mean = s5_correct/n and S4 = s4_correct/n.
+    """
+    for i in range(1, n + 1):
+        _write_run(root, "S5", f"run-{i:02d}",
+                   defect=("retrieval_omission" if i <= s5_correct else None),
+                   target=("returns-policy" if i <= s5_correct else None), tokens=100)
+        _write_run(root, "S4", f"run-{i:02d}",
+                   defect=("retrieval_omission" if i <= s4_correct else None),
+                   target=("returns-policy" if i <= s4_correct else None), tokens=100)
+
+
+def test_p1_s5_beats_s4_sealed_fixture_supported(tmp_path: Path) -> None:
+    """S5 M1 > S4 M1 strongly (A1.5 case 1 analogue): SUPPORTED iff CI_lower > 0.
+
+    Sealed fixture: S5 18/20 correct (M1 mean 0.9) vs S4 2/20 (M1 mean 0.1),
+    Δ = +0.8. The deterministic 10,000-resample bootstrap (seed 20261010) yields
+    the 95% CI [0.6, 0.95]; its LOWER bound 0.6 > 0, so the A1.4 branch is
+    SUPPORTED. We assert the EXACT CI the run yields and that the decision is
+    precisely the branch decision_branch() reports for that CI — not a
+    hard-coded label.
+
+    Metric context: this P1 decision is a bootstrap CI on the M1 difference
+    (S5 vs S4), so it certifies/falsifies on M1 (the primary outcome). Per
+    CODE-JUDGE-HARNESS-20261008 item 1 (impact rated "M1 (primary), M10"), the
+    companion A4 post-evidence evidence-injection fix is what makes the verdict
+    (M10) evidence-driven; that A4 evidence_block lives in
+    eess_live/orchestrator.py:444-452 as a SEPARATE flagged PR and is NOT part
+    of this A1.7 scorer re-test.
+    """
+    root = tmp_path / "runs"
+    _sealed_fixture(root, s5_correct=18, s4_correct=2)
+    res = sc.score_runs(root, "policy_rag_v1")
+    p1 = res["p1_decision"]
+
+    assert p1["s5_m1_mean"] == pytest.approx(0.9)
+    assert p1["s4_m1_mean"] == pytest.approx(0.1)
+    lo, hi = p1["ci95"]
+    # The exact 95% CI the paired bootstrap produces for this sealed fixture.
+    assert lo == pytest.approx(0.6)
+    assert hi == pytest.approx(0.95)
+    # SUPPORTED is taken because the CI lower bound is strictly > 0 ...
+    assert lo > 0.0
+    # ... and the reported decision equals the branch the CI yields.
+    assert p1["decision"] == sc.decision_branch((lo, hi)) == sc.P1_SUPPORTED
+    assert "s3_m1_mean" not in p1  # comparator is S4, never S3 (A1.1 defect 2)
+
+
+def test_p1_s4_beats_s5_sealed_fixture_falsified(tmp_path: Path) -> None:
+    """S5 M1 < S4 M1 strongly (A1.5 case 2 analogue): FALSIFIED iff CI_upper < 0.
+
+    Sealed fixture: S5 2/20 correct (M1 mean 0.1) vs S4 18/20 (M1 mean 0.9),
+    Δ = -0.8. The bootstrap 95% CI is [-0.95, -0.6]; its UPPER bound -0.6 < 0,
+    so the A1.4 branch is FALSIFIED (the mission's counterevidence rule).
+
+    Metric context: this P1 decision is a bootstrap CI on the M1 difference
+    (S5 vs S4), so it certifies/falsifies on M1 (the primary outcome). Per
+    CODE-JUDGE-HARNESS-20261008 item 1 (impact rated "M1 (primary), M10"), the
+    companion A4 post-evidence evidence-injection fix is what makes the verdict
+    (M10) evidence-driven; that A4 evidence_block lives in
+    eess_live/orchestrator.py:444-452 as a SEPARATE flagged PR and is NOT part
+    of this A1.7 scorer re-test.
+    """
+    root = tmp_path / "runs"
+    _sealed_fixture(root, s5_correct=2, s4_correct=18)
+    res = sc.score_runs(root, "policy_rag_v1")
+    p1 = res["p1_decision"]
+
+    assert p1["s5_m1_mean"] == pytest.approx(0.1)
+    assert p1["s4_m1_mean"] == pytest.approx(0.9)
+    lo, hi = p1["ci95"]
+    assert lo == pytest.approx(-0.95)
+    assert hi == pytest.approx(-0.6)
+    # FALSIFIED is taken because the CI upper bound is strictly < 0 ...
+    assert hi < 0.0
+    # ... and the reported decision equals the branch the CI yields.
+    assert p1["decision"] == sc.decision_branch((lo, hi)) == sc.P1_FALSIFIED
+
+
+def test_p1_ci_contains_zero_is_not_supported(tmp_path: Path) -> None:
+    """CI spanning zero -> NOT_SUPPORTED (A1.5 case 3; A1.8 non-inferiority scope).
+
+    Sealed fixture: S5 10/20 vs S4 10/20 (Δ = 0). The bootstrap 95% CI
+    [-0.30, 0.30] contains zero -> NOT_SUPPORTED: neither success nor
+    falsification, reported descriptively.
+    """
+    root = tmp_path / "runs"
+    _sealed_fixture(root, s5_correct=10, s4_correct=10)
+    res = sc.score_runs(root, "policy_rag_v1")
+    p1 = res["p1_decision"]
+
+    lo, hi = p1["ci95"]
+    assert lo < 0.0 < hi
+    assert p1["decision"] == sc.decision_branch((lo, hi)) == sc.P1_NOT_SUPPORTED
+
+
+def test_p1_strict_inequality_ci_lower_zero_is_not_supported(tmp_path: Path) -> None:
+    """A1.4 STRICT-inequality proof: a CI whose lower bound is exactly 0 is NOT
+    support (the old '>= 0' phrasing would have mis-labelled this as success).
+
+    Sealed fixture: S5 20/20 correct (M1 1.0) vs S4 17/20 (M1 0.85), Δ = 0.15.
+    The bootstrap 95% CI is [0.0, 0.30000000000000004]: the lower bound is
+    exactly 0.0, so it is NOT strictly > 0 -> NOT_SUPPORTED, not SUPPORTED.
+    """
+    root = tmp_path / "runs"
+    _sealed_fixture(root, s5_correct=20, s4_correct=17)
+    res = sc.score_runs(root, "policy_rag_v1")
+    p1 = res["p1_decision"]
+
+    lo, hi = p1["ci95"]
+    assert lo == 0.0
+    assert hi > 0.0
+    # Lower bound is exactly 0 -> NOT the strict '> 0' success branch.
+    assert p1["decision"] == sc.P1_NOT_SUPPORTED
+    assert p1["decision"] != sc.P1_SUPPORTED
+
+
+def test_p1_rule_string_is_canonical(tmp_path: Path) -> None:
+    """The diff dict's ``rule`` equals the PREREG v1.2 A1.3 canonical string.
+
+    An independent verbatim copy of the amendment's canonical P1 decision
+    string (CANONICAL_P1_RULE_V1_2, embedded above) is compared for exact
+    character-identity against the rule the scorer emits. This is the single
+    source of truth that must appear character-identical in §2, §7.2, and
+    §8.1 S4 (v1.1 "[v1.1: D]" requirement, carried into v1.2 A1.3).
+    """
+    root = tmp_path / "runs"
+    _sealed_fixture(root, s5_correct=18, s4_correct=2)
+    res = sc.score_runs(root, "policy_rag_v1")
+    rule = res["p1_decision"]["rule"]
+
+    assert rule == CANONICAL_P1_RULE_V1_2
+    assert len(rule) == 1224
+    # Structural sentinels so an accidental edit is caught at a meaningful spot.
+    assert "Estimand: Δ = M1(S5) − M1(S4)" in rule
+    assert "CI_lower(Δ) > 0" in rule
+    assert "CI_upper(Δ) < 0" in rule
+    assert "P1 NOT SUPPORTED" in rule
 
 
 def test_package_exports() -> None:

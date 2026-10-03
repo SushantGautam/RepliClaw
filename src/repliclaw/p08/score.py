@@ -399,15 +399,32 @@ def _arm_aggregate(arts: list[RunArtifacts], seed: int) -> dict[str, Any]:
     return agg
 
 
+# PREREG v1.2 A1 (A1.3/A1.4): the P1 branch structure, with STRICT
+# inequalities on the 95% CI of Δ = M1(S5) − M1(S4):
+#   ci[0] > 0          -> SUPPORTED   (S5 beats S4; significantly positive)
+#   ci[1] < 0          -> FALSIFIED   (S5 worse; CI entirely below zero)
+#   CI contains 0      -> NOT_SUPPORTED (descriptive only; A1.8 scope note)
+P1_SUPPORTED = "SUPPORTED"
+P1_FALSIFIED = "FALSIFIED"
+P1_NOT_SUPPORTED = "NOT_SUPPORTED"
+
+
 def decision_branch(ci: tuple[float, float] | None) -> str:
+    """A1.3 branch structure on the 95% CI of Δ = M1(S5) − M1(S4).
+
+    Strict inequalities per PREREG v1.2 A1.4: support requires
+    CI_lower > 0 (a CI whose lower bound is exactly 0 is NOT support);
+    falsification requires CI_upper < 0. Anything else — including a CI
+    containing zero — is NOT_SUPPORTED (descriptive).
+    """
     if ci is None:
         return "no_valid_runs"
     lo, hi = ci
     if lo > 0:
-        return "improved"
+        return P1_SUPPORTED
     if hi < 0:
-        return "worsened"
-    return "inconclusive"
+        return P1_FALSIFIED
+    return P1_NOT_SUPPORTED
 
 
 def score_runs(
@@ -442,20 +459,22 @@ def score_runs(
         "ok": len(env_set) <= 1 and not overruns,
     }
 
-    # P1 decision (prereg v1.1 §2 / §8.1): CI on the S5-minus-S3 M1 difference.
+    # P1 decision (PREREG v1.2 A1; canonical rule string per A1.3):
+    # 10,000 paired-resample bootstrap 95% CI on the S5-minus-S4 M1
+    # difference (comparator S4 = open-sharing swarm, per A1.1 defect 2).
     s5m = [float(a.per_run_metrics["M1"] or 0.0) for a in clean.get("S5", [])]
-    s3m = [float(a.per_run_metrics["M1"] or 0.0) for a in clean.get("S3", [])]
+    s4m = [float(a.per_run_metrics["M1"] or 0.0) for a in clean.get("S4", [])]
     diff: dict[str, Any] = {
         "s5_m1_mean": statistics.fmean(s5m) if s5m else None,
-        "s3_m1_mean": statistics.fmean(s3m) if s3m else None,
+        "s4_m1_mean": statistics.fmean(s4m) if s4m else None,
     }
-    if s5m and s3m and len(s5m) == len(s3m):
+    if s5m and s4m and len(s5m) == len(s4m):
         rng = lcg_f64(seed)
         diffs: list[float] = []
         for _ in range(BOOTSTRAP_RESAMPLES):
             i5 = [s5m[int(rng() * len(s5m))] for _ in range(len(s5m))]
-            i3 = [s3m[int(rng() * len(s3m))] for _ in range(len(s3m))]
-            diffs.append(statistics.fmean(i5) - statistics.fmean(i3))
+            i4 = [s4m[int(rng() * len(s4m))] for _ in range(len(s4m))]
+            diffs.append(statistics.fmean(i5) - statistics.fmean(i4))
         diffs.sort()
         ci = (
             diffs[int(0.025 * len(diffs))],
@@ -464,12 +483,29 @@ def score_runs(
         diff["ci95"] = list(ci)
         diff["decision"] = decision_branch(ci)
         diff["rule"] = (
-            "S5 succeeds P1 iff bootstrap 95% CI upper bound of the 10-run interim "
-            "difference (S5 minus S3 on M1) is < 0, i.e. the entire CI is below zero"
+            "P1 decision rule (prereg v1.2; character-identical in §2 and §8.1 S4). "
+            "Estimand: Δ = M1(S5) − M1(S4), the run-level mean difference in "
+            "correct-diagnosis rate (M1, higher is better) between the escrow arm "
+            "(S5) and the open-sharing swarm (S4), on the same case/oracle at the "
+            "matched envelope. Polarity / null: H0: Δ ≤ 0 (S5 does not exceed S4); "
+            "favorable direction: Δ > 0 (S5 better than S4). CI convention: "
+            "bootstrap percentile 95% CI on Δ, 10,000 resamples, seed 20261010, "
+            "run-level within-case resampling (resample run indices independently "
+            "within each arm; Δ_b = mean_b(M1,S5) − mean_b(M1,S4)). Final decision "
+            "(primary, n_run = 20 per arm): P1 SUPPORTED (S5 beats S4) iff "
+            "CI_lower(Δ) > 0. P1 FALSIFIED (S5 worse) iff CI_upper(Δ) < 0; the "
+            "report leads with this falsification per §8.1 and preserves all S5 "
+            "artifacts verbatim. Otherwise (CI contains 0): P1 NOT SUPPORTED; "
+            "report descriptively (point estimate + 95% CI). Interim screen "
+            "(n_run = 10 per arm, first 10 runs): the 10-run 95% CI on Δ is a "
+            "screening device only. It supports and falsifies nothing, triggers no "
+            "stop, no amendment, and no report change; it is reported solely to "
+            "monitor whether the 20-run block is tracking toward or away from the "
+            "decision boundary."
         )
     else:
-        diff["decision"] = "inconclusive"
-        diff["note"] = "S5/S3 run counts differ or empty; paired bootstrap undefined"
+        diff["decision"] = "no_valid_runs"
+        diff["note"] = "S5/S4 run counts differ or empty; paired bootstrap undefined"
 
     stopping = {
         "S1": {
@@ -563,11 +599,11 @@ def _write_scorecard(path: Path, result: dict[str, Any]) -> None:
         f"- S5 (leakage incidents): "
         f"**{'TRIGGERED' if result['stopping_rules']['S5']['triggered'] else 'not triggered'}**",
         "",
-        "## P1 decision (S5 vs S3 on M1)",
+        "## P1 decision (S5 vs S4 on M1)",
         "",
         f"- rule: {result['p1_decision'].get('rule', 'n/a')}",
         f"- S5 M1 mean: {result['p1_decision'].get('s5_m1_mean')}",
-        f"- S3 M1 mean: {result['p1_decision'].get('s3_m1_mean')}",
+        f"- S4 M1 mean: {result['p1_decision'].get('s4_m1_mean')}",
         f"- difference CI95: {result['p1_decision'].get('ci95')}",
         f"- decision: **{result['p1_decision'].get('decision')}**",
         "",
