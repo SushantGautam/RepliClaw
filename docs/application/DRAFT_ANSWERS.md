@@ -14,10 +14,10 @@ Companion files: `FACT_CHECK_LIST.md` (every claim → file + commit SHA or UNVE
 - Date note: commit author/committer dates are 2026-10-08 (today). The P02/P03/P04 checkpoint
   headers are dated 2026-10-10; this mismatch is flagged in `FACT_CHECK_LIST.md` (A6). We use
   "as of 2026-10-08" for public scoping.
-- **State note (2026-10-08, run branch `repl-claw-dev` @ `1012ff7`):** the per-module gates
+- **State note (2026-10-08, run branch `repl-claw-dev` @ `617b329`):** the per-module gates
   below (P02/P03/P04, 78/73/74) are *historical module checkpoints*. Since the draft was first
   written, P05/P06/P07/P08 components have landed on the run branch. The **run-branch full gate
-  is 149 passed, 8 skipped; ruff clean; mypy clean (54 files)** and the scorer self-test passes
+  is 202 passed, 8 skipped; ruff clean; mypy clean (55 files)** and the scorer self-test passes
   (`p08.score --self-test` → PASS). We distinguish, and keep distinct, three things:
   (1) *implemented + unit/contract-tested offline* (the live-LLM arm, scorer),
   (2) *runnable deterministic now* (the offline campaign), and
@@ -81,10 +81,10 @@ backgrounds, and public profile links to be inserted before submission; we do no
 metrics or prizes.
 
 **What is already built and machine-verified (as of 2026-10-08, run branch `repl-claw-dev` @
-`1012ff7`).** We have a working, test-verified vertical prototype built on ScienceClaw primitives
+`617b329`).** We have a working, test-verified vertical prototype built on ScienceClaw primitives
 — not a claim of superiority. The module gates below (P02/P03/P04) are the historical per-module
 checkpoints; since then the components have been integrated on the run branch, whose **full gate
-is 149 passed, 8 skipped; ruff clean; mypy clean (54 files)**, with the scorer self-test passing
+is 202 passed, 8 skipped; ruff clean; mypy clean (55 files)**, with the scorer self-test passing
 [**F20**]. The building blocks:
 
 - **Real SimpleAudit counterfactual execution (P02, module checkpoint @ `3f452b2`).** We drive a
