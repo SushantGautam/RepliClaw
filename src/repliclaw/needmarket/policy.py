@@ -161,18 +161,32 @@ class RandomPolicy:
         rng_seed: int,
     ) -> List[RankedAction]:
         rng = random.Random(f"{rng_seed}|{agent_id}|{evidence_snapshot_sha}")
-        actions = [
-            RankedAction(
-                need_id=n.need_id,
-                utility=float(rng.random()),
-                components={"rng_draw": float(rng.random())},
-                reason=(
-                    f"random comparator draw; seed={rng_seed} agent={agent_id} "
-                    f"snapshot={evidence_snapshot_sha[:12]}"
-                ),
+        actions = []
+        for n in needs:
+            # PREREG-2026-10-v1.2-AMENDMENT A6; CODE-JUDGE-HARNESS-20261008:
+            # stream-preserving single-label fix. The OLD code consumed TWO
+            # draws per need (utility=draw#1, components=draw#2), so the
+            # trace component mislabeled a number that did NOT determine the
+            # action. Collapsing to one draw is NOT selection-neutral: it
+            # shifts the RNG stream for every need after the first, changing
+            # the frozen A3-seed selection. Correct fix: keep consuming two
+            # draws (byte-identical stream), but use ONLY draw#1 for the
+            # utility AND for components["rng_draw"] so the trace labels the
+            # number that actually selected. `_stream_pad` is the (unused)
+            # draw#2, consumed solely to preserve stream compatibility.
+            draw = float(rng.random())
+            _stream_pad = float(rng.random())  # draw#2: consumed for stream compatibility only, never read
+            actions.append(
+                RankedAction(
+                    need_id=n.need_id,
+                    utility=draw,
+                    components={"rng_draw": draw},
+                    reason=(
+                        f"random comparator draw; seed={rng_seed} agent={agent_id} "
+                        f"snapshot={evidence_snapshot_sha[:12]}"
+                    ),
+                )
             )
-            for n in needs
-        ]
         return _stable_order(actions)
 
 
