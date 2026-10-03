@@ -83,6 +83,8 @@ Judge verdict: **NO-GO** for bulk live runs. 7/7 hotspots VERIFIED. Blockers + s
 | Judge sign-off + human two-key | §9 | AFTER H1/H2/H5 merged green + code-judge report + v1.2 sign-off. |
 Non-blocking (report/audit): H3 autonomy framing (A5 applied @ f2657d1), H4 S3 relabel (A3 in amendment), H6 effective treatment (A4/A6 + runner CLI metadata), H7 RandomPolicy (**DONE @ dc0e78f** — stream-preserving fix merged, order-identity proven, no A3 re-pin needed).
 
+**Code-judge residual resolved (2026-10-08):** item 2's "S3 structural defect_class=None → M1=0" concern does NOT hold: S3 (AdaptiveCentralManager, managers.py:46-57) runs the full RepliClawProtocol investigator pipeline with the same diagnosis output shape (defect_class/target_artifact) as the other arms — no special M1 handling needed; the scorer treats all arms uniformly. The judge's item 2 deliverable (exact relabel string) is already in amendment A3.
+
 ## Completed this segment (post-compaction recovery)
 - floor-tests-port (ddf44a39): tests/test_measure_live_token_floor.py 16 tests, commit cd678e2, full suite green (4 failures = dead-worker WIP tests only).
 - random-policy-fix (ee467dab): d38e502 → merged @ dc0e78f (167 passed/8 skipped, ruff+mypy clean on committed tree).
