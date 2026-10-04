@@ -1,4 +1,4 @@
-"""P08 runner CLI acceptance tests — OFFLINE ONLY.
+"""P08 runner CLI acceptance tests.
 
 Every test runs through ``python -m repliclaw.comparators.runner``'s in-process
 ``main()`` with the ``FakeLLMClient`` (``--client-factory fake``); no live LLM
@@ -7,12 +7,19 @@ WIP plus the task-spec acceptance list:
 
 * R1 — the ``tox21_ar_agonist`` secondary case resolves (claim built from the
   case docstring, never importing the RDKit-dependent case module);
-* R2 — every offline arm, including S3 whose evidence-driven follow-up deploys
-  a 4th agent, writes the full contract run layout under ``<out>/run-01``;
+* R2 — every arm writes the full contract run layout under ``<out>/run-01``;
 * R3 — C1 same-task: one shared claim statement and ONE envelope sha256 across
   all arms' ``run_metadata.json``;
 * R4 — ``tox21`` + a live arm exits **2** with a clean refusal message (never
   an unhandled exception / exit 1).
+
+A8 (RC-1, executor parity) adaptation: S0/S3/S4 are now LIVE arms (the P1 pair
+and RQ2 comparators must run the same live-LLM executor as S5). Only
+``eess_offline`` remains a purely offline arm. The three newly-live strategy
+arms still run with the fake client here, recording
+``model="fake-v1"``/``offline_arm=false`` (real usage), and — because they are
+live — now refuse the no-LLM ``tox21`` secondary case with exit 2 (the A8
+secondary refusal applies to all six arms).
 """
 from __future__ import annotations
 
@@ -25,8 +32,12 @@ import pytest
 from repliclaw.comparators import case_loader
 from repliclaw.comparators.runner import main
 
-OFFLINE_ARMS = ["S0", "S3", "S4", "eess_offline"]
+# A8 (RC-1): only eess_offline is a purely offline arm. S0/S3/S4 are now live
+# (executor parity with S5); they run on the live-LLM path with the fake client.
+OFFLINE_ARMS = ["eess_offline"]
+LIVE_STRATEGY_ARMS = ["S0", "S3", "S4"]  # newly live (A8): comparators arms + LLM factory
 LIVE_ARMS = ["S5", "A1", "A3"]
+LIVE_ALL = LIVE_STRATEGY_ARMS + LIVE_ARMS  # all six primary arms are live (A8)
 CONTRACT_FILES = (
     "final_verdict.json",
     "budget_ledger.json",
@@ -103,7 +114,7 @@ def normalized_tree(root: Path) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# R2 — the four offline arms, end-to-end, full contract run layout
+# R2 — the purely offline arm (eess_offline), end-to-end, full contract layout
 # ---------------------------------------------------------------------------
 
 
@@ -128,7 +139,9 @@ def test_cli_offline_arm_writes_contract_run(arm: str, tmp_path: Path, monkeypat
     assert meta["harness_seed"] == 20261010
     assert meta["status"] == "completed"
     assert meta["tree_sha"] not in ("", "unknown")
+    # Purely offline: deterministic model, no live endpoint.
     assert meta["model"] == "deterministic" and meta["endpoint"] == "offline"
+    assert meta["offline_arm"] is True
 
     # No sealed-truth leakage into arm-side artifacts.
     assert "reference_truth" not in json.dumps(fv)
@@ -142,7 +155,58 @@ def test_cli_offline_arm_writes_contract_run(arm: str, tmp_path: Path, monkeypat
     assert fv["envelope_sha256"] == ledger["envelope"]["sha256"]
     assert fv["envelope_sha256"] == meta["envelope_sha256"]
 
-    # R2 root cause: S3's follow-up deploys a 4th agent and still completes.
+
+# ---------------------------------------------------------------------------
+# R2 (A8) — the newly-live S0/S3/S4 strategy arms write the SAME contract
+# layout, but with REAL (fake-client) LLM usage and offline_arm=false.
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("arm", LIVE_STRATEGY_ARMS)
+def test_cli_live_strategy_arm_writes_contract_run(
+    arm: str, tmp_path: Path, monkeypatch
+):
+    out = tmp_path / arm
+    code = run_cli(
+        arm, "policy_rag", "--client-factory", "fake",
+        monkeypatch=monkeypatch, out=out,
+    )
+    assert code == 0, f"live strategy arm {arm} should complete"
+
+    run_dir = out / "run-01"
+    for name in CONTRACT_FILES:
+        assert (run_dir / name).is_file(), f"{name} missing for {arm}"
+
+    fv = read_json(run_dir / "final_verdict.json")
+    meta = read_json(run_dir / "run_metadata.json")
+    ledger = read_json(run_dir / "budget_ledger.json")
+
+    assert fv["schema"] == "p08.final_verdict/1"
+    assert fv["case_id"] == "policy_rag_v1"
+    assert fv["status"] == "completed"
+    assert fv["harness_seed"] == 20261010
+    assert meta["harness_seed"] == 20261010
+    assert meta["status"] == "completed"
+    assert meta["tree_sha"] not in ("", "unknown")
+    # A8: these arms are now LIVE — fake client identity, not deterministic.
+    assert meta["model"] == "fake-v1" and meta["endpoint"] == "http://fake.invalid/v1"
+    assert meta["offline_arm"] is False
+    assert meta["client_factory"] == "fake"
+
+    # No sealed-truth leakage into arm-side artifacts.
+    assert "reference_truth" not in json.dumps(fv)
+    assert "reference_truth" not in json.dumps(ledger)
+
+    # Real (fake-client) usage accounting, NOT the offline nominal cost.
+    assert ledger["envelope"]["max_tokens"] == 60_000
+    assert all(c["usage_present"] for c in ledger["calls"])
+
+    # C1 hash consistency WITHIN the run: fv == ledger == metadata.
+    assert fv["envelope_sha256"] == ledger["envelope"]["sha256"]
+    assert fv["envelope_sha256"] == meta["envelope_sha256"]
+
+    # R2 root cause: S3's follow-up deploys a 4th agent and still completes
+    # (legal under the A7 4-agent envelope, now honestly recorded).
     if arm == "S3":
         assert fv["n_agents"] == 4
 
@@ -175,10 +239,26 @@ def test_c1_same_claim_statement_for_every_arm():
 def test_c1_all_arms_share_one_envelope_sha(
     tmp_path: Path, monkeypatch
 ):
+    """A8: all SEVEN arms (six live + eess_offline) share one envelope hash.
+
+    The six live arms (S0/S3/S4/S5/A1/A3) run with the fake client; the single
+    offline arm (eess_offline) runs deterministically. Every one must carry the
+    SAME content-addressed envelope sha256 (matched-budget precondition).
+    """
     seen = set()
-    for arm in [*OFFLINE_ARMS, "S5"]:
+    for arm in OFFLINE_ARMS:
         out = tmp_path / arm
         assert run_cli(arm, "policy_rag", monkeypatch=monkeypatch, out=out) == 0
+        meta = read_json(out / "run-01" / "run_metadata.json")
+        fv = read_json(out / "run-01" / "final_verdict.json")
+        assert meta["envelope_sha256"] == fv["envelope_sha256"]
+        seen.add(meta["envelope_sha256"])
+    for arm in LIVE_ALL:
+        out = tmp_path / arm
+        assert run_cli(
+            arm, "policy_rag", "--client-factory", "fake",
+            monkeypatch=monkeypatch, out=out,
+        ) == 0
         meta = read_json(out / "run-01" / "run_metadata.json")
         fv = read_json(out / "run-01" / "final_verdict.json")
         assert meta["envelope_sha256"] == fv["envelope_sha256"]
@@ -224,8 +304,9 @@ def test_cli_live_arm_fake_client_completes(arm: str, tmp_path: Path, monkeypatc
 def test_c1_live_arms_share_one_envelope_hash(
     tmp_path: Path, monkeypatch
 ):
+    """A8: all SIX live arms (S0/S3/S4/S5/A1/A3) share one envelope hash."""
     seen = set()
-    for arm in LIVE_ARMS:
+    for arm in LIVE_ALL:
         out = tmp_path / arm
         assert run_cli(
             arm, "policy_rag", "--client-factory", "fake",
@@ -363,13 +444,21 @@ def test_cli_tox21_refuses_eess_offline(tmp_path: Path, monkeypatch, capfd):
     assert "same-task" in capfd.readouterr().err
 
 
-def test_cli_tox21_offline_arms_complete(tmp_path: Path, monkeypatch):
+def test_cli_tox21_live_strategy_arms_refuse(
+    tmp_path: Path, monkeypatch, capfd
+):
+    """A8: the no-LLM secondary refusal now applies to ALL six live arms, so
+    the newly-live S0/S3/S4 refuse the no-LLM ``tox21`` secondary case with a
+    clean exit-2 (they are live arms and cannot run a no-LLM case)."""
     for arm in ["S0", "S3", "S4"]:
         out = tmp_path / arm
-        assert run_cli(arm, "tox21_ar_agonist", monkeypatch=monkeypatch, out=out) == 0
-        meta = read_json(out / "run-01" / "run_metadata.json")
-        assert meta["case_id"] == "tox21_ar_agonist"
-        assert meta["status"] == "completed"
+        code = run_cli(
+            arm, "tox21_ar_agonist", "--client-factory", "fake",
+            monkeypatch=monkeypatch, out=out,
+        )
+        assert code == 2, f"{arm} (now live) should refuse the no-LLM case"
+        assert "no-LLM" in capfd.readouterr().err
+        assert not (out / "run-01").exists()
 
 
 # ---------------------------------------------------------------------------

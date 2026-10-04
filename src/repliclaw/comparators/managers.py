@@ -44,13 +44,25 @@ class SingleAgentBaseline(ArmRunner):
 
 
 class AdaptiveCentralManager(ArmRunner):
-    """S3 — a STRONG adaptive central manager (equal concurrency).
+    """S3 — incumbent RepliClaw full protocol (blind commit/reveal + central
+    adaptive follow-up).
 
-    Deploys the full investigator pipeline and adapts its plan as evidence
-    arrives. This is the "strong" comparator: it is not a naive single agent
-    and not a fixed DAG — it re-plans from the evidence it has gathered, which
-    is exactly what the EESS swarm does, so the comparison isolates the
-    decentralized-vs-central coordination choice at matched budgets.
+    Registry key ``adaptive_central`` (unchanged; A3 keeps artifact/naming keys
+    stable). ``AdaptiveCentralManager`` wraps the FULL incumbent
+    ``RepliClawProtocol``: blind commit/reveal (an escrow-like mechanism) plus
+    a central adaptive follow-up. It is therefore NOT a neutral central
+    manager — it already bundles an escrow-like commitment, so
+    centrality-vs-escrow are confounded (v1.1 D-1 / v1.2 A3, Hotspots
+    Critical 4).
+
+    A3 confounding disclosure: the S5-vs-S3 comparison is the CONFOUNDED
+    P2/RQ2 comparison, NOT a clean isolation of the decentralized-vs-central
+    coordination choice. It contrasts the new protocol (need-market selection
+    + counterfactual slots) against the incumbent full protocol, with the
+    centralized-vs-decentralized control confounded with the protocol
+    difference — a "cost of centralization" comparison against the incumbent,
+    not a causal isolation of decentralization. The P1 estimand is S5-vs-S4
+    (``open_sharing_swarm``), which does NOT carry an escrow-like mechanism.
     """
 
     strategy = "repl_claw"

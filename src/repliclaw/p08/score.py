@@ -427,6 +427,36 @@ def decision_branch(ci: tuple[float, float] | None) -> str:
     return P1_NOT_SUPPORTED
 
 
+def _executor_signatures(clean: dict[str, list[RunArtifacts]], arm: str) -> set[tuple[Any, Any]]:
+    """Distinct (model, offline_arm) executor signatures recorded in run_metadata.
+
+    Each run's signature is the pair of its ``run_metadata`` ``model`` and
+    ``offline_arm`` fields. Runs written before A8 (which never recorded these)
+    contribute ``(None, None)``; that keeps pre-A8 fixtures internally
+    consistent (all ``(None, None)``) so the guard is absent-tolerant and does
+    not regress them.
+    """
+    sigs: set[tuple[Any, Any]] = set()
+    for a in clean.get(arm, []):
+        meta = a.metadata or {}
+        sigs.add((meta.get("model"), meta.get("offline_arm")))
+    return sigs
+
+
+def _pair_executor_mismatch(
+    clean: dict[str, list[RunArtifacts]], arm_a: str, arm_b: str
+) -> bool:
+    """True if a comparison pair mixes executors (A8.3.1 / RC-1).
+
+    A pair is a like-for-like executor comparison only if, taken together, both
+    arms' runs carry a SINGLE distinct ``(model, offline_arm)`` signature. More
+    than one signature (e.g. S5 live-LLM vs S4 offline/deterministic) means the
+    pair is NOT comparable and no decision may be emitted for it.
+    """
+    combined = _executor_signatures(clean, arm_a) | _executor_signatures(clean, arm_b)
+    return len(combined) > 1
+
+
 def score_runs(
     runs_dir: Path,
     case: str,
@@ -452,23 +482,49 @@ def score_runs(
     # Parity re-check (contract §3 / prereg Q7).
     env_set = {a.envelope_sha for arts in clean.values() for a in arts if a.envelope_sha}
     overruns = [a.run_id for arts in clean.values() for a in arts if a.tokens > ENVELOPE_TOKENS]
+    # A8.3.1 / RC-1 (executor parity): each comparison pair must be like-for-
+    # like (same LLM executor + same offline/live class). Reported per pair.
+    _pairs = [("S5_S4", "S5", "S4"), ("S5_S3", "S5", "S3"), ("S5_S0", "S5", "S0")]
+    executor_parity = {
+        pair: (not _pair_executor_mismatch(clean, a, b))
+        for pair, a, b in _pairs
+    }
     parity = {
         "identical_envelope_sha256": len(env_set) <= 1,
         "envelope_hashes": sorted(env_set),
         "overruns": overruns,
-        "ok": len(env_set) <= 1 and not overruns,
+        "executor_parity": executor_parity,
+        "ok": len(env_set) <= 1 and not overruns and all(executor_parity.values()),
     }
 
     # P1 decision (PREREG v1.2 A1; canonical rule string per A1.3):
-    # 10,000 paired-resample bootstrap 95% CI on the S5-minus-S4 M1
-    # difference (comparator S4 = open-sharing swarm, per A1.1 defect 2).
+    # 10,000-resample bootstrap 95% CI on the S5-minus-S4 M1 difference
+    # (comparator S4 = open-sharing swarm, per A1.1 defect 2). RC-4: the
+    # resampling is INDEPENDENT per-arm index resampling — run indices are
+    # drawn independently within each arm (Δ_b = mean_b(S5) − mean_b(S4)),
+    # not paired (common-index) resampling.
     s5m = [float(a.per_run_metrics["M1"] or 0.0) for a in clean.get("S5", [])]
     s4m = [float(a.per_run_metrics["M1"] or 0.0) for a in clean.get("S4", [])]
     diff: dict[str, Any] = {
         "s5_m1_mean": statistics.fmean(s5m) if s5m else None,
         "s4_m1_mean": statistics.fmean(s4m) if s4m else None,
     }
-    if s5m and s4m and len(s5m) == len(s4m):
+    # A8.3.1 / RC-1 (executor-parity guard): run BEFORE the bootstrap. The P1
+    # estimand (S5 vs S4) and the RQ2 pairs (S5 vs S3, S5 vs S0) are only valid
+    # if both members used the SAME live executor (same model + same
+    # offline/live class, recorded in each arm's run_metadata). If the pair's
+    # recorded (model, offline_arm) signatures differ, DO NOT emit a decision —
+    # emit the degraded-output shape with a distinct reason, exactly as
+    # ``no_valid_runs`` does (no ci95, no rule, no branch label).
+    if _pair_executor_mismatch(clean, "S5", "S4"):
+        diff["decision"] = "executor_parity_violation"
+        diff["note"] = (
+            "P1 pair (S5 vs S4) mixes executors: the arms' recorded "
+            "run_metadata (model / offline_arm) differ, so the comparison is "
+            "not like-for-like. No SUPPORTED/FALSIFIED/NOT_SUPPORTED decision "
+            "is emitted (PREREG v1.2 A8.3.1 / RC-1); see parity.executor_parity."
+        )
+    elif s5m and s4m and len(s5m) == len(s4m):
         rng = lcg_f64(seed)
         diffs: list[float] = []
         for _ in range(BOOTSTRAP_RESAMPLES):
