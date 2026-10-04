@@ -17,7 +17,7 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, Protocol, runtime_checkable
+from typing import Any, Callable, Dict, Optional, Protocol, runtime_checkable
 
 from ..models import Claim, InvestigatorConfig
 from ..strategies import run_strategy
@@ -50,6 +50,12 @@ class ArmResult:
     total_wall_s: float
     envelope_sha256: str
     detail: Dict[str, Any] = field(default_factory=dict)
+    # A9.2.2 (M-1 fix): the arm's own defect adjudication aggregate, threaded
+    # from StrategyResult.verdict (computed in _finalize / run_repl_claw) so the
+    # artifact writers record the REAL diagnosis, not hard-coded nulls. Both
+    # default None (e.g. offline legs on non-policy-rag cases).
+    defect_class: Optional[str] = None
+    target_artifact: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -61,6 +67,8 @@ class ArmResult:
             "total_wall_s": round(self.total_wall_s, 6),
             "envelope_sha256": self.envelope_sha256,
             "detail": self.detail,
+            "defect_class": self.defect_class,
+            "target_artifact": self.target_artifact,
         }
 
 
@@ -160,6 +168,10 @@ class ArmRunner:
                 "agreement": res.agreement,
                 "errors": res.errors,
             },
+            # A9.2.2 (M-1 fix): the arm's own defect adjudication, carried on
+            # the strategy verdict (computed in _finalize / run_repl_claw).
+            defect_class=res.verdict.defect_class,
+            target_artifact=res.verdict.target_artifact,
         )
 
 
