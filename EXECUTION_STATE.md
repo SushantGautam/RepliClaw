@@ -1,29 +1,20 @@
 # RepliClaw — Execution State (v2 Evidence-Escrow program)
-Last updated: 2026-10-08 23:20 (orchestrator, post-runner+leakguard integration)
+Last updated: 2026-10-08 (orchestrator, A8 conditions applied + docs merged)
 status: WORKING
 program: EESS — Evidence-Escrow Scientific Swarm (docs/EVIDENCE_ESCROW_SWARM.md)
 branch: repl-claw-dev (run branch)
-HEAD: 48b9872 on repl-claw-dev (leak-guard ae68211 + runner d269a15 + preflight-5gates 6a9f2b7 + P09 fact-check f968a49/91930b5 + hero-demo merge 226d4b7; push ok)
-current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. **ALL 3 NO-GO code blockers MERGED GREEN** (H1 scorer @ 5967f24; H5 leak-guard @ ae68211/d269a15; H7 RandomPolicy @ dc0e78f; H2/A4 prompt @ 80a3f4e + full-prompt-guard hardening). v1.2 amendment now A1–A7 (A7 = envelope/agent-cap fix @ eeae6cc). Gate 213/8 + ruff + mypy clean (55 files) + preflight 5/5 @ 80a3f4e (pushed).
+HEAD: e8bb697 on repl-claw-dev (A8 amendment @ d5c6701 + p09/docs-a8 merge; push PENDING)
+current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. ALL 3 NO-GO code blockers GREEN (H1/H5/H7 + H2/A4 @ 80a3f4e). v1.2 amendment now **A1–A8**; A8 (RC-1 executor parity) has **design-review conditions C1–C7 ALL APPLIED** (C1/C3 as code on p08/executor-parity; C2/C4/C5/C6/C7 as text @ A8.1–A8.5 + GATE). **A8 code @ 5393e54** (worktree, 224/8, ruff+mypy clean, self-test PASS); **CODE-JUDGE in flight** (d7430df4). Round-2 science sign-off (A1–A8) + human two-key = HARD GATE for any live run.
 
 ## Current cursor
 status: WORKING
-next: SCIENCE-JUDGE v1.2 SIGN-OFF returned **NOT-APPROVE** (SCIENCE-JUDGE-V12-SIGNOFF-NOT-APPROVE-20261008.md, persisted) — new primary-estimand defect RC-1 (BLOCKING): P1 = S5 (live LLM) vs S4 (NOT in LIVE_KEYS → DeterministicInvestigator) = cross-executor comparison that prereg v1.1 §3.1 `[v1.1: B]` declares "invalid regardless of the statistics", while the v1.1 §3.1 arm matrix lists S4 as "primary live". Unregistered + unguarded (score.py:450-455 checks envelope-hash + overrun only, not model). Fix plan = **A8 (amendment, next versioned section)**: (1a) implement LIVE S4 (open-sharing swarm on same LLM/LLMConfig as S5) + live S0/S3 for RQ2 honesty, add to LIVE_KEYS + live_arm_registry under the same envelope; (2) scorer model/executor parity guard reading run_metadata.model/offline_arm — refuse or loudly flag SUPPORTED/FALSIFIED P1 on mixed executors; (3) C1 test asserting model parity for the P1 pair. Plus RC-2 (managers.py:46-58 S3 docstring relabel to match A3), RC-3 (S3 agent accounting min() clamp undercounts 4th distinct agent at arms.py:121-139 + correct A7 rationale — the d54cb71 clamp already let S3 complete at cap 3 by undercounting), RC-4 (score.py:462 "paired-resample" comment → "independent per-arm index resampling"). Then: full gate + code-judge on RC fixes + science-judge RE-SIGN-OFF (A1–A8) → human two-key. Bulk live run HARD NO-GO until both keys.
-active_workers (actual IDs — post-compaction; list_agents labels are shuffled, read_agent is authoritative):
-  - H1 (P1 rule + scorer align): **DONE — MERGED @ 5967f24** (worker 84468580, commit a9779fb; code judge MERGE-OK 9/9 → CODE-JUDGE-SCORER-A17-20261008.md)
-  - H2 (evidence in verdict prompt): **6079ec46** (prompt-evidence), worktree .worktrees/p08-prompt-ev → p08/prompt-evidence @ dc0e78f — field names confirmed to it mid-flight
-  - preflight gate 5 (runner-CLI smoke): **DONE @ 6a9f2b7** (9270dbfe, NonThinking) — all 5 gates PASS, pushed
-  - P09 hero demo: **DONE — MERGED @ 226d4b7** (cec5d6ea, a281006): scripts/demo_hero.py + DEMO_NARRATIVE.md + 3 committed evidence runs; integration-verified (2 runs exit 0, digest 76ce5f35... stable, 8 unmet items honestly listed)
-  - P09 fact-check rerun: **DONE @ f968a49** (871bd3ef, NonThinking): FACT_CHECK_LIST + SUBMISSION_CHECKLIST re-verified @ 617b329 (202/8, 55 files); DRAFT_ANSWERS count fix @ 91930b5 (orchestrator)
-  - code-judge on H1: **ce9d8497** running (read-only, 9-item adversarial checklist on a9779fb)
+next: (1) await code-judge d7430df4 on p08/executor-parity @ 5393e54 → fix blockers if any → merge to repl-claw-dev + full gate from MAIN tree (224/8 expected) + preflight 5/5; (2) ROUND-2 SCIENCE-JUDGE sign-off on A1–A8 (final amendment text + A8 code-judge report + gate evidence); (3) HUMAN two-key authorization recorded here; (4) pre-flight: 6-arm FakeLLMClient parity re-run (model "fake-v1", C7) + live-arm contract suite + score self-test; (5) live campaign 2026-10-10→23. Bulk live run HARD NO-GO until (2)+(3).
+A8 design-review conditions (SCIENCE-JUDGE-A8-DESIGN-REVIEW-20261008.md, WITH-CONDITIONS): C1 case-conditional routing (live S0/S3/S4 on policy_rag_v1 only; offline on tox21_ar_agonist — frozen RQ4/P4 preserved) = CODE @ 0a502d4; C2 EP checkable fields split (per-run: model+offline_arm; by-construction: full LLMConfig via shared factory) = TEXT @ A8.2; C3 honest agent accounting on LIVE path (eess_live/arm.py was n_agents=0) = CODE @ 0a502d4; C4 RQ pairing (P1=S5/S4 RQ1; P2=S5/S3 RQ2; S0=RQ3 ablation, reported NOT vetoing) = TEXT @ A8.2 + CODE @ 5393e54 (parity.ok excludes S0); C5 3→6 live arms risk disclosure = TEXT @ A8.1; C6 offline-parity subsumption = TEXT @ A8.4; C7 FakeLLMClient re-run = pre-flight tooling ("fake-v1") = TEXT @ A8.2/GATE.
+active_workers (actual IDs — read_agent is authoritative):
+  - code-judge A8 executor-parity @ 5393e54: **d7430df4** (running, read-only)
 merged_this_segment:
-  - dc0e78f: stream-preserving RandomPolicy fix (code-judge 2000-seed sweep independently derived the SAME fix as the merged one)
-  - ae68211: p08/leak-guard ff-merge (H5: two-layer no-oracle-leak, 9 tests)
-  - d269a15: p08/runner-cli-2 merge (runner CLI + case_loader + D-10 pin; conflict resolved: __all__ union + CLI-level redact_claim_for_arms wiring + regression test — judge's post-merge item-3 extension)
-  - 6a9f2b7: preflight gate 5 (runner-CLI smoke) — 5/5 gates PASS
-  - 226d4b7: p08/demo-prep merge (P09 hero demo + narrative; science digest 76ce5f35... stable; 8 unmet items honest)
-  - 5967f24: **p08/scorer-align merge (H1: v1.2 canonical P1 rule; code judge MERGE-OK 9/9)**; gate 207/8 @ 5967f24
-  - P09 docs current at 5967f24: FACT_CHECK_LIST F25/F27 + section E, SUBMISSION_CHECKLIST step 9 (floor + P1 alignment now LANDED; remaining in-flight = A4 only + sign-offs); DRAFT_ANSWERS 202/8 @ 91930b5
+  - e8bb697: p09/docs-a8 (3 app docs: FACT_CHECK_LIST F30-F32 + F20/F27/F28 refreshed; SUBMISSION_CHECKLIST step 9; DRAFT_ANSWERS) — F31/F32 re-refreshed by orchestrator to final A8 text (uncommitted)
+  - (pending) p08/executor-parity @ 5393e54 — awaiting code-judge
 envelope_deviation: **RESOLVED AS AMENDMENT A7 @ eeae6cc** — ledger enforces max_agents as CUMULATIVE distinct investigators (budget.py:100); S3 deploys 4 distinct (3+follow-up) so the 3-agent v1.1 cap hard-aborts S3 (BudgetOverflow: 4 > 3, reproduced). A7 fixes the live campaign envelope at 60k/900s/4 for all six arms (C1 hash equality; non-constraining for every arm; token/wall ceilings + 10.8M master ceiling unchanged) and corrects the v1.2 §7 non-change entry. case_loader docstring cites A7. Gate 207/8 + preflight 5/5 @ eeae6cc.
 s3_residual: RESOLVED by inspection @ 8a287a9 — S3 runs the full investigator pipeline (same verdict shape); no M1 special handling needed.
 
