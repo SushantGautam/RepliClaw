@@ -47,6 +47,104 @@ LEASE_TTL_S = 60.0
 COST_TOKENS_PER_ARM = 500
 CAP_BUDGET_TOKENS = 10_000
 
+# A4 oracle-leak guard (PREREG-2026-10-v1.2): substrings that must NEVER
+# appear in the post-evidence verdict prompt's machine-verified evidence block.
+# Built from the sealed oracle's SCHEMA (its json field names) plus the claim
+# model's oracle-facing fields — the arm code deliberately never READS the
+# oracle file; only the offline test reads it to build a *value*-level
+# forbidden list on top of this. A hit here means we would have injected
+# sealed content into the LLM, which would void the prereg's
+# "commitments are genuinely pre-outcome / oracle-free" claim, so we fail loud.
+EVIDENCE_FORBIDDEN_SUBSTRINGS = (
+    "true_cause",
+    "reference_truth",
+    "seeded_fault",
+    "fault_marker",
+    "expected_arm_outcomes",
+    "supports_hypothesis",
+    "repliclaw.sealed_oracle",
+)
+
+
+def _normalize_evidence_cited(raw: Any) -> List[str]:
+    """Normalize the LLM's ``evidence_cited`` into a clean list of ids.
+
+    The field is advisory (what the model says it relied on); we only keep
+    non-empty strings so a malformed value can never corrupt the verdict
+    record. It is always present in ``agent_verdicts`` (``[]`` when nothing
+    was cited) so a report can flag verdicts that cite nothing or cite an id
+    that is not in the run's sealed artifacts (A4)."""
+    if isinstance(raw, str):
+        raw = [raw]
+    if not isinstance(raw, (list, tuple)):
+        return []
+    return [item for item in raw if isinstance(item, str) and item]
+
+
+def _evidence_block(evidence: List[Dict[str, Any]], hypothesis_id: str) -> str:
+    """Build the machine-verified public evidence block for one hypothesis.
+
+    Source ONLY: the escrow-ledger verified public evidence records — the same
+    records the deterministic selection policies already consume (the per-cycle
+    ``evidence_view(self.escrow.evidence())``). One line per verified record
+    relevant to ``hypothesis_id``, in deterministic order:
+
+    ``- evidence_id=<id> run_id=<run_id> arm=<arm> outcome=<label> snapshot_sha=<sha>``
+
+    Field mapping (records are ``EvidenceObservation.model_dump(mode="json")``):
+    ``evidence_id`` <- ``observation_id``; ``run_id`` <- ``run_id``;
+    ``arm`` <- ``data.intervention_id``; ``outcome`` <- ``data.severity`` (the
+    per-arm outcome label); ``snapshot_sha`` <- ``provenance.config_sha256``.
+    If an optional field is absent that attribute is omitted, but every line
+    keeps its evidence id + outcome so a record never drops to an empty line.
+
+    Relevance: a record is in scope when its arm maps to ``hypothesis_id``
+    (``data.hypothesis == hypothesis_id``) OR it is the shared baseline arm
+    (``I0_baseline``), which every hypothesis's prediction references as its
+    counterfactual comparator (baseline records carry ``data.hypothesis None``).
+
+    Guard (A4 / PREREG-2026-10-v1.2): if any forbidden oracle substring
+    (``EVIDENCE_FORBIDDEN_SUBSTRINGS``) appears in the assembled block, raise —
+    the arm never reads the oracle, but a corrupted record must fail loud
+    rather than leak sealed content into the LLM.
+    """
+    relevant: List[Dict[str, Any]] = []
+    for rec in evidence:
+        data = rec.get("data") or {}
+        is_baseline = data.get("intervention_id") == BASELINE_ARM
+        is_mine = data.get("hypothesis") == hypothesis_id
+        if is_mine or is_baseline:
+            relevant.append(rec)
+
+    lines: List[str] = []
+    # Deterministic order by observation_id: stable across same-content reruns
+    # and lets the gate-4 regression diff exactly on the inserted line.
+    for rec in sorted(relevant, key=lambda r: str(r.get("observation_id", ""))):
+        data = rec.get("data") or {}
+        prov = rec.get("provenance") or {}
+        attrs = [f"evidence_id={rec.get('observation_id', '')}"]
+        if rec.get("run_id"):
+            attrs.append(f"run_id={rec['run_id']}")
+        if data.get("intervention_id"):
+            attrs.append(f"arm={data['intervention_id']}")
+        attrs.append(f"outcome={data.get('severity', '')}")
+        if prov.get("config_sha256"):
+            attrs.append(f"snapshot_sha={prov['config_sha256']}")
+        lines.append("- " + " ".join(attrs))
+
+    block = (
+        "\n".join(lines)
+        if lines
+        else "(no verified evidence published for this hypothesis yet)"
+    )
+    for forbidden in EVIDENCE_FORBIDDEN_SUBSTRINGS:
+        if forbidden in block:
+            raise RuntimeError(
+                f"evidence block for {hypothesis_id} contains forbidden oracle "
+                f"substring {forbidden!r} — refusing to leak sealed content"
+            )
+    return block
+
 
 @dataclass
 class LiveRunResult:
@@ -443,15 +541,35 @@ class LiveEESSOrchestrator:
             for agent_id in AGENT_IDS:
                 client = self.client_factory(agent_id)
                 packet = packets[agent_id]
+                # A4 (PREREG-2026-10-v1.2): inject the machine-verified public
+                # evidence view for THIS packet's hypothesis. Built only from
+                # verified records the deterministic selection policies already
+                # consume (escrow-ledger evidence) — and guarded against any
+                # sealed-oracle content (fail loud, never leak).
+                evidence_block = _evidence_block(self.escrow.evidence(), packet.hypothesis_id)
                 prompt = (
                     f"{VERDICT_MARKER}\n"
                     f"AGENT_ID: {agent_id}\n"
-                    f"Evidence has been observed for hypothesis "
-                    f"{packet.hypothesis_id}. Your pre-outcome commitment was: "
-                    f"{packet.predicted_outcome!r}. Respond with JSON containing "
-                    f"conclusion (supported|refuted|uncertain), confidence, "
-                    f"defect_class, target_artifact, statement."
+                    f"HYPOTHESIS_ID: {packet.hypothesis_id}\n"
+                    f"Your pre-outcome commitment (sealed before evidence was observed): "
+                    f"{packet.predicted_outcome!r}\n"
+                    f"Machine-verified public evidence for this hypothesis "
+                    f"(verified records only; sealed oracle content is NOT included):\n"
+                    f"{evidence_block}\n"
+                    f"Respond with JSON containing conclusion (supported|refuted|uncertain), "
+                    f"confidence, defect_class, target_artifact, statement, "
+                    f"evidence_cited (list of evidence_ids you relied on)."
                 )
+                # A4 hardening (code-judge): guard the FULL assembled prompt
+                # string (per the amendment's "appear in the prompt"), not just
+                # the machine-injected evidence block. Covers the rendered
+                # commitment line and every other rendered field.
+                for forbidden in EVIDENCE_FORBIDDEN_SUBSTRINGS:
+                    if forbidden in prompt:
+                        raise RuntimeError(
+                            f"verdict prompt for {agent_id} contains forbidden "
+                            f"oracle substring {forbidden!r} — refusing to leak"
+                        )
                 payload = self._llm_call(agent_id, client, prompt, purpose="verdict")
                 conclusion = str(payload.get("conclusion", "uncertain"))
                 if conclusion not in ("supported", "refuted", "uncertain"):
@@ -466,6 +584,7 @@ class LiveEESSOrchestrator:
                         "agent_id": agent_id,
                         "verdict": conclusion,
                         "confidence": float(payload.get("confidence", 0.0)),
+                        "evidence_cited": _normalize_evidence_cited(payload.get("evidence_cited")),
                     }
                 )
                 self._emit(
