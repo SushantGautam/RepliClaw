@@ -242,3 +242,16 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - Commands/evidence: gate @ 5967f24: 207 passed/8 skipped, ruff clean, mypy clean (55), preflight 5/5 PASS. Worktree re-verification pre-merge: 172/8 @ a9779fb. Demo: digest-identical across 5 runs (3 worker + 2 integration).
 - NO-GO blockers remaining: **H2 (evidence in verdict prompt) only** (worker 6079ec46 in flight) + v1.2 science-judge sign-off + human two-key.
 - Next: collect H2 → code-judge spot review → merge → full gate @ clean tip → science-judge sign-off request (matched reports: red-flags NO-GO + code-judge harness + A17) → human two-key → live window.
+
+## A7 — envelope/agent-cap conflict found & resolved (2026-10-08)
+- **What:** runner build surfaced that the frozen 3-agent cap (prereg §5.1) is enforced
+  cumulatively (`budget.py:100`) while S3 deploys 4 distinct investigators
+  (3 initial + 1 follow-up) → S3 hard-aborts under the cap (reproduced
+  `BudgetOverflow: 4 > 3`). The v1.2 §7 "envelope unchanged" entry was wrong.
+- **Fix:** amendment section A7 fixes the live campaign envelope at 60k/900s/4 for
+  ALL six arms (C1 hash equality; cap non-constraining for every arm; token/wall
+  ceilings and 10.8M master ceiling unchanged); §7 entry corrected; case_loader
+  docstring cites A7.
+- **Verified:** 207 passed/8 skipped, ruff clean, preflight 5/5 @ eeae6cc (pushed).
+- **Next:** A4 code-judge verdict (running) → merge p08/prompt-evidence → science-judge
+  v1.2 sign-off → human two-key.

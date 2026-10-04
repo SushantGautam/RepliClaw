@@ -24,7 +24,7 @@ merged_this_segment:
   - 226d4b7: p08/demo-prep merge (P09 hero demo + narrative; science digest 76ce5f35... stable; 8 unmet items honest)
   - 5967f24: **p08/scorer-align merge (H1: v1.2 canonical P1 rule; code judge MERGE-OK 9/9)**; gate 207/8 @ 5967f24
   - P09 docs current at 5967f24: FACT_CHECK_LIST F25/F27 + section E, SUBMISSION_CHECKLIST step 9 (floor + P1 alignment now LANDED; remaining in-flight = A4 only + sign-offs); DRAFT_ANSWERS 202/8 @ 91930b5
-envelope_deviation: runner default_envelope = 4 agents (S3's evidence-driven follow-up deploys a 4th; 4×30×60k=7.2M ≤ 10.8M ceiling — budget parity still holds). Requires prereg v1.3 candidate note (or erratum) — record before sign-off.
+envelope_deviation: **RESOLVED AS AMENDMENT A7 @ eeae6cc** — ledger enforces max_agents as CUMULATIVE distinct investigators (budget.py:100); S3 deploys 4 distinct (3+follow-up) so the 3-agent v1.1 cap hard-aborts S3 (BudgetOverflow: 4 > 3, reproduced). A7 fixes the live campaign envelope at 60k/900s/4 for all six arms (C1 hash equality; non-constraining for every arm; token/wall ceilings + 10.8M master ceiling unchanged) and corrects the v1.2 §7 non-change entry. case_loader docstring cites A7. Gate 207/8 + preflight 5/5 @ eeae6cc.
 s3_residual: RESOLVED by inspection @ 8a287a9 — S3 runs the full investigator pipeline (same verdict shape); no M1 special handling needed.
 
 ## Current gates (executed, real output)
