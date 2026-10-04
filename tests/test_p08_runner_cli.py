@@ -13,13 +13,15 @@ WIP plus the task-spec acceptance list:
 * R4 — ``tox21`` + a live arm exits **2** with a clean refusal message (never
   an unhandled exception / exit 1).
 
-A8 (RC-1, executor parity) adaptation: S0/S3/S4 are now LIVE arms (the P1 pair
-and RQ2 comparators must run the same live-LLM executor as S5). Only
-``eess_offline`` remains a purely offline arm. The three newly-live strategy
-arms still run with the fake client here, recording
-``model="fake-v1"``/``offline_arm=false`` (real usage), and — because they are
-live — now refuse the no-LLM ``tox21`` secondary case with exit 2 (the A8
-secondary refusal applies to all six arms).
+A8 (RC-1, executor parity) adaptation, DEFECT C1 (case-conditional): S0/S3/S4
+are LIVE arms on the PRIMARY case (policy_rag_v1) — the P1 pair and RQ2
+comparators must run the same live-LLM executor as S5, so they record
+``model="fake-v1"``/``offline_arm=false`` with the fake client. But they are
+live-ONLY on the primary: on the secondary no-LLM case (``tox21_ar_agonist``)
+they run OFFLINE (deterministic, exit 0) — that is the frozen v1.1 RQ4/P4
+sub-study, which pre-dates A8. Only ``eess_offline`` is offline on BOTH cases.
+The live-ONLY arms S5/A1/A3 refuse the no-LLM ``tox21`` secondary case with a
+clean exit 2 (the A8/v1.1-H secondary refusal).
 """
 from __future__ import annotations
 
@@ -444,21 +446,22 @@ def test_cli_tox21_refuses_eess_offline(tmp_path: Path, monkeypatch, capfd):
     assert "same-task" in capfd.readouterr().err
 
 
-def test_cli_tox21_live_strategy_arms_refuse(
-    tmp_path: Path, monkeypatch, capfd
-):
-    """A8: the no-LLM secondary refusal now applies to ALL six live arms, so
-    the newly-live S0/S3/S4 refuse the no-LLM ``tox21`` secondary case with a
-    clean exit-2 (they are live arms and cannot run a no-LLM case)."""
+def test_cli_tox21_offline_arms_complete(tmp_path: Path, monkeypatch):
+    """DEFECT C1 fix (frozen v1.1 RQ4/P4 no-LLM sub-study, restored): S0/S3/S4
+    are live on the PRIMARY case only; on the secondary no-LLM case
+    ``tox21_ar_agonist`` they run OFFLINE exactly as before — deterministic,
+    exit 0, ``offline_arm=true``, ``model="deterministic"``."""
     for arm in ["S0", "S3", "S4"]:
         out = tmp_path / arm
-        code = run_cli(
-            arm, "tox21_ar_agonist", "--client-factory", "fake",
-            monkeypatch=monkeypatch, out=out,
-        )
-        assert code == 2, f"{arm} (now live) should refuse the no-LLM case"
-        assert "no-LLM" in capfd.readouterr().err
-        assert not (out / "run-01").exists()
+        assert run_cli(arm, "tox21_ar_agonist", monkeypatch=monkeypatch, out=out) == 0
+        meta = read_json(out / "run-01" / "run_metadata.json")
+        assert meta["case_id"] == "tox21_ar_agonist"
+        assert meta["status"] == "completed"
+        # Offline executor on the secondary case (the frozen RQ4/P4 coverage).
+        assert meta["model"] == "deterministic"
+        assert meta["endpoint"] == "offline"
+        assert meta["offline_arm"] is True
+        assert meta["client_factory"] == "none"
 
 
 # ---------------------------------------------------------------------------
