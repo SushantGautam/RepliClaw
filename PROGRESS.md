@@ -233,3 +233,12 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - Envelope deviation recorded: default_envelope = 4 agents (S3 follow-up; 4×30×60k = 7.2M ≤ 10.8M ceiling) → prereg v1.3 candidate note.
 - In flight: scorer-align 84468580 (H1), prompt-evidence 6079ec46 (H2), p09-demo-prep cec5d6ea, p09-fact-check-rerun 871bd3ef.
 - Next: collect H1/H2 → code-judge spot review → merge → full gate @ clean tip → science-judge v1.2 sign-off + human two-key.
+
+## [2026-10-08 ~23:55] H1 scorer alignment merged (code-judge MERGE-OK 9/9); P09 demo merged (orchestrator)
+- Changed:
+  - **H1 MERGED @ 5967f24** (p08/scorer-align a9779fb): score.py now emits the v1.2 canonical P1 rule byte-identical (sha256 766f4eb9…, len 1224); S5−S4 estimand; strict branches; 5 sealed-fixture tests incl. CI-lower==0 → NOT_SUPPORTED; degraded path no_valid_runs (no fake verdict). Code judge adversarial review: **MERGE-OK, 9/9 PASS, zero required fixes** (docs/fleet/reviews/CODE-JUDGE-SCORER-A17-20261008.md). Non-blocking ops note: live runs must use --seed 20261010.
+  - **Hero demo MERGED @ 226d4b7** (p08/demo-prep a281006): scripts/demo_hero.py one-command offline hero (slice + S0/eess_offline arms, C1 hash, honest limits); integration-verified: 2 runs exit 0, re-verify PASS, science digest 76ce5f35… stable across all runs; 8 unmet hand-in items honestly listed.
+  - P09 docs current: FACT_CHECK_LIST F25 (P1 rule now VERIFIED @ 5967f24), F27 + section E, SUBMISSION_CHECKLIST step 9 (floor + P1 alignment moved to LANDED; only A4 remains in flight); DRAFT_ANSWERS 202/8 (91930b5).
+- Commands/evidence: gate @ 5967f24: 207 passed/8 skipped, ruff clean, mypy clean (55), preflight 5/5 PASS. Worktree re-verification pre-merge: 172/8 @ a9779fb. Demo: digest-identical across 5 runs (3 worker + 2 integration).
+- NO-GO blockers remaining: **H2 (evidence in verdict prompt) only** (worker 6079ec46 in flight) + v1.2 science-judge sign-off + human two-key.
+- Next: collect H2 → code-judge spot review → merge → full gate @ clean tip → science-judge sign-off request (matched reports: red-flags NO-GO + code-judge harness + A17) → human two-key → live window.
