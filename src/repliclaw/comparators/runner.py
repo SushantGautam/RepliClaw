@@ -493,11 +493,15 @@ def _run_live_strategy(
     token accounting applies (usage from the LLM clients); the offline
     nominal ``COST_TOKENS_PER_ARM`` must not apply to these arms.
 
-    ``work_dir`` is the arm's ``<out>`` directory; the arm's shared
-    ``run_strategy`` runner writes its own artifacts under ``work_dir/run``
-    (a RunStore layout). The P08 contract files are written to
-    ``work_dir/run-01`` by :func:`_write_live_strategy_artifacts`, which the
-    caller invokes from ``run_one_arm`` (so they are written for a completed
+    ``work_dir`` is the arm's CONTRACT directory ``<out>/run-01``; the arm's
+    shared ``run_strategy`` runner writes its own artifacts under
+    ``work_dir/run`` (a RunStore layout, i.e. ``<out>/run-01/run``). The RunStore
+    is nested INSIDE the contract dir so ``score.discover_runs`` sees exactly one
+    run dir per arm (a stray ``<out>/run`` would be discovered as a second,
+    contract-less run dir and fail the completeness gate). The P08 contract
+    files are written to the same ``work_dir`` (``<out>/run-01``) by
+    :func:`_write_live_strategy_artifacts`, which the caller invokes from
+    ``run_one_arm`` (so they are written for a completed
     OR an aborted run, exactly as the offline path does).
     """
     ctor = {
@@ -676,11 +680,25 @@ def run_one_arm(args: argparse.Namespace) -> int:
 
     out = Path(args.out)
     # Task spec: --out DIR, each arm writes DIR/run-01 (artifact contract §10.3:
-    # S0|S3|.../run-01/). Live arms nest run-01 inside their work dir, so pass
-    # work_dir=out (their internal run_dir == out/run-01); offline arms get
-    # work_dir=out/run-01 directly.
+    # S0|S3|.../run-01/). The P08 CONTRACT files (final_verdict / budget_ledger /
+    # traces / run_metadata) always live at <out>/run-01, which is the ONLY
+    # subdirectory of <out>/ that score.discover_runs must treat as a run dir.
+    #
+    # work_dir is the arm's working root:
+    #  * EESS live arms (S5/A1/A3) nest their internal RunStore inside the
+    #    contract dir (out/runs or out/run-01/runs) -> pass work_dir=out as before.
+    #  * A8 strategy arms (S0/S3/S4) write their RunStore to <work_dir>/run; we
+    #    pass work_dir=<out>/run-01 so that RunStore nests INSIDE the contract
+    #    dir (<out>/run-01/run). A stray top-level <out>/run would otherwise be
+    #    discovered as a second, contract-less run dir and fail the scorer's
+    #    completeness gate (A8 code-judge BLOCKER #1).
     run_dir = out / "run-01"
-    work_dir = out if is_live else run_dir
+    if arm_key in _LIVE_STRATEGY_KEYS:
+        work_dir = run_dir          # strategy arm: nest RunStore under run-01/
+    elif is_live:
+        work_dir = out              # EESS arm: unchanged (RunStore already nested)
+    else:
+        work_dir = run_dir          # offline: contract files written into run-01
     work_dir.mkdir(parents=True, exist_ok=True)
 
     status = "completed"
