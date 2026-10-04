@@ -275,3 +275,28 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - **Next:** A8 amendment (live S4/S0/S3 on same LLM + scorer model/executor parity guard + C1
   model-parity test) → RC-2/3/4 fixes → full gate + code-judge + science-judge RE-sign-off →
   human two-key. Bulk live run HARD NO-GO until both keys.
+
+## A8 (RC-1 fix) implemented, conditions C1–C7 applied, code-judge BLOCKER #1 fixed (2026-10-08)
+- **A8 design review (read-only, parallel-safe): WITH-CONDITIONS C1–C7**
+  (SCIENCE-JUDGE-A8-DESIGN-REVIEW-20261008.md). C1 (case-conditional routing), C3 (live-path
+  honest agent accounting) as CODE; C2 (EP checkable fields), C4 (RQ pairing: S0=RQ3 ablation,
+  non-vetoing), C5 (3→6 live arms risk), C6 (offline-parity subsumption), C7 (FakeLLMClient
+  re-run = pre-flight tooling `fake-v1`) as TEXT — all applied to the A8 amendment.
+- **A8 code @ 247208f** on p08/executor-parity (worktree .worktrees/p08-executor-parity):
+  LIVE_KEYS = all six; case-conditional `is_live` (live S0/S3/S4 on policy_rag_v1, offline on
+  tox21_ar_agonist — frozen RQ4/P4 preserved); scorer EP guard (`_executor_signatures`/
+  `_pair_executor_mismatch`, `parity.executor_parity`, P1 vetoed only on mixed S5/S4 pre-bootstrap,
+  S0/RQ3 reported non-vetoing); honest agent accounting both paths; RC-2 docstring; RC-4 comment.
+- **Code-judge round 1 = BLOCK** (d7430df4): reproduced BLOCKER #1 — live strategy arms wrote a
+  stray top-level `<out>/run` RunStore dir that `score.discover_runs` mis-reads as a second,
+  contract-less run dir → `ScoreError` → the whole six-arm run-set unscoreable (defeats A8).
+  **FIX @ 247208f:** strategy-arm `work_dir=<out>/run-01` nests the RunStore at `<out>/run-01/run`
+  (S5/A1/A3 + offline unchanged); + 2 regression tests (six-arm run-set scoreable; S5/S0 non-flip).
+- **Verification (worktree, real output):** `pytest -o addopts="" -q` → **225 passed, 8 skipped**;
+  `ruff check src tests scripts` → clean; `mypy src` → clean (55 files);
+  `p08.score --self-test` (worktree PYTHONPATH) → PASS.
+- **Merged @ 9a74540:** p09/docs-a8 (3 app docs) + A8 amendment text (C1–C7) + F31/F32 final
+  refresh + persisted design review + EXECUTION_STATE reconciled (was stale at 48b9872 → e8bb697).
+- **Next:** code-judge RE-REVIEW of 247208f (verify BLOCKER #1 closed + no regression) → on
+  MERGE-OK, merge p08/executor-parity to repl-claw-dev + full gate from MAIN tree (expect 225/8) +
+  preflight 5/5 → ROUND-2 science-judge sign-off (A1–A8) → human two-key. Live arms HARD NO-GO.
