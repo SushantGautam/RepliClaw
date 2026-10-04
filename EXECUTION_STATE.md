@@ -4,11 +4,11 @@ status: WORKING
 program: EESS — Evidence-Escrow Scientific Swarm (docs/EVIDENCE_ESCROW_SWARM.md)
 branch: repl-claw-dev (run branch)
 HEAD: 48b9872 on repl-claw-dev (leak-guard ae68211 + runner d269a15 + preflight-5gates 6a9f2b7 + P09 fact-check f968a49/91930b5 + hero-demo merge 226d4b7; push ok)
-current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. **2 of 3 NO-GO code blockers MERGED** (H5 leak-guard @ ae68211/d269a15; H7 RandomPolicy @ dc0e78f). H1 (scorer) + H2 (prompt) fixers in flight; preflight-gate + demo-prep workers in flight. Runner CLI MERGED (25 acceptance tests; 4 dead-WIP defects root-caused+fixed; dead WIP preserved on salvage/runner-wip-1bdc6490-replaced). Preflight 4-gate PASS @ d269a15; gate 202/8 + ruff + mypy clean @ d269a15.
+current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. **ALL 3 NO-GO code blockers MERGED GREEN** (H1 scorer @ 5967f24; H5 leak-guard @ ae68211/d269a15; H7 RandomPolicy @ dc0e78f; H2/A4 prompt @ 80a3f4e + full-prompt-guard hardening). v1.2 amendment now A1–A7 (A7 = envelope/agent-cap fix @ eeae6cc). Gate 213/8 + ruff + mypy clean (55 files) + preflight 5/5 @ 80a3f4e (pushed).
 
 ## Current cursor
 status: WORKING
-next: WAIT for in-flight workers; on each completion: gate @ worktree + (H1/H2) code-judge spot review → merge into repl-claw-dev → push. After H1/H2 green: science-judge v1.2 sign-off request (matched reports) + HUMAN two-key authorization → live run eligibility. Bulk live run remains HARD NO-GO until then.
+next: SCIENCE-JUDGE v1.2 SIGN-OFF (in flight) on amendment A1–A7 + 3 judge reports; on APPROVE → request HUMAN two-key authorization (K1 science sign-off + K2 human operational approval) → live-run eligibility. Bulk live run remains HARD NO-GO until both keys recorded.
 active_workers (actual IDs — post-compaction; list_agents labels are shuffled, read_agent is authoritative):
   - H1 (P1 rule + scorer align): **DONE — MERGED @ 5967f24** (worker 84468580, commit a9779fb; code judge MERGE-OK 9/9 → CODE-JUDGE-SCORER-A17-20261008.md)
   - H2 (evidence in verdict prompt): **6079ec46** (prompt-evidence), worktree .worktrees/p08-prompt-ev → p08/prompt-evidence @ dc0e78f — field names confirmed to it mid-flight
@@ -100,7 +100,7 @@ Judge verdict: **NO-GO** for bulk live runs. 7/7 hotspots VERIFIED. Blockers + s
 |---|---|---|
 | H1 — P1 rule fix + scorer re-validation | A1 + A1.7 | **MERGED @ 5967f24** (a9779fb): canonical string byte-identical (sha256 766f4eb9…), S5−S4, strict branches, 5 sealed fixtures, no_valid_runs degraded path. Code judge MERGE-OK 9/9 (CODE-JUDGE-SCORER-A17-20261008.md). Gate 207/8 @ 5967f24. Operational note: live runs must use --seed 20261010. |
 | H5 — reference_truth leak guard | A6 test 1 | **MERGED** (p08/leak-guard @ ae68211; CLI-level redaction + regression test @ d269a15): two-layer fix (fallback→INCONCLUSIVE, harness+CLI redaction of reference_truth AND seeded_fault) + 10 tests incl. leaky-vs-clean canary. Gate 202/8 @ d269a15. |
-| H2 — evidence in verdict prompt | A4 | **prompt-evidence (84468580)** running on p08/prompt-evidence @ dc0e78f (all 4 A4 gates as named tests). |
+| H2 — evidence in verdict prompt | A4 | **MERGED @ 80a3f4e** (p08/prompt-evidence @ 13c9500 by worker 6079ec46 + full-prompt-guard hardening @ df311ec): machine-verified evidence view in RESOLVE verdict prompt + `evidence_cited` + oracle-free full-prompt guard; goldens proven pre-branch by independent regeneration from clean dc0e78f worktree. Code judge MERGE-OK 10/10 (CODE-JUDGE-A4-PROMPT-EVIDENCE-20261008.md). Gate 213/8 @ 80a3f4e. |
 | Judge sign-off + human two-key | §9 | AFTER H1/H2/H5 merged green + code-judge report + v1.2 sign-off. |
 Non-blocking (report/audit): H3 autonomy framing (A5 applied @ f2657d1), H4 S3 relabel (A3 in amendment), H6 effective treatment (A4/A6 + runner CLI metadata), H7 RandomPolicy (**DONE @ dc0e78f** — stream-preserving fix merged, order-identity proven, no A3 re-pin needed).
 
