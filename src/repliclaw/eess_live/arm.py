@@ -163,6 +163,17 @@ class EESSLiveArm:
         # overrun — parity is never faked). The orchestrator already enforced
         # the same envelope per-call, so this is an aggregation, not a gate.
         tokens = orch.ledger.total_tokens
+        # DEFECT C3 FIX: record the TRUE observed distinct-agent count in the
+        # BudgetRecord (was hard-coded 0), so M5/M6 agent consumption is honest
+        # for ALL six live arms — consistent with the RC-3 clamp in
+        # comparators/arms.py. This is an *aggregate* record on the parent
+        # ledger: the per-call records the orchestrator makes already carry
+        # n_agents=0 (their per-call token/wall are what is being summed), so
+        # reporting the distinct count once here is not a double count. The A7
+        # cap still holds: distinct_agents can never exceed envelope.max_agents
+        # (the orchestrator enforces it per-call), so this record cannot push a
+        # fresh per-arm ledger over the cap — a 4th distinct agent would already
+        # have overflowed at the orchestrator level, which is the correct guard.
         n_agents = max(1, orch.ledger.distinct_agents)
         if tokens > 0 or wall > 0:
             ledger.record(
@@ -170,7 +181,7 @@ class EESSLiveArm:
                     agent_id=f"{self.arm_label}-arm",
                     tokens=tokens,
                     wall_s=wall,
-                    n_agents=0,  # distinct-agent cap already enforced per-call
+                    n_agents=n_agents,
                 )
             )
 

@@ -28,7 +28,7 @@ from ..investigators import (
     BudgetExceeded,
     DeterministicInvestigator,
     LLMClient,
-    LLMConfig,
+    LLMInvestigator,
 )
 from ..models import Claim, InvestigatorConfig
 from . import case_loader
@@ -174,8 +174,41 @@ ARM_ALIASES = {
     "eess_random_select": "eess_random_select",
 }
 
-# Live-LLM arms: need a real client (or the fake) and the primary case.
-LIVE_KEYS = {"eess", "eess_no_escrow", "eess_random_select"}
+# Live-LLM arms: CAN run live (primary case) — need a real client (or the fake).
+# PREREG-2026-10 v1.2 A8 (RC-1, executor parity): the P1 pair (S5 vs S4) — and
+# the RQ2 comparators S3/S0 — run the SAME live-LLM executor as S5 (same
+# LLMConfig + harness seed), so all six arms are live ON THE PRIMARY CASE
+# (policy_rag_v1). S0/S3/S4 route through the EXISTING comparators arms with an
+# LLM investigator factory (see _run_live_strategy), NOT through
+# eess_live.live_arm_registry.
+#
+# DEFECT C1 FIX (case-conditional live-vs-offline): "in LIVE_KEYS" only says an
+# arm *can* be live — it is live ONLY on the primary case. On the secondary
+# no-LLM case (tox21_ar_agonist) S0/S3/S4 MUST run offline (deterministic,
+# exit 0) — that is the frozen v1.1 RQ4/P4 no-LLM sub-study, which pre-dates A8
+# and is preserved verbatim (test_p08_runner_cli.tox21 offline arms). S5/A1/A3
+# are live-ONLY: they refuse the secondary case (the `if spec.secondary and
+# is_live` refusal branch below still fires for them, since is_live stays True
+# for them). The decision is computed in run_one_arm as:
+#   is_live = (arm_key in LIVE_KEYS) and (not spec.secondary
+#             or arm_key in _LIVE_ONLY_KEYS)
+LIVE_KEYS = {
+    "eess",
+    "eess_no_escrow",
+    "eess_random_select",
+    "single_agent",
+    "adaptive_central",
+    "open_sharing_swarm",
+}
+# The three strategy arms that are live on the primary but MUST run offline on
+# the secondary no-LLM case (A8 + frozen RQ4/P4). They go through the
+# comparators arms + LLMInvestigator when live; they are simply absent from
+# LIVE_KEYS on the secondary case, so run_one_arm falls to the offline path.
+_LIVE_STRATEGY_KEYS = {"single_agent", "adaptive_central", "open_sharing_swarm"}
+# Arms that are live ONLY (refuse the secondary no-LLM case): the EESS-lifecycle
+# arms. They never run offline on the secondary — the refusal branch is their
+# correct, frozen behaviour (prereg v1.1 H).
+_LIVE_ONLY_KEYS = {"eess", "eess_no_escrow", "eess_random_select"}
 
 # D-10 frozen pin (prereg v1.1 §3.2): λ=μ=0.5, max_cycles=6, broker TTL=120 s.
 FROZEN_LAM = 0.5
@@ -411,6 +444,177 @@ def _run_live(
     return arm.run(claim, BudgetLedger(envelope), spec_arm, work_dir)
 
 
+def _live_client_identity(client_factory: Callable[[str], Any]) -> tuple[str, str, float]:
+    """(model, endpoint, temperature) of ONE representative live client.
+
+    A8: the derivation is factored out of the EESS-only branch so the SAME
+    live-client identity (same LLMConfig) is recorded for all six live arms —
+    S5/A1/A3 and the newly-live S0/S3/S4 — in ``run_metadata.json``.
+    """
+    probe = client_factory("identity-probe")
+    return str(probe.cfg.model), str(probe.cfg.base_url), float(probe.cfg.temperature)
+
+
+def _llm_investigator_factory(
+    client_factory: Callable[[str], Any],
+) -> Callable[[InvestigatorConfig], LLMInvestigator]:
+    """An LLM investigator factory: fresh ``LLMInvestigator`` per agent.
+
+    Each investigator gets its OWN client built from ``client_factory`` keyed
+    by the investigator's ``agent_id`` — the same per-agent fresh-client
+    pattern the live EESS arms use, so usage accounting is exact and all
+    investigators share the live client's model/temperature/seed. This is the
+    A8 same-executor baseline: the arm's existing investigator-factory seam is
+    filled with ``LLMInvestigator`` instead of ``DeterministicInvestigator``.
+    """
+
+    def factory(cfg: InvestigatorConfig) -> LLMInvestigator:
+        return LLMInvestigator(cfg, client_factory(cfg.agent_id))
+
+    return factory
+
+
+def _run_live_strategy(
+    arm_key: str,
+    claim: Claim,
+    envelope: BudgetEnvelope,
+    work_dir: Path,
+    client_factory: Callable[[str], Any],
+    args: argparse.Namespace,
+) -> ArmResult:
+    """Run a newly-live strategy arm (S0/S3/S4, A8) on the LIVE LLM path.
+
+    Builds the EXISTING comparators arm (``SingleAgentBaseline`` /
+    ``AdaptiveCentralManager`` / ``OpenSharingSwarm``) with an LLM investigator
+    factory — the same live ``LLMConfig`` and harness seed as S5 — so the P1
+    pair (S5 vs S4) and the RQ2 comparators (S3, S0) are like-for-like
+    executors. Deliberately NOT routed through ``eess_live.live_arm_registry``
+    (that registry is EESS-lifecycle-specific); the routing stays here. Real
+    token accounting applies (usage from the LLM clients); the offline
+    nominal ``COST_TOKENS_PER_ARM`` must not apply to these arms.
+
+    ``work_dir`` is the arm's CONTRACT directory ``<out>/run-01``; the arm's
+    shared ``run_strategy`` runner writes its own artifacts under
+    ``work_dir/run`` (a RunStore layout, i.e. ``<out>/run-01/run``). The RunStore
+    is nested INSIDE the contract dir so ``score.discover_runs`` sees exactly one
+    run dir per arm (a stray ``<out>/run`` would be discovered as a second,
+    contract-less run dir and fail the completeness gate). The P08 contract
+    files are written to the same ``work_dir`` (``<out>/run-01``) by
+    :func:`_write_live_strategy_artifacts`, which the caller invokes from
+    ``run_one_arm`` (so they are written for a completed
+    OR an aborted run, exactly as the offline path does).
+    """
+    ctor = {
+        "single_agent": SingleAgentBaseline,
+        "adaptive_central": AdaptiveCentralManager,
+        "open_sharing_swarm": OpenSharingSwarm,
+    }[arm_key]
+    arm: Any = ctor(_llm_investigator_factory(client_factory))
+    spec_arm = ArmSpec(arm_name=arm_key, claim_id=claim.claim_id, envelope=envelope)
+    return arm.run(claim, BudgetLedger(envelope), spec_arm, work_dir)
+
+
+def _write_live_strategy_artifacts(
+    run_dir: Path,
+    arm_key: str,
+    case_id: str,
+    result: ArmResult,
+    status: str,
+    envelope: BudgetEnvelope,
+    harness_seed: int,
+) -> None:
+    """Write the P08 contract run layout for a live strategy arm (S0/S3/S4).
+
+    Mirrors :func:`_write_offline_artifacts` (same schemas/keys) but the
+    ledger carries the arm's REAL LLM token usage (usage_present=true) rather
+    than the offline nominal ``COST_TOKENS_PER_ARM``. The arm's own RunStore
+    artifacts live under ``work_dir/run`` and remain as supplementary detail;
+    these three files (plus the runner's ``run_metadata.json``) are the
+    contract surface the scorer reads. ``status`` is the run's terminal status
+    ("completed" / "aborted_budget"), same as the offline writer.
+    """
+    run_dir = Path(run_dir)
+    run_dir.mkdir(parents=True, exist_ok=True)
+    total_tokens = int(getattr(result, "total_tokens", 0) or 0)
+    wall = float(getattr(result, "total_wall_s", 0.0) or 0.0)
+    n_agents = int(getattr(result, "n_agents", 0) or 1)
+    completed = status == "completed"
+
+    (run_dir / "budget_ledger.json").write_text(
+        json.dumps(
+            {
+                "schema": "p08.budget_ledger/1",
+                "envelope": {**envelope.to_dict(), "sha256": envelope.sha256()},
+                "calls": [
+                    {
+                        "seq": 1,
+                        "agent_id": arm_key,
+                        "prompt_tokens": total_tokens,
+                        "completion_tokens": 0,
+                        "total_tokens": total_tokens,
+                        "wall_s": round(wall, 6),
+                        "usage_present": True,  # real LLM usage (A8 live arm)
+                    }
+                ],
+                "totals": {
+                    "prompt_tokens": total_tokens,
+                    "completion_tokens": 0,
+                    "total_tokens": total_tokens,
+                    "llm_calls": 1,
+                    "wall_s": round(wall, 6),
+                },
+                "overflow_events": [],
+            },
+            indent=2,
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
+
+    (run_dir / "final_verdict.json").write_text(
+        json.dumps(
+            {
+                "schema": "p08.final_verdict/1",
+                "arm": arm_key,
+                "case_id": case_id,
+                "run_id": f"{arm_key}/run-01",
+                "harness_seed": harness_seed,
+                "envelope_sha256": envelope.sha256(),
+                "n_agents": n_agents,
+                "total_tokens": total_tokens,
+                "wall_s": round(wall, 6),
+                "status": status,
+                "verdict": (str(result.verdict_label).lower() if completed else None),
+                "defect_class": None,
+                "target_artifact": None,
+                "confidence": (
+                    float(result.detail.get("confidence") or 0.0) if completed else None
+                ),
+                "hypotheses": [],
+                "counterfactual_slots_granted": 0,
+                "counterfactual_slots_executed": 0,
+                "integrity_rejections": 0,
+                "agent_verdicts": [],
+            },
+            indent=2,
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
+
+    lines = [
+        {"seq": 1, "agent_id": None, "type": "trace",
+         "payload": {"event": "run_start", "arm": arm_key, "executor": "llm"}},
+        {"seq": 2, "agent_id": None, "type": "verdict",
+         "payload": {"status": status,
+                     "verdict": result.verdict_label if completed else None}},
+    ]
+    (run_dir / "traces.jsonl").write_text(
+        "".join(json.dumps(line, sort_keys=True) + "\n" for line in lines),
+        encoding="utf-8",
+    )
+
+
 def run_one_arm(args: argparse.Namespace) -> int:
     """Run one arm on one case and write the contract artifacts. Returns exit code."""
     root = Path.cwd()
@@ -426,9 +630,20 @@ def run_one_arm(args: argparse.Namespace) -> int:
               file=sys.stderr)
         return EXIT_REFUSAL
 
-    is_live = arm_key in LIVE_KEYS
+    # A8 (RC-1, executor parity) + DEFECT C1 FIX (case-conditional live-vs-
+    # offline). Membership in LIVE_KEYS only says an arm CAN be live; the arm
+    # IS live iff:
+    #   - primary case   -> every LIVE_KEYS arm is live (all six, incl. S0/S3/S4);
+    #   - secondary case -> ONLY the live-only arms (S5/A1/A3) stay live.
+    # S0/S3/S4 therefore run OFFLINE (deterministic, exit 0) on the secondary
+    # no-LLM case tox21_ar_agonist — that is the frozen v1.1 RQ4/P4 sub-study,
+    # preserved verbatim (test_p08_runner_cli.tox21 offline arms). S5/A1/A3 are
+    # live on BOTH cases; the refusal branch below fires exactly for them.
+    is_live = arm_key in LIVE_KEYS and (not spec.secondary or arm_key in _LIVE_ONLY_KEYS)
 
-    # Secondary (no-LLM) case: refuse live arms cleanly (exit 2, not a crash).
+    # Secondary (no-LLM) case: refuse the live-ONLY arms (S5/A1/A3) cleanly
+    # (exit 2, not a crash). S0/S3/S4 are no longer live on the secondary case
+    # (C1) so they fall through to the offline path instead of refusing.
     if spec.secondary and is_live:
         print(
             f"refusal: live arm {arm_key!r} cannot run the secondary no-LLM case "
@@ -465,11 +680,25 @@ def run_one_arm(args: argparse.Namespace) -> int:
 
     out = Path(args.out)
     # Task spec: --out DIR, each arm writes DIR/run-01 (artifact contract §10.3:
-    # S0|S3|.../run-01/). Live arms nest run-01 inside their work dir, so pass
-    # work_dir=out (their internal run_dir == out/run-01); offline arms get
-    # work_dir=out/run-01 directly.
+    # S0|S3|.../run-01/). The P08 CONTRACT files (final_verdict / budget_ledger /
+    # traces / run_metadata) always live at <out>/run-01, which is the ONLY
+    # subdirectory of <out>/ that score.discover_runs must treat as a run dir.
+    #
+    # work_dir is the arm's working root:
+    #  * EESS live arms (S5/A1/A3) nest their internal RunStore inside the
+    #    contract dir (out/runs or out/run-01/runs) -> pass work_dir=out as before.
+    #  * A8 strategy arms (S0/S3/S4) write their RunStore to <work_dir>/run; we
+    #    pass work_dir=<out>/run-01 so that RunStore nests INSIDE the contract
+    #    dir (<out>/run-01/run). A stray top-level <out>/run would otherwise be
+    #    discovered as a second, contract-less run dir and fail the scorer's
+    #    completeness gate (A8 code-judge BLOCKER #1).
     run_dir = out / "run-01"
-    work_dir = out if is_live else run_dir
+    if arm_key in _LIVE_STRATEGY_KEYS:
+        work_dir = run_dir          # strategy arm: nest RunStore under run-01/
+    elif is_live:
+        work_dir = out              # EESS arm: unchanged (RunStore already nested)
+    else:
+        work_dir = run_dir          # offline: contract files written into run-01
     work_dir.mkdir(parents=True, exist_ok=True)
 
     status = "completed"
@@ -477,15 +706,23 @@ def run_one_arm(args: argparse.Namespace) -> int:
     client_model: Optional[str] = None
     client_endpoint: Optional[str] = None
     client_temperature: Optional[float] = None
+    client_factory: Optional[Callable[[str], Any]] = None
     t0 = time.monotonic()
     try:
         if is_live:
+            # A8 (executor parity): factor the live-client identity derivation
+            # out of the EESS-only branch so it works for ALL six live arms
+            # (S5/A1/A3 route through eess_live; S0/S3/S4 route through the
+            # comparators arms with an LLM investigator factory).
             if args.client_factory == "fake":
                 client_factory = _fake_client
                 # Record the fake client's declared identity, not LLMConfig
                 # defaults (which point at a real endpoint).
-                client_model = "fake-v1"
-                client_endpoint = "http://fake.invalid/v1"
+                (
+                    client_model,
+                    client_endpoint,
+                    client_temperature,
+                ) = _live_client_identity(client_factory)
             else:  # "live"
                 if not os.environ.get("REPLICLAW_LLM_ALLOW_LIVE", ""):
                     print(
@@ -496,11 +733,17 @@ def run_one_arm(args: argparse.Namespace) -> int:
                     )
                     return EXIT_REFUSAL
                 client_factory = _live_client
-                _live_cfg = LLMConfig()
-                client_model = _live_cfg.model
-                client_endpoint = _live_cfg.base_url
-                client_temperature = _live_cfg.temperature
-            result = _run_live(arm_key, claim, envelope, work_dir, client_factory, args)
+                (
+                    client_model,
+                    client_endpoint,
+                    client_temperature,
+                ) = _live_client_identity(client_factory)
+            if arm_key in _LIVE_STRATEGY_KEYS:
+                result = _run_live_strategy(
+                    arm_key, claim, envelope, work_dir, client_factory, args
+                )
+            else:
+                result = _run_live(arm_key, claim, envelope, work_dir, client_factory, args)
         else:
             result = _run_offline(arm_key, claim, envelope, work_dir)
     except BudgetOverflow:
@@ -537,6 +780,13 @@ def run_one_arm(args: argparse.Namespace) -> int:
     if not is_live:
         _write_offline_artifacts(run_dir, arm_key, spec, result, status, envelope,
                                  args.harness_seed, _tree_sha(root))
+    elif arm_key in _LIVE_STRATEGY_KEYS:
+        # A8: the newly-live S0/S3/S4 arms write their own P08 contract
+        # files (final_verdict / budget_ledger / traces) under run-01, the
+        # same layout as the offline arms, with real LLM usage. run_metadata
+        # is written below for every arm.
+        _write_live_strategy_artifacts(run_dir, arm_key, spec.case_id, result,
+                                       status, envelope, args.harness_seed)
 
     # run_metadata.json — runner CLI (artifact contract §1) with D-10 params.
     effective = _effective_live_params(args) if is_live else {}
