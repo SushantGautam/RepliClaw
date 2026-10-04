@@ -12,7 +12,7 @@ Do the steps **in order**. Each step ends with ✅ when done.
 
 1. Open `FACT_CHECK_LIST.md`. It lists every claim with its source + status: **F1–F17/F19** (the
    historical per-module checkpoints P02/P03/P04 + G0 + prior art/team/rubric) and **F20–F29**
-   (the run-branch state: 202/8 full gate, offline 4-arm parity campaign, EESS slice, Tox21 case,
+   (the run-branch state: 213/8 full gate @ `d5c6701`, offline 4-arm parity campaign, EESS slice, Tox21 case,
    oracle-gated scorer + passing self-test, live arm *implemented + tested*, live window, novelty
    positioning). It also records a **critical test-count discrepancy** (P09 re-verified the
    historical module counts **78 / 73 / 74**, not the 62 / 69 / 74 the old checkpoint docs record).
@@ -47,7 +47,7 @@ Find them all: `grep -n 'PENDING' docs/application/DRAFT_ANSWERS.md`
   a fake client** (F26). Say exactly that: *implemented + tested*, **not** "live runs executed."
 
 If any of the now-built items regressed by submit time, re-mark it honestly as in progress — but as
-of 2026-10-08 (`repl-claw-dev` @ `617b329`) all are green in the 202/8 run-branch gate (F20).
+of 2026-10-08 (`repl-claw-dev` @ `d5c6701`) all are green in the 213/8 run-branch gate (F20).
 
 **Rule:** a `[PENDING]` that cannot be resolved with a *verified* result must become an honest
 "not yet measured / in progress" sentence — never a fabricated number.
@@ -58,23 +58,27 @@ of 2026-10-08 (`repl-claw-dev` @ `617b329`) all are green in the 202/8 run-branc
 ## Step 2 — Re-verify the test gates you will cite (run these, don't assume)
 
 **Primary gate now lives on the run branch, not the module worktrees.** The application cites the
-run-branch full gate (202 passed, 8 skipped; ruff clean; mypy clean, 55 files) and the scorer
-self-test (F20/F25). Run **this first** — it is the number the draft actually makes:
+run-branch full gate (**213 passed, 8 skipped** @ `d5c6701` — the current verified count, F20)
+and the scorer self-test (F20/F25). Run **this first** — it is the number the draft actually makes:
 
 ```bash
 cd /Users/sushantgautam/Documents/ScienceClawHackathon
-git rev-parse --short HEAD          # expect 617b329 (or the current run-branch tip)
+git rev-parse --short HEAD          # expect d5c6701 (or the current run-branch tip)
 
-.venv/bin/python -m pytest -o addopts="" -q     # expect: 202 passed, 8 skipped
+.venv/bin/python -m pytest -o addopts="" -q     # expect: 213 passed, 8 skipped (at d5c6701)
 .venv/bin/ruff check src tests scripts          # expect: All checks passed!
-.venv/bin/python -m mypy src                    # expect: Success: no issues found in 55 source files
+.venv/bin/python -m mypy src                    # expect: Success (source-file count grows as A8 lands)
 .venv/bin/python -m repliclaw.p08.score --self-test   # expect: SELF-TEST: PASS (exit 0)
 ```
 
 > **Re-run note (2026-10-08):** the gate was re-verified at `617b329` after the leak-guard
 > (`ae68211`/`a934a48`), runner CLI (`d269a15`) and preflight gate 5 (`6a9f2b7`) merges — the
-> count moved from 149/8 (54 files) at `1012ff7` to **202/8 (55 files)**. If the tip has moved
-> again by submit time, re-run this block there and trust the fresh number, not this one.
+> count moved from 149/8 (54 files) at `1012ff7` to **202/8 (55 files)**; the run branch has
+> since advanced (A4 merge `80a3f4e`, scorer-alignment `5967f24`, A8 amendment `d5c6701`) and the
+> current verified count is **213/8 @ `d5c6701`** (F20; independently confirmed by the
+> science-judge re-run in `docs/fleet/reviews/SCIENCE-JUDGE-V12-SIGNOFF-NOT-APPROVE-20261008.md`).
+> If the tip has moved again by submit time (e.g. the A8 PR `p08/executor-parity` lands), re-run
+> this block there and trust the fresh number, not this one.
 
 The per-module counts below (P02 78 / P03 73 / P04 74) are **historical module checkpoints**
 cited in the draft for provenance; they still reproduce at their exact clean checkpoint commits,
@@ -106,7 +110,7 @@ done
 ```
 
 The p07/p05/p08 branches have since been **merged into the run branch** (see the primary gate
-above, `repl-claw-dev` @ `617b329`). The `.worktrees/p07` "112 passed @ 251dead" line from the
+above, `repl-claw-dev` @ `d5c6701`). The `.worktrees/p07` "112 passed @ 251dead" line from the
 original checklist is **superseded** — run the primary gate above instead. If you must re-check a
 specific module worktree, the per-module block above is still valid at its checkpoint commits.
 
@@ -176,7 +180,7 @@ Recommended questions to the event (email/form) if anything is unclear:
 **Demo / evidence link:** use the **public** repo
 `https://github.com/SushantGautam/ScienceClawHackathon`. Before sharing, confirm it is set to
 **public** and pin the link to the **run branch `repl-claw-dev` at a specific commit** (as of this
-rework, `617b329` — re-verified 2026-10-08; re-run the Step-2 gate at the pinned SHA before
+rework, `d5c6701` — current verified gate 213/8; re-run the Step-2 gate at the pinned SHA before
 submitting) so the reviewer sees exactly what the test counts were measured on. The full
 P02–P08 stack now lives on that branch; the old feature branches (`p02/…`, `p03/…`, `p04/…`,
 `p07/integration`) are merged and historical.
@@ -186,7 +190,7 @@ P02–P08 stack now lives on that branch; the old feature branches (`p02/…`, `
   `parity` report) — see `src/repliclaw/comparators/runner.py` + `tests/test_comparators.py` (F21/F23).
 - The **EESS slice demo** — `scripts/demo_slice.py` → `DEMO OK` + independent re-execution (F22).
 - The **scorer self-test** — `.venv/bin/python -m repliclaw.p08.score --self-test` → `SELF-TEST: PASS` (F25).
-- The **full run-branch gate** — `pytest`/`ruff`/`mypy` (202/8) (F20).
+- The **full run-branch gate** — `pytest`/`ruff`/`mypy` (213/8 @ `d5c6701`) (F20).
 Do **not** attach live-LLM run artifacts — none exist yet (live runs are scheduled, F26/F27).
 ✅ _questions asked (or confirmed from the form); demo link ready and public_
 
@@ -227,13 +231,28 @@ The live campaign is **scheduled** for the run window (2026-10-10 → 2026-10-23
 part of application verification. It may only start under a **two-key start** (F27/F28): science-judge
 approval of prereg **v1.1 + v1.2-AMENDMENT** (the amendment is DRAFT and unsigned — no live run on
 v1.1 alone while it is unsigned) **and** human (project-lead) authorization, both recorded in
-`EXECUTION_STATE.md`. If both keys are in place at the event:
+`EXECUTION_STATE.md`. **The science key is NOT yet in hand: sign-off round 1 (2026-10-08) =
+NOT-APPROVE** — the judge raised new BLOCKING item **RC-1** (P1 pair = S5 live-LLM vs S4
+deterministic, a cross-executor comparison v1.1 §3.1 declares invalid) plus RC-2/RC-3/RC-4
+(`docs/fleet/reviews/SCIENCE-JUDGE-V12-SIGNOFF-NOT-APPROVE-20261008.md`; F30). The fix is
+registered as amendment section **A8 (executor parity)** @ `d5c6701` (F31); the A8 code PR
+(`p08/executor-parity`) is in flight (F32). The science key is therefore only satisfied by a
+**round-2 sign-off on A1–A8 AFTER all three of these are done**: (i) the **A8 code PR merged
+green** (live S4/S3/S0 on the same `LLMConfig`+`harness_seed` as S5; scorer model/executor parity
+guard; C1+EP model-parity test; honest agent accounting; RC-2 relabel; RC-4 comment), (ii)
+**code-judge on the A8 PR** (MERGE-OK), and (iii) the **6-arm FakeLLMClient parity re-run
+complete with recorded payloads** (all six live arms: S5/S4/S3/S0 + A1/A3). The two-key
+requirement is **unchanged and not weakened**: round-2 science sign-off + human (project-lead)
+authorization, both recorded in `EXECUTION_STATE.md`. If both keys are in place at the event:
 
 1. **Pre-flight (all must be green before run 1):** the primary run-branch gate (F20), the scorer
    `--self-test` (F25), P02 leakage test, the P05 parity suite (F23), and — before the window can
-   open — the remaining in-flight piece must be landed and pinned: the A4 evidence-in-verdict-prompt
-   fix (worker in flight at `5967f24`), plus the v1.2-AMENDMENT science-judge sign-off (F25/F27/F28).
-   Already landed and pinned: the measured live token floor (§5.1 filled; `artifacts/p08/live_token_floor/`),
+   open — the A8 executor-parity work must be landed and pinned: A8 code PR merged green +
+   code-judge MERGE-OK + 6-arm FakeLLMClient parity re-run recorded (F30–F32), plus the
+   **round-2 v1.2-AMENDMENT science-judge sign-off on A1–A8** (F25/F27/F28/F30).
+   Already landed and pinned: the A4 evidence-in-verdict-prompt fix (merged `80a3f4e`,
+   code-judge MERGE-OK 10/10 per `docs/fleet/reviews/CODE-JUDGE-A4-PROMPT-EVIDENCE-20261008.md`),
+   the measured live token floor (§5.1 filled; `artifacts/p08/live_token_floor/`),
    the `score.py` P1-rule alignment to the v1.2 canonical rule (merged `5967f24`, code-judge
    MERGE-OK, F25), the runner CLI, same-task `case_loader`, usage-invalidation and the D-10
    hyperparameter pin (λ=μ=0.5, max_cycles=6, offer TTL=120s) (`d269a15`);
@@ -241,22 +260,27 @@ v1.1 alone while it is unsigned) **and** human (project-lead) authorization, bot
    added at `6a9f2b7`).
 2. **Run the preregistered arms** (S5 live EESS, S3 adaptive central, S4 open-sharing, S0
    single-agent, and the A1 no-escrow / A3 random-select ablations) under the shared frozen
-   `BudgetEnvelope`, same task/case/oracle. The arms already exist on the run branch
-   (`repliclaw.eess_live` + `comparators`) and are contract-tested offline (F26); the runner CLI
-   wires them to a real client under the shared envelope.
+   `BudgetEnvelope`, same task/case/oracle. **Per A8 (F31), all of S5/S4/S3/S0 run as LIVE LLM
+   arms on the same `LLMConfig`+`harness_seed`** (S4/S3/S0 land via the A8 PR; at `d5c6701` only
+   S5/A1/A3 are in `LIVE_KEYS` — the A8 PR is what makes the P1 pair same-executor). The arms
+   already exist on the run branch (`repliclaw.eess_live` + `comparators`) and are contract-tested
+   offline (F26); the runner CLI wires them to a real client under the shared envelope.
 3. **Score with the oracle-gated scorer** (`repliclaw.p08.score`) → scorecard; it reads the oracle
    only after every run dir is verified complete (F25).
 4. **Report the live matched-budget result honestly** — including null/negative results — and
    record any mid-window changes as prereg amendments, not silent edits.
-5. If any pre-flight item is still red, **do not start live runs**; run the offline parity
-   campaign + slice + scorer self-test as the demonstrable offline evidence instead, and say so.
+5. If any pre-flight item is still red — **including the A8 PR not merged green, code-judge not
+   MERGE-OK, the 6-arm parity re-run not recorded, or the round-2 science sign-off not in hand** —
+   **do not start live runs**; run the offline parity campaign + slice + scorer self-test as the
+   demonstrable offline evidence instead, and say so.
 
 **Do NOT** present live results in the application if they do not yet exist. The window runs
 2026-10-10 → 2026-10-23 and the application deadline is 2026-10-16 — so even once the window has
 started, complete *scored* live results will not be available before the deadline (the window ends
 2026-10-23). Live numbers will almost certainly be `[PENDING: P08 live]` at submit time; report the
-offline evidence (F20–F26) and say the live comparison is scheduled.
-✅ _live runs executed only under two-key authorization, or offline evidence reported instead_
+offline evidence (F20–F26) and say the live comparison is scheduled (and that sign-off round 1 was
+NOT-APPROVE with the A8 fix in flight — F30–F32).
+✅ _live runs executed only under two-key authorization (round-2 science sign-off + human key), or offline evidence reported instead_
 
 ---
 

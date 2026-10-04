@@ -14,14 +14,20 @@ Companion files: `FACT_CHECK_LIST.md` (every claim → file + commit SHA or UNVE
 - Date note: commit author/committer dates are 2026-10-08 (today). The P02/P03/P04 checkpoint
   headers are dated 2026-10-10; this mismatch is flagged in `FACT_CHECK_LIST.md` (A6). We use
   "as of 2026-10-08" for public scoping.
-- **State note (2026-10-08, run branch `repl-claw-dev` @ `617b329`):** the per-module gates
+- **State note (2026-10-08, run branch `repl-claw-dev` @ `d5c6701`):** the per-module gates
   below (P02/P03/P04, 78/73/74) are *historical module checkpoints*. Since the draft was first
   written, P05/P06/P07/P08 components have landed on the run branch. The **run-branch full gate
-  is 202 passed, 8 skipped; ruff clean; mypy clean (55 files)** and the scorer self-test passes
-  (`p08.score --self-test` → PASS). We distinguish, and keep distinct, three things:
-  (1) *implemented + unit/contract-tested offline* (the live-LLM arm, scorer),
-  (2) *runnable deterministic now* (the offline campaign), and
-  (3) *scheduled for the live window, not yet executed* (the live LLM runs). See F20–F29 in
+  is 213 passed, 8 skipped** (verified at `d5c6701`; the scorer self-test passes,
+  `p08.score --self-test` → PASS). The prior NO-GO code blockers **H1/H2/H5 are green** (A1/A1.7
+  scorer alignment, A4 evidence-in-verdict-prompt, A6 two-layer no-leak — verified landed by the
+  science judge, 2026-10-08). At sign-off **round 1 (2026-10-08) the science judge returned
+  NOT-APPROVE** and raised a **new blocker RC-1** (the P1 pair S5 live-LLM vs S4 deterministic is
+  a cross-executor comparison the prereg itself declares invalid); the fix is registered as
+  amendment section **A8 (executor parity) @ `d5c6701`** and the A8 code PR
+  (`p08/executor-parity`) is **in flight** — round-2 sign-off on A1–A8 is pending. We distinguish,
+  and keep distinct, three things: (1) *implemented + unit/contract-tested offline* (the live-LLM
+  arm, scorer), (2) *runnable deterministic now* (the offline campaign), and
+  (3) *scheduled for the live window, not yet executed* (the live LLM runs). See F20–F32 in
   `FACT_CHECK_LIST.md`.
 
 **Project name / one-line claim** (per `docs/APPLICATION_V2.md` "Naming"):
@@ -81,11 +87,10 @@ backgrounds, and public profile links to be inserted before submission; we do no
 metrics or prizes.
 
 **What is already built and machine-verified (as of 2026-10-08, run branch `repl-claw-dev` @
-`617b329`).** We have a working, test-verified vertical prototype built on ScienceClaw primitives
+`d5c6701`).** We have a working, test-verified vertical prototype built on ScienceClaw primitives
 — not a claim of superiority. The module gates below (P02/P03/P04) are the historical per-module
 checkpoints; since then the components have been integrated on the run branch, whose **full gate
-is 202 passed, 8 skipped; ruff clean; mypy clean (55 files)**, with the scorer self-test passing
-[**F20**]. The building blocks:
+is 213 passed, 8 skipped**, with the scorer self-test passing [**F20**]. The building blocks:
 
 - **Real SimpleAudit counterfactual execution (P02, module checkpoint @ `3f452b2`).** We drive a
   real `ModelAuditor.run_scenario` (SimpleAudit engine 0.3.3 pinned) with a deterministic RAG
@@ -114,7 +119,7 @@ is 202 passed, 8 skipped; ruff clean; mypy clean (55 files)**, with the scorer s
   Module gate: **74 passed, 8 skipped**; ruff clean; mypy clean (22 files) [F3][F11][F12][F13][F14].
 
 **Integrated on the run branch now (2026-10-08).** Beyond the modules above, the following are
-committed on `repl-claw-dev` and green under the 149/8 full gate [F20]:
+committed on `repl-claw-dev` and green under the 213/8 full gate [F20]:
 
 - **A runnable offline, deterministic, matched-budget comparison campaign (0-token, no network).**
   The comparator harness runs the four named offline arms — **S0 single-agent (`single_agent`),
@@ -161,10 +166,18 @@ measured result, precisely:
   escrow swarm vs. a strong adaptive central manager, plus single-agent, open-sharing and
   no-escrow / random-select ablations, on the live model at a measured token budget. That is
   **scheduled for the run window (2026-10-10 → 2026-10-23) and is gated on two keys: science-judge
-  approval of prereg v1.1 + human (project-lead) authorization** [F27][F28]. Also in flight before
-  the window can open: the runner CLI, the same-task `case_loader`, usage-invalidation wiring, the
-  D-10 hyperparameter pin (λ=μ=0.5, max_cycles=6, offer TTL=120s), and a measured live token floor
-  — none of these are yet complete [F27].
+  approval of prereg v1.1 + v1.2-AMENDMENT + human (project-lead) authorization** [F27][F28].
+  Sign-off **round 1 (2026-10-08) was NOT-APPROVE**: the judge verified the prior code blockers
+  (H1/H2/H5) as green but raised a **new blocker RC-1** — in the signed runner the P1 pair is S5
+  (live LLM) vs S4 (deterministic), a cross-executor comparison the prereg's own §3.1 declares
+  invalid — plus RC-2/RC-3/RC-4. The fix is registered as amendment section **A8 (executor
+  parity: live S4/S3/S0 on the same `LLMConfig`+seed as S5; scorer model/executor parity guard;
+  honest agent accounting)** @ `d5c6701`, and the **A8 code PR (`p08/executor-parity`) is in
+  flight**; round-2 sign-off on A1–A8 is pending after the A8 PR merges green, passes code-judge,
+  and a 6-arm FakeLLMClient parity re-run is recorded [F30][F31][F32]. Already landed before the
+  window can open: the runner CLI, the same-task `case_loader`, usage-invalidation wiring, the
+  D-10 hyperparameter pin (λ=μ=0.5, max_cycles=6, offer TTL=120s), the measured live token floor,
+  the scorer's v1.2 P1-rule alignment, and the A4 evidence-in-verdict-prompt fix [F25][F27].
 
 We will report whatever the live runs produce, including null or negative results. **We do not
 present the implemented-and-tested live arm as if live runs have been executed, and we do not
@@ -193,8 +206,9 @@ which evidence changed your mind* — improves *validated* causal diagnosis of A
 each named prior system's paradigm. This is an honest boundary claim, not a novelty-by-declaration.
 
 <sub>Verified-fact basis (strip before submit): all per-fact source + commit SHA are in
-`FACT_CHECK_LIST.md` F1–F19 (historical modules) and F20–F29 (run-branch live-arm, scorer,
-offline campaign, slice, Tox21, live window, novelty positioning). Do not submit any number
+`FACT_CHECK_LIST.md` F1–F19 (historical modules) and F20–F32 (run-branch live-arm, scorer,
+offline campaign, slice, Tox21, live window, novelty positioning, and the sign-off round-1
+NOT-APPROVE + A8 registration @ `d5c6701`). Do not submit any number
 without a matching green entry there. "Implemented + tested" and "live runs executed" are distinct
 claims — only the former is made for the live arm.</sub>
 
@@ -301,7 +315,10 @@ NOT demonstrated.</sub>
   case, P07 end-to-end slice, P08 scorer + self-test, P08 live-LLM arm *implemented and
   contract-tested offline*); (b) **runnable deterministic now** (the offline 4-arm parity
   campaign and the slice demo, 0-token); (c) **scheduled for the event window, not yet executed**
-  (the *live* matched-budget runs, gated on judge + human authorization). "Implemented + tested"
-  is never written as "live runs executed."
+  (the *live* matched-budget runs, gated on the two-key start — round-2 science sign-off on
+  A1–A8 after the A8 executor-parity code PR (`p08/executor-parity`, registered @ `d5c6701`)
+  merges green + code-judge + 6-arm FakeLLMClient parity re-run, and human authorization;
+  sign-off round 1 (2026-10-08) was NOT-APPROVE with new blocker RC-1 — F30–F32). "Implemented +
+  tested" is never written as "live runs executed."
 - No number without a green entry in `FACT_CHECK_LIST.md`; anything unresolved is an explicit
   `[PENDING: …]`.
