@@ -95,8 +95,20 @@ class FakeLLMClient(LLMClient):
             return json.dumps(_select(self._commit_payload, agent_id))
         if VERDICT_MARKER in prompt:
             return json.dumps(_select(self._verdict_payload, agent_id))
-        # Fallback: a neutral finding (should not occur for the arm's prompts).
-        return json.dumps({"conclusion": "uncertain", "confidence": 0.5})
+        # Fallback: a finding for the strategy-arm finding prompts (S0/S3/S4)
+        # — the live-LLM executor's canonical stand-in. A9.3a: carries the
+        # arm-neutral defect fields (retrieval_omission / retrieval) — the
+        # deterministic diagnosis consistent with the policy_rag_v1 case (the
+        # same value S5's verdict_payload uses), so the comparator arms' M1
+        # canary is non-degenerate like-for-like with the escrow arm.
+        return json.dumps(
+            {
+                "conclusion": "uncertain",
+                "confidence": 0.5,
+                "defect_class": "retrieval_omission",
+                "target_artifact": "retrieval",
+            }
+        )
 
     # convenience: expose a raw endpoint-availability flag for the measure
     # script's guard (a fake is clearly NOT a real, authorized endpoint).

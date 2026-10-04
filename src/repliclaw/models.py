@@ -236,6 +236,15 @@ class Verdict:
     reasoning: str = ""
     error_correlation: Optional[float] = None  # -1..1 proxy
     timestamp: str = field(default_factory=_now)
+    # A9 (PREREG v1.2 A9.2.2 / M-1 fix): the arm-neutral defect adjudication
+    # aggregate for THIS arm's run, computed in strategies._finalize (or
+    # run_repl_claw) from the FULL finding dicts (evidence[*].finding, C8) and
+    # carried here so the artifact writers (comparators/runner.py) record the
+    # arm's REAL diagnosis instead of hard-coded nulls. Both are None when no
+    # finding in the arm supplied a non-null value (e.g. the offline
+    # deterministic legs on non-policy-rag cases).
+    defect_class: Optional[str] = None
+    target_artifact: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -252,6 +261,8 @@ class Verdict:
             "reasoning": self.reasoning,
             "error_correlation": self.error_correlation,
             "timestamp": self.timestamp,
+            "defect_class": self.defect_class,
+            "target_artifact": self.target_artifact,
         }
 
 

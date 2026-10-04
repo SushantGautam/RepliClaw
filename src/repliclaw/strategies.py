@@ -25,7 +25,7 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, List, Optional
 
 from . import canonical
 from .evidence import detect_conflicts
@@ -117,12 +117,65 @@ def _commit(store, agent_id, role, finding, claim_id) -> Commitment:
     return c
 
 
+def _defect_aggregate(
+    strategy: str,
+    evidence: List[Evidence],
+    raw_findings: Optional[Dict[str, Dict[str, Any]]] = None,
+) -> tuple[Optional[str], Optional[str]]:
+    """A9.2.2 (M-1 fix, C8): aggregate the arm's OWN defect adjudication.
+
+    The defect fields are read from the FULL finding dicts — for the
+    non-protocol strategies that is ``evidence[*].finding`` (built via ``_ev``
+    from the finding), and for ``repl_claw`` it is ``raw_findings`` (the
+    protocol's committed finding dicts), because in the protocol
+    ``evidence.finding`` is the REVEALED COMMITMENT payload which does not
+    carry the new keys (C8: reading the commitment payload would read nulls
+    and silently re-create M-1). Per-field first-non-null.
+
+    Registered per-strategy extraction rule (PREREG v1.2 A9.2.2):
+      * single_agent        -> that agent's own finding;
+      * fixed_dag           -> the critic/judge (final stage) finding;
+      * isolated_vote /
+        open_debate         -> deterministic first-non-null across the
+                               committed findings ordered by agent_id;
+      * repl_claw           -> the protocol's resolved/final finding (the
+                               follow-up "fulfills need" evidence, if any),
+                               falling back to deterministic first-non-null
+                               across the committed findings ordered by
+                               agent_id when it is null.
+    Returns ``(None, None)`` when no finding in the ordered set supplies a
+    non-null value (e.g. offline deterministic legs on non-policy-rag cases).
+    """
+    raw_findings = raw_findings or {}
+
+    def _ordered_findings() -> List[Dict[str, Any]]:
+        if strategy == "single_agent":
+            return [e.finding for e in evidence]
+        if strategy == "fixed_dag":
+            final = [e.finding for e in evidence if e.agent_id == DAG_ROLES[-1][0]]
+            return final or [e.finding for e in evidence]
+        if strategy == "repl_claw":
+            followup = [e.finding for e in evidence if "fulfills need" in (e.notes or "")]
+            committed = [raw_findings[a] for a in sorted(raw_findings)]
+            return followup + committed
+        # isolated_vote / open_debate (and any other committed-finding strategy)
+        return [e.finding for e in sorted(evidence, key=lambda e: e.agent_id)]
+
+    ordered = _ordered_findings()
+    defect = next((str(f["defect_class"]) for f in ordered if f.get("defect_class")), None)
+    target = next((str(f["target_artifact"]) for f in ordered if f.get("target_artifact")), None)
+    return defect, target
+
+
 def _finalize(strategy, claim, store, evidence, needs, usage, t0, errors, agreement):
     conflicts = detect_conflicts(evidence)
     verdict = compute_verdict(
         claim, evidence, conflicts=conflicts,
         independent_count=len({e.agent_id for e in evidence}) or 1,
     )
+    # A9.2.2 (C8): attach the arm's own defect adjudication to the verdict so
+    # the artifact writers record the REAL diagnosis, not hard-coded nulls.
+    verdict.defect_class, verdict.target_artifact = _defect_aggregate(strategy, evidence)
     store.save_verdict(verdict)
     for e in evidence:
         store.append_evidence(e)
@@ -277,6 +330,13 @@ def run_repl_claw(claim, factory, tmp: Path) -> StrategyResult:
                               min_independent=3)
     res = proto.run(claim)
     agreement: Dict[str, Any] = {}
+    # A9.2.2 (C8): run_repl_claw builds its StrategyResult directly (no
+    # _finalize), so attach the defect aggregate HERE from the protocol's
+    # committed finding dicts (res.findings) — evidence.finding in the protocol
+    # is the revealed commitment payload, which does not carry the new keys.
+    res.verdict.defect_class, res.verdict.target_artifact = _defect_aggregate(
+        "repl_claw", res.evidence, raw_findings=getattr(res, "findings", None)
+    )
     return StrategyResult(
         strategy="repl_claw", claim_id=claim.claim_id, verdict=res.verdict,
         evidence=res.evidence, commitments=res.commitments, needs=res.needs,
