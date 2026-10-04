@@ -300,3 +300,22 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - **Next:** code-judge RE-REVIEW of 247208f (verify BLOCKER #1 closed + no regression) → on
   MERGE-OK, merge p08/executor-parity to repl-claw-dev + full gate from MAIN tree (expect 225/8) +
   preflight 5/5 → ROUND-2 science-judge sign-off (A1–A8) → human two-key. Live arms HARD NO-GO.
+
+## A8 (RC-1) MERGED @ a708523; code-judge MERGE-OK; round-2 science sign-off dispatched (2026-10-08)
+- **Code-judge round 2 = MERGE-OK** (d7430df4) on `247208f`: BLOCKER #1 CLOSED (reproduced —
+  `S5`+`S4` run-set now `SCORE OK, parity.ok=True, P1=SUPPORTED`; was `ScoreError`), fix provably
+  surgical (S5/A1/A3 + offline byte-identical to base; abort path clean; no new issues; no leaks).
+  Report: docs/fleet/reviews/CODE-JUDGE-A8-EXECUTOR-PARITY-20261008.md.
+- **MERGED p08/executor-parity → repl-claw-dev @ a708523** (clean, disjoint from docs commits).
+- **MAIN-TREE GATE @ a708523 (real output):** `pytest -o addopts="" -q` → **225 passed/8 skipped**;
+  `ruff check src tests scripts` → clean; `mypy src` → clean (55 files);
+  `bash experiments/policy_rag/preflight.sh` → **ALL 5 GATES PASS** (pin a708523);
+  `p08.score --self-test` → PASS.
+- **Pre-flight substantially satisfied** (no live spend): 6-arm FakeLLMClient parity re-run =
+  `test_a8_fake_llmclient_parity_all_six_arms` + `test_a8_six_arm_primary_runset_is_scoreable`;
+  live-arm contract suite = preflight gate 5; self-test PASS.
+- **Dispatched:** ROUND-2 SCIENCE-JUDGE sign-off on A1–A8 (109cfaca; amendment final text + both
+  judge reports + gate evidence @ a708523). Last scientific gate before the two-key live authorization.
+- **Next:** round-2 science verdict → (fix any MUST-FIX) → HUMAN two-key authorization recorded
+  in EXECUTION_STATE → final recorded pre-flight pass → live campaign 2026-10-10→23. HARD NO-GO
+  until science key + human key.
