@@ -365,3 +365,19 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - FACT_CHECK_LIST.md structure check: 208 lines, every table row pipe-closed, edited F-rows intact.
 
 **Next.** Doc claims are now consistent with the frozen state; re-verify after the campaign-harness commit moves the gate tip SHA (the docs cite "240/8 at the run-branch tip" which stays true).
+
+## R-2 preflight extraction tool built + verified (2026-10-09)
+
+**What changed.**
+- New `scripts/r2_preflight.py` (worker `59420208`, NonThinking): the extraction+recording step of `docs/experiments/R2_TOKEN_FLOOR_PREFLIGHT_PROTOCOL.md`. Reads `<run-dir>/<arm>/run-01/{budget_ledger.json,run_metadata.json}` for the three R-2 arms (S4 open_sharing_swarm / S3 adaptive_central / S0 single_agent) using the REAL field names (totals.total_tokens / totals.llm_calls / totals.wall_s; top-level status/arm/harness_seed) and writes `floor_r2.json` (schema `p08.token_floor_r2/1`, atomic write). Hard-fails (exit 1, no file) on zero-token / missing-arm / invalid-status; accepts `aborted_budget`; verdict OK/CHECK at the 60% headroom rule. Zero LLM calls — the live runs themselves remain human-gated.
+- New `tests/test_r2_preflight.py` — 6 tests (happy path schema, CHECK verdict, zero-token fail, missing-arm fail, invalid-status fail, aborted_budget accepted).
+- Note: the worker thrashed 480+ tool calls on a test-helper bug (`_run_cli` discarded capsys output before failure-mode assertions); integrator nudged with the exact root cause, resolved immediately.
+
+**Commands / evidence.**
+- `.venv/bin/python -m pytest tests/test_r2_preflight.py -q` → 6/6.
+- Full gate: `pytest tests` → **246 passed, 8 skipped**; `ruff check src tests scripts` → clean; `mypy src` → 56 clean.
+- End-to-end smoke (fake, no LLM): 3 real `runner --client-factory fake --assert-frozen` runs → extractor produced a schema-exact `floor_r2.json` (S4 156 / S3 208 / S0 52 tokens — matching the known fake floors; pin recorded; verdict OK).
+
+**Artifacts.** `scripts/r2_preflight.py`, `tests/test_r2_preflight.py`. Smoke artifacts in /tmp (not committed).
+
+**Next.** Post human-key: run the protocol's 3 live runs, then `scripts/r2_preflight.py --run-dir $RUN --output $RUN/floor_r2.json` → commit the floor record.
