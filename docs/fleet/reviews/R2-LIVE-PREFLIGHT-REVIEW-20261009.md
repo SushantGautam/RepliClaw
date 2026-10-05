@@ -50,7 +50,7 @@ Headroom ≥3.4× over worst case. Binding risk = per-run quality (aborted_budge
 slot), not the master ceiling.
 
 ## 5. Security / leak — PASS
-`grep -rn sk-RK7F` across artifacts/ src/ scripts/ docs/ → zero hits. Case-insensitive
+`grep -rn sk-RK7***` across artifacts/ src/ scripts/ docs/ → zero hits. Case-insensitive
 grep for api_key|authorization|bearer across the full run tree → zero hits. No auth material
 in traces.jsonl / store.jsonl / events / verdicts / metadata.
 
