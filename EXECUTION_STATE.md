@@ -125,6 +125,8 @@ Non-blocking (report/audit): H3 autonomy framing (A5 applied @ f2657d1), H4 S3 r
 4. Live campaign 2026-10-10→23 (shortenable, not extendable); scorer → scorecard (counterevidence-first).
 5. Application/submission readiness (deadline Oct 16), push everything.
 
+**In-flight docs (done, pushed, independent of round 3):** FACT_CHECK_LIST fifth pass (F20→235/8 @ 3491032, new F33b A9-merged row, F27/F32 refreshed, @ 78206de); `docs/application/P1_RESULT_DISCLOSURES_DRAFT.md` (A9.4/C7 + S-1 + N-2 + R-2, DRAFT — fold into APPLICATION_V2 only after round-3 APPROVE + two-key, @ 4b3f5cf); `docs/experiments/R2_TOKEN_FLOOR_PREFLIGHT_PROTOCOL.md` (ready-to-execute S4/S3/S0 token-floor measurement, gated on round-3 + two-key, @ d583ae8); PREREG v1.2 A9 ledger row → merged + round-3 status line PENDING (@ 61f405d). **Worktree cleanup:** removed 4 fully-merged worktrees (p08-arm-neutral-m1, p08-executor-parity, p09-docs-a8, p08-prompt-evidence); branch refs kept for audit. Remaining worktrees: F01/F02/F03/F05 (old-source, NOT on run branch — historical, preserved); historical merged branches (p07/p02-p06/p03-p04/p05 + most p08/*) may be cleaned up later; p08/token-floor (1) and salvage/runner-wip (2) are the only other branches with unmerged commits (superseded WIP, preserved — do not delete).
+
 ## Environment note (verified)
 - Anaconda system python breaks pip build isolation → ALWAYS `.venv/bin/*` inside the worktree. rdkit + simpleaudit installed in root, p07, p08-s5 venvs.
 - Gate commands (from INSIDE worktree): `.venv/bin/python -m pytest -o addopts="" -q`, `.venv/bin/ruff check src tests scripts`, `.venv/bin/mypy src`.
