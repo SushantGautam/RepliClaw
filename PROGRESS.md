@@ -404,3 +404,14 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 **Evidence.** `tests/test_p08_campaign.py` 7/7; FULL GATE **248 passed / 8 skipped** (246 + 2 new regression tests); ruff clean; mypy 56 files clean. Review record: `docs/fleet/reviews/CODE-JUDGE-CAMPAIGN-HARNESS-20261009.md` (finding text verbatim + disposition).
 
 **Next.** Campaign batch commit; then the only remaining program gates are external: HUMAN two-key → R-2 live pre-flight (3 arms × 1 + `scripts/r2_preflight.py`) → R-1 final pin check → single-command launch per `docs/experiments/LIVE_CAMPAIGN_LAUNCH_PROTOCOL.md`.
+
+## Root-doc consistency pass + remediation re-review addendum (2026-10-09)
+
+**What changed.**
+- Independent remediation re-review (task agent, read-only) verified all 7 campaign-harness judge findings FIXED at `af3890b` with file:line evidence and re-ran the three gate commands (7/7 campaign tests, ruff clean, mypy 56 clean) — final verdict **MERGE-OK**. Addendum appended to `docs/fleet/reviews/CODE-JUDGE-CAMPAIGN-HARNESS-20261009.md`.
+- `IMPLEMENTATION_PLAN.md` P08/P09/P10 rows were stale (P08 listed "STILL IN FLIGHT: token-floor measurement / runner CLI / code-judge review" — all since merged; P09/P10 said NOT_STARTED though the application package is drafted+fact-checked and both demos verified). Rows updated to the verified true state.
+- Root docs (AGENTS.md, TASK_SPEC.md, README.md, DECISIONS.md, REUSE_STRATEGY.md, SEED_PROMPT*.md) scanned: no stale gate counts, in-flight claims, or pre-CAR novelty statements found.
+
+**Evidence.** grep sweep over all root *.md (stale counts / in-flight / pending-sign-off / HEAD refs) → clean; plan rows now cite af3890b/1f45112/8005c62/c0e92ea with the gate 248/8.
+
+**Next.** Same program gates: HUMAN two-key → R-2 live pre-flight → R-1 pin check → single-command launch.
