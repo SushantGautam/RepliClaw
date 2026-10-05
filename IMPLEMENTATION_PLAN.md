@@ -1,5 +1,5 @@
 # Active plan v2 — RepliClaw Evidence-Escrow Scientific Swarm
-Revision 2026-10-08; **proposal pending team alignment, NOT a guarantee of winning**. This plan supersedes v1 task sequencing after safe checkpoint/migration. Source scope: Hans's Oct 7 slide deck (shared HTML), ScienceClaw official 2026 rubric and submission, recent primary prior art, existing RepliClaw implementation.
+Revision 2026-10-08 (rebranded 2026-10-09: independent research project, SimuMet AI Safety); the plan is a proposal pending team alignment, not a claim of success. This plan supersedes v1 task sequencing after safe checkpoint/migration. Source scope: Hans's Oct 7 slide deck (shared HTML), ScienceClaw official 2026 rubric and submission, recent primary prior art, existing RepliClaw implementation.
 
 ## Research mission and novelty guard
 **Core experiment**: decentralized agents form and independently precommit predictions about competing explanations for an AI system failure, execute frozen SimpleAudit counterfactuals, publish evidence, and self-allocate subsequent experiments. Demonstrate actual evidence-induced choice changes under a controlled comparison against a **strong adaptive central manager**. Read docs/EVIDENCE_ESCROW_SWARM.md and docs/PRIOR_ART_NOVELTY_GATE.md before implementing. AutoScientists 2026 already does decentralized scientific search; do not claim that alone as new.
@@ -19,10 +19,10 @@ Do not cancel their uncommitted work blindly. First send the checkpoint prompt i
 | P06 controlled and held-out cases | CRITICAL / A | bg builder agent d7624f80 @ .worktrees/p06; experiments/fixtures, sealed evaluator | P01,P02 design | same allowed information all strategies; evaluator oracle truly inaccessible; distinct retrieval/reasoning/judge faults; known data rights | DONE @ p06/secondary-case 859aa4e (Tox21 AR-agonist, deterministic RDKit, sealed oracle, replay + leakage + judge-sole-reader tests) — merged into run branch; science judge confirmed it meets the P02 verification bar |
 | P07 integrate full vertical slice | CRITICAL / B | integration owner; cross-module glue | P02,P03,P04,P06 | 3+ agents; commit→execute→verified reveal→dynamic task choice→validated output→counterevidence/stop reason | DONE @ p07/integration 7ccfbaa: EESS slice (commit→reveal→counterfactual execute→choice_trace→verified evidence), broker B1 atomic-claim (6/10-proc race proof), ledger M2/M3/M4 + code-judge N1/N3 closed (stress-verified); 7 slice tests + demo; code judge APPROVE-WITH-CONDITIONS→conditions closed |
 | P08 real experimental baselines and ablations | CRITICAL / B | experiment engineer + science judge | P05,P06,P07 | preregistered S0/S3/S4/S5, no-escrow and random policy, negative findings preserved, sample/CI/denominator truth | IN_PROGRESS (window GATED on HUMAN two-key — science key SATISFIED via round-3 APPROVE-WITH-CONDITIONS @ `c0e92ea`). DONE: offline arms + parity; scorer @ 3f3928b; live S5/A1/A3 arm @ d0cb054; prereg v1.1 erratum @ d4c6f6b; **A8 RC-1 live-executor parity MERGED @ a708523; A9 M-1 artifact asymmetry MERGED @ 3491032**; **one-command campaign launch harness BUILT + code-judged (MERGE-NOT-OK → all 7 findings remediated, independent re-review MERGE-OK) @ af3890b** (scripts/campaign.py + 7 tests; docs/experiments/LIVE_CAMPAIGN_LAUNCH_PROTOCOL.md); **R-2 preflight tool DONE @ 1f45112** (scripts/r2_preflight.py + 6 tests, E2E smoke). REMAINING (all gated on the human two-key, sequence per launch protocol): R-2 live pre-flight (3 arms × 1 run → floor_r2.json committed) → R-1 final pin check → single-command launch (6 arms × 20 runs, 10.8M ceiling) → scorer. Gate: 248/8 green, ruff+mypy clean. Window 2026-10-10→23 |
-| P09 application package | CRITICAL / A | human team review; docs/APPLICATION_V2.md | P01, team agreement | exact three mandatory answers, verified biographies/links, deadline Oct 16, actual submission confirmation from human; not an agent-autosubmit | IN_PROGRESS: all 5 application docs drafted + independently fact-checked (0 fabricated claims; 29 stale refs repaired @ 8005c62) + fact-check list F33d current; **BLOCKED on human team review + actual submission** (deadline Oct 16) |
+| P09 public project description | CRITICAL / A | human team review; docs/APPLICATION_V2.md | P01, team agreement | exact three mandatory answers, verified biographies/links, deadline Oct 16, actual submission confirmation from human; not an agent-autosubmit | IN_PROGRESS: all 5 application docs drafted + independently fact-checked (0 fabricated claims; 29 stale refs repaired @ 8005c62) + fact-check list F33d current; **BLOCKED on human team review + actual submission** (deadline Oct 16) |
 | P10 reproducibility/demo | HIGH / C | demo worker + code/science judges | P07,P08 | fresh install, saved replay, authentic live bounded run, 3–4 minute *proposed* narrative, inspectable timestamps and artifacts | IN_PROGRESS: both demos (hero + slice) independently verified passing offline (agent a95be84d; artifacts artifacts/demo-*/run-20261009-*/), 4/4 EESS mechanics confirmed in actual output, narrative in docs/application/DEMO_NARRATIVE.md; REMAINING: fresh-install walkthrough + (post-launch) authentic live bounded run |
 | P11 external-team reuse | HIGH/BONUS / C | small integration worker | P07 | verified another team runs CLI/API and benefits; otherwise mark not achieved | NOT_STARTED |
-| P12 event final submission | CRITICAL / EVENT | human/lead | P09,P10 | official latest final instructions verified; packaging/upload as specified; evidence and limitations; do not invent form/time | NOT_STARTED |
+| P12 public release | CRITICAL / RELEASE | human/lead | P09,P10 | repo publish (github.com/SushantGautam/RepliClaw), README+demo video, evidence archive, license, citation; evidence and limitations; do not overclaim | IN_PROGRESS (repo renamed; docs rebrand in flight) |
 
 ## Old WIP salvage map
 - old F00 → P00, old F01 → P05, old F02 → P02, old F03 → P05/P08, old F04/F06 → P04, old F05 → P06 (old molecular case may remain secondary), old F07 → P03, old F08 → P08, old F09 → P11, old F10 → P09/P10/P12.
@@ -41,20 +41,17 @@ G2 first causal intervention: repeatable SimpleAudit input change → actual out
 G3 reliable evidence escrow: two agents independently precommit before peer information; tamper/phase tests.
 G4 genuine local agency: different worker claims need without central allocator; evidence-injection replay changes agent choice and produces trace.
 G5 scientific validity: blinded controlled cases, S3 parity and no-escrow comparison, meaningful primary endpoint and honest intervals; science judge.
-G6 end-to-end demo/submission: external rerun, real case regression, no fabricated claims, final official hand-in procedure checked.
+G6 end-to-end demo/release: external rerun, real case regression, no fabricated claims, public-release procedure checked.
 After **every** gate save docs/checkpoints/CP-<date>-<ticket>.md with SHA, commands, observed outputs, negative findings, old/new mapping and next action, update PROGRESS.md append-only, and compact EXECUTION_STATE.md. If gates fail, correct issue; never weaken tests.
 
-## Decision deadlines
-- Oct 08–10: migrate and select one demonstrably differentiable root-cause case; submit team-aligned project framing early if available.
-- Oct 11–15: first demonstrable causal loop, application review/submission (early deadline Oct 16), local choice prototype and baselines.
-- Oct 16–23: fair held-out comparisons, upgrades for credible results, partner outreach.
-- Oct 24–29: clean replay, reviewers, backup video, final guide; verify organizer instructions.
-- Oct 30–Nov 01: ScienceClaw event and final deliverables.
+## Release milestones (live experiment window 2026-10-10 → 23)
+- Oct 08–10: migrate and select one demonstrably differentiable root-cause case; team-aligned project framing.
+- Oct 11–15: first demonstrable causal loop; public project description review; local-choice prototype and baselines.
+- Oct 10–23: **live research campaign window** (preregistered; six arms × 20 runs; single-command launch).
+- Post-campaign: counterevidence-first result analysis, clean replay, independent re-review, backup demo, release guide.
 
 ## Cut scope aggressively if behind
-P02 + P03 + P04 + P05 + P07 + one real controlled case + application before optional nice-to-have. If decentralized autonomy doesn't really emerge, report limits and prioritize a valid empirical result. Do not shift to broad Tox21 or due diligence unless there's a completed credible case and team approval. No blockchain or dashboards.
+P02 + P03 + P04 + P05 + P07 + one real controlled case + public description before optional nice-to-have. If decentralized autonomy doesn't really emerge, report limits and prioritize a valid empirical result. Do not shift to broad Tox21 or due diligence unless there's a completed credible case and team approval. No blockchain or dashboards.
 
 ## Necessary provenance
-- Official competition: https://scienceclawhack.ai/
-- Application: https://scienceclawhack.ai/apply.html
 - Prior work: https://arxiv.org/abs/2605.28655 ; https://www.nature.com/articles/s41586-026-10644-y ; https://www.nature.com/articles/s41586-026-10652-y ; https://github.com/microsoft/AgentRx

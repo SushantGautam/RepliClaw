@@ -1,25 +1,15 @@
-> **SUPERSEDED STRATEGY V1 BELOW (preserved for historical rationale).** Active v2: [RepliClaw Evidence-Escrow Swarm](EVIDENCE_ESCROW_SWARM.md), [Novelty vs AutoScientists/AgentRx](PRIOR_ART_NOVELTY_GATE.md), [Flagship SimpleAudit interventions](FLAGSHIP_CASE.md), [Experimental protocol](EXPERIMENT_PROTOCOL_V2.md), [current plan](../IMPLEMENTATION_PLAN.md). No firstness or winning guarantees. Preserve existing agents' work with [migration guide](AGENT_MIGRATION.md).
+> **SUPERSEDED STRATEGY V1 BELOW (preserved for historical rationale).** Active v2: [RepliClaw Evidence-Escrow Swarm](EVIDENCE_ESCROW_SWARM.md), [Novelty vs AutoScientists/AgentRx](PRIOR_ART_NOVELTY_GATE.md), [Flagship SimpleAudit interventions](FLAGSHIP_CASE.md), [Experimental protocol](EXPERIMENT_PROTOCOL_V2.md), [current plan](../IMPLEMENTATION_PLAN.md). No firstness guarantees; all claims require reproducible evidence. Preserve existing agents' work with [migration guide](AGENT_MIGRATION.md).
 
 ---
 
-# ScienceClaw 2026: RepliClaw competition strategy
-Last verified: 2026-10-08. This is the active *new* research program; the six-task prototype is a baseline, not the final scientific result.
+# RepliClaw research strategy & positioning
+Independent research project — SimuMet AI Safety research department (https://www.simulamet.no/research/research-departments/ai-safety)
+Last verified: 2026-10-08. This is the active research program; the six-task prototype is a baseline, not the final scientific result. (Filename kept for continuity; the project is now an independent public research project, not an event entry.)
 
 ## Mission and falsifiable hypothesis
 Build **RepliClaw: a decentralized scientific replication and falsification collective** that can independently assess claims, commit before seeing peers, expose contradictory evidence, publish unmet scientific needs, autonomously select qualified participants, execute follow-up experiments, and return provenance-linked verdicts.
 
 **Primary hypothesis:** Under matched resources and blinded held-out tasks, independent commit/reveal plus decentralized evidence-conditional follow-up improves scientific claim verification/recovery versus the strongest single-agent and centralized multi-agent comparators. This is a hypothesis, not an established result. Report negative/null findings honestly.
-
-### What the organizer actually requires
-Official: https://scienceclawhack.ai/ (checked 2026-10-08)
-- Problem significance and complexity **20%**
-- Scientific/technical impact **25%**
-- Decentralized agency **20%**
-- Collective capability **25%**
-- Execution and validation **10%**
-- Collaboration bonus **up to +10** for material cross-team reuse.
-
-A functioning scientific system with measured results is required; architecture diagrams alone do not score. Event Oct 30–Nov 1, 2026; early application Oct 16, expected decisions Oct 19. **Do not invent final submission format or final upload deadline**; verify later against official instructions. Team sizes 2–5.
 
 ## Honest baseline inventory (as of 2026-10-08)
 Already present: Python package, 3 method roles, context gating, SHA-256 commit/reveal integrity, evidence graph, fixed-path follow-up, five nominal strategies, CLI/Python verify surface, OTel span hooks, deterministic fixtures, saved live LLM demo and tests.
@@ -55,20 +45,19 @@ Control same model/tool capabilities, data access, task order and capped total b
 Report task-level correctness, false accept/reject with explicit denominators, abstention, calibration (if probabilities), recovery from *observed* pre-followup error/uncertainty, inter-agent error correlation with sufficient cases, cost-quality frontier and confidence intervals. Use blinded held-out cases, repeated seeds and error taxonomy; do not claim p-values from six examples.
 Ask the scientific reviewer to reject comparisons where baselines are intentionally crippled or given inferior tools.
 
-## Winning artifacts
+## Publication-quality artifacts
 - Reproducible executable scientific result, one-command demo, raw output, code, provenance;
 - budget-matched baseline + ablation report including negative results;
 - evidence of genuine autonomous and decentralized need-fulfillment (not a scripted node);
 - proof of strong isolation and commitment ordering;
-- external-team `verify()` integration and acknowledgement of benefit where permitted;
-- short demo narrative and application aligned exactly to rubric.
-Do not build a new dashboard/database when SimpleAuditStudio, ScienceClaw or OTel can satisfy the need.
+- third-party `verify()` integration and acknowledgement of benefit where permitted;
+- short demo narrative and project documentation aligned exactly to the claims made.
+Do not build a new dashboard/database when SimpleAuditStudio, the ScienceClaw upstream library (lamm-mit/scienceclaw) or OTel can satisfy the need.
 
-## Event and submission accuracy
-Application at https://scienceclawhack.ai/apply.html before Oct 16 early deadline; event Oct 30–Nov 1. The official public rubric does not yet confirm a final upload form, video length or repo visibility requirement; the event team must confirm these before hand-in. Keep `docs/SUBMISSION_CHECKLIST.md` current.
+## Public release & publication
+Publish as an open research project: paper/preprint, README, and project website must be ready alongside the artifact release. Sequence: (1) code freeze with verified SHAs and rerunnable manifest, (2) evidence completeness audit (raw logs, CIs, negative results), (3) docs/README/website readiness review, (4) external review of novelty claims against the prior-art gate, (5) public release. Do not claim results that are not reproducible from the released artifacts.
 
 ## Source links
-- https://scienceclawhack.ai/
 - https://code.visualstudio.com/docs/agents/run/subagents
 - https://code.visualstudio.com/docs/agents/guides/delegate-two-tasks
 - https://code.visualstudio.com/docs/agent-customization/custom-agents

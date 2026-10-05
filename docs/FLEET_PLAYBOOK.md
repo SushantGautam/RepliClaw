@@ -16,13 +16,13 @@ Active from 2026-10-08. The orchestrator must use the exact current `EXECUTION_S
 References: https://code.visualstudio.com/docs/agents/guides/delegate-two-tasks ; https://code.visualstudio.com/docs/agents/run/sessions/manage-sessions ; https://code.visualstudio.com/docs/agents/run/subagents
 
 ## Fleet lifecycle
-1. **Recon** (parallel, read-only): code correctness audit, ScienceClaw API audit, benchmark validity audit, competition/submission verification. Each returns file+line references, risks, alternatives and experiment recommendations.
+1. **Recon** (parallel, read-only): code correctness audit, ScienceClaw API audit, benchmark validity audit, research-campaign/release verification. Each returns file+line references, risks, alternatives and experiment recommendations.
 2. **Plan/claim**: orchestrator verifies `IMPLEMENTATION_PLAN.md` and assigns one open ticket per implementation worker. Record owner, base SHA, branch/worktree, owned paths, contract, exact tests, integration points and acceptance evidence in `EXECUTION_STATE.md`.
 3. **Parallel implementation**: workers stay in their worktree and own disjoint paths. Each creates code, tests and a brief handoff note, commits on its feature branch, and runs focused checks. Never commit to `repl-claw-dev` from concurrent workers.
 4. **Independent review**: two independent reviews per P0 change: (a) code/security/concurrency critic; (b) scientific/experimental validity critic. Reviewers do not edit the author's worktree. Report blockers by severity and evidence, not vibes.
 5. **Integrate**: only the orchestrator/chosen integration owner merges or cherry-picks into `repl-claw-dev` one feature at a time. Resolve conflicts, rerun focused + entire test suite + static gates, then prove e2e behavior with saved artifacts.
 6. **Checkpoint**: after every merged P0 ticket or successful vertical slice, update state/plan, append PROGRESS, create `docs/checkpoints/CP-*.md` snapshot with commit SHA and commands/results. Demonstrate current functionality rather than a future promise.
-7. **Continue**: execute ready tickets based on dependencies and critical path; do not declare competition ready because the prototype's old AC01–AC18 passed.
+7. **Continue**: execute ready tickets based on dependencies and critical path; do not declare research-ready because the prototype's old AC01–AC18 passed.
 
 ## Ready-to-run first fleet
 | Worker | Ticket | Owned paths (primary) | Depends on | Stop condition |

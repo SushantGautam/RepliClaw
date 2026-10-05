@@ -1,13 +1,13 @@
-# SCIENCECLAW CURRENT RESEARCH MISSION (v2, supersedes older completion targets)
+# REPLICLAW RESEARCH MISSION (v2, supersedes older completion targets)
 
-**Primary scientific problem:** decentralized, independently precommitted, experimentally verified **AI failure cause diagnosis** using a shared evidence ledger and local experiment selection. Build only what can be rigorously measured. See `docs/EVIDENCE_ESCROW_SWARM.md`, `docs/EXPERIMENT_PROTOCOL_V2.md`, `docs/PRIOR_ART_NOVELTY_GATE.md`, `docs/FLAGSHIP_CASE.md`. The RepliClaw prototype's historic goals AC01–AC18 remain archival. Next work tickets are P00–P12 in `IMPLEMENTATION_PLAN.md`. Resume safely using `docs/AGENT_MIGRATION.md`. A green old test suite or deterministic toy benchmark does NOT complete these new scientific acceptance criteria. Scientific originality relative to AutoScientists/AgentRx remains to be demonstrated, not presumed. A human must review application and final submission.
+**Primary scientific problem:** decentralized, independently precommitted, experimentally verified **AI failure cause diagnosis** using a shared evidence ledger and local experiment selection. Build only what can be rigorously measured. See `docs/EVIDENCE_ESCROW_SWARM.md`, `docs/EXPERIMENT_PROTOCOL_V2.md`, `docs/PRIOR_ART_NOVELTY_GATE.md`, `docs/FLAGSHIP_CASE.md`. The RepliClaw prototype's historic goals AC01–AC18 remain archival. Next work tickets are P00–P12 in `IMPLEMENTATION_PLAN.md`. Resume safely using `docs/AGENT_MIGRATION.md`. A green old test suite or deterministic toy benchmark does NOT complete these scientific acceptance criteria. Scientific originality relative to AutoScientists/AgentRx remains to be demonstrated, not presumed. Human review owns any external publication of results.
 
 ---
 
 # RepliClaw — Task Specification
 
 ## Goal
-Build a competition-ready prototype for the ScienceClaw Hackathon that tests and demonstrates the following scientific/engineering hypothesis:
+Build a research-grade prototype for the RepliClaw research program that tests and demonstrates the following scientific/engineering hypothesis:
 
 > Preserving epistemic independence between autonomous scientific agents before they exchange conclusions reduces correlated errors and false scientific consensus compared with single-agent, fixed-workflow, isolated-vote, and open-debate systems under comparable resource budgets.
 
@@ -15,17 +15,24 @@ Working name: **RepliClaw**.
 
 The product is a decentralized blind replication/falsification collective, not another generic hypothesis-generation swarm.
 
-## Competition constraints
-ScienceClaw Hackathon: Oct 30–Nov 1, 2026, MIT Media Lab. Early applications close Oct 16. The official judging rubric emphasizes:
+## Project constraints
+RepliClaw is an independent research project (SimuMet AI Safety research
+department); there is no external submission target. Design constraints that
+shape the work:
 
-- Scientific/Technical Impact — 25%
-- Collective Capability — 25%
-- Problem Significance & Complexity — 20%
-- Decentralized Agency — 20%
-- Execution & Validation — 10%
-- Collaboration bonus — up to +10 for capabilities that materially strengthen other teams
-
-Source checked 2026-10-07: https://scienceclawhack.ai/
+- Scientific/Technical Impact and rigorous, falsifiable measurement are the
+  top priorities; results must be reproducible from committed evidence.
+- Collective capability must be demonstrated, not assumed (independent
+  pre-outcome commitments, verified counterfactual execution, decentralized
+  selection — each measured against a strong central-manager comparator).
+- Problem significance and complexity are stated in
+  [docs/EVIDENCE_ESCROW_SWARM.md](docs/EVIDENCE_ESCROW_SWARM.md).
+- Decentralized agency must be real: no hidden central coordinator on the
+  EESS arm (audited in code + traces).
+- Execution & validation: every claim backed by committed run artifacts and
+  an independent review.
+- Collaboration: a minimal reusable interface for other research teams (see
+  Cross-team collaboration surface below).
 
 Optimize the implementation for convincing measured capability, not architectural complexity.
 
@@ -133,7 +140,7 @@ Do not manufacture desired results. If RepliClaw underperforms, preserve the res
 A small real benchmark adapter (for example a suitable FIRE-Bench subset or another executable scientific task suite) is desirable after the controlled benchmark works, but must not block the core demo.
 
 ## Cross-team collaboration surface
-Provide a minimal reusable interface suitable for another ScienceClaw team during the event, e.g. conceptually:
+Provide a minimal reusable interface suitable for another research team, e.g. conceptually:
 
 ```bash
 repliclaw verify --claim "..." [--artifact ...]
@@ -194,5 +201,5 @@ The final demo should be able to show, using real generated outputs:
 Prefer a small testable core with explicit interfaces. Maintain deterministic fixtures where possible. Separate orchestration/coordination policy from scientific task adapters so baselines differ primarily in coordination regime rather than unrelated code.
 
 
-## 2026-10-08 competition extension — authoritative for new work
-The acceptance criteria AC01–AC18 above describe historical prototype scope, NOT the current scientific competition finish line. Active acceptance tickets F00–F10, dependency order and verification gates are in `IMPLEMENTATION_PLAN.md`, `docs/COMPETITION_STRATEGY.md`, `docs/QUALITY_GATES.md`. Competition COMPLETE requires a *real executable scientific finding*, genuinely decentralized need claim/fulfillment, verified per-agent commit-before-reveal, faithful resource-matched baselines plus ablations, independent scientific and code reviews, and reproducible experiment artifacts. Cross-team demonstration is bonus but should be actively sought. Keep negative/null outcomes. Do not invent final submission details.
+## 2026-10-08 research-program extension — authoritative for new work
+The acceptance criteria AC01–AC18 above describe historical prototype scope, NOT the current research-program finish line. Active acceptance tickets F00–F10, dependency order and verification gates are in `IMPLEMENTATION_PLAN.md`, `docs/COMPETITION_STRATEGY.md`, `docs/QUALITY_GATES.md`. Program COMPLETE requires a *real executable scientific finding*, genuinely decentralized need claim/fulfillment, verified per-agent commit-before-reveal, faithful resource-matched baselines plus ablations, independent scientific and code reviews, and reproducible experiment artifacts. Cross-team demonstration is bonus but should be actively sought. Keep negative/null outcomes. Do not invent release details.

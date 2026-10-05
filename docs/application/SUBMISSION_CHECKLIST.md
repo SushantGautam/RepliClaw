@@ -1,8 +1,10 @@
-# P09 — Submission Checklist (for the human team)
+# P09 — Release Checklist (for the human team)
 
-Everything a human must do to turn `DRAFT_ANSWERS.md` into a submitted application.
-**Deadline: 2026-10-16** (event window Oct 30 – Nov 1; decisions ~Oct 19 — per
-`docs/APPLICATION_V2.md` @ `1fe944c`; **re-confirm dates on the official site**).
+Everything a human must do to turn `DRAFT_ANSWERS.md` into the **public project
+presentation** (README/website/paper source, public repo, demo video, evidence archive,
+license, citation) of the independent RepliClaw research project
+(https://github.com/SushantGautam/RepliClaw). This is a public release, not a competition
+submission; there is no external deadline.
 
 Do the steps **in order**. Each step ends with ✅ when done.
 
@@ -17,7 +19,7 @@ Do the steps **in order**. Each step ends with ✅ when done.
    oracle-gated scorer + passing self-test, live arm *implemented + tested*, live window, novelty
    positioning). It also records a **critical test-count discrepancy** (P09 re-verified the
    historical module counts **78 / 73 / 74**, not the 62 / 69 / 74 the old checkpoint docs record).
-2. Note the distinction that carries the whole application: **offline** (runnable now) vs
+2. Note the distinction that carries the whole presentation: **offline** (runnable now) vs
    **implemented + tested** (the live arm) vs **scheduled live** (not yet executed). The headline
    live matched-budget result is `[PENDING: P08 live]`; the offline parity numbers are feasibility
    evidence only, not the live result.
@@ -31,11 +33,11 @@ Find them all: `grep -n 'PENDING' docs/application/DRAFT_ANSWERS.md`
 
 | Placeholder | Who resolves | What to do |
 |---|---|---|
-| `[PENDING: TEAM]` (Fields 2, 4) | human team | Insert real names, roles, and confirm each Field-4 capability box is true. **Tick only boxes you can stand behind** — the draft already warns against over-ticking. |
-| `[PENDING: F17]` / team built SimpleAudit at SimulaMet | human team | Confirm true before submit (FACT_CHECK_LIST F17 = UNVERIFIED). |
-| `[PENDING: ORGANIZER]` (Field 1) | human + form | Pick the challenge area on the live form (see Step 6 questions). |
-| `[PENDING: P08 live]` (Field 3) | P08 live runs (window 2026-10-10→23) | The **live** matched-budget numbers do not exist yet (live runs are scheduled, not executed — F26/F27). At submit time (deadline 2026-10-16) they will almost certainly still be running, so state honestly: "the live matched-budget comparison is scheduled for the run window; the live arm, scorer and offline parity campaign are already built and tested." Do **not** invent live numbers, and do **not** paste the offline parity numbers (F21/F23) as the live result. |
-| `[PENDING: P11/external-reuse]` (Field 5) | P11 ticket | Only claim external reuse if a real team used it; otherwise write "no external reuse yet (as of 2026-10-08)". |
+| `[PENDING: TEAM]` (sections 2, 4) | human team | Insert real names, roles, and confirm each section-4 capability is true. **List only capabilities you can stand behind** — the draft already warns against over-listing. |
+| `[PENDING: F17]` / team built SimpleAudit at SimulaMet | human team | Confirm true before release (FACT_CHECK_LIST F17 = UNVERIFIED). |
+| `[PENDING: ORGANIZER]` (section 1) | — | REMOVED-as-superseded: there is no event form or challenge-area field; the focus area is stated in the presentation. |
+| `[PENDING: P08 live]` (section 3) | P08 live runs (window 2026-10-10→23) | The **live** matched-budget numbers do not exist yet (live runs are scheduled, not executed — F26/F27). At release time they will almost certainly still be running, so state honestly: "the live matched-budget comparison is scheduled for the run window; the live arm, scorer and offline parity campaign are already built and tested." Do **not** invent live numbers, and do **not** present the offline parity numbers (F21/F23) as the live result. |
+| `[PENDING: P11/external-reuse]` (section 5) | P11 ticket | Only claim external reuse if a real team used it; otherwise write "no external reuse yet (as of 2026-10-08)". |
 
 **Now built and tested — no longer pending (do NOT re-mark as PENDING):**
 - **Offline 4-arm parity campaign** (S0/S3/S4 + offline-S5, one shared envelope, `parity` report) —
@@ -47,7 +49,7 @@ Find them all: `grep -n 'PENDING' docs/application/DRAFT_ANSWERS.md`
 - **Live-LLM arms** `repliclaw.eess_live` + live S4/S3/S0 (all six primary arms) — **implemented + contract-tested offline under
   a fake client** (F26). Say exactly that: *implemented + tested*, **not** "live runs executed."
 
-If any of the now-built items regressed by submit time, re-mark it honestly as in progress — but as
+If any of the now-built items regressed by release time, re-mark it honestly as in progress — but as
 of 2026-10-09 (`repl-claw-dev` @ `945986f`) all are green in the 240/8 run-branch gate
 (235/8 at A9 tip `3491032`) (F20).
 
@@ -59,7 +61,7 @@ of 2026-10-09 (`repl-claw-dev` @ `945986f`) all are green in the 240/8 run-branc
 
 ## Step 2 — Re-verify the test gates you will cite (run these, don't assume)
 
-**Primary gate now lives on the run branch, not the module worktrees.** The application cites the
+**Primary gate now lives on the run branch, not the module worktrees.** The presentation cites the
 run-branch full gate (**240 passed, 8 skipped** at the run-branch tip `945986f`; 235/8 at A9
 tip `3491032` — the current verified count, F20)
 and the scorer self-test (F20/F25). Run **this first** — it is the number the draft actually makes:
@@ -83,7 +85,7 @@ git rev-parse --short HEAD          # expect 945986f (the current run-branch tip
 > campaign-harness tests in `tests/test_p08_campaign.py`) (F20; the 213/8 @ `d5c6701` count was
 > independently confirmed by the science-judge re-run in
 > `docs/fleet/reviews/SCIENCE-JUDGE-V12-SIGNOFF-NOT-APPROVE-20261008.md`).
-> If the tip has moved again by submit time (e.g. the campaign-harness commit lands), re-run
+> If the tip has moved again by release time (e.g. the campaign-harness commit lands), re-run
 > this block there and trust the fresh number, not this one.
 
 The per-module counts below (P02 78 / P03 73 / P04 74) are **historical module checkpoints**
@@ -130,16 +132,16 @@ Note: `-q` is already in each tree's `pyproject.toml` (`addopts`), so **do not a
 
 1. For every `[F#]` tag in `DRAFT_ANSWERS.md`, confirm a matching row exists in
    `FACT_CHECK_LIST.md` and its status is `RE-VERIFIED` / `SOURCE-ONLY` (or you've explicitly
-   accepted a `UNVERIFIED`/`NO-NETWORK` item for this submission).
-2. Grep for leftover scaffolding that must **not** reach the form:
+   accepted a `UNVERIFIED`/`NO-NETWORK` item for this release).
+2. Grep for leftover scaffolding that must **not** reach the published text:
 
 ```bash
 grep -nE '\[PENDING|\[F[0-9]+\]|<sub>|FACT_CHECK_LIST' docs/application/DRAFT_ANSWERS.md
 ```
 
 Everything that hits must be handled: `[F#]` tags and `<sub>…</sub>` basis notes are **stripped**
-before pasting (they are for the team, not the reviewer). `[PENDING]` tokens must be replaced per
-Step 1.
+before publishing (they are for the team, not the audience). `[PENDING]` tokens must be replaced
+per Step 1.
 
 ✅ _no stray tags reach the final text_
 
@@ -147,50 +149,48 @@ Step 1.
 
 ## Step 4 — Assemble the final text
 
-1. Copy each Field from `DRAFT_ANSWERS.md` **with the `<sub>…</sub>` basis lines and `[F#]` tags
-   removed.**
+1. Copy each numbered section from `DRAFT_ANSWERS.md` **with the `<sub>…</sub>` basis lines and
+   `[F#]` tags removed.**
 2. Keep the **global honesty constraints** section's spirit (no firstness / superiority /
-   reviewer-approval claims) — it is *not* pasted, but the body must already comply.
-3. Confirm the body never says "first", "novel", "state of the art", "reviewer approved", or
-   "will win". The only novelty wording allowed is the scoped: *"as of 2026-10-08, across the
-   surveyed prior art, we are not aware of …; we do not claim firstness."*
+   reviewer-approval claims) — it is *not* published, but the body must already comply.
+3. Confirm the body never says "first", "novel", "state of the art", "reviewer approved", or any
+   winning/superiority claim. The only novelty wording allowed is the scoped: *"as of 2026-10-08,
+   across the surveyed prior art, we are not aware of …; we do not claim firstness."*
 4. Confirm the **tested-vs-executed** wording survived stripping: the live arm must read as
    "implemented + unit/contract-tested offline (no live run executed)", and the offline parity
    numbers must not be labelled as the live matched-budget result (A8 / F26 / F27).
 5. Fill the **project title** (use the Naming block's fallback unless you pick a better one).
-✅ _clean, submission-ready text drafted_
+✅ _clean, release-ready text drafted_
 
 ---
 
-## Step 5 — Attach team materials
+## Step 5 — Prepare team materials
 
 - **Biographies / profiles** for each named teammate (the draft's `[PENDING: TEAM]` spots).
-- Confirm every Field-4 capability box is backed by a named, capable person.
-- If the form asks for team size / institution, make it consistent with the biographies.
+- Confirm every listed capability is backed by a named, capable person.
+- Keep team size / institution consistent with the biographies and the SimuMet AI Safety
+  department attribution.
 ✅ _bios attached and consistent_
 
 ---
 
-## Step 6 — Prepare answers for the official form / organizer
+## Step 6 — Prepare the public repo, README, demo and evidence links
 
-Check the live form (`scienceclawhack.ai/apply.html`) for: exact field order, character limits,
-required media (video? demo link? slides?), and whether a **challenge area** is a real field.
-Recommended questions to the event (email/form) if anything is unclear:
+REMOVED-as-superseded: the old application-portal steps (check the
+`scienceclawhack.ai/apply.html` form for field order/character limits, challenge-area
+selection, organizer questions, and deadline) no longer apply — this is a public release, not a
+form submission.
 
-1. Which challenge area / track does this submission fall under?
-2. Are all five fields in the brief required, or only the three long-form answers?
-3. Is a live demo / video link mandatory by 2026-10-16, or can it be a link that updates later?
-4. Confirm the exact application deadline (date + timezone) and the decisions date.
-5. Is a public repo + reproducible-run link the expected "evidence" link?
-
-**Demo / evidence link:** use the **public** repo
-`https://github.com/SushantGautam/ScienceClawHackathon`. Before sharing, confirm it is set to
+**Repo publish + evidence link:** use the **public** repo
+`https://github.com/SushantGautam/RepliClaw`. Before sharing, confirm it is set to
 **public** and pin the link to the **run branch `repl-claw-dev` at a specific commit** (as of this
 rework, `945986f` — current verified gate 240/8 (235/8 at A9 tip `3491032`); re-run the Step-2
 gate at the pinned SHA before
-submitting) so the reviewer sees exactly what the test counts were measured on. The full
+publishing) so the reader sees exactly what the test counts were measured on. The full
 P02–P08 stack now lives on that branch; the old feature branches (`p02/…`, `p03/…`, `p04/…`,
-`p07/integration`) are merged and historical.
+`p07/integration`) are merged and historical. The README must state the project's focus:
+decentralized scientific collectives for causal diagnosis of AI failures, and link the evidence
+archive (see below).
 
 **What to attach / point at as reproducible evidence (all runnable offline, 0-token, no key):**
 - The **offline 4-arm parity campaign** (S0/S3/S4 + offline-S5 under one shared `BudgetEnvelope`,
@@ -199,17 +199,24 @@ P02–P08 stack now lives on that branch; the old feature branches (`p02/…`, `
 - The **scorer self-test** — `.venv/bin/python -m repliclaw.p08.score --self-test` → `SELF-TEST: PASS` (F25).
 - The **full run-branch gate** — `pytest`/`ruff`/`mypy` (240/8 @ `945986f`; 235/8 @ `3491032`) (F20).
 Do **not** attach live-LLM run artifacts — none exist yet (live runs are scheduled, F26/F27).
-✅ _questions asked (or confirmed from the form); demo link ready and public_
+
+**Release package (public):**
+- **README** presenting the project as independent research (repo: `https://github.com/SushantGautam/RepliClaw`).
+- **Demo video** (or recorded `scripts/demo_hero.py` session) of the one-command offline demo.
+- **Evidence archive** link pinned to the run-branch SHA (artifacts under `artifacts/`).
+- **License** file and a **citation** block (project name, authors, repository URL, commit SHA,
+  date).
+✅ _repo public; README/demo/evidence-archive/license/citation ready and pinned_
 
 ---
 
-## Step 7 — Final pre-submit review
+## Step 7 — Final pre-release review
 
-- [ ] No `[PENDING]`, no `[F#]`, no `<sub>` tokens in the text you paste.
-- [ ] Every number in the submission matches a green row in `FACT_CHECK_LIST.md` (or is honestly
+- [ ] No `[PENDING]`, no `[F#]`, no `<sub>` tokens in the text you publish.
+- [ ] Every number in the presentation matches a green row in `FACT_CHECK_LIST.md` (or is honestly
       marked "in progress / not yet measured").
 - [ ] No firstness / superiority / approval / winning claims.
-- [ ] Title, team names, and boxes are consistent.
+- [ ] Title, team names, and capabilities are consistent.
 - [ ] Evidence/demo link is public and pinned.
 - [ ] Someone who was **not** the one drafting re-reads it once.
 
@@ -217,25 +224,24 @@ Do **not** attach live-LLM run artifacts — none exist yet (live runs are sched
 
 ---
 
-## Step 8 — Submit (human, in a browser — do not automate)
+## Step 8 — Publish the release (human, in a browser — do not automate)
 
-1. Open `scienceclawhack.ai/apply.html` in a browser (the draft's notes are not a network action;
-   only a human completes this step).
-2. Paste the assembled text into the matching fields; attach bios/media.
-3. Select the challenge area (or leave as the form defaults if Step 6 got an answer).
-4. Double-check the rendered submission (no markdown artifacts, no stray tags).
-5. Submit **before 2026-10-16** (leave margin — don't submit on the deadline hour).
-6. **Save the confirmation / receipt** (email or screenshot) to a **private** location; do not
-   paste it into the repo.
+1. Set `https://github.com/SushantGautam/RepliClaw` to **public** and verify the run branch
+   `repl-claw-dev` is pushed at the pinned commit.
+2. Publish the assembled presentation text (README and any website/paper pages); add the demo
+   video, evidence archive link, license, and citation block.
+3. Double-check the rendered README/pages (no markdown artifacts, no stray tags).
+4. **Save a release record** (date + pinned commit SHA) in `PROGRESS.md` so the citation and
+   evidence links stay traceable.
 
-✅ _submitted; receipt saved privately_
+✅ _released; record saved_
 
 ---
 
-## Step 9 — If/when the live window is authorized (event-time, AFTER submission)
+## Step 9 — If/when the live window is authorized (independent of the public release)
 
 The live campaign is **scheduled** for the run window (2026-10-10 → 2026-10-23) and is **not**
-part of application verification. It may only start under a **two-key start** (F27/F28): science-judge
+part of release verification. It may only start under a **two-key start** (F27/F28): science-judge
 approval of prereg **v1.1 + v1.2-AMENDMENT** (the amendment is DRAFT and unsigned — no live run on
 v1.1 alone while it is unsigned) **and** human (project-lead) authorization, both recorded in
 `EXECUTION_STATE.md`. **The science key is SATISFIED: sign-off round 3 (2026-10-09) =
@@ -251,8 +257,8 @@ weakened**: round-3 science sign-off (satisfied @ `c0e92ea`) + human (project-le
 authorization, both recorded in `EXECUTION_STATE.md`. The **human two-key authorization is the
 only true remaining blocker** (external); before the window opens, the **R-2 S4/S3/S0
 live-token floors** must also be measured
-(`docs/experiments/R2_TOKEN_FLOOR_PREFLIGHT_PROTOCOL.md`). If the human key is in place at the
-event:
+(`docs/experiments/R2_TOKEN_FLOOR_PREFLIGHT_PROTOCOL.md`). If the human key is in place at
+window start:
 
 1. **Pre-flight (all must be green before run 1):** the primary run-branch gate (F20), the scorer
    `--self-test` (F25), P02 leakage test, the P05 parity suite (F23), and — before the window can
@@ -286,12 +292,11 @@ event:
    the offline parity campaign + slice + scorer self-test as the demonstrable offline evidence
    instead, and say so.
 
-**Do NOT** present live results in the application if they do not yet exist. The window runs
-2026-10-10 → 2026-10-23 and the application deadline is 2026-10-16 — so even once the window has
-started, complete *scored* live results will not be available before the deadline (the window ends
-2026-10-23). Live numbers will almost certainly be `[PENDING: P08 live]` at submit time; report the
-offline evidence (F20–F26) and say the live comparison is scheduled (and that sign-off rounds 1
-and 2 were NOT-APPROVE, fixed by A8 @ `a708523` and A9 @ `3491032`, and round 3 =
+**Do NOT** present live results as if they exist. The window runs 2026-10-10 → 2026-10-23;
+complete *scored* live results will not be available before the window ends (2026-10-23). If the
+public release happens before the window closes, live numbers will be `[PENDING: P08 live]` —
+report the offline evidence (F20–F26) and say the live comparison is scheduled (and that sign-off
+rounds 1 and 2 were NOT-APPROVE, fixed by A8 @ `a708523` and A9 @ `3491032`, and round 3 =
 APPROVE-WITH-CONDITIONS @ `c0e92ea` — F30–F33).
 ✅ _live runs executed only under two-key authorization (round-3 science sign-off — satisfied @ `c0e92ea` — + human key), or offline evidence reported instead_
 
@@ -299,11 +304,11 @@ APPROVE-WITH-CONDITIONS @ `c0e92ea` — F30–F33).
 
 ## Do NOT
 
-- Do **not** run a live model or make network calls as part of *application verification* —
+- Do **not** run a live model or make network calls as part of *release verification* —
   verification is the offline pytest/ruff/mypy + scorer self-test gates above. (A live run is a
-  *separate, authorized event-time* action under Step 9's two-key start, not a verification step.)
+  *separate, authorized run-window* action under Step 9's two-key start, not a verification step.)
 - Do **not** write "implemented + tested" as "live runs executed" for the live arm (A8 / F26).
 - Do **not** paste the offline parity numbers (F21/F23) as the live matched-budget result.
-- Do not `git add -A` or commit this application on behalf of other workers; this package is
-  owned under `docs/application/**` and is committed by the orchestrator.
-- Do not claim novelty, reviewer approval, or competition success anywhere in the submission.
+- Do not `git add -A` or commit this presentation package on behalf of other workers; this package
+  is owned under `docs/application/**` and is committed by the orchestrator.
+- Do not claim novelty, reviewer approval, or competition success anywhere in the presentation.

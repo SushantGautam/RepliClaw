@@ -51,10 +51,10 @@ Fairness: comparable data/tools and total budget; manager and swarm equal concur
 \`interventions/\`: frozen audit configs, actual commands, inputs/outputs and run hashes.
 \`metrics.json\`: metric definitions and denominator counts.
 \`comparison.md\`: observed run results, CIs, failures, caveats and independent reviewer signatures/links.
-Avoid changing public API or filesystem structures until design spike checks existing models and RepliClaw/ScienceClaw/SimpleAudit reuse.
+Avoid changing public API or filesystem structures until design spike checks existing models and RepliClaw / ScienceClaw (upstream library, lamm-mit/scienceclaw) / SimpleAudit reuse.
 
 ## Pre-registration acceptance
-Scientific judge **must** approve a minimal held-out manifest and S3 parity before expensive scoring. A second independent reviewer verifies T1–T8 against real traces. Don't make a final public claim from old six-fixture toy artifacts.
+An independent scientific reviewer **must** approve a minimal held-out manifest and S3 parity before expensive scoring. A second independent reviewer verifies T1–T8 against real traces. Don't make a final public claim from old six-fixture toy artifacts.
 
 ## References
-docs/EVIDENCE_ESCROW_SWARM.md; docs/PRIOR_ART_NOVELTY_GATE.md; Hans slides 3, 6–8, 10–11; official https://scienceclawhack.ai/.
+docs/EVIDENCE_ESCROW_SWARM.md; docs/PRIOR_ART_NOVELTY_GATE.md; Hans slides 3, 6–8, 10–11 (historical origin of the idea; the project is now an independent research effort, not an event entry).

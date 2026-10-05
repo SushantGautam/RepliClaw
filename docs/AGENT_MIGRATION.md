@@ -21,7 +21,7 @@ Old F03 → held-out evaluation, denominators, budgets and paired metrics remain
 Old F04 → actual ScienceClaw NeedItem/ArtifactReactor dispatch remains needed, now must support autonomous agent-selected test proposals.
 Old F05 → independent scientific-case feasibility remains useful; prefer Hans slide 8 AI failure attribution with frozen SimpleAudit experiments; do not throw away an already reproducible secondary science case.
 Old F06/F07 → decentralized leases and commit-before-peer visibility remain central, but contracts need richer prediction packets + evidence chronology.
-Old F08/F09/F10 → remain scientific comparison, cross-team bonus, end-to-end demo/application/submission.
+Old F08/F09/F10 → remain scientific comparison, external-collaboration evidence, end-to-end demo and public release.
 Agents should submit a *mapping* from working files/commits to new tickets, not rewrite work wholesale.
 
 ## Non-negotiable race/integration rules

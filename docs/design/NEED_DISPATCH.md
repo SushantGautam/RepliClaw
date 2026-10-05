@@ -453,7 +453,7 @@ writes go through the lock, the log is a total order — no split-brain.
 **Exactly-once fulfilment** is therefore: *work* may repeat (at-least-once),
 *effects* (evidence rows, verdict inputs) are exactly-once via verified-
 fulfilment dedup, *audit* is total (every claim/fulfilment event persisted).
-This is stated honestly in the design so the judges are not surprised.
+This is stated honestly in the design so external reviewers are not surprised.
 
 ### 4.5 Orphaned fulfilments (publish without a live lease)
 
@@ -523,7 +523,7 @@ unverified data accepted.**
 | Tampered reveal | **Yes** | content-hash commit/reveal (`models.py:24-40`, `runstore.py:180`) |
 | Orchestrator bias (choosing the winner) | **Yes** | eligibility + atomic claim; orchestrator never selects (2.2 step 5-6) |
 
-### 5.3 Honest limits (stated in the submission, not hidden)
+### 5.3 Honest limits (stated in the public release, not hidden)
 
 1. **Worktree/venv ≠ sandbox.** A "separate process" on the same machine
    shares the filesystem, OS user, and the local venv. A *malicious* worker
@@ -534,7 +534,7 @@ unverified data accepted.**
    sabotage. We say so.
 2. **Single host.** The broker is file-based; multi-machine would need the
    existing Infinite HTTP path or a networked lock — explicitly out of scope
-   for the competition window (Section 8).
+   for the live experiment window (Section 8).
 3. **At-least-once work.** A crash between execution and publish redoes work
    (4.4). Effects are exactly-once; work is not.
 4. **Clocks.** Lease expiry trusts the host wall clock; an NTP jump can
@@ -813,8 +813,8 @@ processes (G2/G6), SPEC-6 = fairness/determinism.
    risk entirely.
 
 **Open questions for the orchestrator (genuinely undecidable here)**
-1. **Q1 — Worker count in the submission demo.** Design supports N≥1; the
-   "decentralized agency" score likely wants N≥2 *eligible* workers visible
+1. **Q1 — Worker count in the demo.** Design supports N≥1; the
+   "decentralized agency" result likely wants N≥2 *eligible* workers visible
    in the trace. Recommendation: 3 workers (2 eligible + 1 decoy-ineligible)
    so SPEC-3's shape is *visible in the demo*, not only in tests. Orchestrator
    to confirm for the demo script.
@@ -825,9 +825,9 @@ processes (G2/G6), SPEC-6 = fairness/determinism.
    Default in this design: **baselines unchanged, decentralized mode
    opt-in**. Needs orchestrator sign-off.
 3. **Q3 — Multi-machine.** The Infinite HTTP path (`reactor.py:461-581`) is
-   the only existing cross-machine primitive. For the competition window:
-   **no** (single host, stated limit §5.3.2). If the judges' rubric rewards
-   cross-machine, that is a post-competition item; design already keys
+   the only existing cross-machine primitive. For the live experiment window:
+   **no** (single host, stated limit §5.3.2). If the evaluation rubric rewards
+   cross-machine, that is a post-experiment item; design already keys
    everything on `need_key` so a networked broker would be a M7 swap only.
 4. **Q4 — Lease TTL / timeout constants** for the LLM gate (F08): needs a
    measured p95 fulfilment time to set `lease_ttl_s` and `followup_timeout_s`

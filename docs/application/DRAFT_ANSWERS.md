@@ -1,12 +1,17 @@
-# RepliClaw — ScienceClaw 2026 Application: DRAFT ANSWERS
+# RepliClaw — An Evidence-Escrow Scientific Swarm: Project Presentation (draft answers)
 
-**Status:** DRAFT for human review/fact-check/submit. **NOT submitted.** Prepared 2026-10-08.
+An independent public research project of the SimuMet AI Safety research department
+(https://www.simulamet.no/research/research-departments/ai-safety). Source material for the
+public README/website/paper — not a competition or event application.
+Repository: https://github.com/SushantGautam/RepliClaw
+
+**Status:** DRAFT for human review/fact-check before public release. Prepared 2026-10-08.
 Companion files: `FACT_CHECK_LIST.md` (every claim → file + commit SHA or UNVERIFIED) and
-`SUBMISSION_CHECKLIST.md` (step-by-step human submission procedure).
+`SUBMISSION_CHECKLIST.md` (step-by-step human release procedure — retitled "Release checklist").
 
 **How to read this file.**
-- Paste-ready prose is in each `## Field N` block. Strip the grayed "Verified-fact basis"
-  bullets and all `[PENDING: …]` tokens before pasting into the official form.
+- Publication-ready prose is in each numbered section below. Strip the grayed "Verified-fact
+  basis" bullets and all `[PENDING: …]` tokens before publishing.
 - Every number used below is either (a) a verified result from a checkpoint, or (b) an
   explicit `[PENDING: <ticket>]` placeholder. No invented numbers.
 - Claims are scoped ("as of 2026-10-08, across the surveyed prior art…"). We never claim
@@ -44,13 +49,12 @@ Companion files: `FACT_CHECK_LIST.md` (every claim → file + commit SHA or UNVE
   changed their minds." *(amended 2026-10-08 per PREREG-2026-10-v1.2-AMENDMENT.md A5: local
   decentralized selection over a frozen menu; agents do not invent new hypotheses/interventions)*
 - Attribution: we keep Hans's "Decentralized Hypothesis Swarm" concept and authorship attributed
-  to Hans in team docs. **Challenge area:** Open Scientific Challenge / decentralized scientific
-  collectives — but the application form may not ask for a challenge-area choice
-  (`[PENDING: ORGANIZER]` confirm).
+  to Hans in team docs. **Focus area:** decentralized scientific collectives for causal
+  diagnosis of AI failures.
 
 ---
 
-## Field 1 — What is a difficult, meaningful problem you would like to solve at the hackathon, and why is it significant?
+## 1. Problem statement
 
 AI systems can fail for several plausible reasons at once — wrong retrieval, conflicting or
 stale instructions, flawed reasoning, or even a mistaken evaluator — yet many audits report a
@@ -73,28 +77,30 @@ This is scientifically significant because it asks a concrete, measurable questi
 local decentralized experiment selection with evidence-driven, pre-outcome-committing agents
 improve *validated* causal
 explanations (rather than merely increasing persuasive agreement), and is it worth its cost
-compared to a strong adaptive central manager?** Under the rubric weights we were given
-(Problem significance 20%, Impact 25%, Decentralized agency 20%, Collective capability 25%,
-Execution 10%), a faithful matched-budget comparison with ablations is the load-bearing result.
+compared to a strong adaptive central manager?** Under the evaluation weights that frame this
+project (Problem significance 20%, Impact 25%, Decentralized agency 20%, Collective capability
+25%, Execution 10%), a faithful matched-budget comparison with ablations is the load-bearing
+result.
 We treat a negative or null result as an equally valid, publishable answer.
 
-<sub>Verified-fact basis (strip before submit): rubric weights 20/25/20/25/10(+10) —
+<sub>Verified-fact basis (strip before publishing): evaluation weights 20/25/20/25/10(+10) —
 `docs/EVIDENCE_ESCROW_SWARM.md` "Rubric evidence obligations" [F19]. Mechanism description —
 `docs/EVIDENCE_ESCROW_SWARM.md`, `SEED_PROMPT.md`.</sub>
 
 ---
 
-## Field 2 — What have you built, researched, or accomplished that demonstrates your ability to tackle this problem?
+## 2. Approach & system (what has been built and verified)
 
 **Team.** Our team combines AI-safety and multimodal-AI research, auditing infrastructure, agent
 engineering, and scientific/product design. At SimulaMet we have developed **SimpleAudit and
 SimpleAuditStudio** for reproducible AI-system auditing (scenario-based evaluation, run tracking,
 evidence analysis) [F17 — human to confirm]. `[PENDING: TEAM]` — exact teammate names, roles,
-backgrounds, and public profile links to be inserted before submission; we do not add unsupported
-metrics or prizes.
+backgrounds, and public profile links to be inserted before public release; we do not add
+unsupported metrics or prizes.
 
 **What is already built and machine-verified (as of 2026-10-08, run branch `repl-claw-dev` @
-`945986f`).** We have a working, test-verified vertical prototype built on ScienceClaw primitives
+`945986f`).** We have a working, test-verified vertical prototype built on the open-science
+research substrate (lamm-mit/scienceclaw)
 — not a claim of superiority. The module gates below (P02/P03/P04) are the historical per-module
 checkpoints; since then the components have been integrated on the run branch, whose **full gate
 is 240 passed, 8 skipped** at the run-branch tip `945986f` (235/8 at A9 tip `3491032`), with the
@@ -223,17 +229,17 @@ that specific combination — *predict before you believe, intervene before you 
 which evidence changed your mind* — improves *validated* causal diagnosis of AI failure relative to
 each named prior system's paradigm. This is an honest boundary claim, not a novelty-by-declaration.
 
-<sub>Verified-fact basis (strip before submit): all per-fact source + commit SHA are in
+<sub>Verified-fact basis (strip before publishing): all per-fact source + commit SHA are in
 `FACT_CHECK_LIST.md` F1–F19 (historical modules) and F20–F33 (run-branch live-arm, scorer,
 offline campaign, slice, Tox21, live window, novelty positioning, and the sign-off history:
 round-1 NOT-APPROVE + A8 registration @ `d5c6701`, A8 merged @ `a708523`, A9 merged @ `3491032`,
-round-3 APPROVE-WITH-CONDITIONS @ `c0e92ea`). Do not submit any number
+round-3 APPROVE-WITH-CONDITIONS @ `c0e92ea`). Do not publish any number
 without a matching green entry there. "Implemented + tested" and "live runs executed" are distinct
 claims — only the former is made for the live arm.</sub>
 
 ---
 
-## Field 3 — Why would a decentralized agent collective be particularly well-suited to solving this problem?
+## 3. Why a decentralized agent collective is suited to this problem
 
 A trustworthy causal diagnosis needs **competing** explanations to be tested before the group
 converges. If agents share early interpretations freely, a plausible-but-wrong root cause can
@@ -257,23 +263,23 @@ helps in three specific ways we can actually measure:
    but only a subset are built now). The **offline, deterministic** parity comparison of the four
    named arms is implemented and runnable now [F21][F23]; the **live** matched-budget comparison
    and its ablation numbers are the pending measured result, scheduled for the run window (see
-   Field 2) [PENDING: P08 live]. The ablations, not the architecture, tell us whether independent
+   section 2) [PENDING: P08 live]. The ablations, not the architecture, tell us whether independent
    commitments and local selection actually help; if not, we report the limitation.
 
 We are explicit about the boundary of the claim: a hash proves later consistency of a packet, not
 secrecy or epistemic independence; and "causal" here means *distinguished by controlled executed
 interventions with documented confound controls*, not "proven" in a philosophical sense.
 
-<sub>Verified-fact basis (strip before submit): F8–F14 in `FACT_CHECK_LIST.md`. Comparator design
+<sub>Verified-fact basis (strip before publishing): F8–F14 in `FACT_CHECK_LIST.md`. Comparator design
 — `docs/EXPERIMENT_PROTOCOL_V2.md`, `SEED_PROMPT.md` (S0–S5). Escrow guarantees/limits —
 `docs/checkpoints/CP-P03.md`, `docs/fleet/P03.md`.</sub>
 
 ---
 
-## Field 4 — What expertise or capabilities would you bring to a team?
+## 4. Team & capabilities
 
-`[PENDING: TEAM]` — select **only** boxes that match confirmed teammates; do not invent
-backgrounds. Available options (from the application guide):
+`[PENDING: TEAM]` — list **only** capabilities that match confirmed teammates; do not invent
+backgrounds. Capability candidates to confirm:
 - [ ] AI / Machine Learning
 - [ ] Agentic Systems
 - [ ] Software / Coding
@@ -285,31 +291,31 @@ backgrounds. Available options (from the application guide):
 Working hypothesis to confirm (NOT a final answer): AI/ML, Agentic Systems, Software/Coding,
 Scientific Research/Experimentation are supported by the team's SimpleAudit/SimpleAuditStudio
 and RepliClaw work [F17]; Data Science, Product and Design/UX are **unconfirmed** and should only
-be checked for named team members who genuinely hold them.
+be listed for named team members who genuinely hold them.
 
 <sub>Verified-fact basis: capability *claims* rest on [F17], which the human must confirm.
-Checkbox selection is a team decision, not something we may fabricate.</sub>
+Which capabilities are listed is a team decision, not something we may fabricate.</sub>
 
 ---
 
-## Field 5 — What kind of collaborator or expertise would complement you?
+## 5. Collaboration & expertise we would welcome
 
 We would be strengthened by a collaborator with **experimental-design / causal-inference**
 expertise or **red-team evaluation** skill, or with a **scientific domain that supports controlled,
 reproducible interventions** — any of which would sharpen our independent validation and external
 stress-testing of the matched-budget comparison and the causal claims. We would also welcome
-another ScienceClaw team to reuse our **portable verification endpoint**; if a second team actually
-uses it, that is a measurable, honest signal (and a possible +10 cross-team term) that our
-component contributes to the event ecosystem — we will only report external reuse if it genuinely
-occurs. `[PENDING: P11/external-reuse]` — no external team has used it yet.
+external research groups to reuse our **portable verification endpoint**; if a second team
+actually uses it, that is a measurable, honest signal that our component contributes to the
+ecosystem — we will only report external reuse if it genuinely occurs. `[PENDING:
+P11/external-reuse]` — no external team has used it yet.
 
-<sub>Verified-fact basis (strip before submit): +10 cross-team term and "actual other-team reuse"
-— `docs/EVIDENCE_ESCROW_SWARM.md` "Rubric evidence obligations" [F19]. External reuse is currently
+<sub>Verified-fact basis (strip before publishing): external-reuse signal —
+`docs/EVIDENCE_ESCROW_SWARM.md` "Rubric evidence obligations" [F19]. External reuse is currently
 NOT demonstrated.</sub>
 
 ---
 
-## Naming / title (for the form, if there is a title field)
+## Naming / title (for the public README/website)
 
 - **Title (if required):** RepliClaw: An Evidence-Escrow Scientific Swarm for Causal Diagnosis of
   AI Failures
@@ -333,7 +339,7 @@ NOT demonstrated.</sub>
   machine-verified on the run branch** (P02/P03/P04 modules + P05 comparators/parity, P06 Tox21
   case, P07 end-to-end slice, P08 scorer + self-test, P08 live-LLM arm *implemented and
   contract-tested offline*); (b) **runnable deterministic now** (the offline 4-arm parity
-  campaign and the slice demo, 0-token); (c) **scheduled for the event window, not yet executed**
+  campaign and the slice demo, 0-token); (c) **scheduled for the run window, not yet executed**
   (the *live* matched-budget runs, gated on the two-key start — round-3 science sign-off
   (APPROVE-WITH-CONDITIONS @ `c0e92ea`, all round-3 conditions met at `c0e92ea` — satisfied) and
   human authorization; history: sign-off round 1 (2026-10-08) was NOT-APPROVE with new blocker
