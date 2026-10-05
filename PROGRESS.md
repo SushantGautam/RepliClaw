@@ -381,3 +381,26 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 **Artifacts.** `scripts/r2_preflight.py`, `tests/test_r2_preflight.py`. Smoke artifacts in /tmp (not committed).
 
 **Next.** Post human-key: run the protocol's 3 live runs, then `scripts/r2_preflight.py --run-dir $RUN --output $RUN/floor_r2.json` → commit the floor record.
+
+## Novelty re-audit: gate refreshed, CAR added (2026-10-09)
+
+**What changed.**
+- Independent adversarial re-audit (agent `e1df7b0a`, read-only; all 4 named systems from primary sources fetched today + fresh sweep): conjunction (a)∧(b)∧(c)∧(d) survives; (d) matched-budget adaptive-manager comparator found in NO surveyed system. Verdict: **NOVEL WITH DISCLOSURES X**. Report: `docs/fleet/reviews/PRIOR-ART-REAUDIT-20261009.md`.
+- **Material finding: Causal Agent Replay (CAR, arXiv 2606.08275, 2026-06)** — intervention algebra on frozen agent runs (single-agent, step-level) — partially anticipates element (b); the 2026-10-08 gate had missed it. Gate updated with CAR + 4 low-weight rows (ICML-2026 prereg position paper 2606.11217, zkAgent IACR 2026/199, VIGIL ACL 2026, P2PCLAW 2604.19792) + 3 new prohibited wordings.
+- Application docs scanned for the newly-killed wording: clean (mechanism-level claims only).
+- External-claim rule until live gates N1/N2/N4 pass: **"novel in design"**, not "as demonstrated here".
+
+**Evidence.** Primary-source fetches cached under `artifacts/dev/priorart/` (gitignored); both Nature articles verified from HTML (curl after web_fetch 406); AutoScientists full 13-pp PDF + PHASES.md/ROLE-TEAM.md read.
+
+**Next.** Gate is current as of `ea7c83c`; re-run the re-audit if new counterfactual-attribution literature appears before the window.
+
+## Campaign harness: code-judge verdict in, all 7 findings remediated (2026-10-09)
+
+**What changed.**
+- Code-judge `571cb735` (replacement for 918e1c09, which died on a 502 network error with 0 findings) returned **MERGE-NOT-OK** with 1 BLOCKER (B1: the master-ceiling pre-check flagged a run but then LAUNCHED it — one unapproved live run past the 10.8M ceiling in production), 1 MAJOR (M1: crash mid-flatten left a non-empty dir child → `os.replace` ENOTEMPTY traceback on the documented "re-run the same command" recovery path) and 5 minor (m1 test masking B1, m2 runner exception traceback losing remaining runs, m3 hardcoded 60k floor vs `--envelope-tokens` knob, m4 SystemExit propagation, m5 leftover-staging runbook note). Judge had empirically reproduced B1 and M1.
+- Integrator remediation in `scripts/campaign.py`: flagged run now `skipped_master_ceiling` + `continue` (B1); `_flatten_run()` helper rmtrees a leftover dir child before replace — reachable only in partial state, never deletes a completed run (M1); launch wrapped in `try/except BaseException` → per-run `error:<ExcName>`, campaign continues, new `EXIT_RUN_ERROR=5` + `summary["errored"]` (m2/m4); `envelope_floor = max(60_000, --envelope-tokens)` (m3); runbook gains the staging-safety note (m5).
+- Tests: ceiling test tightened to exact counts (3 launched / 9 skipped; S3/run-002 must be `skipped_master_ceiling`), 2 new regression tests (partial-flatten recovery; exception isolation + exit 5 + never-scored). Suite now 7 tests, all green.
+
+**Evidence.** `tests/test_p08_campaign.py` 7/7; FULL GATE **248 passed / 8 skipped** (246 + 2 new regression tests); ruff clean; mypy 56 files clean. Review record: `docs/fleet/reviews/CODE-JUDGE-CAMPAIGN-HARNESS-20261009.md` (finding text verbatim + disposition).
+
+**Next.** Campaign batch commit; then the only remaining program gates are external: HUMAN two-key → R-2 live pre-flight (3 arms × 1 + `scripts/r2_preflight.py`) → R-1 final pin check → single-command launch per `docs/experiments/LIVE_CAMPAIGN_LAUNCH_PROTOCOL.md`.
