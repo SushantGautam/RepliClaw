@@ -33,4 +33,4 @@ Before spending the approved 10.8M-token campaign (as calculated in prereg §5):
 - If only one controlled case with fixed interventions is evaluated, report within-case effects, not generalized performance or robust scientific "breakthrough".
 
 ## Required reviewer note
-Create \`docs/fleet/reviews/SCIENCE-JUDGE-HARNESS-RED-FLAGS-<date>.md\` with numbered findings: verified/current/false-positive; exact file:line + SHA; relevance to P08 prereg; whether change affects arm treatment or confirmatory metrics; required versioned amendment or acceptable limitation; independent judge disposition and actual tests. A lack of evidence is NOT approval.
+Create \`docs/reviews/SCIENCE-JUDGE-HARNESS-RED-FLAGS-<date>.md\` with numbered findings: verified/current/false-positive; exact file:line + SHA; relevance to P08 prereg; whether change affects arm treatment or confirmatory metrics; required versioned amendment or acceptable limitation; independent judge disposition and actual tests. A lack of evidence is NOT approval.

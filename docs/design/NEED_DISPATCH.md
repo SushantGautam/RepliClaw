@@ -1,9 +1,9 @@
 # F04 — Decentralized need-dispatch architecture (design)
 
-Ticket: `docs/fleet/F04.md` · Worker: W4 · Branch: `w4/F04-need-dispatch`
+Origin: dev-branch ticket F04 (archived) · Branch: `w4/F04-need-dispatch`
 Status: **design complete, decision-complete** · Implementation: **F06**
 All `file:line` citations below were read and verified in this worktree at
-base `a14fa676` + fleet docs. Upstream = `deps/scienceclaw/`, RepliClaw = `src/repliclaw/`.
+base `a14fa676`. Upstream = `deps/scienceclaw/`, RepliClaw = `src/repliclaw/`.
 
 Competition context: `docs/COMPETITION_STRATEGY.md:27` (G1 — "Not sufficiently
 decentralized: `protocol.py::_fulfill_need` chooses a role and invokes a
@@ -330,7 +330,7 @@ Step-by-step contract:
 - `RepliClawProtocol.__init__` gains optional `need_broker` / `worker_pool`
   parameters (additive, defaulting to None ⇒ current behaviour for all five
   existing strategies, so `STRATEGY_RUNNERS` signatures and the benchmark
-  `rows` schema are untouched — fleet rule 10).
+  `rows` schema are untouched).
 - A new `decentralized` mode (or strategy flag on `repl_claw_blind_commit_
   reveal`) starts the worker pool; the five baseline strategies keep
   working unchanged.
@@ -339,10 +339,9 @@ Step-by-step contract:
 
 ## 3. Reuse-vs-build matrix
 
-Convention per `DECISIONS.md` (reuse matrix, `DECISIONS.md:81-95`) and
-`REUSE_STRATEGY.md`: `REUSE_AS_IS` / `REUSE_ADAPTER` / `EXTEND_UPSTREAM`
-(we own SimpleAudit + may extend ScienceClaw) / `BUILD_REPLICLAW` (with
-justification). Every BUILD row feeds the `DECISIONS.md` matrix in F06.
+Verdicts below use the convention: `REUSE_AS_IS` / `REUSE_ADAPTER` /
+`EXTEND_UPSTREAM` (we own SimpleAudit + may extend ScienceClaw) /
+`BUILD_REPLICLAW` (with justification).
 
 | # | Mechanism | Verdict | Evidence / justification |
 |---|-----------|---------|--------------------------|
@@ -352,8 +351,8 @@ justification). Every BUILD row feeds the `DECISIONS.md` matrix in F06.
 | M4 | Shared index / storage / lineage / content-hash / coverage | **REUSE_ADAPTER** — `ArtifactStore` + `Artifact` (`artifact.py:477-660`) via `RunLocalArtifactStore` (`scienceclaw_adapter.py:34-48`) | Run-local re-rooting is proven; coverage fields (`artifact.py:643-659`) are what pressure/dedup consume. No new store format. |
 | M5 | Eligibility / producibility check *shape* | **REUSE_AS_IS (pattern)** — `_artifact_type_to_skills` + `scan_needs` filters (`reactor.py:1095-1108`, `:1110-1176`) | We copy the *shape* (type-produceability + partner + investigation filters) but implement it against the worker's self-declared capability, because `scan_needs` is bound to a reactor's skill registry (`reactor.py:397` hardcoded base, `:399` executor) — see M6. |
 | M6 | `ArtifactReactor` as the fulfilment engine | **EXTEND_UPSTREAM (optional) / else BUILD a thin `NeedWorker`** | The reactor is right in spirit (scan → rank → fulfil → mark consumed, `reactor.py:1178-1445`) but three things block direct reuse for a *decentralized multi-process* loop: (a) `~/.scienceclaw` base hardcoded at `reactor.py:397` (would leak between runs and require a monkeypatched instance); (b) in-process skill executor `get_executor()` (`:399`) — no process boundary, no crash isolation; (c) **no atomic claim** — `_mark_need_consumed` is per-agent (`reactor.py:1089-1093`) so two reactors can both fulfil (M7). Cleanest path: **BUILD_REPLICLAW** a thin `NeedWorker` that reuses `iter_open_needs`/`score_need`/`Artifact` and borrows the reactor's fulfilment *sequence*, while adding the broker claim. *Alternative (if F06 judges it cheaper):* `EXTEND_UPSTREAM` `ArtifactReactor.__init__` to accept a `base_dir` + `claim_hook` (we own the upstream; the constructor already takes a store, so a `base_dir` param is a small, broadly useful generalisation). **Decision: default = BUILD_REPLICLAW thin worker** (small, hermetic, zero upstream churn under time pressure); the upstream extension is the documented alternative if review prefers. |
-| M7 | Atomic claim / lease / re-claim / crash recovery | **BUILD_REPLICLAW** — no upstream primitive exists | `BUILD_REPLICLAW` justification: nothing in `deps/scienceclaw` (or SimpleAudit) offers a file-based, cross-process, atomic claim with TTL. `ArtifactReactor`'s consumed-mark is per-agent and post-hoc (`reactor.py:1089-1093`, file `consumed_needs.txt`); `global_index.jsonl` has no claim state; the Infinite HTTP path (`reactor.py:461-581`) is the wrong topology for hermetic runs. SimpleAudit's Hatchet is a durable *audit* executor (Studio-side, `REUSE_STRATEGY.md` §SimpleAuditStudio) — wrong boundary for a hermetic scientific core (same reasoning as `DECISIONS.md:83` "Durable task execution = BUILD_REPLICLAW (subprocess)"). A ~150-line file-lease broker is the smallest architecture that satisfies Section 4. |
-| M8 | Worker process isolation | **BUILD_REPLICLAW (thin)** — subprocess per worker | Consistent with `DECISIONS.md:83` (subprocess-per-investigator, Hatchet too heavy for hermetic core). `subprocess.Popen` + JSON-over-stdout/exit-code; no framework. |
+| M7 | Atomic claim / lease / re-claim / crash recovery | **BUILD_REPLICLAW** — no upstream primitive exists | `BUILD_REPLICLAW` justification: nothing in `deps/scienceclaw` (or SimpleAudit) offers a file-based, cross-process, atomic claim with TTL. `ArtifactReactor`'s consumed-mark is per-agent and post-hoc (`reactor.py:1089-1093`, file `consumed_needs.txt`); `global_index.jsonl` has no claim state; the Infinite HTTP path (`reactor.py:461-581`) is the wrong topology for hermetic runs. SimpleAudit's Hatchet is a durable *audit* executor (Studio-side) — wrong boundary for a hermetic scientific core (durable task execution = BUILD_REPLICLAW subprocess). A ~150-line file-lease broker is the smallest architecture that satisfies Section 4. |
+| M8 | Worker process isolation | **BUILD_REPLICLAW (thin)** — subprocess per worker | Subprocess-per-investigator; Hatchet too heavy for a hermetic core. `subprocess.Popen` + JSON-over-stdout/exit-code; no framework. |
 | M9 | Blind-phase visibility gating | **REUSE_AS_IS** — `ContextEnforcer`/`PhaseGate` (`isolation.py:73-195`) | Already code-enforced with a read log (`isolation.py:107-129` builds context, `:131-149` denies peer material while blind, `:153-171` raises on sealed reads). Workers inherit it by construction: a worker's context is built by the *same* enforcer, so the seal is as strong as today plus a process boundary. |
 | M10 | Commit/reveal tamper-evidence | **REUSE_AS_IS** — `Commitment` + `RunStore.commit/verify_reveal` (`models.py:101-117`, `runstore.py:121-230`) | Content-hash sealing already exists and is tested (`tests/test_commit_reveal.py`). The decentralization loop reuses the same commitment record; only *who* produces it changes. |
 | M11 | Fulfilment provenance (who/what/when/how for audit) | **BUILD_REPLICLAW (dataclass)** | `BUILD_REPLICLAW` justification: upstream `Artifact.payload["_fulfilled_need"]` (`reactor.py:1400-1408`) records *what* need was fulfilled but not *which independent process, lease token, model, or capability set* produced it — exactly the G6 evidence the judges need ("not proof of independent methods, evidence, models, tools"). A small `FulfilmentProvenance` pydantic block appended to the payload is additive and feeds `verify()`/Studio. |
@@ -804,7 +803,7 @@ processes (G2/G6), SPEC-6 = fairness/determinism.
 3. *Clock jump* (NTP) expiring live leases → `late_fulfilment` path (§4.5)
    absorbs it; monitor via `claim_history` audit.
 4. *Scope creep into strategy semantics* — the five `STRATEGY_RUNNERS`
-   signatures and benchmark `rows` schema must not change (fleet rule 10);
+   signatures and benchmark `rows` schema must not change;
    decentralization is an additive mode. F06 must not touch
    `strategies.py` public signatures.
 5. *Upstream drift* — if F06 takes the EXTEND_UPSTREAM alternative (M6), the
@@ -812,7 +811,7 @@ processes (G2/G6), SPEC-6 = fairness/determinism.
    minimal and tested against upstream behavior; default choice avoids this
    risk entirely.
 
-**Open questions for the orchestrator (genuinely undecidable here)**
+**Open questions (genuinely undecidable at design time)**
 1. **Q1 — Worker count in the demo.** Design supports N≥1; the
    "decentralized agency" result likely wants N≥2 *eligible* workers visible
    in the trace. Recommendation: 3 workers (2 eligible + 1 decoy-ineligible)

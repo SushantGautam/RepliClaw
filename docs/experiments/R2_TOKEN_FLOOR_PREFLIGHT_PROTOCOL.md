@@ -2,7 +2,7 @@
 
 > **STATUS: READY TO EXECUTE — gated.** Execute ONLY after (1) science round 3 on
 > A1–A9 = APPROVE and (2) human two-key authorization is recorded in
-> `EXECUTION_STATE.md`. Execute BEFORE the live campaign window opens. This is
+> the run-state record. Execute BEFORE the live campaign window opens. This is
 > measurement, not a campaign run: 3 arms × 1 run each, oracle never read.
 
 ## Why (round-2 science verdict)
@@ -65,13 +65,13 @@ automatically since A9). Write `$RUN/floor_r2.json`:
 - **S0 stopping rule**: S0 stops at the first budget-exhausting cycle (its arm
   contract) — the floor may legitimately be the envelope.
 - Any arm whose floor exceeds **60%** of the per-arm ceiling → flag in
-  `EXECUTION_STATE.md` + reconsider per-run counts BEFORE the window (do not
+  the run-state record + reconsider per-run counts BEFORE the window (do not
   silently proceed).
 
 ## After execution
 1. Commit `floor_r2.json` (tracked artifact) — the floor record the live window
    relies on.
-2. Update `EXECUTION_STATE.md` current_milestone: R-2 CLOSED + floors.
+2. Update the run-state record: R-2 CLOSED + floors.
 3. Update `docs/application/FACT_CHECK_LIST.md` (new fact row citing
    `floor_r2.json` + this protocol) and `P1_RESULT_DISCLOSURES_DRAFT.md` §7.
 4. Proceed to the live campaign ONLY with both keys green.

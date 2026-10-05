@@ -84,7 +84,7 @@ git rev-parse --short HEAD          # expect 945986f (the current run-branch tip
 > **240/8 at the run-branch tip `945986f`** (235/8 at A9 tip `3491032`; the +5 are the
 > campaign-harness tests in `tests/test_p08_campaign.py`) (F20; the 213/8 @ `d5c6701` count was
 > independently confirmed by the science-judge re-run in
-> `docs/fleet/reviews/SCIENCE-JUDGE-V12-SIGNOFF-NOT-APPROVE-20261008.md`).
+> `docs/reviews/SCIENCE-JUDGE-V12-SIGNOFF-NOT-APPROVE-20261008.md`).
 > If the tip has moved again by release time (e.g. the campaign-harness commit lands), re-run
 > this block there and trust the fresh number, not this one.
 
@@ -231,7 +231,7 @@ Do **not** attach live-LLM run artifacts — none exist yet (live runs are sched
 2. Publish the assembled presentation text (README and any website/paper pages); add the demo
    video, evidence archive link, license, and citation block.
 3. Double-check the rendered README/pages (no markdown artifacts, no stray tags).
-4. **Save a release record** (date + pinned commit SHA) in `PROGRESS.md` so the citation and
+4. **Save a release record** (date + pinned commit SHA) so the citation and
    evidence links stay traceable.
 
 ✅ _released; record saved_
@@ -244,17 +244,17 @@ The live campaign is **scheduled** for the run window (2026-10-10 → 2026-10-23
 part of release verification. It may only start under a **two-key start** (F27/F28): science-judge
 approval of prereg **v1.1 + v1.2-AMENDMENT** (the amendment is DRAFT and unsigned — no live run on
 v1.1 alone while it is unsigned) **and** human (project-lead) authorization, both recorded in
-`EXECUTION_STATE.md`. **The science key is SATISFIED: sign-off round 3 (2026-10-09) =
+the run-state record. **The science key is SATISFIED: sign-off round 3 (2026-10-09) =
 APPROVE-WITH-CONDITIONS @ `c0e92ea`, and all round-3 conditions are met at `c0e92ea`**
 (history: round 1 (2026-10-08) = NOT-APPROVE, raising BLOCKING item **RC-1** — P1 pair = S5
 live-LLM vs S4 deterministic, a cross-executor comparison v1.1 §3.1 declares invalid — plus
-RC-2/RC-3/RC-4 (`docs/fleet/reviews/SCIENCE-JUDGE-V12-SIGNOFF-NOT-APPROVE-20261008.md`; F30);
+RC-2/RC-3/RC-4 (`docs/reviews/SCIENCE-JUDGE-V12-SIGNOFF-NOT-APPROVE-20261008.md`; F30);
 round 2 (2026-10-09) = NOT-APPROVE, finding the M-1 task-interface asymmetry). RC-1 was fixed by
 amendment section **A8 (executor parity)**, **merged @ `a708523`** (code-judge MERGE-OK; F31/F32);
 M-1 was fixed by amendment section **A9**, **merged @ `3491032`** (code-judge MERGE-OK; 8 new
 tests in `tests/test_r2_parity.py`; F33). The two-key requirement is **unchanged and not
 weakened**: round-3 science sign-off (satisfied @ `c0e92ea`) + human (project-lead)
-authorization, both recorded in `EXECUTION_STATE.md`. The **human two-key authorization is the
+authorization, both recorded in the run-state record. The **human two-key authorization is the
 only true remaining blocker** (external); before the window opens, the **R-2 S4/S3/S0
 live-token floors** must also be measured
 (`docs/experiments/R2_TOKEN_FLOOR_PREFLIGHT_PROTOCOL.md`). If the human key is in place at
@@ -267,7 +267,7 @@ window start:
    **round-3 v1.2-AMENDMENT science-judge sign-off on A1–A9** (satisfied @ `c0e92ea`;
    F25/F27/F28/F33).
    Already landed and pinned: the A4 evidence-in-verdict-prompt fix (merged `80a3f4e`,
-   code-judge MERGE-OK 10/10 per `docs/fleet/reviews/CODE-JUDGE-A4-PROMPT-EVIDENCE-20261008.md`),
+   code-judge MERGE-OK 10/10 per `docs/reviews/CODE-JUDGE-A4-PROMPT-EVIDENCE-20261008.md`),
    the measured live token floor (§5.1 filled; `artifacts/p08/live_token_floor/`),
    the `score.py` P1-rule alignment to the v1.2 canonical rule (merged `5967f24`, code-judge
    MERGE-OK, F25), the runner CLI, same-task `case_loader`, usage-invalidation and the D-10

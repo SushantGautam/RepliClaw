@@ -1,4 +1,4 @@
-> **SUPERSEDED STRATEGY V1 BELOW (preserved for historical rationale).** Active v2: [RepliClaw Evidence-Escrow Swarm](EVIDENCE_ESCROW_SWARM.md), [Novelty vs AutoScientists/AgentRx](PRIOR_ART_NOVELTY_GATE.md), [Flagship SimpleAudit interventions](FLAGSHIP_CASE.md), [Experimental protocol](EXPERIMENT_PROTOCOL_V2.md), [current plan](../IMPLEMENTATION_PLAN.md). No firstness guarantees; all claims require reproducible evidence. Preserve existing agents' work with [migration guide](AGENT_MIGRATION.md).
+> **SUPERSEDED STRATEGY V1 BELOW (preserved for historical rationale).** Active v2: [RepliClaw Evidence-Escrow Swarm](EVIDENCE_ESCROW_SWARM.md), [Novelty vs AutoScientists/AgentRx](PRIOR_ART_NOVELTY_GATE.md), [Flagship SimpleAudit interventions](FLAGSHIP_CASE.md), [Experimental protocol](EXPERIMENT_PROTOCOL_V2.md). No firstness guarantees; all claims require reproducible evidence.
 
 ---
 

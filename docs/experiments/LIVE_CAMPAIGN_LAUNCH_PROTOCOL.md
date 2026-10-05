@@ -1,7 +1,7 @@
 # P08 Live-Window Launch Protocol — one-command campaign (frozen procedure)
 
 > **STATUS: READY — gated on the human two-key** (project lead authorization
-> recorded in `EXECUTION_STATE.md`). This protocol launches the PRIMARY live
+> recorded in the run-state record). This protocol launches the PRIMARY live
 > campaign only. R-2 token floors (`R2_TOKEN_FLOOR_PREFLIGHT_PROTOCOL.md`) must
 > be CLOSED first. No step here may be executed before both keys are green.
 
@@ -23,7 +23,7 @@ frozen scorer. It never reads the sealed oracle and never flips the live gate.
 3. [x] MUST-2 R-2 floors — DONE 2026-10-09T11:02Z: `artifacts/p08/token_floor_r2_20261009T105739Z/floor_r2.json` committed (S4=16,300 / S3=15,993 / S0=8,588 tokens; max fraction 0.2717 < 0.60; verdict OK; sigma2 Qwen3.8-27B; pin 81256a3).
 4. [x] `bash experiments/policy_rag/preflight.sh` → ALL 5 gates pass (verified 2026-10-09), pin 81256a3 = actual HEAD.
 5. [x] Full gate @ 81256a3: pytest **248 passed / 8 skipped**, ruff clean, mypy (56) clean, self-test PASS (verified 2026-10-09).
-6. [x] Human two-key recorded in `EXECUTION_STATE.md` — science key = round-3 APPROVE-WITH-CONDITIONS (agent 713aa9b8, 2026-10-09); operator key = human authorization 2026-10-09T12:56 ('authorize test, use sigma2 endpoint').
+6. [x] Human two-key recorded in the run-state record — science key = round-3 APPROVE-WITH-CONDITIONS (agent 713aa9b8, 2026-10-09); operator key = human authorization 2026-10-09T12:56 ('authorize test, use sigma2 endpoint').
 
 ## Launch (single command, from repo root)
 ```bash
@@ -63,12 +63,12 @@ Behaviour:
 
 ## Post-campaign (same session as launch)
 1. Commit `$RUN` artifacts (run trees + scores + manifest) — this is the
-   signed evidence tree; record the HEAD SHA in `EXECUTION_STATE.md`.
+   signed evidence tree; record the HEAD SHA in the run-state record.
 2. Scorecard is **counterevidence-first** (P1 FALSIFIED leads with the
    falsification per PREREG v1.2 §8.1). No P1/P2/P3 result may be reported
    without the 7 mandatory disclosure items
    (`docs/DEMO_AND_FINAL_HANDIN_V2.md` → "P1 result statement").
-3. Update `EXECUTION_STATE.md`, `PROGRESS.md`, `docs/application/FACT_CHECK_LIST.md`.
+3. Update `docs/application/FACT_CHECK_LIST.md`.
 
 ## What this protocol does NOT authorize
 - The secondary (no-LLM) RQ4 case — frozen v1.1 H sub-study, separate command

@@ -268,10 +268,6 @@ tests/                66 hermetic tests (isolation, commit/reveal integrity,
 tests/fixtures/       known-answer benchmark tasks
 artifacts/            demo + benchmark outputs (reproducible)
 deps/scienceclaw/     vendored ScienceClaw primitives (reused, not forked)
-docs/agent/           archived full autonomy policy
-TASK_SPEC.md          historical acceptance contract of the prototype (AC01–AC18)
-DECISIONS.md / PROGRESS.md / EXECUTION_STATE.md / IMPLEMENTATION_PLAN.md
-                      living engineering state
 ```
 
 ## Historical acceptance-criteria evidence map (prototype AC01–AC18)
@@ -312,12 +308,7 @@ prototype suite above is a historical baseline, and the current run-branch
 gate is the 248-test gate.
 
 - [Research strategy & evidence obligations](docs/EVIDENCE_ESCROW_SWARM.md)
-- [Active implementation tickets](IMPLEMENTATION_PLAN.md)
-- [VS Code parallel-agent fleet](docs/FLEET_PLAYBOOK.md)
-- [Quality gates and independent review](docs/QUALITY_GATES.md)
-- [Current execution state](EXECUTION_STATE.md)
-- [Checkpoint history](docs/checkpoints/CP-20261008-PLAN.md)
-- [Agent seed prompt](SEED_PROMPT.md)
+- [Independent review reports](docs/reviews/)
 - [Release checklist](docs/application/SUBMISSION_CHECKLIST.md)
 
 The immediate next step is executing the preregistered live campaign under its
