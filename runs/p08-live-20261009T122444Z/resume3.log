@@ -1,0 +1,97 @@
+<frozen runpy>:128: RuntimeWarning: 'repliclaw.p08.score' found in sys.modules after import of package 'repliclaw.p08', but prior to execution of 'repliclaw.p08.score'; this may result in unpredictable behaviour
+{
+  "parity": {
+    "identical_envelope_sha256": true,
+    "envelope_hashes": [
+      "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c"
+    ],
+    "overruns": [],
+    "executor_parity": {
+      "S5_S4": true,
+      "S5_S3": true,
+      "S5_S0": true
+    },
+    "ok": true
+  },
+  "stopping_rules": {
+    "S1": {
+      "triggered": false,
+      "detail": {
+        "A1": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "A3": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "S0": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "S3": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "S4": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "S5": {
+          "value": 0.0,
+          "flag_S1": false
+        }
+      }
+    },
+    "S5": {
+      "triggered": false,
+      "detail": {
+        "A1": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "A3": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "S0": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "S3": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "S4": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "S5": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        }
+      }
+    }
+  },
+  "p1_decision": {
+    "s5_m1_mean": 1.0,
+    "s4_m1_mean": 0.2,
+    "m1_canary": {
+      "S4": "ok",
+      "S3": "ok",
+      "S0": "ok"
+    },
+    "ci95": [
+      0.6,
+      0.95
+    ],
+    "decision": "SUPPORTED",
+    "rule": "P1 decision rule (prereg v1.2; character-identical in \u00a72 and \u00a78.1 S4). Estimand: \u0394 = M1(S5) \u2212 M1(S4), the run-level mean difference in correct-diagnosis rate (M1, higher is better) between the escrow arm (S5) and the open-sharing swarm (S4), on the same case/oracle at the matched envelope. Polarity / null: H0: \u0394 \u2264 0 (S5 does not exceed S4); favorable direction: \u0394 > 0 (S5 better than S4). CI convention: bootstrap percentile 95% CI on \u0394, 10,000 resamples, seed 20261010, run-level within-case resampling (resample run indices independently within each arm; \u0394_b = mean_b(M1,S5) \u2212 mean_b(M1,S4)). Final decision (primary, n_run = 20 per arm): P1 SUPPORTED (S5 beats S4) iff CI_lower(\u0394) > 0. P1 FALSIFIED (S5 worse) iff CI_upper(\u0394) < 0; the report leads with this falsification per \u00a78.1 and preserves all S5 artifacts verbatim. Otherwise (CI contains 0): P1 NOT SUPPORTED; report descriptively (point estimate + 95% CI). Interim screen (n_run = 10 per arm, first 10 runs): the 10-run 95% CI on \u0394 is a screening device only. It supports and falsifies nothing, triggers no stop, no amendment, and no report change; it is reported solely to monitor whether the 20-run block is tracking toward or away from the decision boundary."
+  }
+}
+scores written to runs/p08-live-20261009T122444Z/scores
+{"resumed_tokens": 1697971, "resumed_runs": {"S0": 20, "S3": 20, "S4": 20, "S5": 20, "A1": 19, "A3": 20}}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-020/run-01", "status": "completed", "wall_s": 116.048}
+{"arm": "A1", "run": "run-020", "status": "completed", "tokens": 18440, "note": null, "cumulative_tokens": 1716411}
+{"summary": {"schema": "p08.campaign_summary/1", "case_id": "policy_rag_v1", "pin": "1df4c7164eb85a098385e90ae5c583e13b156dd7", "total_runs": 120, "completed_or_recorded": 120, "aborted_or_invalid": 0, "refused": 0, "errored": 0, "missing_or_skipped": 0, "cumulative_tokens": 1716411, "master_token_ceiling": 10800000, "stopped_master_ceiling": false}}
+campaign: invoking scorer (oracle opens post-gate)...

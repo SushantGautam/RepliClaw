@@ -1,0 +1,56 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-7cad6a8a",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "311014a767a96ca6430d519daf35665da9889c9ca38e991a07a0105683d959dd",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T12:54:42.107287+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states a 30-day full-refund window for standard items, so the claimed current 30-day window is supported.",
+    "plan": "Extracted day counts from the bundled policy artifacts, compared the current v2 policy (30 days) to the claimed 30-day window, checked the stale base retrieval/judge reference (14 days), and verified the 10-day-old standard order against the current 30-day window; no event counts were present for an RR computation.",
+    "evidence": {
+      "current_policy_days": 30,
+      "claimed_days": 30,
+      "match": true,
+      "stale_base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "discrepancy_days": 16,
+      "order_purchased_days_ago": 10,
+      "eligible_under_current_policy": true,
+      "eligible_under_stale_reference": true,
+      "raw_event_counts": "absent",
+      "RR": null,
+      "CI": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T12:54:42.109368+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states a 30-day full-refund window for standard items, so the claimed current 30-day window is supported.",
+    "plan": "Extracted day counts from the bundled policy artifacts, compared the current v2 policy (30 days) to the claimed 30-day window, checked the stale base retrieval/judge reference (14 days), and verified the 10-day-old standard order against the current 30-day window; no event counts were present for an RR computation.",
+    "evidence": {
+      "current_policy_days": 30,
+      "claimed_days": 30,
+      "match": true,
+      "stale_base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "discrepancy_days": 16,
+      "order_purchased_days_ago": 10,
+      "eligible_under_current_policy": true,
+      "eligible_under_stale_reference": true,
+      "raw_event_counts": "absent",
+      "RR": null,
+      "CI": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "a9220e68b2a312c9902ac3d8924cc43479a1dc6035767fe153ca8903534d6266"
+}

@@ -1,0 +1,50 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-2c0c6fd0",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "24186fb7166b194c38a031c93054cc3a7ad539909d85e330c908052410fcda7a",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T12:54:42.106712+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Claim matches current policy's 30-day window.",
+    "plan": "Check current policy days against claimed 30.",
+    "evidence": {
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "base_judge_days": 14,
+      "delta_days": 16,
+      "order_days": 10,
+      "eligible_current": true,
+      "match": true,
+      "test": "none",
+      "p": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T12:54:42.108853+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Claim matches current policy's 30-day window.",
+    "plan": "Check current policy days against claimed 30.",
+    "evidence": {
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "base_judge_days": 14,
+      "delta_days": 16,
+      "order_days": 10,
+      "eligible_current": true,
+      "match": true,
+      "test": "none",
+      "p": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "9637bb011ea3986f899483f4dedcf2854eaf0bec1a889a6b39c6c793d60d35a5"
+}

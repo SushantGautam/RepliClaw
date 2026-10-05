@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-single-agent-b0a568",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "464859d928911edb1959da6c125b17634b35855b04b654dc6b3154b631418efb",
+  "phase": "committed",
+  "timestamp": "2026-10-09T12:33:41.330754+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states that standard items can be returned within 30 days of purchase for a full refund.",
+    "plan": "Extract the current policy from policy_docs, identify returns_policy_v2 as the current standard-item rule, compare its 30-day window to the stale 14-day base reference, and check the 10-day-old standard order against both windows.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "delta_days": 16,
+      "relative_delta": 1.142857,
+      "order_purchased_days_ago": 10,
+      "eligible_under_current_30_day_policy": true,
+      "eligible_under_stale_14_day_reference": true,
+      "claim_matches_current_policy": true,
+      "cohen_d": null,
+      "note": "No mean_treat/mean_ctrl/sd fields are present, so Cohen's d is not computable; the verdict is based on direct policy extraction and arithmetic comparison."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "50ddb5b9979048f4818ec67c728bab7c8618687aa3af51bee5304c82f3f29ad5"
+}

@@ -1,0 +1,54 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-a7e26214",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "f4766fa3f861b71e45b54b9680163857dbc47ff6c3d447dec8c5a435d9d90fdd",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:11:16.789396+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 in the bundled data explicitly states that standard items can be returned within 30 days of purchase for a full refund, so the claimed 30-day window is supported.",
+    "plan": "I parsed the bundled policy documents to extract the current standard-item full-refund window, compared it with the stale base retrieval and base judge reference values, checked the 10-day-old order against both windows, and attempted Cohen's d but found no mean/sd fields.",
+    "evidence": {
+      "claim_asserted_days": 30,
+      "current_policy_days": 30,
+      "current_policy_id": "returns_policy_v2",
+      "stale_base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "current_minus_stale_days": 16,
+      "cohens_d": null,
+      "cohens_d_note": "Not computable because the bundled data contains no mean_treat, mean_ctrl, sd_treat, or sd_ctrl fields."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:11:16.793748+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 in the bundled data explicitly states that standard items can be returned within 30 days of purchase for a full refund, so the claimed 30-day window is supported.",
+    "plan": "I parsed the bundled policy documents to extract the current standard-item full-refund window, compared it with the stale base retrieval and base judge reference values, checked the 10-day-old order against both windows, and attempted Cohen's d but found no mean/sd fields.",
+    "evidence": {
+      "claim_asserted_days": 30,
+      "current_policy_days": 30,
+      "current_policy_id": "returns_policy_v2",
+      "stale_base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "current_minus_stale_days": 16,
+      "cohens_d": null,
+      "cohens_d_note": "Not computable because the bundled data contains no mean_treat, mean_ctrl, sd_treat, or sd_ctrl fields."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "68bdf2b90a02895e0daad84b6a7595c25c9bf89d506ad8db9106b729eeefd19d"
+}

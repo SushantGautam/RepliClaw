@@ -1,0 +1,46 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-2e406437",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "11a479ea161875d6d1b1e535183894c90d2b40caae6645ffd8afd5e15a450d1a",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:17:41.202973+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports a 30-day full-refund window.",
+    "plan": "Compare current policy 30 days to order age 10 and stale 14.",
+    "evidence": {
+      "current_days": 30,
+      "order_days": 10,
+      "stale_days": 14,
+      "margin_days": 20,
+      "eligible": true,
+      "test": "deterministic threshold check",
+      "note": "no two-group means"
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:17:41.205891+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports a 30-day full-refund window.",
+    "plan": "Compare current policy 30 days to order age 10 and stale 14.",
+    "evidence": {
+      "current_days": 30,
+      "order_days": 10,
+      "stale_days": 14,
+      "margin_days": 20,
+      "eligible": true,
+      "test": "deterministic threshold check",
+      "note": "no two-group means"
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "c03f6ed4ba555cc1e21d0abe3da841d9598301d0ae844212dd77e47b175ba7ab"
+}

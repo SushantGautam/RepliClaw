@@ -1,0 +1,14 @@
+{
+  "aborted_or_invalid": 0,
+  "case_id": "policy_rag_v1",
+  "completed_or_recorded": 120,
+  "cumulative_tokens": 1716411,
+  "errored": 0,
+  "master_token_ceiling": 10800000,
+  "missing_or_skipped": 0,
+  "pin": "1df4c7164eb85a098385e90ae5c583e13b156dd7",
+  "refused": 0,
+  "schema": "p08.campaign_summary/1",
+  "stopped_master_ceiling": false,
+  "total_runs": 120
+}

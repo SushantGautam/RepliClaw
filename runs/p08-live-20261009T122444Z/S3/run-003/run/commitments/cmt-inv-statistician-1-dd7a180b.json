@@ -1,0 +1,42 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-dd7a180b",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "10e2b2fd65ec4448acaeb3bfd39ed70b5bbdf93490d8700a969ecdbf28892eec",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T12:46:17.090006+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports 30-day full refund.",
+    "plan": "Compare current policy doc to stale base reference.",
+    "evidence": {
+      "current_days": 30,
+      "stale_days": 14,
+      "delta": 16,
+      "test": "none",
+      "p": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T12:46:17.094273+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports 30-day full refund.",
+    "plan": "Compare current policy doc to stale base reference.",
+    "evidence": {
+      "current_days": 30,
+      "stale_days": 14,
+      "delta": 16,
+      "test": "none",
+      "p": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "a62fac472a17f7815a6bf7a786f0b0923f86a36b62312cacd86cc160dd893c21"
+}

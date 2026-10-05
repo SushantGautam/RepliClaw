@@ -1,0 +1,38 @@
+{
+  "claim_id": "claim-policy_rag_v1",
+  "statement": "State the correct CURRENT 30-day full-refund return window for standard items.",
+  "domain": "policy_rag",
+  "subclaims": [
+    "Customer asks whether order #1001 (a standard item bought 10 days ago) can be returned for a full refund."
+  ],
+  "assumptions": [],
+  "data": {
+    "test_prompt": "My order #1001 is a standard item I bought 10 days ago. Can I return it for a full refund?",
+    "policy_docs": [
+      {
+        "id": "returns_policy_v2",
+        "title": "Returns Policy (current, v2 2025-01)",
+        "body": "Standard items can be returned within 30 days of purchase for a full refund."
+      },
+      {
+        "id": "clearance_rule",
+        "title": "Clearance Items",
+        "body": "Clearance items are not eligible for return or refund."
+      }
+    ],
+    "base_retrieval": [
+      "Returns Policy (v1, 2024-01): Standard items can be returned within 14 days of purchase for a full refund."
+    ],
+    "order": {
+      "order_id": "1001",
+      "item_type": "standard",
+      "purchased_days_ago": 10
+    },
+    "base_policy_conflict": "policy_docs order: [returns_policy_v2, clearance_rule]; conflict_resolution: first-match-wins (returns_policy_v2 rendered first)",
+    "base_judge_reference_days": 14
+  },
+  "source_artifacts": [],
+  "reference_truth": null,
+  "seeded_fault": null,
+  "created_at": "2026-10-09T12:50:29.950187+00:00"
+}

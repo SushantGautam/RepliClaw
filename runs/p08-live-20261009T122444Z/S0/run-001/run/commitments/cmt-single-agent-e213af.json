@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-single-agent-e213af",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "48cdc234ceed256166a4bf8f0168b55e7c83f05bf012749b266e918a201a9f2a",
+  "phase": "committed",
+  "timestamp": "2026-10-09T12:25:56.463101+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 specifies a 30-day full-refund window for standard items, and the 10-day-old standard order is within that window.",
+    "plan": "Extracted the current policy from policy_docs (returns_policy_v2), parsed the 30-day window, compared it with the order age (10 days), and compared it against the stale base_retrieval/base_judge reference (14 days).",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "order_age_days": 10,
+      "eligible_for_full_refund": true,
+      "stale_base_retrieval_days": 14,
+      "stale_judge_reference_days": 14,
+      "window_difference_days": 16,
+      "relative_difference": 1.142857,
+      "cohen_d": null,
+      "cohen_d_note": "No mean_treat/mean_ctrl/sd fields are present, so Cohen's d is not computable."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "d8927e043b6b7b29e110f9a8a2696df8ef0afd42408b03996fc34c517d831085"
+}

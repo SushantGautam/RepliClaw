@@ -1,0 +1,15 @@
+{"resumed_tokens": 1604063, "resumed_runs": {"S0": 20, "S3": 20, "S4": 20, "S5": 19, "A1": 17, "A3": 17}}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-011/run-01", "status": "completed", "wall_s": 132.416}
+{"arm": "S5", "run": "run-011", "status": "completed", "tokens": 19867, "note": null, "cumulative_tokens": 1623930}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-007/run-01", "status": "completed", "wall_s": 104.731}
+{"arm": "A1", "run": "run-007", "status": "completed", "tokens": 16290, "note": null, "cumulative_tokens": 1640220}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-019/run-01", "status": "completed", "wall_s": 103.032}
+{"arm": "A1", "run": "run-019", "status": "completed", "tokens": 16727, "note": null, "cumulative_tokens": 1656947}
+A1/run-020: ERROR ValueError
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-009/run-01", "status": "completed", "wall_s": 87.872}
+{"arm": "A3", "run": "run-009", "status": "completed", "tokens": 14032, "note": null, "cumulative_tokens": 1670979}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-013/run-01", "status": "completed", "wall_s": 71.88}
+{"arm": "A3", "run": "run-013", "status": "completed", "tokens": 11900, "note": null, "cumulative_tokens": 1682879}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-015/run-01", "status": "completed", "wall_s": 90.827}
+{"arm": "A3", "run": "run-015", "status": "completed", "tokens": 15092, "note": null, "cumulative_tokens": 1697971}
+{"summary": {"schema": "p08.campaign_summary/1", "case_id": "policy_rag_v1", "pin": "1df4c7164eb85a098385e90ae5c583e13b156dd7", "total_runs": 120, "completed_or_recorded": 119, "aborted_or_invalid": 0, "refused": 0, "errored": 1, "missing_or_skipped": 1, "cumulative_tokens": 1697971, "master_token_ceiling": 10800000, "stopped_master_ceiling": false}}

@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-454926",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "ac7c5383996b86c2cb95f066d3273d0109094f79a5b0032ddb59d976d1b16c74",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:32:35.759493+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly states that standard items can be returned within 30 days of purchase for a full refund, so the claimed 30-day window is supported.",
+    "plan": "Extract the current policy window from policy_docs, compare it with the stale base_retrieval window and the order age, compute the numeric discrepancy and window membership; a two-sample t-test is not applicable because no group means, sample sizes, or standard deviations are provided.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_retrieval_days": 14,
+      "order_age_days": 10,
+      "current_minus_stale_days": 16,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "two_sample_t_test": "not_applicable_no_group_means",
+      "p_value": null,
+      "effect_size": null,
+      "ci": null
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "5e95dcc130fafec4106dc259eb7e2df11a0f302a49740249f05db8cbfa310452"
+}

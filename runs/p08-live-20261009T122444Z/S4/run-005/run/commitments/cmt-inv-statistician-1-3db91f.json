@@ -1,0 +1,37 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-3db91f",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "4a377c96dcec28286b1224d2b326c24c8c181dc07ab5826bace74916fe30189b",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:22:55.699303+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 sets a 30-day full-refund window for standard items, so the claimed 30-day window is correct.",
+    "plan": "Extracted numeric windows from policy_docs and base_retrieval, compared current v2 (30 days) with stale v1/judge reference (14 days), computed delta and checked order age 10 days against both windows; no two-sample t-test was possible because no n/mean/sd fields were provided, so deterministic policy arithmetic was used.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "stale_reference_days": 14,
+      "delta_days": 16,
+      "order_age_days": 10,
+      "order_within_current_30d": true,
+      "order_within_stale_14d": true,
+      "two_sample_t_test": "not applicable: no n, mean_*, or sd_* fields",
+      "t": null,
+      "df": null,
+      "p_value": null,
+      "ci": null,
+      "effect_size": null
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "18e14823e214ab964f001b028b07f4060d43a2f227adde001ebe17bfec000335"
+}

@@ -47,6 +47,14 @@ valid answers.
 - [Research strategy & evidence obligations](docs/EVIDENCE_ESCROW_SWARM.md)
 - [Preregistered experiment protocol v2](docs/EXPERIMENT_PROTOCOL_V2.md)
 - [Prior-art & novelty gate](docs/PRIOR_ART_NOVELTY_GATE.md)
+- [Live campaign result statement (P1, counterevidence-first)](docs/experiments/P1_RESULT_STATEMENT_20261009.md)
+- [Two-key authorization record](docs/application/TWO_KEY_SIGNOFF_RECORD.md)
+- [Science-judge review of the live result](docs/reviews/SCIENCE-JUDGE-CAMPAIGN-RESULTS-20261009.md)
+- [Code-judge execution-integrity review](docs/reviews/CODE-JUDGE-CAMPAIGN-EVIDENCE-20261009.md)
+
+The live result statement includes the full counterevidence, all seven
+mandatory disclosures, and points at the committed per-run evidence tree, so
+every reported number is recomputable with the frozen scorer.
 
 The sections below, from the historical prototype to the acceptance-criteria
 evidence map, document the **archived six-fixture prototype baseline** on which
@@ -295,17 +303,31 @@ deps/scienceclaw/     vendored ScienceClaw primitives (reused, not forked)
 
 
 ## Active RepliClaw research program (October 2026)
-**Important:** This README documents the existing prototype and its archived six-fixture benchmark, NOT a proven scientific result. The real live-LLM misleading-case comparison in `artifacts/demo-llm/` shows all five strategies succeed; no RepliClaw advantage has yet been demonstrated in the preregistered live campaign. The research program is **WORKING**.
+**Important:** This README documents the existing prototype and its archived six-fixture benchmark. The preregistered live campaign described below is now **complete** and its result — including its limits — is reported in [docs/experiments/P1_RESULT_STATEMENT_20261009.md](docs/experiments/P1_RESULT_STATEMENT_20261009.md).
 
 ### Status (honest, 2026-10-09)
 Pipeline + comparators + scorer + audit machinery are **implemented, tested
-(248 tests) and independently reviewed**. The **R-2 live pre-flight completed
+(249 tests) and independently reviewed**. The **R-2 live pre-flight completed
 2026-10-09** (live token floors measured: S4 = 16,300 / S3 = 15,993 /
-S0 = 8,588; verdict OK). The **preregistered 6-arm × 20-run live campaign is
-launch-ready** (window 2026-10-10 → 2026-10-23). **NO live campaign results
-exist yet** — everything offline is labeled offline; the older 66-test
-prototype suite above is a historical baseline, and the current run-branch
-gate is the 248-test gate.
+S0 = 8,588; verdict OK). The **preregistered 6-arm × 20-run live campaign
+COMPLETED 2026-10-09** (120/120 runs, 0 errored, 1,716,411 tokens — 15.9% of
+the preregistered 10.8M ceiling; full per-run evidence in
+`runs/p08-live-20261009T122444Z/`).
+
+**P1 SUPPORTED (preregistered rule, single seeded case `policy_rag_v1`):** on
+correct root-cause diagnosis (M1), the counterfactual-intervention pipeline
+(S5) scored **1.000** vs the open-sharing swarm (S4) **0.200** (Δ = 0.800,
+within-case bootstrap 95% CI [0.60, 0.95]). **Attribution, per the
+independent science review: the effect is attributable to running the
+preregistered counterfactual interventions — not to escrow, decentralization,
+or autonomy** (the no-escrow and random-select ablation arms, which run the
+same interventions, also scored 1.000). Scope: **single seeded case; no
+generalization claim.** The full counterevidence-first statement, all seven
+mandatory disclosures, execution-integrity review (code judge MERGE-OK;
+science judge APPROVE-WITH-CONDITIONS, conditions met) and the two-key
+authorization record are in the linked documents below. Offline runs are
+still labeled offline; the older 66-test prototype suite above is a
+historical baseline, and the current gate is the 249-test suite.
 
 - [Research strategy & evidence obligations](docs/EVIDENCE_ESCROW_SWARM.md)
 - [Independent review reports](docs/reviews/)

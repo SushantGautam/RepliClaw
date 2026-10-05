@@ -1,0 +1,2 @@
+{"agent_id": null, "payload": {"arm": "open_sharing_swarm", "event": "run_start", "executor": "llm"}, "seq": 1, "type": "trace"}
+{"agent_id": null, "payload": {"status": "completed", "verdict": "SUPPORTED"}, "seq": 2, "type": "verdict"}

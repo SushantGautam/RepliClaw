@@ -1,0 +1,42 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-6351f0e6",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "f0245ad6e1152649a0d12ef47749055334783c23d2ca397366a837de0a20c1c4",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:04:32.082083+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Current standard full-refund window is 30 days.",
+    "plan": "Compare current policy text to claim and stale refs.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "difference": 0,
+      "stale_reference_days": 14,
+      "order_within_window": true
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:04:32.086383+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current standard full-refund window is 30 days.",
+    "plan": "Compare current policy text to claim and stale refs.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "difference": 0,
+      "stale_reference_days": 14,
+      "order_within_window": true
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "79d7807be5dd72752072c94b03ae1ccc2104fb15bfbd0ff543eaf6d8cb41d0f6"
+}

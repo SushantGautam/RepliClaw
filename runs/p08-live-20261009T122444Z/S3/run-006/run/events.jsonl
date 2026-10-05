@@ -1,0 +1,22 @@
+{"kind": "claim_ingested", "agent_id": "orchestrator", "ts": "2026-10-09T12:50:29.952633+00:00", "claim_id": "claim-policy_rag_v1", "statement": "State the correct CURRENT 30-day full-refund return window for standard items."}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T12:50:29.953319+00:00", "phase": "blind", "n_investigators": 3}
+{"kind": "context_built", "agent_id": "inv-analyst-1", "ts": "2026-10-09T12:50:29.953738+00:00", "phase": "blind", "sources": ["bundled_data"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "context_built", "agent_id": "inv-statistician-1", "ts": "2026-10-09T12:50:50.727119+00:00", "phase": "blind", "sources": ["bundled_data"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "investigator_error", "agent_id": "inv-statistician-1", "ts": "2026-10-09T12:51:52.180554+00:00", "error": "no JSON object in model output: ''"}
+{"kind": "context_built", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T12:51:52.183478+00:00", "phase": "blind", "sources": ["bundled_data", "published_figures"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T12:52:40.851990+00:00", "phase": "committed"}
+{"kind": "committed", "agent_id": "inv-analyst-1", "ts": "2026-10-09T12:52:40.853158+00:00", "commitment_id": "cmt-inv-analyst-1-7299a601", "content_hash": "68e306887afeaed9641974de869fad086bf39eaf14f574fb18d0de871c449c18", "seal_hash": "985bff9428599a0c22f4f8eb83fb93384db3f43af16bf815dcaaa77981752fe1", "phase": "committed"}
+{"kind": "committed", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T12:52:40.853509+00:00", "commitment_id": "cmt-inv-falsifier-1-4b631183", "content_hash": "c7503d460949fd7d612167be950dec484a53493ce87bad64c795d34a3c5ad834", "seal_hash": "dd20f87ca2d1e66ab344310f775ef1a64767acfbdd973497054b67c18e1f6d3f", "phase": "committed"}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T12:52:40.853718+00:00", "phase": "revealing"}
+{"kind": "revealed", "agent_id": "inv-analyst-1", "ts": "2026-10-09T12:52:40.854500+00:00", "commitment_id": "cmt-inv-analyst-1-7299a601", "content_hash": "68e306887afeaed9641974de869fad086bf39eaf14f574fb18d0de871c449c18", "verified": true}
+{"kind": "reveal_ok", "agent_id": "inv-analyst-1", "ts": "2026-10-09T12:52:40.854664+00:00", "commitment_id": "cmt-inv-analyst-1-7299a601"}
+{"kind": "revealed", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T12:52:40.856110+00:00", "commitment_id": "cmt-inv-falsifier-1-4b631183", "content_hash": "c7503d460949fd7d612167be950dec484a53493ce87bad64c795d34a3c5ad834", "verified": true}
+{"kind": "reveal_ok", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T12:52:40.856321+00:00", "commitment_id": "cmt-inv-falsifier-1-4b631183"}
+{"kind": "evidence_recorded", "agent_id": "inv-analyst-1", "ts": "2026-10-09T12:52:40.856661+00:00", "evidence_id": "ev-inv-analyst-1-b67f63e5", "relation": "supports"}
+{"kind": "evidence_recorded", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T12:52:40.857682+00:00", "evidence_id": "ev-inv-falsifier-1-8f688e79", "relation": "supports"}
+{"kind": "agreement_computed", "agent_id": "orchestrator", "ts": "2026-10-09T12:52:40.859114+00:00", "agreement": {"label": "agreement", "majority": 1.0, "unresolved": false}, "n_conflicts": 0, "label": "agreement"}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T12:52:40.859406+00:00", "phase": "followup"}
+{"kind": "no_followup_needed", "agent_id": "orchestrator", "ts": "2026-10-09T12:52:40.859540+00:00", "agreement": {"label": "agreement", "majority": 1.0, "unresolved": false}}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T12:52:40.859711+00:00", "phase": "verdict"}
+{"kind": "verdict", "agent_id": "orchestrator", "ts": "2026-10-09T12:52:40.860071+00:00", "label": "SUPPORTED", "confidence": 0.98}
+{"kind": "artifacts_saved", "agent_id": "orchestrator", "ts": "2026-10-09T12:52:40.861686+00:00", "count": 2, "base": "runs/p08-live-20261009T122444Z/staging/S3/run-006/run-01/run/artifacts"}

@@ -1,0 +1,25 @@
+{"kind": "claim_ingested", "agent_id": "orchestrator", "ts": "2026-10-09T13:00:09.520652+00:00", "claim_id": "claim-policy_rag_v1", "statement": "State the correct CURRENT 30-day full-refund return window for standard items."}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:00:09.523725+00:00", "phase": "blind", "n_investigators": 3}
+{"kind": "context_built", "agent_id": "inv-analyst-1", "ts": "2026-10-09T13:00:09.523881+00:00", "phase": "blind", "sources": ["bundled_data"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "context_built", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:01:03.729664+00:00", "phase": "blind", "sources": ["bundled_data"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "context_built", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:01:24.789000+00:00", "phase": "blind", "sources": ["bundled_data", "published_figures"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:02:09.156743+00:00", "phase": "committed"}
+{"kind": "committed", "agent_id": "inv-analyst-1", "ts": "2026-10-09T13:02:09.158172+00:00", "commitment_id": "cmt-inv-analyst-1-dbe095b4", "content_hash": "2e42aa0d124c6de07f46b5d41f1fe19bb38239963ac1cc669a3aa75c22c2c2ce", "seal_hash": "0ac07343979c51bbfd250ee830e824ac210aaeee800a03b6af842729e149d4f8", "phase": "committed"}
+{"kind": "committed", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:02:09.158771+00:00", "commitment_id": "cmt-inv-statistician-1-a0903d96", "content_hash": "5c6f46685e624eb06d98fe79509f1f3a34efa501ef727529efdace1656f736cd", "seal_hash": "d5ed7662065882089694c99aab60f04219d584f500b55ae2812da4848de9ceef", "phase": "committed"}
+{"kind": "committed", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:02:09.159359+00:00", "commitment_id": "cmt-inv-falsifier-1-68a37a0c", "content_hash": "efe673b73d562a4e9479a9b635e5d29ab0374a343306bf035f54fd2f0857c0cc", "seal_hash": "2e7c440ed03b49eae946ed66acb34a5d6920d3fb5040ef9e12084ab933dd7bb8", "phase": "committed"}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:02:09.159572+00:00", "phase": "revealing"}
+{"kind": "revealed", "agent_id": "inv-analyst-1", "ts": "2026-10-09T13:02:09.160333+00:00", "commitment_id": "cmt-inv-analyst-1-dbe095b4", "content_hash": "2e42aa0d124c6de07f46b5d41f1fe19bb38239963ac1cc669a3aa75c22c2c2ce", "verified": true}
+{"kind": "reveal_ok", "agent_id": "inv-analyst-1", "ts": "2026-10-09T13:02:09.160467+00:00", "commitment_id": "cmt-inv-analyst-1-dbe095b4"}
+{"kind": "revealed", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:02:09.161793+00:00", "commitment_id": "cmt-inv-statistician-1-a0903d96", "content_hash": "5c6f46685e624eb06d98fe79509f1f3a34efa501ef727529efdace1656f736cd", "verified": true}
+{"kind": "reveal_ok", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:02:09.161957+00:00", "commitment_id": "cmt-inv-statistician-1-a0903d96"}
+{"kind": "revealed", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:02:09.162467+00:00", "commitment_id": "cmt-inv-falsifier-1-68a37a0c", "content_hash": "efe673b73d562a4e9479a9b635e5d29ab0374a343306bf035f54fd2f0857c0cc", "verified": true}
+{"kind": "reveal_ok", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:02:09.162590+00:00", "commitment_id": "cmt-inv-falsifier-1-68a37a0c"}
+{"kind": "evidence_recorded", "agent_id": "inv-analyst-1", "ts": "2026-10-09T13:02:09.163206+00:00", "evidence_id": "ev-inv-analyst-1-60b22da5", "relation": "supports"}
+{"kind": "evidence_recorded", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:02:09.163550+00:00", "evidence_id": "ev-inv-statistician-1-7a0bba54", "relation": "supports"}
+{"kind": "evidence_recorded", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:02:09.163845+00:00", "evidence_id": "ev-inv-falsifier-1-90ed9f9f", "relation": "supports"}
+{"kind": "agreement_computed", "agent_id": "orchestrator", "ts": "2026-10-09T13:02:09.164058+00:00", "agreement": {"label": "agreement", "majority": 1.0, "unresolved": false}, "n_conflicts": 0, "label": "agreement"}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:02:09.164249+00:00", "phase": "followup"}
+{"kind": "no_followup_needed", "agent_id": "orchestrator", "ts": "2026-10-09T13:02:09.164440+00:00", "agreement": {"label": "agreement", "majority": 1.0, "unresolved": false}}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:02:09.164567+00:00", "phase": "verdict"}
+{"kind": "verdict", "agent_id": "orchestrator", "ts": "2026-10-09T13:02:09.164972+00:00", "label": "SUPPORTED", "confidence": 0.98}
+{"kind": "artifacts_saved", "agent_id": "orchestrator", "ts": "2026-10-09T13:02:09.167932+00:00", "count": 3, "base": "runs/p08-live-20261009T122444Z/staging/S3/run-010/run-01/run/artifacts"}

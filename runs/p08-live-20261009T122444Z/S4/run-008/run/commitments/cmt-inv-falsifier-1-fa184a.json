@@ -1,0 +1,35 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-fa184a",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "cf1986d8e7e376c885e6ccddc0a5caaab0d82241192b733a03334a5e60911efd",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:33:04.113754+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly states a 30-day full-refund window for standard items, so the claimed 30-day window is supported despite a stale 14-day retrieval/judge reference.",
+    "plan": "Extract the numeric return window from the current policy document, compare it with the stale base_retrieval window and the order age, compute the day discrepancy and window membership; raw RR/CI computation was not applicable because no event counts or baseline_rr were provided.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_retrieval_days": 14,
+      "order_age_days": 10,
+      "current_minus_stale_days": 16,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "raw_event_counts_present": false,
+      "rr": null,
+      "ci95": null,
+      "p_value": null,
+      "note": "No events_treat/events_ctrl/tot_treat/tot_ctrl or baseline_rr fields are present, so the raw relative-risk test is not computable; the verdict uses direct extraction from policy_docs and arithmetic day comparisons."
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "69392f1d9cefd899ae311c61212cb0e1d061134151fa40a32af0aa85c6e36406"
+}

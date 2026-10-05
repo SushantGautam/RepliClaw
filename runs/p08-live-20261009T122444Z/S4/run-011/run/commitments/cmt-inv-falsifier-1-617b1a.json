@@ -1,0 +1,40 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-617b1a",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "47e97630e69d447452981651cd8eeaad2c85b97d9434d171773c742797472c8f",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:36:18.477549+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current v2 returns policy explicitly states a 30-day full-refund window for standard items, while the 14-day value is a stale v1/judge reference.",
+    "plan": "Check for raw event counts to compute RR and CI; none are present, so no inferential test is computable. Parse the numeric return windows from the bundled policy documents and base retrieval, compare the claimed 30-day window to the current v2 policy window and the stale v1/judge reference, and verify the 10-day-old standard order against both windows.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "stale_base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "claim_matches_current_policy": true,
+      "claim_minus_current_policy_days": 0,
+      "current_minus_stale_days": 16,
+      "judge_reference_matches_stale": true,
+      "judge_reference_matches_current": false,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "raw_event_counts_present": false,
+      "rr": null,
+      "ci95": null,
+      "inferential_test": "not computable; no events_treat, events_ctrl, tot_treat, or tot_ctrl fields are present"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "e12d136a64bc5bfd87e97b2471cb395b832e53cc430a211208a3757dd27672bb"
+}

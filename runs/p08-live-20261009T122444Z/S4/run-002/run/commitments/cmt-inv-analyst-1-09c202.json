@@ -1,0 +1,35 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-09c202",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "a38d442e9ba7910f29fca82638581b7302a12abe1ceb4493ba674702572e1119",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:25:19.427300+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 specifies a 30-day full-refund window for standard items, so the claimed current 30-day window is correct.",
+    "plan": "Extracted the current policy from policy_docs (returns_policy_v2) and compared its 30-day window to the stale base artifacts (base_retrieval v1 and base_judge_reference_days = 14); evaluated the 10-day order against both windows; attempted Cohen's d but no mean/sd fields were present.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "delta_days": 16,
+      "relative_error_vs_current": 0.5333,
+      "order_purchased_days_ago": 10,
+      "eligible_under_current_30": true,
+      "eligible_under_stale_14": true,
+      "cohens_d": null,
+      "p_value": null,
+      "ci": null,
+      "note": "No mean_treat/mean_ctrl/sd fields, so Cohen's d is not computable; numeric comparison of policy days is concrete."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "4e6c61112b9e485acc50292d512fbf646060a95cbaefed6c3bafc2c81ca71b88"
+}

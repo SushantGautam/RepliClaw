@@ -1,0 +1,38 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-84579e",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "459b18b54c3f04fd47c0ed16dc6b9fcdb7de1b8069a49908e9b6227281e76bd0",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:38:55.279258+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly sets the standard-item full-refund window at 30 days, matching the claimed current window.",
+    "plan": "Extracted day counts from policy_docs and base_retrieval, compared the current v2 value to the claimed 30-day value and to the stale v1/judge reference 14-day value, and checked the 10-day order age against both windows.",
+    "evidence": {
+      "test": "deterministic policy-day consistency check; two-sample t-test not applicable because no n/mean/sd fields are present",
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "stale_policy_days": 14,
+      "base_judge_reference_days": 14,
+      "current_minus_claimed_days": 0,
+      "current_minus_stale_days": 16,
+      "judge_reference_minus_current_days": -16,
+      "order_days": 10,
+      "eligible_under_current": true,
+      "eligible_under_stale": true,
+      "p_value": null,
+      "ci": null,
+      "defect_signal": "base_retrieval contains only the stale 14-day v1 policy while policy_docs contains the current 30-day v2 policy, and base_judge_reference_days is 14."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "3bddb24ee52f2921b815c281eb2432c692dbfdfb2ad2ffc8940284622e9bad5f"
+}

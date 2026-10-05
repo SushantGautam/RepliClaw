@@ -1,0 +1,33 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-cade8f",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "d759dd34d1947dc0c1cf55cb6f4741719e83c69fd4937beb5dcf41265116ec85",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:34:52.998692+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly sets a 30-day full-refund window for standard items, so the claimed current 30-day window is supported.",
+    "plan": "Extracted the current policy value from policy_docs.returns_policy_v2, compared it with the stale reference value in base_judge_reference_days, checked the order age against the current window, and computed the numeric difference between the current and stale windows.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_age_days": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "delta_days": 16,
+      "relative_delta_vs_stale": 1.142857,
+      "cohens_d": null,
+      "note": "No mean_treat, mean_ctrl, or sd fields are present, so Cohen's d is not computable; the numeric policy comparison directly supports the 30-day current window."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "387d80f08aef9f0242c964e97772f6f0eea6ad179ab39b9a1395b93d43ac9127"
+}

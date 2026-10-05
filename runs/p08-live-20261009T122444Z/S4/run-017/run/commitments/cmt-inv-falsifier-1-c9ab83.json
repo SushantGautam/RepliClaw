@@ -1,0 +1,36 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-c9ab83",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "802cb7ba56609d1ece8a005adf4b8ae7b7f337910c9b0d0c3861c4934789c07e",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:25:30.053623+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current v2 returns policy explicitly sets a 30-day full-refund window for standard items, and the 10-day-old standard order is within that window, so the 30-day claim is supported.",
+    "plan": "Extract the current policy window from policy_docs, compare it with the stale v1 retrieval and judge reference, compute eligibility for the 10-day order, and compute the discrepancy; no events_treat/events_ctrl/tot_treat/tot_ctrl fields were present, so a raw RR/CI was not computable.",
+    "evidence": {
+      "test": "deterministic policy-consistency check",
+      "current_policy_days": 30,
+      "stale_retrieved_policy_days": 14,
+      "judge_reference_days": 14,
+      "order_age_days": 10,
+      "eligible_under_current_policy": true,
+      "window_discrepancy_days": 16,
+      "judge_vs_current_discrepancy_days": 16,
+      "raw_event_counts_present": false,
+      "rr": null,
+      "ci95": null,
+      "p_value": null
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "cbab6e52a542e9a5d93d4f3e959df845c588b758cc9760273c4df1d45ae657eb"
+}

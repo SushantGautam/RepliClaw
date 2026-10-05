@@ -1,0 +1,60 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-db8c2cbe",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "1bc9d6e991d8533ca63aac9aa8bd69ae762c394188c0677eee876346233f7c67",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:11:16.792347+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The bundled current returns policy v2 explicitly sets a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Extract numeric return windows from policy_docs, base_retrieval, and base_judge_reference_days; compare the current v2 value to the claimed 30 days and to the stale 14-day references; no two-group means were provided, so a t-test is not applicable and a deterministic consistency check was used.",
+    "evidence": {
+      "test": "deterministic numeric consistency check; two-sample t-test not applicable because no n/mean/sd fields are present",
+      "current_policy_days": 30,
+      "claimed_days": 30,
+      "base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "current_minus_claim": 0,
+      "current_minus_stale_reference": 16,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "t": null,
+      "df": null,
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:11:16.794892+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The bundled current returns policy v2 explicitly sets a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Extract numeric return windows from policy_docs, base_retrieval, and base_judge_reference_days; compare the current v2 value to the claimed 30 days and to the stale 14-day references; no two-group means were provided, so a t-test is not applicable and a deterministic consistency check was used.",
+    "evidence": {
+      "test": "deterministic numeric consistency check; two-sample t-test not applicable because no n/mean/sd fields are present",
+      "current_policy_days": 30,
+      "claimed_days": 30,
+      "base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "current_minus_claim": 0,
+      "current_minus_stale_reference": 16,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "t": null,
+      "df": null,
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "fca70b3ce2832793b5b7606d216626398215abc95f16dce2a59e7592220945bb"
+}

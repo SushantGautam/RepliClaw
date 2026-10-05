@@ -1,0 +1,54 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-ce568732",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "a08d84e207659a0ef56f857b04c44f76179b703dc2e4cf13e472d0e3b55ff3d4",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:23:57.121961+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current v2 returns policy explicitly states a 30-day full-refund window for standard items, while the 14-day value appears only in stale v1/judge reference data.",
+    "plan": "Extracted numeric return windows from policy_docs, base_retrieval, and base_judge_reference_days; compared the claimed 30 days to the current-labeled policy; computed order eligibility under current and stale windows and the day discrepancy; a two-sample t-test was not applicable because no n/mean/sd fields were provided.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_age_days": 10,
+      "current_policy_match": true,
+      "order_eligible_under_current": true,
+      "order_eligible_under_stale_reference": true,
+      "discrepancy_days": 16,
+      "statistical_test": "not applicable: no n/mean/sd fields; deterministic policy consistency check used",
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.92,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:23:57.125989+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current v2 returns policy explicitly states a 30-day full-refund window for standard items, while the 14-day value appears only in stale v1/judge reference data.",
+    "plan": "Extracted numeric return windows from policy_docs, base_retrieval, and base_judge_reference_days; compared the claimed 30 days to the current-labeled policy; computed order eligibility under current and stale windows and the day discrepancy; a two-sample t-test was not applicable because no n/mean/sd fields were provided.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_age_days": 10,
+      "current_policy_match": true,
+      "order_eligible_under_current": true,
+      "order_eligible_under_stale_reference": true,
+      "discrepancy_days": 16,
+      "statistical_test": "not applicable: no n/mean/sd fields; deterministic policy consistency check used",
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.92,
+    "executable": true
+  },
+  "seal_hash": "0e6ec9021495f75987dc125ee457896c346d5757bfb0d4eec3e2a96b7fb0f2e0"
+}

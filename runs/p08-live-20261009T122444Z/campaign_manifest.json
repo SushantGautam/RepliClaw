@@ -1,0 +1,756 @@
+{
+  "arms": {
+    "A1": "eess_no_escrow",
+    "A3": "eess_random_select",
+    "S0": "single_agent",
+    "S3": "adaptive_central",
+    "S4": "open_sharing_swarm",
+    "S5": "eess"
+  },
+  "assert_frozen": true,
+  "case_id": "policy_rag_v1",
+  "client_factory": "live",
+  "ended_utc": "2026-10-09T17:22:43Z",
+  "envelope_override": null,
+  "harness_seed": 20261010,
+  "master_token_ceiling": 10800000,
+  "max_cycles": 6,
+  "pin": "1df4c7164eb85a098385e90ae5c583e13b156dd7",
+  "runs": {
+    "A1": [
+      {
+        "note": "reused (resume)",
+        "run": "run-001",
+        "status": "completed",
+        "tokens": 21268
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-002",
+        "status": "completed",
+        "tokens": 24574
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-003",
+        "status": "completed",
+        "tokens": 16374
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-004",
+        "status": "completed",
+        "tokens": 16867
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-005",
+        "status": "completed",
+        "tokens": 13691
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-006",
+        "status": "completed",
+        "tokens": 18145
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-007",
+        "status": "completed",
+        "tokens": 16290
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-008",
+        "status": "completed",
+        "tokens": 18123
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-009",
+        "status": "completed",
+        "tokens": 12148
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-010",
+        "status": "completed",
+        "tokens": 18193
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-011",
+        "status": "completed",
+        "tokens": 17473
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-012",
+        "status": "completed",
+        "tokens": 16926
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-013",
+        "status": "completed",
+        "tokens": 19823
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-014",
+        "status": "completed",
+        "tokens": 16599
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-015",
+        "status": "completed",
+        "tokens": 12668
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-016",
+        "status": "completed",
+        "tokens": 18020
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-017",
+        "status": "completed",
+        "tokens": 19158
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-018",
+        "status": "completed",
+        "tokens": 18115
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-019",
+        "status": "completed",
+        "tokens": 16727
+      },
+      {
+        "note": null,
+        "run": "run-020",
+        "status": "completed",
+        "tokens": 18440
+      }
+    ],
+    "A3": [
+      {
+        "note": "reused (resume)",
+        "run": "run-001",
+        "status": "completed",
+        "tokens": 13579
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-002",
+        "status": "completed",
+        "tokens": 20072
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-003",
+        "status": "completed",
+        "tokens": 13593
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-004",
+        "status": "completed",
+        "tokens": 16992
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-005",
+        "status": "completed",
+        "tokens": 13558
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-006",
+        "status": "completed",
+        "tokens": 17878
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-007",
+        "status": "completed",
+        "tokens": 16518
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-008",
+        "status": "completed",
+        "tokens": 16731
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-009",
+        "status": "completed",
+        "tokens": 14032
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-010",
+        "status": "completed",
+        "tokens": 13138
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-011",
+        "status": "completed",
+        "tokens": 10570
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-012",
+        "status": "completed",
+        "tokens": 12702
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-013",
+        "status": "completed",
+        "tokens": 11900
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-014",
+        "status": "completed",
+        "tokens": 16346
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-015",
+        "status": "completed",
+        "tokens": 15092
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-016",
+        "status": "completed",
+        "tokens": 11436
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-017",
+        "status": "completed",
+        "tokens": 15283
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-018",
+        "status": "completed",
+        "tokens": 14952
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-019",
+        "status": "completed",
+        "tokens": 10136
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-020",
+        "status": "completed",
+        "tokens": 11228
+      }
+    ],
+    "S0": [
+      {
+        "note": "reused (resume)",
+        "run": "run-001",
+        "status": "completed",
+        "tokens": 3356
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-002",
+        "status": "completed",
+        "tokens": 3728
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-003",
+        "status": "completed",
+        "tokens": 4293
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-004",
+        "status": "completed",
+        "tokens": 4169
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-005",
+        "status": "completed",
+        "tokens": 4609
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-006",
+        "status": "completed",
+        "tokens": 7942
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-007",
+        "status": "completed",
+        "tokens": 5024
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-008",
+        "status": "completed",
+        "tokens": 3833
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-009",
+        "status": "completed",
+        "tokens": 10026
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-010",
+        "status": "completed",
+        "tokens": 7561
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-011",
+        "status": "completed",
+        "tokens": 4204
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-012",
+        "status": "completed",
+        "tokens": 9254
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-013",
+        "status": "completed",
+        "tokens": 3057
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-014",
+        "status": "completed",
+        "tokens": 3849
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-015",
+        "status": "completed",
+        "tokens": 9474
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-016",
+        "status": "completed",
+        "tokens": 7367
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-017",
+        "status": "completed",
+        "tokens": 4030
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-018",
+        "status": "completed",
+        "tokens": 8379
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-019",
+        "status": "completed",
+        "tokens": 8711
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-020",
+        "status": "completed",
+        "tokens": 9696
+      }
+    ],
+    "S3": [
+      {
+        "note": "reused (resume)",
+        "run": "run-001",
+        "status": "completed",
+        "tokens": 21086
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-002",
+        "status": "completed",
+        "tokens": 16178
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-003",
+        "status": "completed",
+        "tokens": 15584
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-004",
+        "status": "completed",
+        "tokens": 18204
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-005",
+        "status": "completed",
+        "tokens": 14038
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-006",
+        "status": "completed",
+        "tokens": 12777
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-007",
+        "status": "completed",
+        "tokens": 21836
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-008",
+        "status": "completed",
+        "tokens": 16165
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-009",
+        "status": "completed",
+        "tokens": 9603
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-010",
+        "status": "completed",
+        "tokens": 21167
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-011",
+        "status": "completed",
+        "tokens": 25862
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-012",
+        "status": "completed",
+        "tokens": 24959
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-013",
+        "status": "completed",
+        "tokens": 16367
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-014",
+        "status": "completed",
+        "tokens": 18008
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-015",
+        "status": "completed",
+        "tokens": 20542
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-016",
+        "status": "completed",
+        "tokens": 17069
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-017",
+        "status": "completed",
+        "tokens": 21576
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-018",
+        "status": "completed",
+        "tokens": 25433
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-019",
+        "status": "completed",
+        "tokens": 12674
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-020",
+        "status": "completed",
+        "tokens": 18673
+      }
+    ],
+    "S4": [
+      {
+        "note": "reused (resume)",
+        "run": "run-001",
+        "status": "completed",
+        "tokens": 11452
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-002",
+        "status": "completed",
+        "tokens": 14548
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-003",
+        "status": "completed",
+        "tokens": 11788
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-004",
+        "status": "completed",
+        "tokens": 14826
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-005",
+        "status": "completed",
+        "tokens": 11979
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-006",
+        "status": "completed",
+        "tokens": 20187
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-007",
+        "status": "completed",
+        "tokens": 11000
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-008",
+        "status": "completed",
+        "tokens": 13515
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-009",
+        "status": "completed",
+        "tokens": 15861
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-010",
+        "status": "completed",
+        "tokens": 11785
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-011",
+        "status": "completed",
+        "tokens": 12290
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-012",
+        "status": "completed",
+        "tokens": 14861
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-013",
+        "status": "completed",
+        "tokens": 18187
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-014",
+        "status": "completed",
+        "tokens": 8690
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-015",
+        "status": "completed",
+        "tokens": 16727
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-016",
+        "status": "completed",
+        "tokens": 13640
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-017",
+        "status": "completed",
+        "tokens": 14469
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-018",
+        "status": "completed",
+        "tokens": 15826
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-019",
+        "status": "completed",
+        "tokens": 13546
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-020",
+        "status": "completed",
+        "tokens": 20828
+      }
+    ],
+    "S5": [
+      {
+        "note": "reused (resume)",
+        "run": "run-001",
+        "status": "completed",
+        "tokens": 16030
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-002",
+        "status": "completed",
+        "tokens": 11528
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-003",
+        "status": "completed",
+        "tokens": 10258
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-004",
+        "status": "completed",
+        "tokens": 14966
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-005",
+        "status": "completed",
+        "tokens": 18261
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-006",
+        "status": "completed",
+        "tokens": 15585
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-007",
+        "status": "completed",
+        "tokens": 17427
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-008",
+        "status": "completed",
+        "tokens": 15429
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-009",
+        "status": "completed",
+        "tokens": 12890
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-010",
+        "status": "completed",
+        "tokens": 22050
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-011",
+        "status": "completed",
+        "tokens": 19867
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-012",
+        "status": "completed",
+        "tokens": 17035
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-013",
+        "status": "completed",
+        "tokens": 11821
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-014",
+        "status": "completed",
+        "tokens": 16538
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-015",
+        "status": "completed",
+        "tokens": 12198
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-016",
+        "status": "completed",
+        "tokens": 14708
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-017",
+        "status": "completed",
+        "tokens": 20001
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-018",
+        "status": "completed",
+        "tokens": 11504
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-019",
+        "status": "completed",
+        "tokens": 14451
+      },
+      {
+        "note": "reused (resume)",
+        "run": "run-020",
+        "status": "completed",
+        "tokens": 12138
+      }
+    ]
+  },
+  "runs_per_arm": 20,
+  "schema": "p08.campaign_manifest/1",
+  "started_utc": "2026-10-09T17:20:45Z"
+}

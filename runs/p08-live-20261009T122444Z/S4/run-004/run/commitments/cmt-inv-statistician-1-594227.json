@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-594227",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "52d3b128a6cdde454a12a2a358a19f2890148a78aee3b4c215883be304d05669",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:27:54.324431+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 specifies a 30-day full-refund window for standard items, so the 30-day claim is supported, while the judge reference value of 14 days is stale.",
+    "plan": "Extract the current policy window from policy_docs, compare it with the stale base retrieval/judge reference, and check the 10-day standard order against both windows using deterministic arithmetic because no n/mean/sd fields are present for a t-test.",
+    "evidence": {
+      "statistical_test": "not applicable: no n, mean, or sd fields provided for a two-sample t-test",
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_days": 10,
+      "current_eligible": true,
+      "stale_eligible": true,
+      "delta_days": 16,
+      "judge_matches_current_policy": false,
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "56d5334c635c9dd0a4492f8e12438f40d9978dae2a8eefdb9467389bae7ed836"
+}

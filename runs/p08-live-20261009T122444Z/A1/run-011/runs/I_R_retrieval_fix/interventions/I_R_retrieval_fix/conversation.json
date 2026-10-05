@@ -1,0 +1,10 @@
+[
+  {
+    "content": "My order #1001 is a standard item I bought 10 days ago. Can I return it for a full refund?",
+    "role": "user"
+  },
+  {
+    "content": "You can return the item within 30 days of purchase and receive a full refund.",
+    "role": "assistant"
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "commitment_id": "cmt-single-agent-29e7eb",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "66750be9e752af16b7711f82468f7b4f86cfff23232d196b7dfc427e9e454b3e",
+  "phase": "committed",
+  "timestamp": "2026-10-09T12:38:16.954334+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current standard full-refund window is 30 days.",
+    "plan": "Compare current v2 policy days to order age and v1.",
+    "evidence": {
+      "current_days": 30,
+      "stale_days": 14,
+      "order_days": 10,
+      "within_current": true,
+      "delta_days": 16
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "e2fd1906c9348340d9337806c4e007cb42eacc139e196e1bfc59ddf25d248d73"
+}

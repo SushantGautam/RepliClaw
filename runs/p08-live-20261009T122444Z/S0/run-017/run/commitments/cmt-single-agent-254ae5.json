@@ -1,0 +1,35 @@
+{
+  "commitment_id": "cmt-single-agent-254ae5",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "e755793c355a9b39cf3dbd42e29deae3116bfa563d21b6572b27a6e748f5c839",
+  "phase": "committed",
+  "timestamp": "2026-10-09T12:36:22.299269+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy supports a 30-day full-refund window for standard items, while the bundled base judge reference of 14 days is stale.",
+    "plan": "Extracted the current policy day count from policy_docs, compared it with base_judge_reference_days and the order age, and checked whether Cohen's d was computable; no mean/sd fields were present, so direct day-count comparison was used.",
+    "evidence": {
+      "current_policy_days": 30,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "delta_days": 16,
+      "relative_error_vs_current": 0.5333,
+      "order_within_current_window": true,
+      "order_within_base_reference_window": true,
+      "cohens_d": null,
+      "p_value": null,
+      "ci": null,
+      "note": "No mean_treat/mean_ctrl/sd fields were provided, so Cohen's d is not computable; the concrete numeric mismatch is 30 - 14 = 16 days."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "9d9ddc84b6006bf3dab15b6189972908a4dac467d8475c047175bc5c719aca2c"
+}

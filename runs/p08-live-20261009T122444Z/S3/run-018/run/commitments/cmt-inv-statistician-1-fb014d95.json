@@ -1,0 +1,46 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-fb014d95",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "35d2a1c22fbc056e338601785c644cf442a394aa6a2e8cb8266a385237a91832",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:20:00.402190+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports 30-day full refund.",
+    "plan": "Compare current policy days to claim and judge.",
+    "evidence": {
+      "current_days": 30,
+      "claim_days": 30,
+      "judge_days": 14,
+      "delta": 16,
+      "match": true,
+      "test": "insufficient",
+      "p": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:20:00.405187+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports 30-day full refund.",
+    "plan": "Compare current policy days to claim and judge.",
+    "evidence": {
+      "current_days": 30,
+      "claim_days": 30,
+      "judge_days": 14,
+      "delta": 16,
+      "match": true,
+      "test": "insufficient",
+      "p": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "aa78357cf9197709e655c74a513291f41821550a898c64afc9a9ec2a9d5ba433"
+}

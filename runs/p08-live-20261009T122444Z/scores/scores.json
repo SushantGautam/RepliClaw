@@ -1,0 +1,484 @@
+{
+  "schema": "p08.scores/1",
+  "case": "policy_rag_v1",
+  "seed": 20261010,
+  "oracle_path": "/Users/sushantgautam/Documents/ScienceClawHackathon/experiments/policy_rag/oracle/oracle.json",
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20261010
+  },
+  "parity": {
+    "identical_envelope_sha256": true,
+    "envelope_hashes": [
+      "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c"
+    ],
+    "overruns": [],
+    "executor_parity": {
+      "S5_S4": true,
+      "S5_S3": true,
+      "S5_S0": true
+    },
+    "ok": true
+  },
+  "stopping_rules": {
+    "S1": {
+      "triggered": false,
+      "detail": {
+        "A1": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "A3": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "S0": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "S3": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "S4": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "S5": {
+          "value": 0.0,
+          "flag_S1": false
+        }
+      }
+    },
+    "S5": {
+      "triggered": false,
+      "detail": {
+        "A1": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "A3": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "S0": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "S3": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "S4": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "S5": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        }
+      }
+    }
+  },
+  "p1_decision": {
+    "s5_m1_mean": 1.0,
+    "s4_m1_mean": 0.2,
+    "m1_canary": {
+      "S4": "ok",
+      "S3": "ok",
+      "S0": "ok"
+    },
+    "ci95": [
+      0.6,
+      0.95
+    ],
+    "decision": "SUPPORTED",
+    "rule": "P1 decision rule (prereg v1.2; character-identical in \u00a72 and \u00a78.1 S4). Estimand: \u0394 = M1(S5) \u2212 M1(S4), the run-level mean difference in correct-diagnosis rate (M1, higher is better) between the escrow arm (S5) and the open-sharing swarm (S4), on the same case/oracle at the matched envelope. Polarity / null: H0: \u0394 \u2264 0 (S5 does not exceed S4); favorable direction: \u0394 > 0 (S5 better than S4). CI convention: bootstrap percentile 95% CI on \u0394, 10,000 resamples, seed 20261010, run-level within-case resampling (resample run indices independently within each arm; \u0394_b = mean_b(M1,S5) \u2212 mean_b(M1,S4)). Final decision (primary, n_run = 20 per arm): P1 SUPPORTED (S5 beats S4) iff CI_lower(\u0394) > 0. P1 FALSIFIED (S5 worse) iff CI_upper(\u0394) < 0; the report leads with this falsification per \u00a78.1 and preserves all S5 artifacts verbatim. Otherwise (CI contains 0): P1 NOT SUPPORTED; report descriptively (point estimate + 95% CI). Interim screen (n_run = 10 per arm, first 10 runs): the 10-run 95% CI on \u0394 is a screening device only. It supports and falsifies nothing, triggers no stop, no amendment, and no report change; it is reported solely to monitor whether the 20-run block is tracking toward or away from the decision boundary."
+  },
+  "arms": {
+    "A1": {
+      "n_runs": 20,
+      "n_valid": 20,
+      "n_aborted_budget": 0,
+      "n_invalid_usage": 0,
+      "voided_runs": [],
+      "aborted_runs": [],
+      "M1": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "M2": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "M3": {
+        "value": 0.5,
+        "ci95": [
+          0.5,
+          0.5
+        ]
+      },
+      "M11": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "M5": {
+        "mean": 17481.1,
+        "min": 12148.0,
+        "max": 24574.0
+      },
+      "M6": {
+        "value": 17481.1,
+        "n_correct": 20
+      },
+      "M7": {
+        "value": 0.0,
+        "flag_S1": false
+      },
+      "M8": {
+        "mean": 0.0
+      },
+      "M9": {
+        "median": 110.217994,
+        "iqr": [
+          102.77576,
+          115.713498
+        ]
+      },
+      "M10": {
+        "value": 0.65,
+        "modal_verdict": "refuted"
+      },
+      "M4": {
+        "total_incidents": 0.0,
+        "flag_S5": false
+      }
+    },
+    "A3": {
+      "n_runs": 20,
+      "n_valid": 20,
+      "n_aborted_budget": 0,
+      "n_invalid_usage": 0,
+      "voided_runs": [],
+      "aborted_runs": [],
+      "M1": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "M2": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "M3": {
+        "value": 0.5,
+        "ci95": [
+          0.5,
+          0.5
+        ]
+      },
+      "M11": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "M5": {
+        "mean": 14286.8,
+        "min": 10136.0,
+        "max": 20072.0
+      },
+      "M6": {
+        "value": 14286.8,
+        "n_correct": 20
+      },
+      "M7": {
+        "value": 0.0,
+        "flag_S1": false
+      },
+      "M8": {
+        "mean": 0.0
+      },
+      "M9": {
+        "median": 86.0442285,
+        "iqr": [
+          77.826349,
+          100.845938
+        ]
+      },
+      "M10": {
+        "value": 0.75,
+        "modal_verdict": "refuted"
+      },
+      "M4": {
+        "total_incidents": 0.0,
+        "flag_S5": false
+      }
+    },
+    "S0": {
+      "n_runs": 20,
+      "n_valid": 20,
+      "n_aborted_budget": 0,
+      "n_invalid_usage": 0,
+      "voided_runs": [],
+      "aborted_runs": [],
+      "M1": {
+        "value": 0.15,
+        "ci95": [
+          0.0,
+          0.3
+        ]
+      },
+      "M2": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M3": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M11": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M5": {
+        "mean": 6128.1,
+        "min": 3057.0,
+        "max": 10026.0
+      },
+      "M6": {
+        "value": 7335.666666666667,
+        "n_correct": 3
+      },
+      "M7": {
+        "value": 0.0,
+        "flag_S1": false
+      },
+      "M8": {
+        "mean": 0.0
+      },
+      "M9": {
+        "median": 30.5012835,
+        "iqr": [
+          23.504182,
+          54.798322
+        ]
+      },
+      "M10": {
+        "value": 1.0,
+        "modal_verdict": "supported"
+      },
+      "M4": {
+        "total_incidents": 0.0,
+        "flag_S5": false
+      }
+    },
+    "S3": {
+      "n_runs": 20,
+      "n_valid": 20,
+      "n_aborted_budget": 0,
+      "n_invalid_usage": 0,
+      "voided_runs": [],
+      "aborted_runs": [],
+      "M1": {
+        "value": 0.05,
+        "ci95": [
+          0.0,
+          0.15
+        ]
+      },
+      "M2": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M3": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M11": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M5": {
+        "mean": 18390.05,
+        "min": 9603.0,
+        "max": 25862.0
+      },
+      "M6": {
+        "value": 21167.0,
+        "n_correct": 1
+      },
+      "M7": {
+        "value": 0.0,
+        "flag_S1": false
+      },
+      "M8": {
+        "mean": 0.0
+      },
+      "M9": {
+        "median": 133.4026915,
+        "iqr": [
+          118.541603,
+          148.985975
+        ]
+      },
+      "M10": {
+        "value": 1.0,
+        "modal_verdict": "supported"
+      },
+      "M4": {
+        "total_incidents": 0.0,
+        "flag_S5": false
+      }
+    },
+    "S4": {
+      "n_runs": 20,
+      "n_valid": 20,
+      "n_aborted_budget": 0,
+      "n_invalid_usage": 0,
+      "voided_runs": [],
+      "aborted_runs": [],
+      "M1": {
+        "value": 0.2,
+        "ci95": [
+          0.05,
+          0.4
+        ]
+      },
+      "M2": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M3": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M11": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M5": {
+        "mean": 14300.25,
+        "min": 8690.0,
+        "max": 20828.0
+      },
+      "M6": {
+        "value": 15050.75,
+        "n_correct": 4
+      },
+      "M7": {
+        "value": 0.0,
+        "flag_S1": false
+      },
+      "M8": {
+        "mean": 0.0
+      },
+      "M9": {
+        "median": 69.5201755,
+        "iqr": [
+          57.955072,
+          80.182417
+        ]
+      },
+      "M10": {
+        "value": 1.0,
+        "modal_verdict": "supported"
+      },
+      "M4": {
+        "total_incidents": 0.0,
+        "flag_S5": false
+      }
+    },
+    "S5": {
+      "n_runs": 20,
+      "n_valid": 20,
+      "n_aborted_budget": 0,
+      "n_invalid_usage": 0,
+      "voided_runs": [],
+      "aborted_runs": [],
+      "M1": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "M2": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "M3": {
+        "value": 0.5,
+        "ci95": [
+          0.5,
+          0.5
+        ]
+      },
+      "M11": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "M5": {
+        "mean": 15234.25,
+        "min": 10258.0,
+        "max": 22050.0
+      },
+      "M6": {
+        "value": 15234.25,
+        "n_correct": 20
+      },
+      "M7": {
+        "value": 0.0,
+        "flag_S1": false
+      },
+      "M8": {
+        "mean": 0.0
+      },
+      "M9": {
+        "median": 94.33442550000001,
+        "iqr": [
+          73.64197,
+          114.329756
+        ]
+      },
+      "M10": {
+        "value": 0.55,
+        "modal_verdict": "refuted"
+      },
+      "M4": {
+        "total_incidents": 0.0,
+        "flag_S5": false
+      }
+    }
+  }
+}

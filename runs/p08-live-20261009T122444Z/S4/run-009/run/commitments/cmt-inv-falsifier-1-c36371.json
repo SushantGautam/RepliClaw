@@ -1,0 +1,38 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-c36371",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "029b2dd9e52be5e938590b5cb8bc8ff2305a4b6101cf5a3ef379db3e0ec41c17",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:34:24.331851+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current v2 returns policy independently states a 30-day full-refund window for standard items, so the claim is supported despite a stale 14-day judge reference.",
+    "plan": "Extracted the current policy day count, base judge reference day count, and order age from bundled data; attempted the prescribed raw-event RR computation but no events_treat/events_ctrl/tot_treat/tot_ctrl fields were present, so I used a deterministic policy-consistency check and checked the clearance rule and first-match-wins conflict resolution.",
+    "evidence": {
+      "test": "deterministic policy consistency check; raw-event RR not computable",
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "base_judge_reference_days": 14,
+      "delta_days": 16,
+      "order_days": 10,
+      "order_eligible_current": true,
+      "order_eligible_base": true,
+      "current_policy_matches_claim": true,
+      "base_judge_matches_claim": false,
+      "clearance_rule_applies": false,
+      "conflict_resolution": "first-match-wins selects returns_policy_v2",
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "1e0cd8a67f15b31280d7f7775a1f9f54fab3cbdb61f384d28679e9ff9f61f3da"
+}

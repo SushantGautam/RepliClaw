@@ -1,0 +1,58 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-a0903d96",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "5c6f46685e624eb06d98fe79509f1f3a34efa501ef727529efdace1656f736cd",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:02:09.158467+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current returns_policy_v2 explicitly sets the standard-item full-refund window at 30 days, matching the claimed 30-day window.",
+    "plan": "Extracted numeric return windows from policy_docs and base_retrieval, compared the claimed 30-day window to the current v2 policy and the stale v1/judge reference, and checked order age 10 days against both windows; a two-sample t-test was not applicable because no n/mean/sd fields were provided.",
+    "evidence": {
+      "claim_window_days": 30,
+      "current_policy_window_days": 30,
+      "stale_v1_window_days": 14,
+      "base_judge_reference_days": 14,
+      "order_age_days": 10,
+      "current_policy_matches_claim": true,
+      "claim_minus_current_days": 0,
+      "claim_minus_stale_days": 16,
+      "stale_gap_relative_to_claim": 0.5333,
+      "eligible_under_current_30_days": true,
+      "eligible_under_stale_14_days": true,
+      "inferential_test": "not applicable; no two-group n/mean/sd data, so deterministic numeric consistency check was used",
+      "p_value": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:02:09.160747+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns_policy_v2 explicitly sets the standard-item full-refund window at 30 days, matching the claimed 30-day window.",
+    "plan": "Extracted numeric return windows from policy_docs and base_retrieval, compared the claimed 30-day window to the current v2 policy and the stale v1/judge reference, and checked order age 10 days against both windows; a two-sample t-test was not applicable because no n/mean/sd fields were provided.",
+    "evidence": {
+      "claim_window_days": 30,
+      "current_policy_window_days": 30,
+      "stale_v1_window_days": 14,
+      "base_judge_reference_days": 14,
+      "order_age_days": 10,
+      "current_policy_matches_claim": true,
+      "claim_minus_current_days": 0,
+      "claim_minus_stale_days": 16,
+      "stale_gap_relative_to_claim": 0.5333,
+      "eligible_under_current_30_days": true,
+      "eligible_under_stale_14_days": true,
+      "inferential_test": "not applicable; no two-group n/mean/sd data, so deterministic numeric consistency check was used",
+      "p_value": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "7cfd7d5170ac753cacaad00691da8e70995ff0d6286ac944e5f995e333ad41c2"
+}

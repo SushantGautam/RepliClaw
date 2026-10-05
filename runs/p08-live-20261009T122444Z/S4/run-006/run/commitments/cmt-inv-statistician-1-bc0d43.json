@@ -1,0 +1,36 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-bc0d43",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "337778aab5b6c6995d0ed8fd21734bdbb4276c54d795f418dc3311d82826fe04",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:30:22.786069+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states a 30-day full-refund window for standard items, so the claimed 30-day window is supported.",
+    "plan": "Extract the current policy value from policy_docs, compare it to the claimed 30-day window, compute the delta, and check order eligibility; a two-sample t-test is not applicable because no group means or sample sizes are provided.",
+    "evidence": {
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "delta_days": 0,
+      "exact_match": true,
+      "stale_reference_days": 14,
+      "stale_delta_days": 16,
+      "order_age_days": 10,
+      "eligible_under_current": true,
+      "eligible_under_stale": true,
+      "two_sample_t_test": "not_applicable_no_group_means",
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "f39545d9dc2d78c072b22cd0e9124e9b5a62afbe9e9d63e118bef028425a8fca"
+}

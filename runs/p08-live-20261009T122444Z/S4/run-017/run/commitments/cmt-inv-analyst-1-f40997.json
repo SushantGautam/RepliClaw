@@ -1,0 +1,29 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-f40997",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "ecfe63b3ff22adf41a418995d5d66b99c072be7ef119a7e55ceb5a53037aef30",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:25:05.539348+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Claim is supported by current v2 policy.",
+    "plan": "Compare current policy days to order age and old days.",
+    "evidence": {
+      "current_days": 30,
+      "old_days": 14,
+      "order_days": 10,
+      "eligible": true,
+      "delta_days": 16
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "2860ee919b3522e6af3091fa503e3853e8226408e6ae5c152c1f8369a21a5da1"
+}

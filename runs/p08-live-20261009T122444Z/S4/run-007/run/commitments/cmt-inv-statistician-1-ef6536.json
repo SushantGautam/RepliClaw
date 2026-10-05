@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-ef6536",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "7ef88900c741c39fffaabd717c8363f3fa16d9691fc28feb9a7f72550896a83a",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:31:35.805361+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The bundled current policy v2 explicitly sets the standard-item full-refund window at 30 days, so the claimed current 30-day window is supported.",
+    "plan": "Extracted the numeric return window from policy_docs, compared it with base_retrieval and base_judge_reference_days, and checked the 10-day-old standard order against both windows; no n/mean/sd fields were present, so a two-sample t-test was not applicable.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "delta_days": 16,
+      "order_age_days": 10,
+      "eligible_under_current": true,
+      "eligible_under_stale": true,
+      "statistical_test": "not applicable (no n/mean/sd fields)",
+      "p_value": null,
+      "effect_size": null,
+      "ci": null
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "97f93662277d4b6c805faac1499a35f57b000bd1923c9dbaabd381e8bd347ce6"
+}

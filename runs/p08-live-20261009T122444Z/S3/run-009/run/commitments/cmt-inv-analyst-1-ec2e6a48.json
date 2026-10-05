@@ -1,0 +1,52 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-ec2e6a48",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "ec1f700ae384475a7a17901a402802bdfc650434b04bf3b44e51c600450e3245",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:00:09.483379+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Claim supported: current v2 says 30 days.",
+    "plan": "Read current policy and compare to stale 14-day refs.",
+    "evidence": {
+      "current_days": 30,
+      "stale_days": 14,
+      "delta_days": 16,
+      "order_days": 10,
+      "eligible": true,
+      "d": null,
+      "means": "none",
+      "current_source": "returns_policy_v2",
+      "stale_source": "base_retrieval",
+      "judge_ref": 14
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:00:09.485794+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Claim supported: current v2 says 30 days.",
+    "plan": "Read current policy and compare to stale 14-day refs.",
+    "evidence": {
+      "current_days": 30,
+      "stale_days": 14,
+      "delta_days": 16,
+      "order_days": 10,
+      "eligible": true,
+      "d": null,
+      "means": "none",
+      "current_source": "returns_policy_v2",
+      "stale_source": "base_retrieval",
+      "judge_ref": 14
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "99cb194b49d550ec0b81acd7997bef25a0e75849b3b176c38f4238d0d84c50ac"
+}

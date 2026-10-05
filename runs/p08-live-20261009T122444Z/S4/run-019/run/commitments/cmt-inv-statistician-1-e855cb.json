@@ -1,0 +1,47 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-e855cb",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "5305eefeff05abbd849966af7ae1b5aec6139ab19fef738dcd2b7e4f12bfa93b",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:27:31.592412+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns_policy_v2 explicitly sets a 30-day full-refund window for standard items, matching the claimed 30-day window, while the 14-day value is a stale v1/judge reference.",
+    "plan": "Parsed policy_docs and base_retrieval, extracted current_policy_days=30 from returns_policy_v2 and stale_reference_days=14 from base_retrieval/base_judge_reference_days, computed claim-current difference=0, stale-current discrepancy=16 days (53.33% of current), checked the 10-day order age against both windows, and noted that no n/mean/sd fields exist so a two-sample t-test is not computable.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "current_policy_source": "returns_policy_v2",
+      "stale_reference_days": 14,
+      "stale_reference_source": "base_retrieval / base_judge_reference_days",
+      "order_age_days": 10,
+      "claim_minus_current_days": 0,
+      "claim_matches_current_policy": true,
+      "stale_minus_current_days": -16,
+      "absolute_discrepancy_days": 16,
+      "relative_discrepancy_vs_current": 0.5333333333,
+      "eligible_under_current_30d": true,
+      "eligible_under_stale_14d": true,
+      "two_sample_t_test": {
+        "t": null,
+        "df": null,
+        "p": null,
+        "alpha": 0.05,
+        "computable": false,
+        "reason": "no n, mean_treat, mean_ctrl, sd_treat, or sd_ctrl fields are present in bundled_data"
+      },
+      "cohen_d": null,
+      "deterministic_check": "returns_policy_v2 body states that standard items can be returned within 30 days of purchase for a full refund"
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "77d1193b630e1e79d12d3e7f615ca87806fa27a469e1bda8984ac589ee598f35"
+}

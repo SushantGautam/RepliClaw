@@ -1,0 +1,33 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-c33acd",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "0ec2d0dfe7be6ea527b2d53858ed32fff138e2b9b52214a7f4aa7cd5236c59ec",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:22:40.482063+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly sets a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Parsed policy_docs and base_retrieval, extracted numeric return windows, compared current v2 (30 days) against stale v1/judge reference (14 days), and checked order age 10 days against both windows; Cohen's d was not computable because no mean/sd fields were provided.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "stale_reference_days": 14,
+      "delta_days": 16,
+      "order_age_days": 10,
+      "eligible_under_current_30d": true,
+      "eligible_under_stale_14d": true,
+      "cohen_d": null,
+      "cohen_d_note": "No mean_treat/mean_ctrl or sd_* fields present, so effect-size computation is insufficient."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "5d5a6d277e4cb4e747702d3c2a2e9b7c1d72d4e7ec8d6af4e5c11b926bef9ae7"
+}

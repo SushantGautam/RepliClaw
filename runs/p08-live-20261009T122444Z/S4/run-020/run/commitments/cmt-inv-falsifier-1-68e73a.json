@@ -1,0 +1,35 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-68e73a",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "79c3d3f416fd8d2ebbae18f2d1bd5e4b3a752c24e1b853dbc9436d391bfd5951",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:29:45.146236+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly sets a 30-day full-refund window for standard items, while the 14-day value is a stale v1 retrieval/judge reference.",
+    "plan": "Extracted numeric windows from policy_docs and base_retrieval/judge reference, compared current 30 days against stale 14 days, checked the 10-day standard order against both windows, and noted that no raw event counts were present for an RR computation.",
+    "evidence": {
+      "current_policy_days": 30,
+      "base_retrieval_days": 14,
+      "judge_reference_days": 14,
+      "order_days": 10,
+      "delta_current_vs_stale_days": 16,
+      "eligible_under_current": true,
+      "eligible_under_stale": true,
+      "raw_event_counts_present": false,
+      "rr": null,
+      "ci95": null,
+      "policy_conflict_resolution": "returns_policy_v2 first-match-wins"
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "b53ac2f45112d07bbecb8eb59551c7e51d38cbaaf033dd25ea636046b379cdf6"
+}

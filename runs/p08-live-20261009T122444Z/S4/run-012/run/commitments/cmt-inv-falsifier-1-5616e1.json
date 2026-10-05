@@ -1,0 +1,38 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-5616e1",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "5f8a95159aedd6b636bb93a9f8fe0782c6b4e258a0832fbca5a4477be9ad4f48",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:37:36.434094+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns_policy_v2 explicitly sets a 30-day full-refund window for standard items, while the 14-day value is a stale v1 retrieval/judge reference.",
+    "plan": "Extracted the numeric return windows from policy_docs and base_retrieval, compared the claimed 30-day window to the current v2 window and the stale v1/judge reference, checked the 10-day-old standard order against both windows, and attempted the prescribed RR/CI computation but found no events_treat/events_ctrl/tot_treat/tot_ctrl fields.",
+    "evidence": {
+      "test": "deterministic policy-window comparison; RR/CI not computable because no raw event counts are present",
+      "claimed_window_days": 30,
+      "current_policy_window_days": 30,
+      "stale_retrieval_window_days": 14,
+      "base_judge_reference_days": 14,
+      "current_minus_claimed_days": 0,
+      "current_minus_stale_days": 16,
+      "order_age_days": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "RR": null,
+      "CI95": null,
+      "p_value": null,
+      "note": "No raw event counts or baseline_rr are provided, so the prescribed log-normal RR CI cannot be computed; the current policy text directly matches the claimed 30-day window."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "98778a3fed5fa069c40b00e1561bdcf9ec4f27e49d3f86a60b5e7add05c8eb31"
+}

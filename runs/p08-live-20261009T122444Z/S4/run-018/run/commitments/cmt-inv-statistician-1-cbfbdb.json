@@ -1,0 +1,35 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-cbfbdb",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "c7d962aae0617ccb6607ea4dd0c1c9c67199cc1ba188d338a501ad91c3aa8fca",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:26:24.657793+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly sets a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Extracted the current policy value from returns_policy_v2, compared it to the claimed 30 days and to the stale base_judge_reference_days, and computed eligibility for a 10-day-old standard order; no two-sample t-test was possible because no n, mean, or sd fields were provided.",
+    "evidence": {
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "stale_policy_days": 14,
+      "base_judge_reference_days": 14,
+      "delta_claim_vs_current_days": 0,
+      "delta_judge_vs_current_days": -16,
+      "order_purchased_days_ago": 10,
+      "eligible_for_full_refund_under_current_policy": true,
+      "inferential_test": "not applicable: no n, mean, or sd fields for a two-sample t-test",
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "5820af1acb7e8a4291243b55a27560c97dabbda60c39bca5725f4ee6fbf23175"
+}
