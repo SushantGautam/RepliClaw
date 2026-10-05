@@ -1,0 +1,35 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-810cbb",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "a23b913b6d9390dc3bcf1418ffd08b2cc8576f4e2ffb1c20537b38c511b12441",
+  "phase": "committed",
+  "timestamp": "2026-10-09T10:58:59.204323+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy specifies a 30-day full-refund window for standard items, so the claimed 30-day window is correct.",
+    "plan": "Extracted the numeric return windows from the bundled policy artifacts, compared current v2 (30 days) with stale v1 (14 days) and the judge reference (14 days), computed the 16-day discrepancy and eligibility for the 10-day-old standard order; a two-sample t-test was not applicable because no n/mean/sd fields were provided.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_retrieval_days": 14,
+      "judge_reference_days": 14,
+      "order_age_days": 10,
+      "current_eligible": true,
+      "stale_eligible": true,
+      "delta_days": 16,
+      "judge_matches_current": false,
+      "judge_matches_stale": true,
+      "inferential_test": "not applicable: no two-group n/mean/sd data; deterministic policy comparison used",
+      "p_value": null
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "13443010662f23090fc116bf4eb673d291cc17d4bef0d556b9b3fc1e936679f5"
+}

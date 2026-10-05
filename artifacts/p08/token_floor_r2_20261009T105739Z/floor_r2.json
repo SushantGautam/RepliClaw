@@ -1,0 +1,33 @@
+{
+  "schema": "p08.token_floor_r2/1",
+  "date": "2026-10-09T11:02:20.874882+00:00",
+  "pin": "81256a30c7f07187643795b9fb34959b71b4d82d",
+  "harness_seed": 20261010,
+  "case_id": "policy_rag_v1",
+  "arms": {
+    "S4_open_sharing_swarm": {
+      "tokens": 16300,
+      "wall_s": 104.052584,
+      "llm_calls": 1,
+      "status": "completed"
+    },
+    "S3_adaptive_central": {
+      "tokens": 15993,
+      "wall_s": 105.958439,
+      "llm_calls": 1,
+      "status": "completed"
+    },
+    "S0_single_agent": {
+      "tokens": 8588,
+      "wall_s": 57.374145,
+      "llm_calls": 1,
+      "status": "completed"
+    }
+  },
+  "headroom": {
+    "per_arm_ceiling": 60000,
+    "master_ceiling": 10800000,
+    "max_arm_usage_fraction": 0.27166666666666667,
+    "verdict": "OK"
+  }
+}

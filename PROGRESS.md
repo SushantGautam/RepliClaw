@@ -415,3 +415,17 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 **Evidence.** grep sweep over all root *.md (stale counts / in-flight / pending-sign-off / HEAD refs) → clean; plan rows now cite af3890b/1f45112/8005c62/c0e92ea with the gate 248/8.
 
 **Next.** Same program gates: HUMAN two-key → R-2 live pre-flight → R-1 pin check → single-command launch.
+
+## R-2 live pre-flight CLOSED — first authorized live measurement (2026-10-09)
+
+**Authorization.** Human key recorded 2026-10-09T12:56: "I authorize test — USE sigma2 endpoint for test". Science key already satisfied (round-3 APPROVE-WITH-CONDITIONS @ c0e92ea). Two-key = GREEN. Scope interpreted as the pre-flight TEST (R-2, 3 arms × 1 run per protocol), NOT the 120-run campaign.
+
+**Execution (protocol-verbatim, main tree @ 81256a3).**
+- Endpoint: `https://ai-gateway.sigma2.no/v1`, model `Qwen3.8-27B` (the sigma2 test endpoint), temp 0.2, max_tokens 4096, max_calls 64 — identity recorded in every `run_metadata.json` (A8/A9.2.6 parity fields).
+- 1 probe call (client smoke) + 3 live arm runs: S4 open_sharing_swarm (104.1s), S3 adaptive_central (106.0s), S0 single_agent (57.4s) — all `status: completed`, 1 LLM call each, envelope respected, `--assert-frozen` passed, seed 20261010, tree_sha 81256a3 (R-1: run HEAD = pin), a9_defect_instruction_sha256 `5c7192eb…` identical across arms.
+- Floors: **S4 = 16,300 / S3 = 15,993 / S0 = 8,588 tokens**; max_arm_usage_fraction = **0.2717** (< 0.60 flag threshold); `floor_r2.json` verdict **OK** (schema `p08.token_floor_r2/1`, produced by `scripts/r2_preflight.py --pin`).
+- R-1 final pin check: `bash experiments/policy_rag/preflight.sh` → **ALL 5 GATES PASS**, printed pin = 81256a3 = actual HEAD.
+- Security: run-tree scanned — API key NOT present in any artifact; endpoint/base_url recorded (non-secret), key never written.
+- Evidence committed: `artifacts/p08/token_floor_r2_20261009T105739Z/` (full run tree, 144K, incl. traces + commitments + verdicts — provenance precedent matches artifacts/p08/live_token_floor/).
+
+**Next.** Pre-window checklist 1–6 ALL GREEN. Only remaining step: the 120-run campaign launch (single command, `scripts/campaign.py`, 10.8M ceiling) — pending confirmation that the human key covers the full campaign (the authorization granted was for the test). NOTE FOR THE RECORD: the live floors are ~40–50× the fake-client floors (52–208 tokens) — expected (real LLM vs deterministic fake) and the basis of the R-2 exercise; 120 runs projected ≈ 120 × ~16k ≈ 1.9M–3.7M tokens, well under the 10.8M master ceiling.

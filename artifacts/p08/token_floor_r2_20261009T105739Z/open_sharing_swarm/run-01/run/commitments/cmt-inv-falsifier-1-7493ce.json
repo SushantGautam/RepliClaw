@@ -1,0 +1,40 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-7493ce",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "e2f28a8e685a5062f8735fc6138673b5f0bd27784d063887b1a69e64f09fa36f",
+  "phase": "committed",
+  "timestamp": "2026-10-09T10:59:25.849956+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current v2 returns policy explicitly states a 30-day full-refund window for standard items, so the claimed 30-day window is correct.",
+    "plan": "Extracted numeric policy windows from bundled data: current returns_policy_v2=30 days, stale base_retrieval v1=14 days, judge reference=14 days, order age=10 days; checked raw event count fields for RR/CI (absent); computed delta=30-14=16 and eligibility 10<=30 and 10<=14; verified clearance rule does not apply to standard items and first-match-wins selects returns_policy_v2.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "stale_retrieval_days": 14,
+      "judge_reference_days": 14,
+      "order_age_days": 10,
+      "current_eligible": true,
+      "stale_eligible": true,
+      "delta_days": 16,
+      "judge_matches_current": false,
+      "judge_matches_stale": true,
+      "raw_event_counts_present": false,
+      "RR": null,
+      "CI95": null,
+      "p_value": null,
+      "inferential_test": "not applicable: no events_treat/events_ctrl/tot_treat/tot_ctrl fields; deterministic policy comparison used",
+      "policy_conflict": "none for standard items; clearance_rule inapplicable; first-match-wins selects returns_policy_v2"
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "1a8e536da295b37492aa6974abd3304e838d1754b33a4c255224322a96c2aa0d"
+}

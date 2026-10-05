@@ -18,12 +18,12 @@ resumable (completed runs are reused, never re-launched), and hands off to the
 frozen scorer. It never reads the sealed oracle and never flips the live gate.
 
 ## Pre-window checklist (all must be green at HEAD)
-1. [ ] Science sign-off 1 (independent judge) — FILLED (PREREG v1.2 §9).
+1. [x] Science sign-off 1 (independent judge) — FILLED (PREREG v1.2 §9; round-3 APPROVE-WITH-CONDITIONS @ c0e92ea).
 2. [ ] MUST-1 disclosures folded — DONE (`docs/application/P1_RESULT_DISCLOSURES_DRAFT.md` = FOLDED).
-3. [ ] MUST-2 R-2 floors — `artifacts/p08/token_floor_r2_*/floor_r2.json` committed; no arm > 60k envelope; any arm > 60% of per-arm ceiling flagged + per-run counts reconfirmed.
-4. [ ] `bash experiments/policy_rag/preflight.sh` → ALL 5 gates pass, pin = actual HEAD.
-5. [ ] Full gate: pytest 235+/8, ruff clean, mypy (56) clean, `repliclaw.p08.score --self-test` PASS.
-6. [ ] Human two-key recorded in `EXECUTION_STATE.md` (science key + operator key, both with names/dates).
+3. [x] MUST-2 R-2 floors — DONE 2026-10-09T11:02Z: `artifacts/p08/token_floor_r2_20261009T105739Z/floor_r2.json` committed (S4=16,300 / S3=15,993 / S0=8,588 tokens; max fraction 0.2717 < 0.60; verdict OK; sigma2 Qwen3.8-27B; pin 81256a3).
+4. [x] `bash experiments/policy_rag/preflight.sh` → ALL 5 gates pass (verified 2026-10-09), pin 81256a3 = actual HEAD.
+5. [x] Full gate @ 81256a3: pytest **248 passed / 8 skipped**, ruff clean, mypy (56) clean, self-test PASS (verified 2026-10-09).
+6. [x] Human two-key recorded in `EXECUTION_STATE.md` — science key = round-3 APPROVE-WITH-CONDITIONS (agent 713aa9b8, 2026-10-09); operator key = human authorization 2026-10-09T12:56 ('authorize test, use sigma2 endpoint').
 
 ## Launch (single command, from repo root)
 ```bash
@@ -36,9 +36,9 @@ mkdir -p "$RUN"
   --client-factory live \
   --runs-per-arm 20 \
   --harness-seed 20261010 \
-  --assert-frozen \
   --out "$RUN"
 ```
+(`--assert-frozen` is ON by default in the harness; `--no-assert-frozen` opts out — never use the opt-out for the frozen campaign.)
 
 Behaviour:
 - 120 runs (S0, S3, S4, S5, A1, A3 × 20), each under the 60k/900s/4-agent envelope.
