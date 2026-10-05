@@ -40,3 +40,44 @@ A pretty dashboard with no new scientific finding; live-only demo vulnerable to 
 
 ## Response to disappointing results
 If adaptive central manager wins: show which mechanism fails, the negative research result and an accurately scoped reusable evidence-escrow auditing tool. If local choice does not adapt: simplify it rather than claiming emergence. Judge-worthy science is more valuable than a false "100% win".
+
+## P1 result statement — mandatory disclosures (A9.4/C7 + S-1 + N-2 + R-2)
+**Governing rule (science round 3, 2026-10-09, MUST-1): no P1/P2/P3 result may be reported — in any demo,
+application update, or this handin — until every item below is included verbatim or faithfully paraphrased.**
+Source: `docs/application/P1_RESULT_DISCLOSURES_DRAFT.md` (cleared to fold by the round-3 verdict;
+prereg `PREREG-2026-10-v1.2-AMENDMENT.md` §6b A9.4; round-3 report
+`docs/fleet/reviews/SCIENCE-JUDGE-A1-A9-ROUND3-APPROVE-WITH-CONDITIONS-20261009.md`).
+
+1. **Attribution.** A P1-SUPPORTED outcome (if reached) establishes "running the
+   counterfactual interventions improves defect diagnosis **on this single seeded case**
+   (`policy_rag_v1`)" — it does NOT establish "decentralized autonomy improves diagnosis".
+   Attribute the mechanism to **counterfactual-intervention identifiability**, not to
+   autonomy or decentralization in the abstract.
+2. **Base-case confound.** From base data alone, `retrieval_omission` and `judge_stale`
+   are causally non-identifiable (base retrieval AND base judge both point at the 14-day
+   staleness). Only S5's interventions disambiguate (I_R changes the retrieved target;
+   I_J flips the verdict with byte-identical downstream output; I_P is byte-identical,
+   ruling out policy conflict). A comparator arm scoring M1 ≈ 0 is a **valid scientific
+   result** — the treatment supplies the identifiability the baseline lacks — not
+   "starvation".
+3. **M1 definition.** M1 is a **5-way exact-match classification**
+   (`defect_class == oracle.true_cause` with `bool(target_artifact)`). The shared defect
+   taxonomy is given to **ALL arms equally** — a menu, not the answer; S5's defect token
+   is partly taxonomy-assisted, and so is every comparator's, equally.
+4. **Scope.** **Single seeded case, no generalization.** No "autonomy beats central
+   workflows" claim; the novelty framing stays within `docs/PRIOR_ART_NOVELTY_GATE.md`'s
+   defensible mechanism bundle.
+5. **S-1 (offline fixture stand-in).** The offline deterministic arm's
+   `_deterministic_defect` returns a registered `("retrieval_omission","retrieval")` pair
+   from base data alone so the parity fixture stays executable and scoreable. It is a
+   **fixture stand-in, not a causally justified diagnosis** (it inherits the §2 confound);
+   it is never exercised in the primary live P1.
+6. **N-2 (budget granularity).** Strategy arms' `budget_ledger.json` writes a single
+   synthetic **aggregate** call (`llm_calls:1`, `completion_tokens:0`, all tokens as
+   `prompt_tokens`) — per-run totals are correct; per-call granularity is aggregate for
+   strategy arms (S5 records genuine per-call usage). Disclose in any token comparison.
+7. **R-2 (token floors).** S4/S3/S0 live-token floors are measured on the first
+   pre-flight live run and recorded pre-window (`floor_r2.json`, protocol
+   `docs/experiments/R2_TOKEN_FLOOR_PREFLIGHT_PROTOCOL.md`). Do not report comparator
+   token cost as final until then. Backstops: 60k/arm cap, 10.8M master ceiling, S0
+   stopping rule.
