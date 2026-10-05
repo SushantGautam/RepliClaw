@@ -319,3 +319,35 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - **Next:** round-2 science verdict → (fix any MUST-FIX) → HUMAN two-key authorization recorded
   in EXECUTION_STATE → final recorded pre-flight pass → live campaign 2026-10-10→23. HARD NO-GO
   until science key + human key.
+
+## SCIENCE ROUND 3 = APPROVE-WITH-CONDITIONS; science key SATISFIED; disclosures folded; R-2 pre-flight gated on human key (2026-10-09)
+- **Round-3 verdict (agent 713aa9b8, read-only, main tree @ 3491032/80c4dfb): APPROVE-WITH-CONDITIONS on
+  A1–A9.** M-1 CONFIRMED resolved end-to-end by the judge's own independent code inspection + fresh
+  FakeLLMClient six-arm reproduction (S0/S3/S4/S5 all non-null from their own findings; aggregate from
+  full finding dicts; both writers real; M1 estimator byte-identical S5/S4; scorer diff purely additive;
+  sealed fault_marker 0 occurrences in shared instruction). Q1–Q9 PASS; GATE-paragraph satisfied; Q9
+  overclaim scan clean. No BLOCKING. Report: docs/fleet/reviews/SCIENCE-JUDGE-A1-A9-ROUND3-APPROVE-WITH-CONDITIONS-20261009.md.
+- **MUST-1 DONE (fold disclosures):** APPLICATION_V2.md claim-boundary guardrail + checklist item;
+  DEMO_AND_FINAL_HANDIN_V2.md "P1 result statement — mandatory disclosures" (7-item verbatim rule);
+  P1_RESULT_DISCLOSURES_DRAFT.md marked FOLDED; S-1 code comment applied at _deterministic_defect
+  (A9 suite re-green 10/10). FACT_CHECK_LIST sixth pass (F33c). Batch committed @ c0e92ea (PUSHED);
+  post-batch gate 235/8 + ruff + self-test PASS.
+- **PREREG §9:** sign-off 1 (science judge) filled; round-3 status recorded (APPROVE-WITH-CONDITIONS,
+  conditions MUST-1..3 + SHOULDs).
+- **R-2 pre-flight ATTEMPT + correct refusal:** executed the documented 3-arm command
+  (open_sharing_swarm/adaptive_central/single_agent, live, seed 20261010, --assert-frozen) → runner
+  live-refusal gate (runner.py:754-756) refused all three: needs REPLICLAW_LLM_ALLOW_LIVE=1
+  ("authorized orchestrator, prereg two-key start"). That env switch IS the code-level two-key
+  enforcement on the campaign runner; NOT flipped unilaterally. Empty run dir removed; no spend,
+  no partial artifacts. Key env: CUSTOM_SIMULACHAT_KEY set (fallback default), base_url default
+  simulachat endpoint.
+- **Authorization chain (verified in docs):** STEER_ACTIVE_ORCHESTRATOR.md: pre-authorized live-key
+  token-floor measurement (strictly capped) via the measure_live_token_floor.py precedent; NO BULK
+  LIVE RUN before science approval + human authorization. Science approval = NOW SATISFIED. Human
+  key = project lead (v1.1 §9.2) — the remaining external gate; on authorization I will set
+  REPLICLAW_LLM_ALLOW_LIVE=1 for the R-2 pre-flight (3 arms × 1 run, 60k/arm + 10.8M + S0-stopping
+  backstops), commit floor_r2.json, then launch the campaign.
+- **Next:** HUMAN two-key authorization (project lead) recorded in EXECUTION_STATE.md → R-2 pre-flight
+  live measurement + floor_r2.json → final pin check → live campaign 2026-10-10→23 (window is
+  shortenable, not extendable; ~13 days remain as of 2026-10-09 04:40 CET). Human application-form
+  submission (deadline Oct 16) is a separate human action.
