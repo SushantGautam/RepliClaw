@@ -45,7 +45,11 @@
 - **Gate:** full suite 352 passed/8 skipped; mypy clean (72 files); ruff clean; schema JSON valid.
 
 **Open items (human decision required):** (a) LLM provider for AgentRx official judge stage; (b) AIOpsLab VM/deploy + budget ceiling; (c) N=24×k=4 heldout budget. **No paid/live work started.**
-**Next:** commit I1.1 → G2 offline canaries (Track-II C-EQ/D-E leak/parity/oracle-isolation/replay) + A2 live action-set manifest (J-SCI condition) → then Wave 2.
+**Next:** Track-II G2 offline canaries (leak/parity/oracle-isolation/replay) on I1.1 + A2 live action-set manifest (J-SCI condition) → then Wave 2.
+
+## S7 (LOW) RCAEval artifact pointer fix
+- Copied the BARO smoke log, 10 per-case result JSONs, and download_manifest.json from the w1-rcaeval worktree `.artifacts/rcaeval/` into the dev worktree `.artifacts/rcaeval/` (gitignored — never committed). The `src/repliclaw/benchmarks/rcaeval/README.md` pointer now resolves in the dev worktree.
+- download_manifest.json sha256 = `bffa99801535a029ec6bb5cbc65a2e99e4fe4747514ee7787254133b9e899812` (10 metrics.parquet files, hf://phamquiluan/RCAEval).
 
 ## Blockers / risk register
 - AgentRx official HF data gated; confirm permitted access and release split/count. **RESOLVED (token-scoped read access works; actual release = 73 annotated, not 115).**
