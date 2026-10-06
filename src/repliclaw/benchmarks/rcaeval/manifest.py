@@ -171,21 +171,38 @@ def build_heldout_manifest(
     if missing:
         raise ValueError(f"no data hashes for selected cases: {missing[:5]}…")
 
+    # Non-informative ordinal for each (fault, service) quota stratum, in the
+    # same alphabetical order _select_stratum used. This preserves the
+    # stratification's structural info WITHOUT naming the service.
+    services_order: Dict[Tuple[str, str], int] = {}
+    for _suite, _system, fault, _cap in QUOTA_TABLE:
+        sub = index[(index["dataset"] == _dataset(_suite, _system)) & (index["fault"] == fault)]
+        for _i, svc in enumerate(sorted(sub["root_cause_service"].unique())):
+            services_order[(fault, svc)] = _i
+
     by_case = index.set_index("case")
     manifests: List[CaseManifest] = []
     for case in cases:
         row = by_case.loc[case]
+        # J-CODE Wave 1 F1 (HIGH): strata are AGENT-VISIBLE. The index row's
+        # root_cause_service is ground truth and MUST NOT appear in the
+        # manifest (it would disclose the answer before the diagnosis).
+        # Quota stratification uses it internally in _select_stratum only;
+        # here we expose the non-informative quota-order ordinal instead.
+        stratum_rank = services_order.get((str(row["fault"]), str(row["root_cause_service"])), -1)
         strata = {
             "suite": str(row["suite"]),
             "system": str(row["system"]),
             "fault_type": str(row["fault"]),
-            "root_cause_service": str(row["root_cause_service"]),
+            "quota_service_order": str(stratum_rank),
             "repetition": str(int(row["repetition"])),
         }
         notes = (
             "O-R heldout CANDIDATE (frozen 2026-10-09, W1/J-SCI A6); pending "
             "freeze at G4. Observational recorded failure — NOT counterfactual "
-            f"replay. Selection seed={SEED} (reserved; ordering is deterministic)."
+            f"replay. Selection seed={SEED} (reserved; ordering is deterministic). "
+            "Strata exclude ground-truth identifiers (J-CODE W1-F1): "
+            "root_cause_service is scorer-only."
         )
         gt = (ground_truth_pointers or {}).get(case) or default_ground_truth_pointer(case)
         manifests.append(

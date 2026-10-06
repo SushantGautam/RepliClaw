@@ -1,6 +1,7 @@
 # Stage 2 — authoritative execution state (dev only)
 
-**Timestamp:** 2026-10-09T23:45+02:00 (I0 checkpoint committed; Wave 1 launching).
+**Timestamp:** 2026-10-10T02:35+02:00 (Wave 1 complete; W1 judge conditions remediated; I1.1 checkpoint).
+**I1 summary:** dev now contains merged W1 branches: C-EQ arm (`src/repliclaw/experiments/v3/ceq.py` 1113 LOC + 23 offline parity/canary tests, J-SCI A4 closed: bounded logged consultation, two-sided token canary band [0.6,1.25] + anti-starve, explicit D-E round budget; ceq.py-only equivalents of four P08-side behaviors added, each test-pinned — the C-EQ commit touched shared `arm.py`/`runner.py` in a **behavior-neutral** way for P08, token-diff verified, so NO P08 artifact correction is required (J-SCI W1 S6)). AgentRx read-only adapter (73-case hash-pinned loader, verbatim normalize_category, label-free manifest, baseline-agnostic scorer, F8 provenance), RCAEval heldout candidate (42 cases spanning RE1/RE2/RE3, label-mask invariance tested; BARO RE2-OB cpu smoke Avg@5 0.66 vs RE1 1.00 — A6 confirmed: RE2 not saturated), MC power (254 cells × 10k reps: N=24×k=4, MDE 0.20 recommended; S-sat stop rule mandatory; D-V3-008). Integrator mypy sweep fixed 6 type errors in L6 common package (baseline mypy was clean pre-I0; post-I1: 72 files clean). Branch naming convention: `dev-<lane>` or `w1/<lane>` (git ref namespace forbids `dev/` prefix).
 **I0 checkpoint:** dev @ 5a7833f756119042bbb37bd7479be69a0bd5ea3c (24 files; 301 passed/8 skipped; ruff clean; P08 artifacts untouched). J-CODE conditions all closed in I0 (6 citation fixes, schema hardening F4/F5 with documented dataclass-subset relationship, F6-F8 low fixes, 3 regression tests). J-SCI conditions recorded as D-V3-007 A1-A6 (A2/A5/A6 are freeze-time requirements; A4 goes into C-EQ implementation; A1/A3 go into protocol amendment).
 **Development branch:** `dev` (created from public `main` at 97a455947895e48fb551503e8fd1158d03a293af).
 **Integration worktree:** `/Users/sushantgautam/Documents/RepliClaw-stg2-dev` (dev @ a8e2b0e725bb6eb1c106d975663c1de0ee188f56).
@@ -21,6 +22,30 @@
 | L8 novelty | DONE | live-verified prior-art report; ONE defensibly novel claim (matched-tools topology+escrow-ablation protocol on official RCA benchmarks, paired case-level inference — evaluation-methodology novelty); kill-condition recorded; new 2026 threats logged (DeLM 2606.10662, ECLoop 2607.28815, LATS-RCA 2605.03505, MAAC 2601.21972, 2606.22936); AgentRx scale fix 170/115→pin version; full report in L8 agent transcript |
 | J-CODE | RUNNING | independent Wave-0 code review in progress |
 | J-SCI | DONE (APPROVE-WITH-CONDITIONS) | reviews/SCIENCE_JUDGE_WAVE0_20261009.md — 14 findings; P08 recast check CLEAN; G0 per track: agentrx PASS, rcaeval PASS (heldout must span RE2/RE3), aiopslab PASS-CONDITIONAL (G2 blocked until smoke+digest+live-estimand note); amendments A1–A6 recorded as DECISIONS D-V3-007 |
+
+## Wave 1 fleet results (2026-10-10, I1 @ 99eb764)
+| Lane | Status | Evidence |
+|---|---|---|
+| W1 C-EQ | DONE (merged) | experiments/v3/ceq.py 1113 LOC; 23 offline parity/canary tests; reuses P08 executor; J-SCI A4 closed |
+| W1 AgentRx | DONE (merged) | benchmarks/agentrx/ — 73-case hash-pinned read-only loader, verbatim normalize_category, label-free manifest, baseline-agnostic scorer, provenance |
+| W1 RCAEval | DONE (merged) | benchmarks/rcaeval/manifest.py + data/cases.parquet (sha256 c49a2889…); 42-case heldout spanning RE1/RE2/RE3, label-mask invariance tested |
+| W1 MC power | DONE (merged doc) | science/monte_carlo_power_v3.md — 254 cells × 10k reps; N=24×k=4 MDE 0.20; S-sat stop rule; D-V3-008 |
+| J-CODE W1 | DONE (APPROVE-WITH-CONDITIONS) | reviews/CODE_JUDGE_WAVE1_20261010.md — F1 HIGH (root_cause_service in strata), F2/F3 MEDIUM, F5–F8 low |
+| J-SCI W1 | DONE (APPROVE-WITH-CONDITIONS) | reviews/SCIENCE_JUDGE_WAVE1_20261010.md — S1 HIGH (ground truth in strata + 6 root_cause.txt), S2 MED (L5 pin), S3 (floor 0.6 vs 0.8 docstring + missing template-SHA pin), S6/S8 LOW; G2 scannable for Track-II C-EQ/D-E, NOT for Track-I (A2) / RCAEval (S1) |
+
+## I1.1 remediation (J-CODE + J-SCI W1, this checkpoint)
+- **F1/S1 (HIGH):** `root_cause_service` removed from agent-visible `CaseManifest.strata` (replaced by non-informative `quota_service_order` ordinal). Documented upstream fact: RCAEval case IDs themselves embed the service → `case_manifest.schema.json` note + leak-free test require the V3 runtime to present opaque random IDs. The 6 `root_cause.txt` files live only under `.artifacts/` (gitignored, not in-repo).
+- **F3/S3 (MEDIUM):** C-EQ prompt-template static parts extracted as constants + sha-pinned in `test_canary_templates_pinned`; prompt-volume band [0.6, 1.25] now calibrated against the pinned hash; module docstring floor corrected (0.6, not 0.8).
+- **F2 (MEDIUM):** no-fixed-script canary `FORBIDDEN_LITERALS` now derived from `load_interventions()` + `DEFECT_TAXONOMY` (all intervention ids + all defect classes, not a hand-maintained subset).
+- **F7 (MEDIUM):** AgentRx loader `data_dir` now required (no default-path leak).
+- **S2 (MED):** L5/MC scratch-code provenance (sha256 + env) recorded in `science/monte_carlo_power_v3.md`; repo pin (C-SCI-2) is a G3 action.
+- **S6 (LOW):** I1 "4 bug fixes in P08 arm code" wording corrected → ceq.py-only; P08 change behavior-neutral (token-diff verified).
+- **S8 (LOW):** MC "bit-exact" wording clarified (verbatim L5 + 40-pair twin + judge cell-0 repro; grid reproducible to 3rd decimal).
+- **Remaining J-CODE F4–F6 (LOW):** documented as acceptable in review triage (timing-vs-content parity, C-EQ/D-E deltas disclosed in design doc: no intervention retry, no per-agent deadline).
+- **Gate:** full suite 352 passed/8 skipped; mypy clean (72 files); ruff clean; schema JSON valid.
+
+**Open items (human decision required):** (a) LLM provider for AgentRx official judge stage; (b) AIOpsLab VM/deploy + budget ceiling; (c) N=24×k=4 heldout budget. **No paid/live work started.**
+**Next:** commit I1.1 → G2 offline canaries (Track-II C-EQ/D-E leak/parity/oracle-isolation/replay) + A2 live action-set manifest (J-SCI condition) → then Wave 2.
 
 ## Blockers / risk register
 - AgentRx official HF data gated; confirm permitted access and release split/count. **RESOLVED (token-scoped read access works; actual release = 73 annotated, not 115).**

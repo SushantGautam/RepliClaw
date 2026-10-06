@@ -28,7 +28,7 @@ Science-Judge conditions F4-F6 (D-V3-007) implemented here:
   to ``run_metadata.json``).
 * **F5** — the prompt-volume parity canary is TWO-SIDED:
   ``prompt_volume_ratio`` compares C-EQ to D-E total prompt volume; the
-  canary (test 5) asserts it stays inside [0.8, 1.25] (not starved AND not
+  canary (test 5) asserts it stays inside [0.6, 1.25] (not starved AND not
   inflated).
 * **F6** — D-E's round/decision budget is explicitly declared in the arm
   registry (``de_decision_budget`` / ``ceq_decision_budget``) so C-EQ's
@@ -119,6 +119,28 @@ DE_DECISION_BUDGET = DE_MAX_CYCLES * len(AGENT_IDS) + DE_VERDICT_CALLS_PER_AGENT
 # sha-pinned at prereg time; the canary test asserts the bound).
 PROMPT_VOLUME_FLOOR = 0.6
 PROMPT_VOLUME_CEIL = 1.25
+
+# J-SCI W1 S3: the static parts of the C-EQ prompt templates are frozen
+# constants and sha-pinned by the canary test (test_canary_templates_pinned).
+# The prompt-volume band above was calibrated against EXACTLY these
+# templates; if the hashes change, the band must be recalibrated and the
+# preregistration updated BEFORE any run.
+PLANNER_PROMPT_STATIC_TAIL = (
+    'Intervene at most once per intervention (repeats are cached). '
+    "Choose only ids from the menu above. The full defect-adjudication "
+    "instruction is applied once, at the final diagnosis."
+)
+FINAL_DIAGNOSIS_STATIC_HEAD = (
+    "CEQ_FINAL_DIAGNOSIS\n"
+    "Your post-evidence diagnosis for the case (central manager, "
+    "single voice).\n"
+)
+FINAL_DIAGNOSIS_STATIC_TAIL = (
+    "Respond with JSON containing conclusion (supported|refuted|"
+    "uncertain), confidence, defect_class, target_artifact, statement, "
+    "evidence_cited (list of evidence_ids you relied on)."
+    "\n\n# DEFECT DIAGNOSIS (required)\n"
+)
 
 MANAGER_AGENT_ID = "manager"
 
@@ -428,9 +450,7 @@ class CEQManager:
             '"rationale": <short>} or {"action": "abstain", "rationale": ...} '
             'or {"action": "diagnose", "defect_class": <from the defect menu '
             'above>, "target_artifact": <component or null>, "rationale": ...}. '
-            "Intervene at most once per intervention (repeats are cached). "
-            "Choose only ids from the menu above. The full defect-adjudication "
-            "instruction is applied once, at the final diagnosis."
+            + PLANNER_PROMPT_STATIC_TAIL
         )
         return prompt
 
@@ -444,16 +464,11 @@ class CEQManager:
         """
         evidence = _wall_free_evidence(self.escrow.evidence())
         return (
-            "CEQ_FINAL_DIAGNOSIS\n"
-            f"AGENT_ID: {MANAGER_AGENT_ID}\n"
-            "Your post-evidence diagnosis for the case (central manager, "
-            "single voice).\n"
+            FINAL_DIAGNOSIS_STATIC_HEAD
+            + f"AGENT_ID: {MANAGER_AGENT_ID}\n"
             "Machine-verified public evidence (verified records only; sealed "
             "content is NOT included):\n" + _evidence_block_union(evidence) + "\n"
-            "Respond with JSON containing conclusion (supported|refuted|"
-            "uncertain), confidence, defect_class, target_artifact, statement, "
-            "evidence_cited (list of evidence_ids you relied on)."
-            + "\n\n# DEFECT DIAGNOSIS (required)\n"
+            + FINAL_DIAGNOSIS_STATIC_TAIL
             + DEFECT_ADJUDICATION_INSTRUCTION
         )
 
@@ -1103,6 +1118,9 @@ __all__ = [
     "DE_DECISION_BUDGET",
     "PROMPT_VOLUME_FLOOR",
     "PROMPT_VOLUME_CEIL",
+    "PLANNER_PROMPT_STATIC_TAIL",
+    "FINAL_DIAGNOSIS_STATIC_HEAD",
+    "FINAL_DIAGNOSIS_STATIC_TAIL",
     "MANAGER_AGENT_ID",
     "accounted_call",
     "assert_frozen_v3",
