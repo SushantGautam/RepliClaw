@@ -6,6 +6,7 @@ artifacts/dev/
 logs/
 .DS_Store
 artifacts/verify/
+.artifacts/
 *.egg-info/
 artifacts/benchmark/_work/
 .worktrees/
