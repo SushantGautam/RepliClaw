@@ -859,9 +859,7 @@ def run_one_arm(args: argparse.Namespace) -> int:
         "end_ts": _now_iso(),
         "wall_s": round(time.monotonic() - t0, 6),
     }
-    (run_dir / "run_metadata.json").write_text(
-        json.dumps(meta, indent=2, sort_keys=True), encoding="utf-8"
-    )
+    write_run_metadata(run_dir, meta)
 
     print(json.dumps(
         {"arm": arm_key, "case": spec.case_id, "status": status,
@@ -869,6 +867,19 @@ def run_one_arm(args: argparse.Namespace) -> int:
         sort_keys=True,
     ))
     return EXIT_OK if status == "completed" else EXIT_RUN_ABORTED
+
+
+def write_run_metadata(run_dir: Path, meta: Dict[str, Any]) -> None:
+    """Shared writer for run-01/run_metadata.json (p08.run_metadata/1).
+
+    The CLI runner AND the library-level v3 arms (C-EQ & co) write their
+    metadata through this single helper, so the artifact format stays
+    byte-compatible across entry points (design ceq_arm_design.md 3.2:
+    "reuses the existing run metadata writer")."""
+    run_dir.mkdir(parents=True, exist_ok=True)
+    (run_dir / "run_metadata.json").write_text(
+        json.dumps(meta, indent=2, sort_keys=True), encoding="utf-8"
+    )
 
 
 def main(argv: Optional[List[str]] = None) -> int:
