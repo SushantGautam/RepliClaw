@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repliclaw.run_record/v1",
+  "title": "RepliClaw benchmark run record",
+  "description": "One completed (or aborted) benchmark run for one (case, arm, seed) triple. Token usage follows the fail-loud convention: usage_present=false means the provider reported no usage and the numeric fields must be null — never zero-filled (P08 Q13).",
+  "type": "object",
+  "required": [
+    "schema",
+    "run_id",
+    "arm",
+    "case",
+    "seed",
+    "model",
+    "provider",
+    "started_at",
+    "finished_at",
+    "status",
+    "token_usage",
+    "tool_call_counts",
+    "intervention_counts",
+    "wall_s"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "repliclaw.run_record/v1" },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^:]+::[^:]+::seed[0-9]+$",
+      "description": "Conventional shape {case}::{arm}::seed{n}, matching repliclaw.counterfactual run ids."
+    },
+    "arm": { "type": "string", "minLength": 1 },
+    "case": { "type": "string", "minLength": 1 },
+    "seed": { "type": "integer", "minimum": 0 },
+    "model": { "type": "string", "minLength": 1 },
+    "provider": { "type": "string", "minLength": 1 },
+    "started_at": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$" },
+    "finished_at": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$" },
+    "status": {
+      "type": "string",
+      "enum": ["completed", "aborted_budget", "aborted_error", "invalid_usage"]
+    },
+    "token_usage": {
+      "type": "object",
+      "description": "Actual per-arm token usage across all LLM calls in the run.",
+      "required": ["input", "output", "cached", "total", "usage_present"],
+      "additionalProperties": false,
+      "properties": {
+        "input": { "type": ["integer", "null"], "minimum": 0 },
+        "output": { "type": ["integer", "null"], "minimum": 0 },
+        "cached": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Cached/prompt-cache-read tokens if the provider reports them; null when unknown."
+        },
+        "total": { "type": ["integer", "null"], "minimum": 0 },
+        "usage_present": {
+          "type": "boolean",
+          "description": "false => all numeric fields are null; the run is not accounted as 0 tokens."
+        },
+        "llm_calls": { "type": "integer", "minimum": 0 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "usage_present": { "const": false } } },
+          "then": {
+            "properties": {
+              "input": { "type": "null" },
+              "output": { "type": "null" },
+              "cached": { "type": "null" },
+              "total": { "type": "null" }
+            }
+          }
+        }
+      ],
+      "description": "This schema is a SUBSET of the RunRecord dataclass invariants (J-CODE Wave 0, F5): with usage_present=true, the dataclass additionally enforces that whatever numerics are present are non-negative integers and that no present value is zero-filled padding. Schema-only raw-JSON consumers (ingest, cross-language scoring) MUST also load the dataclass or apply that check; the schema rejects the unambiguous cases (bool/str numerics via `type`, and false=>all-null above)."
+    },
+    "tool_call_counts": {
+      "type": "object",
+      "description": "Map of tool name -> call count. Empty object when no tool calls occurred.",
+      "additionalProperties": { "type": "integer", "minimum": 0 },
+      "propertyNames": { "type": "string", "minLength": 1 }
+    },
+    "intervention_counts": {
+      "type": "object",
+      "description": "Counts of interventions applied in this run.",
+      "required": ["total"],
+      "additionalProperties": false,
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "by_kind": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 },
+          "propertyNames": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "wall_s": { "type": "number", "minimum": 0 },
+    "abort_reason": {
+      "type": ["string", "null"],
+      "description": "Required non-null iff status starts with 'aborted_' or status is 'invalid_usage'; null for completed runs."
+    },
+    "provenance_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 of the run's provenance.json when captured."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": { "enum": ["completed"] }
+        }
+      },
+      "then": { "properties": { "abort_reason": { "type": "null" } } }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": { "enum": ["aborted_budget", "aborted_error", "invalid_usage"] }
+        }
+      },
+      "then": {
+        "required": ["abort_reason"],
+        "properties": { "abort_reason": { "type": "string", "minLength": 1 } }
+      }
+    }
+  ]
+}

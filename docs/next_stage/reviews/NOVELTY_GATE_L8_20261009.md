@@ -1,0 +1,59 @@
+# L8 Prior-Art / Novelty Verification Report (Stage 2 research question)
+
+All arXiv abstracts fetched live from arxiv.org today (2026-10-09); repos inspected via GitHub API/raw README.
+
+---
+
+## 1. AgentRx (arXiv:2602.02475) — baseline characterization: CONFIRMED
+
+- **Architecture (repo + paper HTML scan):** single linear pipeline — `IR normalization → static/dynamic invariant synthesis → step-by-step checker → LLM judge → report` (github.com/microsoft/AgentRx, `run.py` stages). The "judge" is one LLM-as-a-judge call that predicts critical step + category. **There is no multi-investigator, competing-hypothesis, or decentralized diagnostician mode.**
+- "Multi-agent" appears in the paper **only** to describe *inputs* — failed runs *of* multi-agent systems (Magentic-One, Flash orchestrator traces). Zero hits in paper text for `decentral`, `swarm`, `forecast`.
+- **Correction for repo docs:** the current v1 abstract says **170 trajectories across 11 task settings**; the repo's docs and `LITERATURE_AND_BENCHMARK_DECISION.md` cite **115**. The paper itself may have been revised (v1 HTML says 115). Pin the exact version/release before citing numbers.
+- **Positioning verdict:** RepliClaw's multi-investigator claim is correctly positioned. AgentRx is *single-diagnostician, offline, trajectory-localization*. But note AgentRx's **executable invariant checks are real executable verification** — it does NOT merely "read" traces. Do not frame AgentRx as pure observation.
+
+## 2. RCAEval (arXiv:2412.17015) & AIOpsLab (arXiv:2501.06706) — decentralized baseline check: CONFIRMED (none)
+
+- **RCAEval:** 735 cases, **fifteen reproducible baselines** covering metric/trace/**multi-source** RCA (BARO, RCD, CIRCA, etc.). "Multi-source" means *telemetry sources* (metrics+logs+traces), **not agents**. No LLM-agent orchestration baseline at all, centralized or decentralized.
+- **AIOpsLab:** `Orchestrator` framework evaluates **one agent instance** per session (`orch.register_agent(agent)`; agent = one Python class with `step(state)`). Tasks: detection/localization/analysis/mitigation. Pre-integrated agents are single-agent LLM clients (GPT-4 baseline, vLLM). **No coordinated/decentralized agent baseline in the repo.**
+- **Implication:** AIOpsLab's Orchestrator is *itself* a fixed centralized loop. If RepliClaw's "adaptive centralized manager" is built on it, state explicitly that AIOpsLab's native orchestrator is **not** the adaptive-manager baseline — the adaptive manager is a RepliClaw artifact, and reviewers will demand it be a strong, honestly-tuned one (the "strong S3" requirement is not optional).
+
+## 3. Closest competitors (multi-agent RCA/incident diagnosis, 2025–2026)
+
+| Work | What it does | Escrow / pre-outcome commitment? | Decentralized-vs-central head-to-head? | Causal intervention tools? |
+|---|---|---|---|---|
+| **LATS-RCA** (arXiv:2605.03505, 2026-05; github.com/kottinov/lats-rca) | **Closest threat.** Multi-agent, tree-structured hypothesis search over root causes, reflection-scored evidence collection; 91.3% on LO2, 65.1% on real production incidents | **No** | **No** (no central-manager comparator) | **No** (offline telemetry) |
+| **Flow-of-Action** (arXiv:2502.08224, WWW'25) | SOP-enhanced multi-agent RCA, lead agent + auxiliary agents | No | No (centralized lead-agent design) | No |
+| Intelligent SRE master-agent framework (JISEM, Oct 2025) | Hierarchical 6-agent incident RCA | No | No | No |
+| Graph-Augmented Multi-Agent RCA (CMC 2026); GALR (MDPI Electronics 2026) | Graph-fusion multi-agent RCA | No | No | No |
+| Microsoft LLM-agents-for-RCA (FSE 2024, Roy et al.) | Single-agent RCA with retrieval tools | No | No | No |
+
+**What escrow+selection adds over all of them:** (a) sealed, machine-scored **pre-outcome forecast commitments with phase-boundary reveal** — no 2025–2026 RCA/incident system has this; (b) a **matched-tools, case-paired, decentralized-vs-adaptive-central comparison** — no RCA paper benchmarks the two topologies against each other with identical intervention access; (c) **live counterfactual intervention** as part of diagnosis (only AIOpsLab allows the environment for this).
+
+**What it does NOT add:** hypothesis-competition itself (LATS-RCA, AutoScientists), evidence-gated action (ECLoop), multi-agent collaboration per se (Flow-of-Action, DeLM). A reviewer can say: "LATS-RCA already does competing multi-agent hypotheses; your delta is the commitment protocol and the topology A/B test." That is a **protocol/evaluation** contribution, not a diagnosis-algorithm contribution. Say so.
+
+## 4. The two flagged overlap risks — verified verdicts
+
+### AutoScientists (arXiv:2605.28655, Gao/Fang/Zitnik, 2026-05-27)
+Full-text scan of the paper (v1 HTML) + repo:
+- **"escrow": 0 occurrences. No sealed pre-outcome forecast commitment anywhere.** `falsification` appears only as a *post-hoc* team-dissolution trigger ("hypothesis-tension probe whose outcome will clearly confirm or falsify..."), and the paper itself notes a run where falsification "triggers fired but had **no enactment mechanism**." Their "commit" usage is git commits / compute committed, not prediction escrow.
+- **No adaptive centralized-manager comparator.** Its baseline is single-agent **Autoresearch** ("the only variable is orchestration"); the in-repo orchestrator is a "pure coordinator," not an adaptive manager it competes against. **AutoScientists does NOT do adaptive centralized-vs-decentralized benchmarking.**
+- **Differentiator RepliClaw must claim (exact wording):** (i) *sealed, tamper-detecting, machine-scored pre-outcome forecast packets with phase-boundary reveal* — AutoScientists critiques proposals *before* compute (peer review) but never *scores predictions against later outcomes* and never seals them; (ii) *the matched-tools central-vs-decentral topology experiment in a diagnostic/causal domain* — AutoScientists optimizes scientific results, it does not diagnose AI failures or run counterfactual interventions; (iii) the **estimator target**: causal attribution of an *audited external system's* behavior (retrieval/policy/judge), not leaderboard improvement.
+- **Blunt assessment:** the differentiator is **real but narrow**. Anyone reading both papers will say "AutoScientists + a preregistration template + a central baseline." The only thing that converts that into a defensible paper is a *measured* effect of escrow/decentralization on diagnostic quality (or an honest null). If the effect is null, the contribution collapses to "we ran the experiment" — fine, but the framing must be *empirical study*, not *mechanism contribution*.
+
+### AgentRx diagnosis agent
+- No escrow, no forecast commitment, no centralized-vs-decentralized comparison — confirmed (0 hits for `decentral`/`swarm`/`forecast` in paper). It is a **baseline to be benchmarked against**, not a novelty threat. But its executable invariants + auditable violation log mean RepliClaw's "verified interventions" must be clearly distinguished: AgentRx checks constraints *on a recorded trace*; RepliClaw executes *counterfactuals on a live system* (AIOpsLab) — one is post-hoc verification, the other is do-calculus-style intervention. Conflating them weakens the causal claim.
+
+## 5. Bottom line — 5-item novelty assessment
+
+1. **"Decentralized multi-agent hypothesis-competition diagnosis of agent failure" — NOT novel. Downgrade to "we build on".** LATS-RCA (arXiv:2605.03505) does multi-agent competing-hypothesis RCA; AutoScientists (2605.28655) does self-organizing decentralized science. Any "we introduce multi-agent coordinated diagnosis" wording is false on its face.
+2. **"Pre-outcome forecast commitment in agent/scientific experiments" — NOT novel as a concept. Downgrade to "we introduce *research-forecast escrow* with hashed packets, phase-boundary sealed reveal, and machine-scored accuracy tracking, and measure its effect."** arXiv:2606.11217 (Preregistration for Experiments with AI Agents, ICML 2026) owns the general claim; AutoScientists' public prediction/falsification fields own the scientific-swarm instance. The *combination* (sealing + scoring forecasts as a first-class measured variable in a causal-diagnosis study) is defensible as a **novel protocol**, never as "first prediction."
+3. **"Counterfactual/intervention-based causal diagnosis" — NOT novel. Downgrade to "we apply".** CAR (arXiv:2606.08275) already does do-operation counterfactual attribution with CIs (single-agent, step-level); AgentRx does executable constraint verification. RepliClaw's legitimate slice: *external system factors of an audited system, multi-agent hypotheses, live-environment intervention on AIOpsLab* — state this boundary explicitly, never "first."
+4. **THE core claim — "adaptive centralized manager vs decentralized swarm, same intervention tools, matched budget, on causal diagnostic quality, with paired case-level inference" — is currently UNOCCUPIED in the 2025–2026 literature I can find.** This is the defensible novel contribution, and it is an *experimental-design/evaluation* novelty. **But it is now contested at the edges:** DeLM (arXiv:2606.10662, 2026-06) shows decentralized shared-context MAS beats central orchestration (incl. an orchestrator baseline) on Terminal-Bench/SWE-bench/ProgramBench, and MAAC (arXiv:2601.21972) studies centralized-vs-decentralized LLM collaboration. Neither is in the RCA/diagnosis domain and neither uses escrow — so the claim survives **only if** it is scoped to *causal diagnostic quality on official RCA benchmarks*, and **only if the null result is published honestly** (if S5≈S4 with escrow removed, as P08 suggests, the honest result is "escrow is a no-op once interventions are available," which is a legitimate and citable negative finding — do not bury it).
+5. **NEW 2026 threats to the core claim (not in the repo's gate doc):**
+   - **DeLM, arXiv:2606.10662 (2026-06-09)** — general "decentralized > central orchestration" result; preempts the *narrative* if RepliClaw's headline drifts from "escrow improves causal diagnosis" to "decentralization wins." Keep the headline on the mechanism, not the topology.
+   - **ECLoop, arXiv:2607.28815 (2026-07-30)** — "evidence-conditioned execution" that postpones agent commitment until evidence conditions are met; overlaps the *terminology* of "evidence escrow" in a different direction (action gating, not forecast commitment). Add to prior-art table; do not let "evidence" branding blur.
+   - **"When Agents Commit Too Soon" (arXiv:2606.22936, 2026-06-22)** — owns the word "commitment" in agent-diagnosis framing; RepliClaw's "commit/reveal" vocabulary needs the "research-forecast escrow" qualifier everywhere.
+   - **LATS-RCA (2605.03505)** — must enter the benchmark/related-work table as the primary multi-agent RCA competitor (it is *more* relevant than anything currently in the repo's competitor set beyond AutoScientists/AgentRx).
+   - Minor data fix: AgentRx scale is 170 trajectories/11 settings in the current abstract (115 in v1) — pin version.
+
+**Adversarial summary for the team:** exactly one claim is defensibly novel — the *matched-tools central-vs-decentral + escrow ablation protocol evaluated on official RCA benchmarks with paired inference* — and it is an evaluation-methodology contribution, not an algorithm or a new form of multi-agent science. Every atomic mechanism (multi-agent hypotheses, falsification triggers, preregistration, counterfactual replay, evidence gating, decentralized wins) has a named 2025–2026 prior owner. The kill condition: if the live campaign cannot show escrow or decentralization changing *measured diagnostic quality* versus the adaptive central manager with identical tools, the paper's only honest title is a negative-result study — say this in the protocol now, not after the runs.
