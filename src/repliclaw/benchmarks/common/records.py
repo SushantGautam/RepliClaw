@@ -120,7 +120,7 @@ class RunRecord:
             )
 
     def to_dict(self) -> Dict[str, Any]:
-        intervention = {"total": sum(self.intervention_counts.values())}
+        intervention: Dict[str, Any] = {"total": sum(self.intervention_counts.values())}
         if self.intervention_counts:
             intervention["by_kind"] = dict(self.intervention_counts)
         return {

@@ -171,13 +171,14 @@ class RunState:
 
     def record(self) -> Optional[RunRecord]:
         """The finished run record, or None if not finished."""
-        if not self.is_finished or self._state is None:
+        if not self.is_finished or self._state is None or self._state.record is None:
             return None
         return RunRecord.from_dict(self._state.record)
 
     def reload(self) -> "RunState":
         """Re-read from disk (use after out-of-band changes)."""
-        self._state = self._load()
+        reloaded: Optional[_State] = self._load()
+        self._state = reloaded
         return self
 
     # -- transitions ------------------------------------------------------
@@ -191,22 +192,22 @@ class RunState:
         """
         now = _now_iso_zulu()
         if self._state is None:
-            self._persist(
-                _State(
-                    run_id=self.run_id,
-                    state=STATE_RUNNING,
-                    attempts=1,
-                    started_at=now,
-                    updated_at=now,
-                )
+            state = _State(
+                run_id=self.run_id,
+                state=STATE_RUNNING,
+                attempts=1,
+                started_at=now,
+                updated_at=now,
             )
-        elif self._state.state == STATE_RUNNING:
+            self._persist(state)
+            self._state = state
+            return state
+        if self._state.state == STATE_RUNNING:
             self._state.attempts += 1
             self._state.updated_at = now
             self._persist(self._state)
-        else:
-            raise RunAlreadyFinished(f"run {self.run_id} is already finished; refusing to re-open")
-        return self._state
+            return self._state
+        raise RunAlreadyFinished(f"run {self.run_id} is already finished; refusing to re-open")
 
     def mark_finished(self, run_record: RunRecord) -> _State:
         """Transition running -> finished, recording ``run_record``.
@@ -222,6 +223,11 @@ class RunState:
         now = _now_iso_zulu()
         if self._state is not None and self._state.state == STATE_FINISHED:
             record_sha = sha256_hex(canonical_json(run_record.to_dict()))
+            if self._state.record_sha256 is None:
+                raise StateConflict(
+                    f"run {self.run_id} already finished but has no recorded sha256 "
+                    f"(re-recorded {record_sha[:12]}…)"
+                )
             if self._state.record_sha256 == record_sha:
                 return self._state  # idempotent no-op
             raise StateConflict(
