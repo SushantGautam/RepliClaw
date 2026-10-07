@@ -155,13 +155,16 @@ report must state this attribution limit explicitly before any D-E claim
   feasibility/ceiling (§4.3).
 
 ### 4.2 Case-count formula
+**[ADDED 2026-10-10 — D-V3-008 / J-SCI W1 A3 / W2m (amendments §4 conflict #2 RESOLVED): this formula is SUPERSEDED — `~~retired as a power authority~~`; MC simulation of the frozen one-sided percentile-bootstrap rule (`science/monte_carlo_power_v3.md`, 254-cell grid, shas pinned in `EXPERIMENT_PROTOCOL_V3_DRAFT.md` FROZEN-CONSTANTS appendix) is the sole power authority per the protocol's MC-authority statement (`EXPERIMENT_PROTOCOL_V3_DRAFT.md`, D-V3-008 power block). The text below is retained for the record, not deleted.]**
 For 80% power at two-sided α = 0.05, normal approximation to the
 case-mean test (θ̂ is an average of n exchangeable d_c, so this is better
 behaved than a run-level proportion test):
 
-    N = (z_{1−α/2} + z_{0.80})² · σ²_D / MDE²
-      = (1.96 + 0.842)² · σ²_D / MDE²
-      ≈ 7.85 · σ²_D / MDE²
+    ~~N = (z_{1−α/2} + z_{0.80})² · σ²_D / MDE²~~
+    ~~  = (1.96 + 0.842)² · σ²_D / MDE²~~
+    ~~  ≈ 7.85 · σ²_D / MDE²~~
+
+    (~~…~~ = SUPERSEDED per the note above — retained for the record, not deleted)
 
 Round up to the next integer, then set final N = max(formula result,
 feasibility floor from the V3 protocol, planning target ≥ 24 cases / ≥ 3
