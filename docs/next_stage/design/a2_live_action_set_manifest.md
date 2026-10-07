@@ -97,8 +97,90 @@ for those two rows should be re-checked against it before any live run.
 | `operator_*` (5 misoperations, TiDBCluster) | **BLOCKED-NOT-FAKE** | Commented out of the registry (`registry.py:196-207`); no registered problem exists. |
 | `flower_node_stop-detection`, `flower_model_misconfig-detection` | **BLOCKED-NOT-FAKE** | Docker-only (`registry.py:221-224` DOCKER_REGISTRY); detection-only, no mitigation variant, no k8s action vocabulary. |
 | `noop_detection_{hotel_reservation,social_network,astronomy_shop}-1` | **BLOCKED-NOT-FAKE** | Null-class controls; detection action surface only. |
-| Chaos-Mesh / injector fault actions as *agent* actions | **EXCLUDED (injector-side only)** | Fault injection is performed by the orchestrator/injectors before the agent's first step (`orchestrator.py:78`; `inject_virtual.py:32-257`, `inject_app.py:13+`, `generators/fault/inject_symp.py`), never exposed as an agent action. Arms must not be able to re-inject; any `exec_shell` command that writes a Chaos-Mesh object is a rule violation caught at evaluation, not part of the vocabulary. |
+| Chaos-Mesh / injector fault actions as *agent* actions | **EXCLUDED (injector-side only)** | Fault injection is performed by the orchestrator/injectors before the agent's first step (`orchestrator.py:78`; `inject_virtual.py:32-257`, `inject_app.py:13+`, `generators/fault/inject_symp.py`), never exposed as an agent action. Arms must not be able to re-inject; any `exec_shell` command that writes a Chaos-Mesh object is a rule violation caught at evaluation (second, post-hoc layer), **not part of the vocabulary**; the pre-flight write restriction (§1.4) is the first, mechanized layer. |
 | Anything not in the 7-action table §1.1 | **EXCLUDED by construction** | The `InvalidActionError` path (`tasks/mitigation.py:68-73`); the per-problem manifest JSON (schema `live_action_manifest.schema.json`) is the only admissible list; the unregistered-intervention canary (§6) fails loud on any deviation. |
+
+### 1.4 `exec_shell` write channel — residual risk statement + pre-flight safeguard (S-W2-8 fix, J-SCI W2)
+
+**Residual risk (stated, not downplayed).** At pinned `ccf08d0`, the *only* in-band
+restriction on `exec_shell` is `BLOCK_LIST` at `aiopslab/orchestrator/actions/base.py:95-101`
+— **5 substring patterns** (`kubectl edit`, `edit svc`, `kubectl port-forward`,
+`docker logs -f`, `kubectl logs -f`). `Shell.exec` (`aiopslab/service/shell.py:16-47`)
+then runs the remaining command with **no scope limitation**: `subprocess.run(command,
+shell=True, timeout=30)` on the service host (`service/shell.py:49-70`), `ssh_exec`
+(`service/shell.py:72-91`), or `docker exec kind-control-plane sh -c "…"`
+(`service/shell.py:93-117`). Concretely, nothing in-repo stops an agent from:
+(i) `kubectl delete`-ing evaluation infrastructure (namespaces, CRDs, the Prometheus
+teardown target, cron jobs); (ii) reading evaluator-side files if any such path is
+reachable from the execution host/container; or (iii) writing **Chaos-Mesh objects**
+(re-injection of faults). The previous text of §1.3 relied on that last class being
+"caught at evaluation" — that is a **post-hoc** check only, and the §4.2 reset digest
+certifies cluster-resource state at t0 but **cannot certify off-cluster tampering** or
+tampering that is later reverted. **Parity is preserved** — both arms receive the
+identical unbounded channel, so the D-E vs C-EQ comparison remains valid; identical
+exposure is part of the frozen environment, not a bias. The risk is campaign-level:
+a single tampering incident can poison both arms' runs and invalidate a trial batch.
+No in-repo mechanism closes this gap: the `AIOPSLAB_CLUSTER` → `kind-<cluster>`
+kubecontext selection (`aiopslab/service/kubectl.py:23-35`) only switches *which*
+kubeconfig context the python client and host kubectl use — it is not an authorization
+boundary; RBAC yaml in the checkout belongs to observer stack templates
+(`aiopslab/observer/{logstash,filebeat}/templates/`) and constrains only those
+workloads, not the `exec_shell` channel.
+
+**Pre-flight safeguard spec (arm-identical, mechanizable, UNTESTED-DESIGN).** To be
+applied at first deployment — **DEPLOYMENT-GATED: no deployment is performed in this
+design pass, and this safeguard is NOT claimed to work until tested at deployment.**
+Both arms must operate against the *same* restricted identity in the *same* cluster
+context; the safeguard must be installed and verified **before** `init_problem` of the
+first trial and re-asserted by the pre-flight canary at every trial start.
+
+1. **Mechanism (chosen): scoped service-account RBAC for the `exec_shell` host
+   identity.** The agent-facing kubectl identity is switched from the full-privilege
+   context user to a dedicated `ServiceAccount` `agent-exec-<cluster>` bound to
+   a **namespaced** `Role` in the problem's app namespace (GET/LIST/WATCH on all app
+   resources; create/update/patch/delete on workloads, configmaps, PVCs *inside that
+   namespace only* — the legitimate mitigation surface). Everything else is
+   **denied by omission** (Kubernetes RBAC is allow-only — no positive grant ⇒
+   `403 Forbidden`): no cluster-scoped rules at all (so `kubectl delete
+   namespace`, CRD, cron-job, or node writes are denied), and **no grant for the
+   `chaos-mesh.org` API group** (so any Chaos-Mesh object
+   create/update/patch/delete is denied). Both arms: same ServiceAccount, same
+   binding,
+   same kubeconfig context entry (`kind-<cluster>` context pointed at the scoped
+   SA token per `aiopslab/service/kubectl.py:23-35` context mechanics).
+2. **Fallback / co-equal mechanism (if RBAC token injection is unavailable on a
+   given deployment target):** a **pre-eval kubectl audit hook** on the host identity
+   (kubectl plugin or wrapper shim in front of the `exec_shell` execution host,
+   arm-identical) that **DENIES** any mutating command outside the app namespace and
+   any command creating/updating Chaos-Mesh objects, logging every denied attempt to
+   the run record. Same arm-identical rule set as (1); either (1) or (2) — never
+   neither — is a hard G2 launch precondition, recorded in the run record with the
+   verification evidence.
+3. **Oracle-location assertion (G2 pre-deployment check, arm-identical):** the eval
+   oracle / answer store (`submit()` solution storage, `orchestrator.py:127-129`
+   `set_solution` path and its host-side persistence) is declared at deployment
+   config time and **asserted to be outside the filesystem reachable from the
+   `exec_shell` execution host/container** — mechanically verified (path check from
+   the execution host) before the first trial, not by review alone.
+4. **Deployment gate status: UNTESTED-DESIGN / DEPLOYMENT-GATED.** The RBAC manifest
+   in (1) is specified, not applied. At first deployment the pre-flight canary must
+   demonstrate, per arm: (a) a legal in-namespace write succeeds; (b)
+   `kubectl delete namespace <app-ns>` is denied; (c) creating any `chaos-mesh.org`
+   object is denied; (d) reading a probe file placed in the declared
+   oracle-reachable region is denied (or the region is proven unreachable per 3).
+   Until (a)–(d) pass on both arms, no live trial may start.
+
+**Layering (never weakened, never claimed beyond evidence):**
+- **Layer 1 (pre-flight, new §1.4):** scoped RBAC/audit deny of out-of-namespace
+  writes + Chaos-Mesh writes, both arms — UNTESTED-DESIGN until the deployment
+  canary above passes.
+- **Layer 2 (post-hoc, existing):** the §1.3 Chaos-Mesh rule-violation check at
+  evaluation, the §4.2 t0 reset digest (certifies reset stability of *cluster*
+  resources), plus the §6 note that live `exec_shell` boundary behavior is trusted
+  only after the first live canary trial. A tamper-detecting post-episode rescan
+  (residual/added objects outside the `init_problem` resource set: namespaces, CRDs,
+  cron jobs, chaos-mesh objects → trial marked invalid) is a required second-layer
+  addition at G2; it detects what Layer 1 fails to prevent, it does not replace it.
 
 ---
 
@@ -112,6 +194,19 @@ per-problem config sets a cap (searched: `registry.py`, all 14 mitigation proble
 
 **Frozen cap (RepliClaw freeze decision): `max_steps = 20` for every registered mitigation
 problem**, passed identically to both arms' `start_problem`. Arm-neutrality rationale:
+- **Per-arm allocation semantics (S-W2-7 fix, J-SCI W2):** `max_steps=20` is the per-episode
+  step count in `Orchestrator.start_problem`, identical for both arms — both arms enter the
+  same single loop `for step in range(max_steps)` at `orchestrator.py:161` (method at
+  `orchestrator.py:145`), with one `ask_agent`/`ask_env` exchange per iteration; how each
+  arm's internal structure maps its agents/rounds onto the 20 episode steps is **arm-policy
+  (part of the treatment)** — e.g. a manager+investigators arm may spend one episode step
+  on a manager decision plus nested agent calls inside it, while a decentralized arm may
+  spend one step per agent action — and this mapping is bounded identically by the same
+  20-step loop and the shared `BudgetEnvelope` (token/compute side, §2 / CEQ design
+  §3.3); the G2 budget-cap canary (§6 canary #5) asserts the 20-step *loop* itself
+  (present, equal, enforced in the harness-loop fixture), **not** per-agent allocations.
+  The per-episode-level parity claim is therefore the one made in the prereg; effective
+  per-decision-maker budget differences are acknowledged as treatment content, not drift.
 - it is a single integer applied to both arms through the same code path
   (`orchestrator.py:161`); the arms cannot receive different values without a harness
   change, which the parity canary (§6) detects;
@@ -271,12 +366,19 @@ Fields: `problem_id`, `pinned_repo_sha` (40-hex pattern; frozen `ccf08d0…`), `
 4. **Escrow-mapping determinism canary:** fixed ordinal probes resolve to the same
    `action_id` in both arm harnesses (`explicit_table_lookup_v1`).
 5. **Budget-cap canary:** `max_steps=20` present, equal, and enforced in the harness-loop
-   fixture (offline stand-in for `orchestrator.py:161`).
+   fixture (offline stand-in for the 20-step loop at `orchestrator.py:161`) — this canary
+   asserts the *episode-step loop* only, not per-agent allocations (S-W2-7; §2).
 6. **Parity instrumentation canary (offline fixture arms):** the existing Track-II
    `test_v3_ceq_parity` family (J-SCI Wave-1 §5) extended to read `changed_factors` from
    the manifest instead of ad-hoc literals.
 
 **Still requiring human-approved deployment:**
+- **Pre-flight `exec_shell` safeguard canary** (S-W2-8, §1.4): apply scoped RBAC (or the
+  audit-hook fallback) to both arms' identities and pass checks (a)–(d) — legal in-namespace
+  write OK; `kubectl delete namespace` denied; Chaos-Mesh object creation denied;
+  oracle-region read denied/unreachable — plus the oracle-location assertion and the
+  post-episode rescan wired in as Layer 2. UNTESTED-DESIGN until this passes; no live
+  trial before it.
 - First-verified-deployment **reference reset digests** for the 6 local SocialNetwork
   problems (kind on macOS; no spend, but an actual cluster run — not done in this pass).
 - All 7 HotelReservation + 1 AstronomyShop problems: VM provisioning + spend
@@ -298,7 +400,15 @@ Fields: `problem_id`, `pinned_repo_sha` (40-hex pattern; frozen `ccf08d0…`), `
   computed after `init_problem` (`orchestrator.py:34-91`) and before step 1, per-arm
   cluster context (`service/kubectl.py:23-35`).
 - **max_steps:** 20 (frozen, arm-neutral; upstream has no cap — default 10 in
-  `service.py:140-141`).
+  `service.py:140-141`). Per-arm allocation semantics (S-W2-7): 20 is the per-episode step
+  count in `Orchestrator.start_problem` (`orchestrator.py:145`, loop at `:161`), identical
+  for both arms; agent/round mapping onto those steps is arm-policy (treatment), bounded by
+  the same 20-step loop + shared `BudgetEnvelope`; canary #5 asserts the loop, not
+  per-agent allocations.
+- **exec_shell safeguard (S-W2-8):** §1.4 — residual risk of the 5-pattern BLOCK_LIST
+  stated; pre-flight arm-identical RBAC/audit deny of out-of-namespace + Chaos-Mesh writes
+  specified as **UNTESTED-DESIGN, DEPLOYMENT-GATED**; post-hoc eval check retained as layer
+  2.
 - **BLOCKED:** `kernel_fault_*` / `disk_woreout_*` / `operator_*` / `flower_*` /
   `noop_*` — not registered or Docker-only; no manifest entries, no fake state.
   Gated VM families: 7 hotel-res + 1 astronomy-shop problems GATED-PENDING-APPROVAL.
