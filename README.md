@@ -84,8 +84,12 @@ Python ≥ 3.10.
 # 1. install (ScienceClaw primitives are vendored under deps/scienceclaw)
 pip install -e ".[dev]"
 
-# 2. hermetic test suite (no network; 61 tests)
+# 2. hermetic test suite (no network; 62 tests)
 python -m pytest
+
+# 2b. static checks (both configured in pyproject.toml)
+ruff check src/repliclaw/ tests/
+mypy src/repliclaw/
 
 # 3. inspectable demo outputs under artifacts/
 python -m repliclaw.cli demo --out artifacts/demo --backend deterministic
@@ -182,7 +186,7 @@ never edits results.
 
 ```
 src/repliclaw/        the library (see module table above)
-tests/                61 hermetic tests (isolation, commit/reveal integrity,
+tests/                62 hermetic tests (isolation, commit/reveal integrity,
                       contradiction → follow-up, verdict provenance,
                       strategies, benchmark, CLI/verify)
 tests/fixtures/       known-answer benchmark tasks
@@ -198,7 +202,7 @@ DECISIONS.md / PROGRESS.md / EXECUTION_STATE.md / IMPLEMENTATION_PLAN.md
 
 | AC | evidence |
 |---|---|
-| AC01 | this README; `pip install -e ".[dev]"` + `python -m pytest` (61 tests, hermetic) |
+| AC01 | this README; `pip install -e ".[dev]"` + `python -m pytest` (62 tests, hermetic) |
 | AC02 | `repliclaw verify` CLI + `verify()` Python API (src/repliclaw/cli.py, verify.py) |
 | AC03 | 3+ investigators with `ContextEnforcer`/`PhaseGate`; tests/test_isolation.py |
 | AC04 | sealed `Commitment` records pre-reveal; mismatch ⇒ REJECTED + re-seal; tests/test_commit_reveal.py |
@@ -211,8 +215,8 @@ DECISIONS.md / PROGRESS.md / EXECUTION_STATE.md / IMPLEMENTATION_PLAN.md
 | AC11 | `benchmark.py` metrics: correctness/FA/FR/inconclusive, error-correlation proxy, recovery, diversity, tokens, latency; artifacts/benchmark/ |
 | AC12 | misleading_wrong_test end-to-end: conflict → follow-up falsification → REFUTED recovery; artifacts/demo/case_misleading/ |
 | AC13 | this README §Cross-team surface; tests/test_cli_and_verify.py |
-| AC14 | 61-test suite incl. isolation, commit/reveal integrity, contradiction/follow-up, verdict provenance |
-| AC15 | `python -m pytest` green; see PROGRESS.md verification log |
+| AC14 | 62-test suite incl. isolation, commit/reveal integrity, contradiction/follow-up, verdict provenance, benchmark re-run determinism |
+| AC15 | `python -m pytest` (62 passed); `ruff check` (0 errors); `mypy src/repliclaw/` (no issues); `[tool.ruff]`+`[tool.mypy]` in pyproject.toml |
 | AC16 | `repliclaw demo` → artifacts/demo*/ (deterministic, committed) + artifacts/demo-llm (live) |
 | AC17 | this README (hypothesis, architecture, baselines, reproduction, not-a-fixed-DAG) |
 | AC18 | all reported numbers computed by the harness at run time; demo shows real model outputs with per-call usage accounting |

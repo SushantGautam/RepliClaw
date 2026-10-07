@@ -61,6 +61,11 @@ Evidence paths are from the 2026-10-07 reconnaissance.
 - **Rationale:** A live direction-aware model correctly read the reversed means as contradicting "treatment increases" — the *model was right and the fixture was wrong*. Deterministic lenses are magnitude-based (|t|, |d|, raw RR), so the flip is a strict consistency improvement: verified zero regression (60 tests, demo 0.980/0.256, benchmark table byte-identical).
 - **Rule:** before shipping a fixture, check claim direction vs every bundled metric's direction; keep `events_*`/`baseline_rr` as the falsifier's raw-data anchor.
 
+## D13 — AC15 strengthened: lint (ruff) + type-check (mypy) are part of the verification gate, not just compileall
+- **Decision:** Add `[tool.ruff]` (line-length 120; select E,F,W,I001,B006,B008) and `[tool.mypy]` (`mypy_path = "src:deps/scienceclaw"`, overrides for un-stubbed vendored `artifacts.*`/`networkx`/`openai`/`pydantic`) to `pyproject.toml`; require `ruff check` (0 errors) and `mypy src/repliclaw/` (no issues) in addition to the 61-test suite. `dev` extras now ship `ruff` + `mypy`.
+- **Evidence:** First pass found 26 ruff + 10 mypy findings — all genuine (dead vars, unused imports, `F821` from a missing module-level `LLMConfig` import, a real `List[str]`→`List[Dict[str,Any]]` annotation bug on `Verdict.unresolved_conflicts`, a `None`-guard, an int/dict annotation). After fixes: `ruff check` = 0, `mypy` = no issues in 15 files, **62 tests green**. Proven behavior-preserving: benchmark CSV regenerated from current code is **byte-identical (cols 1–14)** to a clean `acaefbb` run — the committed artifact had gone **stale** (`n_needs=4` from M8-era code; current code yields `n_needs=1`), so the canonical `artifacts/benchmark/` was regenerated. The staleness root-caused a real **harness reproducibility bug** (separate fix): `RunStore.append_need` is append-mode, so re-running into a dirty `_work/` inflated `n_needs`; `run_benchmark` now wipes each per-run dir first, guarded by `test_benchmark_is_deterministic_across_reruns`.
+- **Rule:** a "static check" that only runs `compileall` is not sufficient evidence for AC15; the gate is compileall + ruff + mypy + full suite, and committed benchmark artifacts must be regenerated from current code before any completion claim.
+
 ---
 
 ## Reuse Matrix (mandatory gate)

@@ -5,8 +5,8 @@ Status: `COMPLETE`
 ## Cursor
 - Milestone: **COMPLETE — M1–M10 all built, committed, and verified. Every acceptance criterion AC01–AC18 has concrete evidence (map in README).**
 - Branch: `repl-claw-dev`
-- Commits: `2a7d1e9` (spec) → `e7c4a3b` (M1–M4 core + tests) → `c04b2fa` (M5 baselines + M6 benchmark) → `5f2e012` (M8 verify/CLI) → final commit (M9 live-LLM demo + M10 README/AC map/hardening).
-- Tests: **61 passing, hermetic** (`python -m pytest`); clean-venv install verified (AC01); `compileall` OK (AC15).
+- Commits: `2a7d1e9` (spec) → `e7c4a3b` (M1–M4 core + tests) → `c04b2fa` (M5 baselines + M6 benchmark) → `5f2e012` (M8 verify/CLI) → `acaefbb` (M9 live-LLM demo + M10 README/AC map) → lint/type-hardening commit (ruff+mypy gate, D13).
+- Tests: **62 passing, hermetic** (`python -m pytest`); **`ruff check` 0 errors + `mypy` no issues in 15 files** (AC15 full static gate, D13); clean-venv install verified (AC01).
 - Canonical committed evidence: `artifacts/benchmark/` (reports), `artifacts/demo/` (deterministic, incl. AC12 recovery), `artifacts/demo-llm/` (live model outputs, AC16/AC18).
 
 ## Verified facts (this segment)
@@ -24,6 +24,8 @@ Status: `COMPLETE`
 - None — task complete. For a future session: `python -m pytest` reproduces everything offline; `repliclaw demo --backend auto` reproduces the demo (llm if a key is present, else deterministic).
 
 ## Verification log (latest first)
+- 2026-10-07: **AC15 strengthened (D13).** Added ruff+mypy gate; fixed 26 ruff + 10 mypy findings (incl. a real `List[str]`→`List[Dict[str,Any]]` bug on `Verdict.unresolved_conflicts`). Result: ruff 0 errors, mypy clean (15 files). Regenerated canonical `artifacts/benchmark/` (committed CSV was stale: `n_needs=4`→`1`, table story unchanged).
+- 2026-10-07: **Benchmark reproducibility bug found + fixed.** `RunStore.append_need` is append-mode, so re-running the benchmark into a dirty `_work/` inflated `n_needs` (the root cause of the stale `4`). Fix: `run_benchmark` now wipes each per-run `run_dir` before running; proven by running twice into one dir (both `n_needs=1`) + new regression test `test_benchmark_is_deterministic_across_reruns`. Suite now **62 tests**, ruff+mypy clean, canonical artifact == clean `acaefbb` regen (cols 1–14).
 - 2026-10-07: LLM demo second run exposed missing claim.data in prompt (uniform abstention) — fixed with data block + per-role methods.
 - 2026-10-07: LLM demo first run exposed double-wrapped client (all-investigator failure masquerading as success) — fixed + guarded + hard-fail + regression test.
 - 2026-10-07: M8 committed (`5f2e012`); falsifier lens fixed to abstain when no raw events bundled (was false-refuting on fallback CI).

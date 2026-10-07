@@ -1,6 +1,6 @@
 # RepliClaw Controlled Benchmark
 
-Tasks: **6** | Strategies: **5** | Generated: 2026-10-07T13:52:22Z
+Tasks: **6** | Strategies: **5** | Generated: 2026-10-07T14:25:53Z
 
 All metrics are computed from actual runs (AC18). `repl_claw` is the blind commit/reveal decentralized baseline; others are fixed-coordination comparators on the SAME task interface.
 
@@ -8,11 +8,11 @@ All metrics are computed from actual runs (AC18). `repl_claw` is the blind commi
 
 | strategy | correctness | false-accept | false-reject | inconclusive | recovery (faulted) | avg agents | avg latency (s) |
 |---|---|---|---|---|---|---|---|
-| single_agent | 0.167 | 0.500 | 0.000 | 0.333 | 0.000 (n=3) | 1 | 0.006 |
-| fixed_dag | 0.167 | 0.500 | 0.000 | 0.333 | 0.000 (n=3) | 3 | 0.011 |
-| isolated_vote | 0.500 | 0.000 | 0.000 | 0.500 | 0.000 (n=3) | 3 | 0.019 |
-| open_debate | 0.500 | 0.000 | 0.000 | 0.500 | 0.000 (n=3) | 3 | 0.010 |
-| repl_claw | 1.000 | 0.000 | 0.000 | 0.000 | 1.000 (n=3) | 4 | 0.021 |
+| single_agent | 0.167 | 0.500 | 0.000 | 0.333 | 0.000 (n=3) | 1 | 0.002 |
+| fixed_dag | 0.167 | 0.500 | 0.000 | 0.333 | 0.000 (n=3) | 3 | 0.004 |
+| isolated_vote | 0.500 | 0.000 | 0.000 | 0.500 | 0.000 (n=3) | 3 | 0.004 |
+| open_debate | 0.500 | 0.000 | 0.000 | 0.500 | 0.000 (n=3) | 3 | 0.004 |
+| repl_claw | 1.000 | 0.000 | 0.000 | 0.000 | 1.000 (n=3) | 4 | 0.009 |
 
 ## Cross-strategy error correlation (proxy, AC11)
 

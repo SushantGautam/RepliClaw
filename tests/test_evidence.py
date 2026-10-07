@@ -1,11 +1,11 @@
 """Evidence graph + error-correlation proxy (AC09/AC11): conflict detection,
 diversity, and the cross-strategy error-correlation metric."""
 from repliclaw.evidence import (
+    build_evidence_graph,
     count_independent_pairs,
     detect_conflicts,
     error_indicator,
     graph_report,
-    build_evidence_graph,
     strategy_error_correlation,
 )
 from repliclaw.models import Evidence, EvidenceRelation

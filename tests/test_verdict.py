@@ -41,8 +41,10 @@ def test_weighted_score_direction_and_magnitude():
 def test_executable_beats_opinion_weight():
     strong = [ev("a", EvidenceRelation.CONTRADICTS, executable=True)]
     weak = [ev("b", EvidenceRelation.SUPPORTS, executable=False)]
-    # One strong executable contradiction should outweigh one weak opinion.
+    # One strong executable contradiction should outweigh one weak opinion,
+    # whether considered alone or combined with the opposing opinion.
     assert weighted_score(strong) < 0
+    assert weighted_score(strong + weak) < 0
 
 
 def test_sufficiency_requires_directional_executable():

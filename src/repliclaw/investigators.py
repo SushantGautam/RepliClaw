@@ -17,7 +17,7 @@ from __future__ import annotations
 import json
 import os
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 from .models import InvestigatorConfig, ResourceUsage
 
@@ -287,9 +287,17 @@ class DeterministicInvestigator(Investigator):
             }
 
     def _two_arm_analysis(self, role: str, data: Dict[str, Any], claim) -> Dict[str, Any]:
-        n = data.get("n")
+        n = float(data.get("n") or 0)
         alpha = float(data.get("alpha", 0.05))
         if role == "statistician":
+            if n <= 0:
+                return {
+                    "conclusion": "uncertain",
+                    "statement": "no per-arm sample size bundled; cannot run a t-test",
+                    "plan": "recompute primary endpoint from raw events",
+                    "evidence": {"error": "no n"},
+                    "confidence": 0.2,
+                }
             # Independent two-sample t-test on means.
             mt, mc = float(data["mean_treat"]), float(data["mean_ctrl"])
             st, sc = float(data["sd_treat"]), float(data["sd_ctrl"])
@@ -365,9 +373,11 @@ class DeterministicInvestigator(Investigator):
 
 
 def _risk_ratio(data: Dict[str, Any]) -> float:
-    et, tt = data.get("events_treat"), data.get("tot_treat")
-    ec, tc = data.get("events_ctrl"), data.get("tot_ctrl")
-    if None in (et, tt, ec, tc) or tt == 0 or tc == 0:
+    et = float(data.get("events_treat") or 0)
+    tt = float(data.get("tot_treat") or 0)
+    ec = float(data.get("events_ctrl") or 0)
+    tc = float(data.get("tot_ctrl") or 0)
+    if tt == 0 or tc == 0:
         return float(data.get("baseline_rr", 0.0) or 0.0)
     return (et / tt) / (ec / tc)
 

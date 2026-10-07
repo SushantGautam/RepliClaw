@@ -102,7 +102,6 @@ def test_on_disk_tamper_breaks_seal(tmp_path):
     """Directly editing the persisted commitment JSON must be detected by the
     seal hash (tamper-evident, AC04)."""
     import json
-    import os
 
     store = RunStore(tmp_path)
     payload = commit_payload(_finding())

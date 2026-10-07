@@ -8,7 +8,6 @@ were produced by different agents whose pre-reveal contexts were disjoint
 """
 from __future__ import annotations
 
-import json
 from typing import Any, Dict, List, Optional
 
 import networkx as nx
@@ -53,7 +52,6 @@ def to_dict(G: nx.DiGraph) -> Dict[str, Any]:
 def graph_report(G: nx.DiGraph) -> Dict[str, Any]:
     """Compact, deterministic summary of the evidence graph."""
     nodes = list(G.nodes(data=True))
-    edges = list(G.edges(data=True))
     return {
         "n_nodes": G.number_of_nodes(),
         "n_edges": G.number_of_edges(),

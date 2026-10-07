@@ -1,6 +1,5 @@
 """Pre-reveal isolation (AC03): an investigator cannot see a peer's sealed
 conclusion before the reveal phase, and every read/denial is auditable."""
-import json
 
 import pytest
 
@@ -103,7 +102,6 @@ def test_prompt_block_pre_reveal_excludes_peer_materials(tmp_path):
         investigator=_inv("inv-a"),
         task_instructions="assess the claim",
     )
-    block = ctx.to_prompt_block(revealed=False)
     # Even if revealed_materials were (maliciously) pre-populated, the
     # blind-phase prompt must not include them.
     ctx.revealed_materials = {"inv-b": {"conclusion": "SUPPORTED-SECRET"}}
