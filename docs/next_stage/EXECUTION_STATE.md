@@ -136,3 +136,17 @@ All J-CODE W2 conditions closed:
 - F-W2-4 (commit a9f353d says "8 tests", actual 6): commit message cannot be rewritten (history); recorded here as the correction of record.
 - F-W2-12 (summary.json zeroes tokens): DEFERRED to G4 doc pass (state.json simula_run_extra is record of truth; note to be added to contract then).
 Gate at 826b248: 390 passed/8 skipped/3 xfailed, mypy clean (77 src), ruff clean.
+
+## I2.4–I2.7 — J-SCI W2 fix round + W2k MC re-run (2026-10-10)
+**HEAD:** `e1fe19a` on `dev` (merges I2.5/I2.6/I2.7).
+
+| Item | Result | Evidence |
+|---|---|---|
+| J-SCI W2 report (I2.4, `1b9b953`) | COMMITTED | reviews/SCIENCE_JUDGE_WAVE2_20261010.md: prereg READY for G4 after one fix round (S-W2-1/5/9 + 3 human conflicts); pilot NOT launchable as written (S-W2-2/3/5/6/10); verified 645-disjointness, 2.88M ceiling, wall-time correction 43,200 s/12.0 h, A2 arm-neutrality. |
+| W2k rule_a1@0.15 MC (I2.7) | MERGED | 40 cells × 10k reps SIMULATION-ONLY; reproduction of cell 247 EXACT (0.6151/0.6144/θ 0.14917); mid-variance: a1@0.15 power 0.484 @Δ=0.15 (−0.131 vs base), 0.756 @Δ=0.20 (−0.083), type-I 0.009 (floor REDUCES false-fire); doc mc_rule015_sensitivity.md; artifacts preserved .artifacts/statistics/ (json sha256 eda939c3…). |
+| W2m prereg fixes (I2.6) | MERGED | S-W2-1 floor gate ADDED (dual stop rule; W2g smoke + P08 S3=0.050/S4=0.200/S0=0.150 cited as capability disclosure; frozen contingency, no silent model switch); 3-sentence model-conditioned results language verbatim in protocol; conflict #1 (ceq §5.3 superset wording, strike-through), #2 (stat §4.2 in-file strike), #3 (0.6 floor STAYS — J-SCI W1 fair-parity rationale recorded); S-W2-7 max_steps semantics sentence in Track-I. |
+| W2n A2+provenance (I2.5) | MERGED | S-W2-7 in A2 manifest (orchestrator.py:145/:161 verified @ccf08d0); S-W2-8 exec_shell residual risk + scoped per-namespace SA RBAC pre-flight design (UNTESTED-DESIGN, DEPLOYMENT-GATED; canaries a–d added); S-W2-9 authoring numpy NOT RECORDED flagged + results-JSON sha256 22096e60… pinned. |
+
+**Δ_min status (harmonized):** candidate 0.15 (A1), confirmed-or-lowered-only post-pilot, never raised. W2k result gives the prereg its exact frozen variant: at N=24, k=4, a true Δ≈0.15 effect yields MEANINGFUL_POSITIVE only ~48% (no-sat) — power cost disclosed, coherent with D-V3-008.
+**Still open:** W2l pilot-spec fix round (RUNNING); W2d novelty refresh (RUNNING). After both land: I3 checkpoint = G2 formal sign-off + G4 human-decision package (unchanged: (a) AIOpsLab VM/budget, (b) N=24×k=4 heldout budget, (c) G3 pilot launch — plus amendments §4 conflicts now RESOLVED in-file pending human ratification at G4).
+**No paid/live work beyond the authorized free SimulaChat smoke.**
