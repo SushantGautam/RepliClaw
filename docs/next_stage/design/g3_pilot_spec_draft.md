@@ -317,12 +317,14 @@ non-empty rungs, ordered easiest→hardest (BARO-validated RE1/RE2-OB resource f
 code-level RE3 and non-OB systems later). The human must approve L1–L3 being empty and
 L4–L8 taking over at T0 (this changes no number in §4: each re-pilot reuses the same
 envelope ceilings — 10 cases × 2 seeds × 2 arms × 60,000 + optional 8-case BARO feasibility
-pass → same 2,880,000 per-pilot-round ceiling). **MISSING-WITH-REASON (does not block):**
-whether stop rule 3's 2,880,000 cumulative ceiling is per-pilot-round or campaign-cumulative
-across re-pilots is not fixed by the current text; this spec proposes per-pilot-round
-(each round re-derives from the same §4 envelope arithmetic — no new numbers), but the
-choice must be confirmed in the T0 prereg wording (one sentence, no effect on any number
-above).
+pass → same 2,880,000 per-pilot-round ceiling). **Resolved (was MISSING-WITH-REASON, closed
+at I3, 2026-10-10):** stop rule 3's 2,880,000 ceiling is **per-pilot-round**, NOT
+campaign-cumulative across re-pilots — each of the MAX 2 re-pilots re-derives an identical
+fresh 2,880,000 envelope from the same §4 arithmetic (identical n, k, arms, per-run
+60,000 cap). Consequence for campaign accounting: worst-case total = 3 rounds × 2,880,000
+= **8,640,000 tokens** (still $0 on the authorized free tier; the per-round stop keeps any
+single round auditable against one frozen envelope). The T0 prereg wording states this
+one sentence; it changes no number in §4.
 
 **Cap (pre-registered, no discretion):** **MAX 2 re-pilots total**, each on the **NEXT
 ladder rung** only (re-pilot 1 → first non-empty rung after the run that tripped; re-pilot
