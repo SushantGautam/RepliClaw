@@ -94,6 +94,16 @@ PLANNER_ROUNDS_MAX = 4
 CEQ_INVESTIGATOR_TOOL_CAP = 3
 #: D-E phase-2 additional tool-call cap per investigator (one consultation round).
 DE_PHASE2_TOOL_CAP = 4
+
+#: Context-compaction constants (W3g harness-side fix — addendum §6.3).
+#: The provider send-view keeps the system prompt + first user instruction and the
+#: most recent ``_COMPACTION_RECENT_KEEP`` messages verbatim; older *user* messages
+#: (tool observations, which are idempotent and re-fetchable) are replaced by a
+#: short stub. Model responses are NEVER compacted. This does not change information
+#: access (any compacted observation can be re-requested as a tool call) and does not
+#: touch the audit transcript, the prompt-volume canary, or the frozen 60,000 envelope.
+_COMPACTION_RECENT_KEEP = 6
+_COMPACTION_STUB_CHARS = 120
 #: D-E committee (fresh sandbox) tool-call cap before unconditional submit.
 DE_COMMITTEE_TOOL_CAP = 4
 #: Diagnosis length: both arms commit a ranked-5 service list.
@@ -339,7 +349,7 @@ class LLMToolSession:
         self.transcript: list[dict[str, Any]] = []
         self.prompts: list[str] = []  # every user prompt sent (for the volume canary)
         self._tokens: list[_TokenRecord] = []
-        self._prev_prompt_chars = 0  # chars of full message history at the previous call
+        self._prev_sent_prompt_chars = 0  # chars of the SENT (compacted) view at the previous call
 
     # -- accounting ----------------------------------------------------------
     @property
@@ -375,8 +385,11 @@ class LLMToolSession:
             self.prompts.append(prompt)
             self.transcript.append({"role": "prompt", "agent": self.agent_id, "content": prompt,
                                     "model_label": self.model_label, "ts": time.time()})
+            # Compaction (W3g): the provider sees a compacted send-view; the audit
+            # transcript and the volume-canary prompt list above keep the FULL text.
+            sent = self._compacted_view()
             response = self._client.chat.create(
-                model=self._model, messages=list(self.messages), temperature=self._temperature
+                model=self._model, messages=sent, temperature=self._temperature
             )
             content: str = response.choices[0].message.content
             self.transcript.append({"role": "response", "agent": self.agent_id, "content": content,
@@ -392,19 +405,55 @@ class LLMToolSession:
                 prompt = _CORRECTION_PROMPT
         raise AssertionError("unreachable")
 
+    def _compacted_view(self) -> list[dict[str, str]]:
+        """Provider send-view: system prompt + first user instruction + the most
+        recent ``_COMPACTION_RECENT_KEEP`` messages verbatim; older *user* messages
+        (tool observations — idempotent, re-fetchable via a tool call) become a
+        short stub. Model responses and the first instruction are never compacted.
+
+        This is a cost-reduction measure on full-history re-prompting (W3g); it does
+        not alter the information the agent can access, the audit transcript, the
+        prompt-volume canary, or the frozen token envelope.
+        """
+        msgs = self.messages
+        # The first user message is the phase instruction — never stubbed.
+        first_user_idx = next(
+            (i for i, m in enumerate(msgs) if m["role"] == "user"), None
+        )
+        compact_from = len(msgs) - _COMPACTION_RECENT_KEEP
+        out: list[dict[str, str]] = []
+        for i, m in enumerate(msgs):
+            if m["role"] == "system":
+                out.append(m)
+                continue
+            stubbable = (
+                m["role"] == "user"
+                and (first_user_idx is None or i > first_user_idx)
+                and i < compact_from
+                and len(m["content"]) > _COMPACTION_STUB_CHARS
+            )
+            if stubbable:
+                stub = (m["content"][:_COMPACTION_STUB_CHARS]
+                        + " … [older tool observation compacted; re-issue the tool "
+                          "call to retrieve the full data]")
+                out.append({"role": "user", "content": stub})
+            else:
+                out.append(m)
+        return out
+
     def _usage_tokens(self, response: Any) -> _TokenRecord:
         usage = getattr(response, "usage", None)
         pt = getattr(usage, "prompt_tokens", None) if usage is not None else None
         ct = getattr(usage, "completion_tokens", None) if usage is not None else None
         if isinstance(pt, int) and isinstance(ct, int):
             return _TokenRecord(pt, ct, "usage")
-        # Estimate: count only the MARGINAL prompt chars added since the
-        # previous call (not the full history re-sent), so a long session is
-        # not re-charged for its own transcript on every turn.
-        prompt_chars = max(
-            0, sum(len(m["content"]) for m in self.messages) - self._prev_prompt_chars
-        )
-        self._prev_prompt_chars = sum(len(m["content"]) for m in self.messages)
+        # Estimate: count only the MARGINAL prompt chars of the SENT (compacted)
+        # view added since the previous call — consistent with what the provider
+        # actually re-receives each turn (W3g).
+        sent = self._compacted_view()
+        sent_chars = sum(len(m["content"]) for m in sent)
+        prompt_chars = max(0, sent_chars - self._prev_sent_prompt_chars)
+        self._prev_sent_prompt_chars = sent_chars
         completion_chars = len(self.transcript[-1]["content"])
         return _TokenRecord(prompt_chars // 4, completion_chars // 4, "length_estimate")
 

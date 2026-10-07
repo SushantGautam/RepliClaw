@@ -109,3 +109,41 @@ the official baseline reproduced with its own code (no LLM in BARO).
 Frozen-constants impact: new code is new (sha-pinned at T0+6 final freeze); the
 C-EQ template pins apply to the C-EQ-TELEM prompt templates; D-E-TELEM template
 pins are recorded alongside at the same freeze.
+
+### 6.3 Amendment W3g (harness-side, additive — no frozen number touched):
+context compaction of stale tool observations in the provider send-view
+
+Observed on pilot launch #2 (RCA-P-01, both arms, both seeds, real
+MODEL-SUBSTITUTION runs): all 4 runs ended `aborted_budget` at ~60.6K–64.3K
+tokens **with the model behaving correctly** (clean `system_context` →
+`top_anomalies` → one `service_metrics` per each of the 13 services → `commit`
+as the final action). Token composition (audit `audit_llm.json`, real gateway
+`usage`): D-E inv-a = **43,343 prompt / 600 completion** over 15 calls; C-EQ
+manager = **52,609 prompt / 480 completion** over 14 calls. Individual
+`service_metrics` observations are only ~180–200 tokens each; the envelope was
+blown by **full-history re-prompting** — every turn re-sends the entire growing
+transcript and the gateway bills it (O(turns²) prompt growth). This is a
+harness cost defect, not a model-capability signal and not an information-access
+change: the spec's own §4 stop-2 note ("the 60,000 cap is structurally too
+small for the case class") applies only if the exhaustion persists after this
+harness-side fix; it must not be read as a science result for launch #2.
+
+Fix (W3g, `telemetry_arms.py`, `LLMToolSession._compacted_view`): the provider
+send-view keeps the system prompt, the first (phase) instruction, and the most
+recent 6 messages verbatim; older *user* messages (tool observations —
+idempotent, re-fetchable via a tool call) are replaced by a ≤120-char stub
+with a "re-issue the tool call" hint. Model responses are never compacted.
+
+What does NOT change (all frozen/scientific surfaces intact):
+- the 60,000-token per-run envelope and 900 s wall cap (unchanged);
+- agent information access (any compacted observation is re-fetchable);
+- the audit transcript (`transcript` keeps full text — provenance intact);
+- the prompt-volume canary (computed from `self.prompts`, full text);
+- the sandbox tool budget (24 calls) and one-shot `submit_diagnosis`.
+
+Measured effect (real RCA-P-01 transcript, estimator): per-call prompt cost
+plateaus at ~1,000 tokens vs ~3,200 un-compacted (3.2×); a 32-call session's
+send-view stays ~2.4K tokens vs ~10K+. Predicted arm totals for this case
+class: D-E ≈ 27K, C-EQ ≈ 37K — under the frozen 60K. Regression test:
+`test_session_compaction_bounds_send_view_keeps_full_audit`
+(`tests/experiments/test_v3_telemetry_arms.py`).
