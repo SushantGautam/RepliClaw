@@ -32,9 +32,9 @@ Design guarantees (frozen, additive):
 
 Scoring note: :func:`service_level_success` implements the official RCAEval
 coarse service-level accuracy@k semantics (true service among first k
-submitted services). Ground truth itself is resolved ONLY through
-``repliclaw.benchmarks.rcaeval.manifest.heldout_ground_truth`` under
-``ScorerContext`` by the scorer — this module never reads labels. The
+submitted services). Ground truth itself is resolved ONLY through the scorer-side
+heldout resolve helper (see ``repliclaw.benchmarks.rcaeval``) by the
+scorer — this module never reads labels. The
 ``top_anomalies`` math is a SHARED reference for agents (same
 windowing/scaling family as the BARO-style scorer); it is NOT the official
 Evaluator (that one is used only for BARO parity runs).
@@ -525,7 +525,7 @@ def service_level_success(submitted_ranking: list[str], true_service: str, k: in
 
     True when the normalized ground-truth service appears among the first
     ``k`` submitted (normalized) services. The scorer is the only path that
-    resolves ``true_service`` (via ``heldout_ground_truth`` under
-    ``ScorerContext``); this function is pure.
+    resolves ``true_service`` (via the scorer-side heldout resolve
+    helper); this function is pure.
     """
     return normalize_service(true_service) in {normalize_service(s) for s in submitted_ranking[:k]}
