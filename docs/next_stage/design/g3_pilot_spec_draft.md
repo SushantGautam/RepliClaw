@@ -158,7 +158,10 @@ entering either estimand.
   If the pilot reveals a feasibility problem (crash/timeout pattern), a *bounded*
   single-case probe of the cheapest deferred arm may be added as a versioned amendment
   motivated by the pre-registered defect — not by outcome patterns.
-- **BARO (official baseline):** run on the 8 RE2-OB delay pilot cases **only as a
+- **BARO (official baseline):** run on the RE2-OB delay pilot cases `~~8~~` **4** (spec
+  defect found at T0, I4: the frozen §2 pilot set contains exactly 4 RE2-OB delay cases,
+  rows 5–8; "8" was a carry-over miscount — executed on all 4, artifact
+  `docs/next_stage/data/baro_pilot_feasibility.json`, Avg@5-DELAY 0.60 in range) **only as a
   feasibility check** (J-SCI §5 item 6) that the harness reproduces the official Avg@5-CPU
   metric in-range, mirroring the W1 RE2 smoke (0.66 Avg@5-CPU). Its outputs are
   MODEL-SUBSTITUTION-labeled where LLM-involved and are **never** a comparison target.
@@ -360,7 +363,7 @@ pilot.**
 |------------------------------|-------------------------------|
 | Pilot case list (10 ids, §2 table) + sha256 of the id list + sha256 of the downloaded case data files (per S7 download-manifest pattern) | **σ̂_D** (pilot-estimated between-case variance of the paired difference) and effective per-case σ |
 | Exclusion rule text (rules 1–3, §2) verbatim | **s** (per-arm saturation fractions; disclosed in every report) |
-| Arm set = {D-E, C-EQ} + BARO-feasibility scope (8 RE2-OB delay cases, feasibility label) | Recomputed MC power (pilot-σ variant cell set, the 10-line extension, run **before** final prereg freeze) |
+| Arm set = {D-E, C-EQ} + BARO-feasibility scope (`~~8~~` 4 RE2-OB delay cases, feasibility label; 4-vs-8 defect closed at I4) | Recomputed MC power (pilot-σ variant cell set, the 10-line extension, run **before** final prereg freeze) |
 | Model id + endpoint label: SimulaChat default (Qwen3.8-27B), endpoint label `simulachat` (no credentials), temperature 0.2, MODEL-SUBSTITUTION label rule for external comparisons | **Δ_min confirmed at 0.15 (A1 candidate), or LOWERED with written justification + `rule_a1` re-run at the chosen value — never RAISED post-pilot** (raising converts POSITIVE_SUBTHRESHOLD→NOT_ESTABLISHED; lowering manufactures MEANINGFUL_POSITIVE). `~~(0.10 vs 0.15, C-SCI-9)~~` harmonized per J-SCI W2 **S-W2-5**: the A1 candidate 0.15 is the single candidate; 0.10 (D-V3-007) is superseded-candidate-for-the-record only. This is the confirmation/lowering-only path — it does not contradict the protocol A1 amendment ("fixed at freeze as Δ_min = 0.15"), which fixes the *starting* value; lowering with written justification is the only permitted post-pilot movement. The `rule_a1`@0.15 MC re-run is scheduled **before G4** (a separate worker is executing it now; cite as **pending-with-track**), so the freeze cites the exact variant. J-SCI + statistician sign-off required. |
 | Envelopes: 60,000 tokens / 900 s / 4 agents / ≤4 planner rounds / 1 consultation per investigator per case / C-EQ prompt-volume canary band frozen value = **[0.6, 1.25]** (the value, not a pointer — `~~pending S3 reconciliation~~` per S-W2-6; source: FROZEN-CONSTANTS appendix `PROMPT_VOLUME_FLOOR=0.6 / CEIL=1.25`; the 0.8-docstring-vs-0.6-code mismatch is disclosed as amendments conflict #3) | Heldout k (2/3/4) within the N=24 budget, per `monte_carlo_power_v3.md` §3.2 refinement 1 |
 | Seeds {20261011, 20261012} | The S-sat *outcome* (trip or not) — the rule itself (0.25) is frozen, never tunable |
