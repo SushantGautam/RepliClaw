@@ -15,6 +15,11 @@ resolve; our package is added via PYTHONPATH):
 
 Every artifact is stamped: "MODEL-SUBSTITUTION BASELINE (SimulaChat default,
 Qwen3.8-27B) — NOT the official released AgentRx baseline".
+
+Mechanical label gate (F-W2-10): the patched SimulaChat factories refuse
+to serve completions until stamp_model_substitution_metadata() has been
+called for the active run dir (REPLICLAW_RUN_DIR). This script stamps the
+output dir BEFORE applying the patch, so the gate is satisfied.
 """
 from __future__ import annotations
 
@@ -55,7 +60,16 @@ def main() -> int:
     print(f"[smoke] {MODEL_SUBSTITUTION_LABEL}")
     print(f"[smoke] base_url={cfg.base_url} model={cfg.model} (key: configured, not printed)")
 
-    # Read-only patch of AgentRx in-memory.
+    # Read-only patch of AgentRx in-memory. Mechanical label gate
+    # (F-W2-10): declare the active run dir and stamp the label BEFORE
+    # running stages, so the routed SimulaChat factories will serve at all.
+    os.environ["REPLICLAW_RUN_DIR"] = out
+    stamp_model_substitution_metadata(out, extra={
+        "trajectories": 2,
+        "iterations": 1,
+        "contract": "docs/next_stage/adapters/agentrx_contract.md §10 step 2",
+    })
+
     state = apply_simula_patch(args.agentrx_root)
     tokens = {"completions": 0, "prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
     try:
