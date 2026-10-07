@@ -1,0 +1,24 @@
+{
+  "id": "clean_supported",
+  "truth": "supported",
+  "seeded_fault": null,
+  "description": "Genuine effect: means test significant AND raw-event RR CI excludes 1; published RR matches raw.",
+  "claim": {
+    "statement": "Treatment increases the event rate by ~50% (published RR=1.5) versus control.",
+    "domain": "clinical",
+    "reference_truth": "supported",
+    "data": {
+      "n": 400,
+      "mean_treat": 5.0,
+      "mean_ctrl": 6.0,
+      "sd_treat": 1.0,
+      "sd_ctrl": 1.0,
+      "alpha": 0.05,
+      "baseline_rr": 1.5,
+      "events_treat": 300,
+      "events_ctrl": 200,
+      "tot_treat": 1000,
+      "tot_ctrl": 1000
+    }
+  }
+}
