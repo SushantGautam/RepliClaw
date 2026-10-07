@@ -196,8 +196,13 @@ case), no LLM, no network.
    instrumented FakeLLMClient records every prompt; in the C-EQ run *no*
    planner prompt before the first executor completion contains
    `evidence_id=`, and after k executed interventions the next planner prompt
-   contains exactly the same set of `evidence_id=` lines D-E's next reasoning
-   prompt contains (tests 6-7).
+   contains ~~exactly the same set of `evidence_id=` lines D-E's next reasoning
+   prompt contains~~ **[SUPERSEDED 2026-10-10 — J-SCI W1 S5 (MED) / J-CODE W1 F4 / protocol
+   disclosure (e); `amendments_AMEND_V3_FREEZE_20261010.md` §4 conflict #1 RESOLVED (W2m,
+   orchestrator): operative wording — C-EQ's evidence view is a *superset of D-E's
+   per-hypothesis view, volume-bounded against it by the [0.6, 1.25] canary*; see
+   `EXPERIMENT_PROTOCOL_V3_DRAFT.md` O-R disclosure (e); `test_v3_ceq_parity.py`
+   test 6 carries the content-level assertion] (tests 6-7).
 4. **Defect menu.** The diagnosis prompt of both arms embeds
    `DEFECT_ADJUDICATION_INSTRUCTION` byte-identically (test inside 6: extract
    block from recorded prompts, assert equal).
