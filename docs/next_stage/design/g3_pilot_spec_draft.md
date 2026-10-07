@@ -271,12 +271,26 @@ integrator performs each check before the next case is dispatched.
    the S-sat granularity choice. A budget-overflow abort (`aborted_budget`) counts as a crash
    here — it means the 60,000 cap is structurally too small for the case class, which is a
    feasibility signal, not a science result.
-3. **Budget envelope breach.** Metric: cumulative pilot tokens (all arms, from ledger)
-   vs the **2,880,000 ceiling**; and any single run exceeding `max_tokens=60,000` or
+3. **Budget envelope breach.** Metric: cumulative pilot-round tokens (all arms, from ledger;
+   cumulative WITHIN the current pilot round only — the ceiling resets per round per §5.1)
+   vs the **2,880,000 per-round ceiling**; and any single run exceeding `max_tokens=60,000` or
    `max_wall_s=900` (the harness itself aborts those — a breach is a harness defect, not an
    expected state). **Stop iff cumulative > 2,880,000 or any single-run envelope breach is
    observed.** Action on stop-3-cumulative: freeze the pilot at the cases completed, analyze
    with n_actual, disclose the truncation.
+4. **Model-capability floor gate (mandatory — J-SCI W2 S-W2-1; verbatim-consistent with
+   the protocol's floor gate).** Metric, at pilot scale (10 cases × k=2 seeds = 20 runs
+   per arm): run-level successes per arm and per-case all-seeds success. **TRIP if EITHER
+   arm has < 2/20 run-level successes OR per-case all-seeds success = 0 on ≥ 9/10 pilot
+   cases.** Action on trip: STOP — classify the campaign state **MODEL-CAPABILITY-SCREEN-FAILED**;
+   do NOT launch the heldout on that model; report the negative result with the saturation
+   evidence (per-arm run-level success, per-case all-seeds success table, floor-gate
+   numbers). This is a model-capability screen, not a stratification problem: the §5.1
+   ladder does NOT run on a floor trip (re-stratification cannot remedy floor saturation).
+   Frozen contingency (protocol, verbatim): re-scope to the above-floor case subset, or
+   request a human decision on a stronger model; never silently switch models mid-heldout.
+   Stop rules 1 and 4 are **both mandatory**; a pilot is admissible for heldout launch only
+   if neither tripped.
 
 Each stop produces a versioned pilot report with the ledger snapshot (this is evidence for
 the prereg amendment trail, not a result).
@@ -350,7 +364,7 @@ pilot.**
 | Model id + endpoint label: SimulaChat default (Qwen3.8-27B), endpoint label `simulachat` (no credentials), temperature 0.2, MODEL-SUBSTITUTION label rule for external comparisons | **Δ_min confirmed at 0.15 (A1 candidate), or LOWERED with written justification + `rule_a1` re-run at the chosen value — never RAISED post-pilot** (raising converts POSITIVE_SUBTHRESHOLD→NOT_ESTABLISHED; lowering manufactures MEANINGFUL_POSITIVE). `~~(0.10 vs 0.15, C-SCI-9)~~` harmonized per J-SCI W2 **S-W2-5**: the A1 candidate 0.15 is the single candidate; 0.10 (D-V3-007) is superseded-candidate-for-the-record only. This is the confirmation/lowering-only path — it does not contradict the protocol A1 amendment ("fixed at freeze as Δ_min = 0.15"), which fixes the *starting* value; lowering with written justification is the only permitted post-pilot movement. The `rule_a1`@0.15 MC re-run is scheduled **before G4** (a separate worker is executing it now; cite as **pending-with-track**), so the freeze cites the exact variant. J-SCI + statistician sign-off required. |
 | Envelopes: 60,000 tokens / 900 s / 4 agents / ≤4 planner rounds / 1 consultation per investigator per case / C-EQ prompt-volume canary band frozen value = **[0.6, 1.25]** (the value, not a pointer — `~~pending S3 reconciliation~~` per S-W2-6; source: FROZEN-CONSTANTS appendix `PROMPT_VOLUME_FLOOR=0.6 / CEIL=1.25`; the 0.8-docstring-vs-0.6-code mismatch is disclosed as amendments conflict #3) | Heldout k (2/3/4) within the N=24 budget, per `monte_carlo_power_v3.md` §3.2 refinement 1 |
 | Seeds {20261011, 20261012} | The S-sat *outcome* (trip or not) — the rule itself (0.25) is frozen, never tunable |
-| Stop rules 1–3 verbatim, incl. crash threshold 25% and token ceiling 2,880,000; **plus the §5.1 difficulty ladder table + the MAX-2-re-pilots / INCONCLUSIVE-STRATIFICATION cap, verbatim (S-W2-10)** | MDE re-scope (0.15 → 0.20) if the pilot-σ power shows 0.15 unattainable (this is a pre-declared consequence, not a tuning from outcome patterns — it executes a pre-registered branch) |
+| Stop rules 1–4 verbatim, incl. crash threshold 25%, per-round token ceiling 2,880,000 (reset per round per §5.1; campaign worst-case 8,640,000), and the S-W2-1 model-capability floor gate (<2/20 run-level OR ≥9/10 per-case all-seeds=0 → MODEL-CAPABILITY-SCREEN-FAILED; the ladder does NOT run on a floor trip); **plus the §5.1 difficulty ladder table + the MAX-2-re-pilots / INCONCLUSIVE-STRATIFICATION cap, verbatim (S-W2-10)** | MDE re-scope (0.15 → 0.20) if the pilot-σ power shows 0.15 unattainable (this is a pre-declared consequence, not a tuning from outcome patterns — it executes a pre-registered branch) |
 | Estimator definitions: σ̂_D computed on paired per-case differences, k=2, cluster=case; s defined as all-seeds-success fraction; ITT (failed runs = non-success) | The re-pilot case list *only if* S-sat trips: next rung of the §5.1 pre-registered difficulty ladder (MAX 2 re-pilots; `~~"re-stratified re-pilot"~~` — S-W2-10); the 42 remain frozen either way |
 | **"No confirmatory reuse" clause verbatim:** pilot results cannot be reused as heldout evidence; no effect estimate / power claim / superiority statement is reported from the pilot; any parameter change not in the After-column requires a versioned amendment motivated by a pre-registered defect | (nothing else. Any additional "After" permission must itself be a versioned amendment) |
 
@@ -373,8 +387,9 @@ pilot.**
 Checklist — **all five required**, recorded in `DECISIONS.md` as a single entry with timestamp:
 1. **Scope:** n = 10 cases (the §2 table, ids + hashes), k = 2 seeds, arms {D-E, C-EQ} +
    BARO feasibility on 8 cases, OB-only + reps-1 caveats accepted.
-2. **Token ceiling:** 2,880,000 total pilot tokens (1.2M D-E + 1.2M C-EQ + 0.48M BARO),
-   enforced as hard stop rule 3.
+2. **Token ceiling:** 2,880,000 per pilot round (1.2M D-E + 1.2M C-EQ + 0.48M BARO;
+   resets per round per §5.1; campaign worst-case across MAX 3 rounds = 8,640,000),
+   enforced as hard stop rule 3 (per-round cumulative).
 3. **SimulaChat use for the pilot:** Qwen3.8-27B default, arm-identical, free tier,
    MODEL-SUBSTITUTION label on external comparisons; confirms D-V3-010 covers the V3
    arms (it does, per DECISIONS line 60, but explicit re-approval is required because
