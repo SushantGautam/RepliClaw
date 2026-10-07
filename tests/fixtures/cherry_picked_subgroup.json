@@ -1,0 +1,25 @@
+{
+  "id": "cherry_picked_subgroup",
+  "truth": "supported",
+  "seeded_fault": "cherry_pick",
+  "description": "Fault mode: cherry-picked subgroup reporting. The full cohort is underpowered (naive means test NOT significant -> analysts abstain), but the raw events show a genuine large effect (RR=2.0, CI excludes 1) consistent with the published figure. A correct verification must still call SUPPORTED: abstention here is a false-reject. RepliClaw's executable falsifier signal + follow-up must preserve the verdict.",
+  "claim": {
+    "statement": "Treatment doubles the event rate (published RR=2.0) versus control.",
+    "domain": "clinical",
+    "reference_truth": "supported",
+    "seeded_fault": "cherry_pick",
+    "data": {
+      "n": 400,
+      "mean_treat": 6.05,
+      "mean_ctrl": 6.0,
+      "sd_treat": 1.0,
+      "sd_ctrl": 1.0,
+      "alpha": 0.05,
+      "baseline_rr": 2.0,
+      "events_treat": 400,
+      "events_ctrl": 200,
+      "tot_treat": 1000,
+      "tot_ctrl": 1000
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "data_leakage",
+  "truth": "refuted",
+  "seeded_fault": "leakage",
+  "description": "Fault mode: test contamination / data leakage. The per-arm means were computed on a contaminated split (separation visible), so naive tests are significant, but the raw event counts show no genuine effect (RR=1.05, CI includes 1) and the published RR=1.5 is not reproducible from raw events. The falsifier recomputing from raw events refutes.",
+  "claim": {
+    "statement": "Treatment increases the event rate by 50% (published RR=1.5) versus control.",
+    "domain": "clinical",
+    "reference_truth": "refuted",
+    "seeded_fault": "leakage",
+    "data": {
+      "n": 400,
+      "mean_treat": 5.0,
+      "mean_ctrl": 6.0,
+      "sd_treat": 1.0,
+      "sd_ctrl": 1.0,
+      "alpha": 0.05,
+      "baseline_rr": 1.5,
+      "events_treat": 210,
+      "events_ctrl": 200,
+      "tot_treat": 1000,
+      "tot_ctrl": 1000
+    }
+  }
+}
