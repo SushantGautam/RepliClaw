@@ -5,7 +5,7 @@ Status: `COMPLETE`
 ## Cursor
 - Milestone: **COMPLETE — M1–M10 all built, committed, and verified. Every acceptance criterion AC01–AC18 has concrete evidence (map in README).**
 - Branch: `repl-claw-dev`
-- Commits: `2a7d1e9` (spec) → `e7c4a3b` (M1–M4 core + tests) → `c04b2fa` (M5 baselines + M6 benchmark) → `5f2e012` (M8 verify/CLI) → `acaefbb` (M9 live-LLM demo + M10 README/AC map) → lint/type-hardening commit (ruff+mypy gate, D13).
+- Commits: `2a7d1e9` (spec) → `e7c4a3b` (M1–M4 core + tests) → `c04b2fa` (M5 baselines + M6 benchmark) → `5f2e012` (M8 verify/CLI) → `acaefbb` (M9 live-LLM demo + M10 README/AC map) → `c010481` (lint/type gate + benchmark re-run reproducibility fix, D13).
 - Tests: **62 passing, hermetic** (`python -m pytest`); **`ruff check` 0 errors + `mypy` no issues in 15 files** (AC15 full static gate, D13); clean-venv install verified (AC01).
 - Canonical committed evidence: `artifacts/benchmark/` (reports), `artifacts/demo/` (deterministic, incl. AC12 recovery), `artifacts/demo-llm/` (live model outputs, AC16/AC18).
 
