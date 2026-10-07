@@ -1,0 +1,111 @@
+{
+  "backend": "deterministic",
+  "case_supported": {
+    "run_id": "run-cf587799aaf2",
+    "claim_id": "demo-clean_supported",
+    "verdict": "SUPPORTED",
+    "confidence": 0.98,
+    "reasoning": "Weighted evidence score +6.26 in favor; 3 support / 0 contradict; 0 replication(s). No unresolved independent conflict.",
+    "run_dir": "artifacts/demo/case_supported/20261007-155220-142f38",
+    "report_path": "artifacts/demo/case_supported/20261007-155220-142f38/verify_report.md",
+    "n_evidence": 3,
+    "n_independent": 3,
+    "n_needs": 0,
+    "usage": {
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "tool_calls": 0,
+      "llm_calls": 0,
+      "wall_clock_s": 0.012398958206176758
+    },
+    "needs": []
+  },
+  "case_misleading": {
+    "run_id": "run-52ef61e393ea",
+    "claim_id": "demo-misleading_wrong_test",
+    "verdict": "REFUTED",
+    "confidence": 0.256,
+    "reasoning": "Independent conflict between ['inv-analyst-1', 'inv-falsifier-1', 'inv-followup-a63c2b', 'inv-statistician-1'] was ADJUDICATED by independent follow-up inv-followup-a63c2b (contradicts, executable=True); weighted score +0.12. Recovery from misleading evidence.",
+    "run_dir": "artifacts/demo/case_misleading/20261007-155220-063124",
+    "report_path": "artifacts/demo/case_misleading/20261007-155220-063124/verify_report.md",
+    "n_evidence": 4,
+    "n_independent": 4,
+    "n_needs": 1,
+    "usage": {
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "tool_calls": 0,
+      "llm_calls": 0,
+      "wall_clock_s": 0.013977766036987305
+    },
+    "needs": [
+      {
+        "need_id": "need-f588a63c2b",
+        "claim_id": "demo-misleading_wrong_test",
+        "kind": "falsification",
+        "query": "independent re-analysis of claim 'Treatment increases the event rate by 50% (published RR=1.5) versus control.' — investigators [inv-analyst-1, inv-falsifier-1, inv-statistician-1] disagree; recompute the primary test from raw data with a different method",
+        "rationale": "Investigators disagree / evidence insufficient: an independent follow-up analysis is required before a verdict can be trusted.",
+        "triggered_by": [
+          "ev-inv-analyst-1-6945bfa0",
+          "ev-inv-statistician-1-b2093cbd",
+          "ev-inv-falsifier-1-d7123a71"
+        ],
+        "artifact_type": "analysis_result",
+        "status": "open",
+        "fulfilled_by_artifact_id": null,
+        "priority": 2.0000001666665974,
+        "created_at": "2026-10-07T13:52:20.225470+00:00"
+      }
+    ]
+  },
+  "baseline_comparison_misleading_case": [
+    {
+      "strategy": "single_agent",
+      "label": "SUPPORTED",
+      "confidence": 0.98,
+      "n_agents": 1,
+      "n_needs": 0,
+      "tokens": 0,
+      "wall_clock_s": 0.002
+    },
+    {
+      "strategy": "fixed_dag",
+      "label": "SUPPORTED",
+      "confidence": 0.594,
+      "n_agents": 3,
+      "n_needs": 0,
+      "tokens": 0,
+      "wall_clock_s": 0.007
+    },
+    {
+      "strategy": "isolated_vote",
+      "label": "INCONCLUSIVE",
+      "confidence": 0.475,
+      "n_agents": 3,
+      "n_needs": 0,
+      "tokens": 0,
+      "wall_clock_s": 0.006
+    },
+    {
+      "strategy": "open_debate",
+      "label": "INCONCLUSIVE",
+      "confidence": 0.475,
+      "n_agents": 3,
+      "n_needs": 0,
+      "tokens": 0,
+      "wall_clock_s": 0.005
+    },
+    {
+      "strategy": "repl_claw",
+      "label": "REFUTED",
+      "confidence": 0.256,
+      "n_agents": 4,
+      "n_needs": 1,
+      "tokens": 0,
+      "wall_clock_s": 0.013
+    }
+  ],
+  "wall_clock_s": 0.08
+}

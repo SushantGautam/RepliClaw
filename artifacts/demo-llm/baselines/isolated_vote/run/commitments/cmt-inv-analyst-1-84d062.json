@@ -1,0 +1,31 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-84d062",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "4f9dfd4a5db2f453da60084fa10d076dfa28662f1f4dd17ed62b284b3d19892d",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:52:53.935652+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The raw data shows a relative risk of 1.0, which contradicts the claimed RR of 1.5.",
+    "plan": "Calculate the observed Relative Risk (RR) from the event counts and total sample sizes provided in the bundled data. Compare the calculated RR to the claimed baseline_rr of 1.5. Additionally, compute Cohen's d using the mean and standard deviation data to assess effect size magnitude as per role instructions.",
+    "evidence": {
+      "observed_rr": 1.0,
+      "claimed_rr": 1.5,
+      "calculation_rr": "(200/1000) / (200/1000) = 0.2 / 0.2 = 1.0",
+      "cohens_d": 0.7071,
+      "pooled_sd": 1.0,
+      "mean_diff": 1.0,
+      "discrepancy_note": "The event rate is identical in both groups (20%), yielding an RR of 1.0. The claim asserts an RR of 1.5 (a 50% increase). While Cohen's d (0.71) indicates a meaningful difference in continuous means, the specific binary outcome metric cited in the claim (RR=1.5) is directly refuted by the event count data."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "6ac67fd07beb98dfd1ea7a51278c7ef0a55260a9d02ebc34abfb3db200062368"
+}

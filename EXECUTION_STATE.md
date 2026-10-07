@@ -1,48 +1,39 @@
 # RepliClaw — Execution State (resume cursor)
 
-Status: `WORKING`
+Status: `COMPLETE`
 
 ## Cursor
-- Milestone: **M1–M4 core built + 3-way verdict path VERIFIED offline.** Core package `src/repliclaw/` complete: canonical, models, runstore (one-shot tamper-proof commit/reveal), isolation (PhaseGate+ContextEnforcer), scienceclaw_adapter, investigators (LLM + Deterministic), evidence (graph, conflicts, AC11 correlation), verdict (evidence-weighted + decisive-followup adjudication), protocol (blind→commit→reveal→evidence→followup→verdict).
+- Milestone: **COMPLETE — M1–M10 all built, committed, and verified. Every acceptance criterion AC01–AC18 has concrete evidence (map in README).**
 - Branch: `repl-claw-dev`
-- **Core code NOT yet committed** (only 2 baseline doc commits on branch).
-- Next: formal pytest suite (AC14/15) → M5 strategies baselines → M6 benchmark (known-answer, no hard-coded scores) → M8 CLI `repliclaw verify` → M9 live-LLM demo → M10 harden (README AC17, map AC01–18 to evidence, commit, COMPLETE).
+- Commits: `2a7d1e9` (spec) → `e7c4a3b` (M1–M4 core + tests) → `c04b2fa` (M5 baselines + M6 benchmark) → `5f2e012` (M8 verify/CLI) → final commit (M9 live-LLM demo + M10 README/AC map/hardening).
+- Tests: **61 passing, hermetic** (`python -m pytest`); clean-venv install verified (AC01); `compileall` OK (AC15).
+- Canonical committed evidence: `artifacts/benchmark/` (reports), `artifacts/demo/` (deterministic, incl. AC12 recovery), `artifacts/demo-llm/` (live model outputs, AC16/AC18).
 
-## Confirmed facts (evidence-backed)
-- Hackathon repo was EMPTY of code (only 4 markdown docs, no commits) → RepliClaw is a new package here.
-- Toolchain: Python 3.11.7 (anaconda), `uv` available, networkx/pydantic/openai/anthropic already in env.
-- LLM access: Open WebUI at `https://simulachat.sushant.pp.ua` (OpenAI-compatible `/api/v1/chat/completions`), key = env `CUSTOM_SIMULACHAT_KEY`, model `default` (base Qwen3.8-27B) verified: correct t-test answer, <1s, usage tokens returned. Also listed: `glm-5-2-fp8`, `Qwen3.8-27B`.
-- No standard ANTHROPIC/OPENAI/GEMINI keys in environment.
-- SimpleAudit + SimpleAuditStudio checkouts exist in `~/Documents/` (we own Studio).
-- ScienceClaw upstream core is light: `requirements.txt` = openai, anthropic, requests, pydantic, biopython, bs4, pyyaml, psutil, tooluniverse.
-
-## Key decisions (details in DECISIONS.md)
-- Python package `repliclaw` in this repo; ScienceClaw = git submodule under `deps/` + thin adapter (`repliclaw/scienceclaw_adapter/`) — NO upstream fork edits this round.
-- SimpleAuditStudio: evaluate via recon; default = NOT a hard dependency for core ACs (Hatchet/Postgres infra too heavy); document in reuse matrix; possible OTel ingest hook.
-- Isolation: per-investigator OS subprocesses with sealed context envelopes (structural, not prompt-level).
-- Commit/reveal: SHA256 over canonical JSON (sorted keys, no floats-as-text, no timestamps); persisted run store + event log.
-- Tests hermetic via `ProcessInvestigator` (deterministic offline); live-LLM runs are the demo/benchmark path (real outputs, AC18-safe).
-- OTel: in-memory exporter + `repliclaw.*` namespaced attributes; SDK optional (no-op fallback).
-
-## Confirmed facts (evidence-backed, updated)
-- `deps/scienceclaw/{artifacts,core}` import cleanly with stdlib+pydantic only (0.09s); `get_registry()` discovers 334 skills (0.58s). Upstream `ArtifactStore`+`rank_needs` hardcode `~/.scienceclaw` → run-local subclass required (done: `RunLocalArtifactStore`).
-- Upstream `score_need = 2*novelty + 1*centrality + 0.5*depth + 0.2*log1p(age_min)` (reused via `pressure_score`).
-- 3-way offline e2e (`artifacts/dev/e2e_3way.py`) VERIFIED:
-  - clean_supported → `SUPPORTED` conf 0.98 (3 support / 0 contradict, no conflict).
-  - clean_refuted → `REFUTED` conf 0.534 (single directional-executable falsifier sufficient; replication need fired).
-  - misleading_wrong_test → `REFUTED` conf 0.256 (2 support vs falsifier → independent CONFLICT → falsifier-lens follow-up ADJUDICATES → recovery AC12; conflict surfaced + broken).
-- Confidence ordering is well-calibrated: clean supported (0.98) > clean refuted (0.534) > recovered-misleading (0.256).
+## Verified facts (this segment)
+- **61 hermetic tests passing** (`python -m pytest`, ~1.5s, no network).
+- Deterministic benchmark (6 known-answer tasks × 5 strategies, computed not hard-coded):
+  repl_claw 1.000 correctness / 1.000 recovery / 0 FA / 0 FR / 0 inconclusive;
+  single_agent & fixed_dag 0.167 correctness / 0.5 FA; isolated_vote & open_debate 0.500 but 0.5 inconclusive, 0 recovery. Error-correlation proxy 0.558. (artifacts/benchmark/)
+- Deterministic demo (`artifacts/demo/`): supported→SUPPORTED 0.98; misleading→REFUTED 0.256 via conflict→falsification follow-up→adjudication (AC12). Transcript shows pre-reveal commitments from event log (`committed` events = hash-only view).
+- **LLM-path bug #1 (fixed)**: `_llm_factory` received an `LLMClient` and re-wrapped it (`LLMClient(LLMClient)`) → every LLM investigator silently failed; protocol swallowed the errors and "succeeded" with 0 findings. Fix: pass `LLMConfig`; added `TypeError` guard in `LLMClient.__init__`; added hard-fail in protocol when ALL investigators fail; regression test `test_llm_factory_wraps_config_not_client`.
+- **LLM-path bug #2 (fixed)**: `InvestigationContext.to_prompt_block()` never included `claim.data`, so the live model correctly reported "no bundled data" and abstained for all. Fix: prompt block now serializes `claim.data`; `LLMInvestigator` prompt now carries per-role quantitative methods (analyst: Cohen's d; statistician: two-sample t; falsifier: raw-event RR + log-normal CI vs baseline_rr) mirroring the deterministic lenses.
+- Live LLM endpoint works through the strategy path post-fix: `single_agent` on misleading fixture → INCONCLUSIVE, 460 real tokens, 2.6s, no errors.
+- Full live demo (pre-prompt-fix) took 47s wall clock, ~8k real tokens across 5 strategies × 2 cases.
 
 ## Next actions
-1. Formal pytest suite (hermetic): isolation pre-reveal, commit/reveal integrity + one-shot, conflict/follow-up, verdict provenance (AC14/15).
-2. M5 `strategies.py` (5 baselines, same task interface + common result schema).
-3. M6 benchmark: known-answer fixtures (wrong_stat_test, leakage, wrong_param), metrics (correctness, FA/FR, inconclusive, error-correlation, recovery, diversity, latency, cost), CSV/JSON/MD — NO hard-coded scores (AC18).
-4. M8 CLI `repliclaw verify --claim ... [--artifact ...]` + Python `verify()`.
-5. M9 live-LLM demo path; M10 README + AC01–18 evidence map + commit + COMPLETE.
+- None — task complete. For a future session: `python -m pytest` reproduces everything offline; `repliclaw demo --backend auto` reproduces the demo (llm if a key is present, else deterministic).
 
 ## Verification log (latest first)
-- 2026-10-07: 3-way offline e2e — SUPPORTED/REFUTED/REFUTED-recovery all correct (see Confirmed facts).
-- 2026-10-07: verdict engine tuned — `insufficient_evidence` now requires a directional+executable piece; conflict gate now lets a decisive executable follow-up adjudicate (AC12).
-- 2026-10-07: vertical loop proven: commit→reveal→tamper→replay→record-tamper integrity (AC04); one-shot reveal blocks re-reveal after reject.
-- 2026-10-07: LLM endpoint probe — `curl /api/v1/chat/completions` model=default → correct answer, HTTP 200, usage {prompt:71, completion:66}.
-- 2026-10-07: git baseline commit of spec docs on `main`.
+- 2026-10-07: LLM demo second run exposed missing claim.data in prompt (uniform abstention) — fixed with data block + per-role methods.
+- 2026-10-07: LLM demo first run exposed double-wrapped client (all-investigator failure masquerading as success) — fixed + guarded + hard-fail + regression test.
+- 2026-10-07: M8 committed (`5f2e012`); falsifier lens fixed to abstain when no raw events bundled (was false-refuting on fallback CI).
+- 2026-10-07: M5+M6 committed (`c04b2fa`); benchmark table reproduced identically after lens fix (all 6 fixtures carry data).
+- 2026-10-07: M1–M4 core + 39 tests committed (`e7c4a3b`); 3-way e2e: SUPPORTED 0.98 / REFUTED 0.534 / REFUTED-recovered 0.256.
+- 2026-10-07: LLM endpoint probe verified (model=default, usage returned).
+
+## Confirmed facts (carried)
+- Python 3.11.7 (anaconda), networkx/pydantic/openai in env; ScienceClaw vendored at `deps/scienceclaw` (reused via thin adapter, no fork edits).
+- LLM: OpenAI-compatible `https://simulachat.sushant.pp.ua/api/v1`, key env `CUSTOM_SIMULACHAT_KEY`, model `default` (Qwen3.8-27B base); usage tokens returned.
+- Upstream `NeedItem.rationale` ≥20 chars; `score_need` has wall-clock age term (near-determinism tolerance in tests).
+- runstore: `_SEAL_EXCLUDE` = revealed fields + seal_hash; REJECTED phase terminal (one-shot reveal); mismatch re-seals.
+- PhaseGate: blind→committed→revealing→revealed→followup→verdict; blind reads metadata-only.

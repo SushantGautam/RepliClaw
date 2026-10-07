@@ -1,0 +1,19 @@
+{
+  "claim_id": "demo-misleading_wrong_test",
+  "label": "SUPPORTED",
+  "confidence": 0.594,
+  "n_support": 1,
+  "n_contradict": 0,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 3,
+  "unresolved_conflicts": [],
+  "evidence_refs": [
+    "ev-dag-research-6e342e58",
+    "ev-dag-analysis-cbd488b2",
+    "ev-dag-critic-ae030398"
+  ],
+  "reasoning": "Weighted evidence score +1.91 in favor; 1 support / 0 contradict; 0 replication(s). No unresolved independent conflict.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:52:20.240332+00:00"
+}

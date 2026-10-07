@@ -1,0 +1,48 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-c50c3848",
+  "claim_id": "demo-clean_supported",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "79e66a091cf0cae4595518d17fdc7e2fcc9c12c2f668fa1838c9b09bd0e429e7",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:52:30.954592+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The raw event counts in the bundled data yield a relative risk of exactly 1.5, and the continuous outcome metrics show a large effect size (Cohen's d = 1.0), supporting the claim that treatment increases the event rate by ~50%.",
+    "plan": "1. Calculate Relative Risk (RR) using events_treat/tot_treat divided by events_ctrl/tot_ctrl. 2. Calculate Cohen's d using (mean_treat - mean_ctrl) / pooled_sd to assess the magnitude of the difference in continuous outcomes. 3. Compare calculated RR to the claimed 1.5 and check if |d| >= 0.5.",
+    "evidence": {
+      "calculated_rr": 1.5,
+      "claimed_rr": 1.5,
+      "pooled_sd": 1.0,
+      "cohens_d": 1.0,
+      "effect_size_interpretation": "Large effect (d=1.0 > 0.5)",
+      "event_rate_treat": 0.3,
+      "event_rate_ctrl": 0.2,
+      "absolute_risk_difference": 0.1
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:52:30.961449+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The raw event counts in the bundled data yield a relative risk of exactly 1.5, and the continuous outcome metrics show a large effect size (Cohen's d = 1.0), supporting the claim that treatment increases the event rate by ~50%.",
+    "plan": "1. Calculate Relative Risk (RR) using events_treat/tot_treat divided by events_ctrl/tot_ctrl. 2. Calculate Cohen's d using (mean_treat - mean_ctrl) / pooled_sd to assess the magnitude of the difference in continuous outcomes. 3. Compare calculated RR to the claimed 1.5 and check if |d| >= 0.5.",
+    "evidence": {
+      "calculated_rr": 1.5,
+      "claimed_rr": 1.5,
+      "pooled_sd": 1.0,
+      "cohens_d": 1.0,
+      "effect_size_interpretation": "Large effect (d=1.0 > 0.5)",
+      "event_rate_treat": 0.3,
+      "event_rate_ctrl": 0.2,
+      "absolute_risk_difference": 0.1
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "099f741fed640ff538c86d53081672cccf55e334d625456ce41ca0a81eb599b4"
+}

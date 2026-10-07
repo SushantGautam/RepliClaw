@@ -1,0 +1,30 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-037bb9",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "7c601886e7ca02029f0a8dad45791474cd5d70d6833af819b81ac8997d44d787",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:53:01.092057+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The raw data shows equal event counts in both groups (RR=1.0), directly contradicting the claimed RR of 1.5, and the continuous outcome effect size (Cohen's d=0.7) does not support a 50% relative increase in event rate.",
+    "plan": "1. Calculate the Relative Risk (RR) from the provided event counts: events_treat / tot_treat divided by events_ctrl / tot_ctrl. 2. Compare this calculated RR to the claimed baseline_rr of 1.5. 3. Calculate Cohen's d using the means and standard deviations provided: (mean_treat - mean_ctrl) / pooled_sd, where pooled_sd = sqrt(((n-1)*sd_treat^2 + (n-1)*sd_ctrl^2) / (2*n-2)). 4. Assess if |d| >= 0.5 and if the direction matches the claim.",
+    "evidence": {
+      "calculated_rr": 1.0,
+      "claimed_rr": 1.5,
+      "rr_consistency": "inconsistent",
+      "pooled_sd": 1.0,
+      "cohens_d": 1.0,
+      "effect_size_interpretation": "Large effect on continuous scale, but inconsistent with binary event rate claim"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "fc5aee50505287d38fa0910620140c503061c03b7288671385cfc71e35932342"
+}

@@ -1,0 +1,50 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-c0adfbb4",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "c6e40b1b8a6bad966c284362c1c2817cfa3405e204df5baee841bd7fe6cd16de",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:53:13.062069+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "refuted",
+    "statement": "The claim is refuted because the raw data shows equal event rates in both groups (RR=1.0), which directly contradicts the published RR of 1.5.",
+    "plan": "Calculate the observed Relative Risk (RR) from the provided event counts and total sample sizes for treatment and control groups, then compare this calculated value to the claimed published RR of 1.5.",
+    "evidence": {
+      "events_treat": 200,
+      "tot_treat": 1000,
+      "rate_treat": 0.2,
+      "events_ctrl": 200,
+      "tot_ctrl": 1000,
+      "rate_ctrl": 0.2,
+      "calculated_rr": 1.0,
+      "claimed_rr": 1.5,
+      "discrepancy": true
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:53:13.063936+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The claim is refuted because the raw data shows equal event rates in both groups (RR=1.0), which directly contradicts the published RR of 1.5.",
+    "plan": "Calculate the observed Relative Risk (RR) from the provided event counts and total sample sizes for treatment and control groups, then compare this calculated value to the claimed published RR of 1.5.",
+    "evidence": {
+      "events_treat": 200,
+      "tot_treat": 1000,
+      "rate_treat": 0.2,
+      "events_ctrl": 200,
+      "tot_ctrl": 1000,
+      "rate_ctrl": 0.2,
+      "calculated_rr": 1.0,
+      "claimed_rr": 1.5,
+      "discrepancy": true
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "seal_hash": "5d4161238c76a6aa53d10699c2e003f37f0f1d739fbcbb5049b43b978e21cb9f"
+}

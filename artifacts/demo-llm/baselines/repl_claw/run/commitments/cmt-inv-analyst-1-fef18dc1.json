@@ -1,0 +1,46 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-fef18dc1",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "1b90f6584c4a6d06ac833e6368984ae524e7575c55646a36b7680e3d14d0987c",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:53:13.061477+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "refuted",
+    "statement": "The claim is refuted because the raw event counts in the bundled data yield a relative risk of 1.0, which contradicts the published RR of 1.5.",
+    "plan": "Calculate the observed Relative Risk (RR) from the provided event and total counts for treatment and control groups, then compare this calculated value to the claimed RR of 1.5. Additionally, compute Cohen's d using the provided means and standard deviations to assess the effect size on the continuous scale as per role instructions.",
+    "evidence": {
+      "calculated_rr": 1.0,
+      "claimed_rr": 1.5,
+      "rr_discrepancy": true,
+      "cohens_d": 0.7071,
+      "pooled_sd": 1.0,
+      "mean_diff": 1.0,
+      "note": "Events: Treat=200/1000 (0.2), Ctrl=200/1000 (0.2). RR = 0.2/0.2 = 1.0. The data shows no difference in event rates, directly contradicting the claim of a 50% increase."
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:53:13.063256+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The claim is refuted because the raw event counts in the bundled data yield a relative risk of 1.0, which contradicts the published RR of 1.5.",
+    "plan": "Calculate the observed Relative Risk (RR) from the provided event and total counts for treatment and control groups, then compare this calculated value to the claimed RR of 1.5. Additionally, compute Cohen's d using the provided means and standard deviations to assess the effect size on the continuous scale as per role instructions.",
+    "evidence": {
+      "calculated_rr": 1.0,
+      "claimed_rr": 1.5,
+      "rr_discrepancy": true,
+      "cohens_d": 0.7071,
+      "pooled_sd": 1.0,
+      "mean_diff": 1.0,
+      "note": "Events: Treat=200/1000 (0.2), Ctrl=200/1000 (0.2). RR = 0.2/0.2 = 1.0. The data shows no difference in event rates, directly contradicting the claim of a 50% increase."
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "c69fe60fa13a652874d6a3edb7cf0a12942f3e49b99a68dd6b94ae5b2e2f56ae"
+}

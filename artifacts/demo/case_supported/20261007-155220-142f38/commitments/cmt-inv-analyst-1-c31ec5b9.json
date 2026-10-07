@@ -1,0 +1,36 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-c31ec5b9",
+  "claim_id": "demo-clean_supported",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "19cb267211fb42a820df6b19c45ff595c98abeaf6b80a2f4fcc4cc12f6a2f351",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:52:20.201214+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "standardized effect size d=1.41",
+    "plan": "pooled effect size from bundled per-arm stats",
+    "evidence": {
+      "effect_size": 1.414,
+      "significant": true
+    },
+    "confidence": 0.6,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:52:20.203421+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "standardized effect size d=1.41",
+    "plan": "pooled effect size from bundled per-arm stats",
+    "evidence": {
+      "effect_size": 1.414,
+      "significant": true
+    },
+    "confidence": 0.6,
+    "executable": true
+  },
+  "seal_hash": "b0255337b5cf2cb404a3e1ebe71b528a1d07497e5754fa9e9f55ef7f5892f782"
+}

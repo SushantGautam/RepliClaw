@@ -51,6 +51,12 @@ class InvestigationContext:
             f"\n# TASK\n{self.task_instructions}",
             f"\n# ALLOWED EVIDENCE SOURCES\n{json.dumps(self.allowed_sources, indent=2)}",
         ]
+        if self.claim.data:
+            blocks.append(
+                "\n# BUNDLED DATA (raw data / artifact metrics for this claim — "
+                "compute your analysis FROM these numbers)\n"
+                + json.dumps(self.claim.data, indent=2, ensure_ascii=False)
+            )
         if self.shared_public_materials:
             blocks.append(
                 "\n# PUBLIC MATERIALS (shared, non-sensitive)\n"

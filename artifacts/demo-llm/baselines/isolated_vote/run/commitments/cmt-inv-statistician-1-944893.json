@@ -1,0 +1,33 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-944893",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "b7acda09adf146eb1b130ec570ca7ddbf927c618534771c0a407ebe20918221b",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:52:56.077692+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The raw data shows an equal number of events in both groups (RR=1.0), which directly contradicts the claimed relative risk of 1.5.",
+    "plan": "Calculate the observed Relative Risk (RR) from the provided event counts and total sample sizes for treatment and control groups, then compare it to the claimed RR of 1.5.",
+    "evidence": {
+      "events_treat": 200,
+      "tot_treat": 1000,
+      "rate_treat": 0.2,
+      "events_ctrl": 200,
+      "tot_ctrl": 1000,
+      "rate_ctrl": 0.2,
+      "observed_rr": 1.0,
+      "claimed_rr": 1.5,
+      "discrepancy": "Observed RR (1.0) is significantly different from Claimed RR (1.5). The data indicates no difference in event rates between groups."
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "seal_hash": "c24ea565f84dc6f964e421f31b03269c185104f7c23900936c3837a786168f32"
+}

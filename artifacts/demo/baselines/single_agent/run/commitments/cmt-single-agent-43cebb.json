@@ -1,0 +1,26 @@
+{
+  "commitment_id": "cmt-single-agent-43cebb",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "19cb267211fb42a820df6b19c45ff595c98abeaf6b80a2f4fcc4cc12f6a2f351",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:52:20.234424+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "standardized effect size d=1.41",
+    "plan": "pooled effect size from bundled per-arm stats",
+    "evidence": {
+      "effect_size": 1.414,
+      "significant": true
+    },
+    "confidence": 0.6,
+    "executable": true
+  },
+  "seal_hash": "c3258aebada6e1c2ab3d95cbba97aa252c48eb0c81fb2fbab14e35fc0a7cd6ea"
+}

@@ -1,0 +1,93 @@
+{
+  "backend": "llm",
+  "case_supported": {
+    "run_id": "run-6b035e9ffbcf",
+    "claim_id": "demo-clean_supported",
+    "verdict": "SUPPORTED",
+    "confidence": 0.98,
+    "reasoning": "Weighted evidence score +6.91 in favor; 3 support / 0 contradict; 0 replication(s). No unresolved independent conflict.",
+    "run_dir": "artifacts/demo-llm/case_supported/20261007-155223-1dc540",
+    "report_path": "artifacts/demo-llm/case_supported/20261007-155223-1dc540/verify_report.md",
+    "n_evidence": 3,
+    "n_independent": 3,
+    "n_needs": 0,
+    "usage": {
+      "prompt_tokens": 1874,
+      "completion_tokens": 691,
+      "total_tokens": 2565,
+      "tool_calls": 0,
+      "llm_calls": 3,
+      "wall_clock_s": 7.662729978561401
+    },
+    "needs": []
+  },
+  "case_misleading": {
+    "run_id": "run-6749e1569032",
+    "claim_id": "demo-misleading_wrong_test",
+    "verdict": "REFUTED",
+    "confidence": 0.98,
+    "reasoning": "Weighted evidence score -7.00 against; 0 support / 3 contradict; 0 failed replication(s). No unresolved independent conflict.",
+    "run_dir": "artifacts/demo-llm/case_misleading/20261007-155230-0fe5d2",
+    "report_path": "artifacts/demo-llm/case_misleading/20261007-155230-0fe5d2/verify_report.md",
+    "n_evidence": 3,
+    "n_independent": 3,
+    "n_needs": 0,
+    "usage": {
+      "prompt_tokens": 1874,
+      "completion_tokens": 875,
+      "total_tokens": 2749,
+      "tool_calls": 0,
+      "llm_calls": 3,
+      "wall_clock_s": 7.316690921783447
+    },
+    "needs": []
+  },
+  "baseline_comparison_misleading_case": [
+    {
+      "strategy": "single_agent",
+      "label": "REFUTED",
+      "confidence": 0.98,
+      "n_agents": 1,
+      "n_needs": 0,
+      "tokens": 899,
+      "wall_clock_s": 2.799
+    },
+    {
+      "strategy": "fixed_dag",
+      "label": "REFUTED",
+      "confidence": 0.623,
+      "n_agents": 3,
+      "n_needs": 0,
+      "tokens": 2890,
+      "wall_clock_s": 10.083
+    },
+    {
+      "strategy": "isolated_vote",
+      "label": "REFUTED",
+      "confidence": 0.98,
+      "n_agents": 3,
+      "n_needs": 0,
+      "tokens": 2672,
+      "wall_clock_s": 7.248
+    },
+    {
+      "strategy": "open_debate",
+      "label": "REFUTED",
+      "confidence": 0.98,
+      "n_agents": 3,
+      "n_needs": 0,
+      "tokens": 2758,
+      "wall_clock_s": 7.91
+    },
+    {
+      "strategy": "repl_claw",
+      "label": "REFUTED",
+      "confidence": 0.98,
+      "n_agents": 3,
+      "n_needs": 0,
+      "tokens": 2683,
+      "wall_clock_s": 6.726
+    }
+  ],
+  "wall_clock_s": 49.76
+}

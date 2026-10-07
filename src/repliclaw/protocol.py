@@ -165,6 +165,13 @@ class RepliClawProtocol:
             findings[cfg.agent_id] = finding
             self._account_usage(inv)
 
+        if not findings:
+            # Total investigator failure (e.g. bad backend wiring) is a hard
+            # error: a verdict over zero evidence would silently "succeed".
+            self.store.event("phase", phase="aborted", reason="no_investigator_findings")
+            raise RuntimeError(
+                "all investigators failed: " + " | ".join(errors[:5])
+            )
         if len(findings) < self.min_independent:
             errors.append(
                 f"only {len(findings)}/{self.min_independent} investigators produced findings"

@@ -1,0 +1,48 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-60b3967e",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "f98dc802ffd4fcc03978dd0fa652adb7ce775a7ce773343be533d46bebb8ce0e",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:52:20.217350+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "refuted",
+    "statement": "published RR=1.5 vs raw-event RR=1.000 (95% CI [0.839,1.192]); CI includes 1 → effect not established",
+    "plan": "recompute RR and CI from raw event counts; compare to published figure",
+    "evidence": {
+      "rr_published": 1.5,
+      "rr_raw": 1.0,
+      "ci": [
+        0.839,
+        1.192
+      ],
+      "ci_excludes_one": false,
+      "mismatch": true
+    },
+    "confidence": 0.7,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:52:20.221415+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "published RR=1.5 vs raw-event RR=1.000 (95% CI [0.839,1.192]); CI includes 1 → effect not established",
+    "plan": "recompute RR and CI from raw event counts; compare to published figure",
+    "evidence": {
+      "rr_published": 1.5,
+      "rr_raw": 1.0,
+      "ci": [
+        0.839,
+        1.192
+      ],
+      "ci_excludes_one": false,
+      "mismatch": true
+    },
+    "confidence": 0.7,
+    "executable": true
+  },
+  "seal_hash": "6547f24f5301742722630efda2dcc3b15471b0dda1adb7ec38ab4ce504deee77"
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "demo-misleading_wrong_test",
+  "label": "REFUTED",
+  "confidence": 0.98,
+  "n_support": 0,
+  "n_contradict": 3,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 3,
+  "unresolved_conflicts": [],
+  "evidence_refs": [
+    "ev-inv-analyst-1-13ea4ef1",
+    "ev-inv-statistician-1-216f8870",
+    "ev-inv-falsifier-1-28607467"
+  ],
+  "reasoning": "Weighted evidence score -6.96 against; 0 support / 3 contradict; 0 failed replication(s). No unresolved independent conflict.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:53:06.339504+00:00"
+}

@@ -10,8 +10,8 @@
     "seeded_fault": "leakage",
     "data": {
       "n": 400,
-      "mean_treat": 5.0,
-      "mean_ctrl": 6.0,
+      "mean_treat": 6.0,
+      "mean_ctrl": 5.0,
       "sd_treat": 1.0,
       "sd_ctrl": 1.0,
       "alpha": 0.05,

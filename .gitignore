@@ -5,3 +5,6 @@ __pycache__/
 artifacts/dev/
 logs/
 .DS_Store
+artifacts/verify/
+*.egg-info/
+artifacts/benchmark/_work/

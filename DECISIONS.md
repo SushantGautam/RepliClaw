@@ -46,6 +46,21 @@ Evidence paths are from the 2026-10-07 reconnaissance.
 - **Rationale:** The follow-up is the protocol's deadlock-breaker, but it must not become a fake-independence backdoor (it sees revealed material). Requiring an *executable, directional* lean means the tie is broken by a fresh computation on raw data, not opinion — this is what makes misleading-evidence recovery (AC12) sound. Verified: clean→0.98, clean-refuted→0.534, misleading-recovered→0.256 (well-ordered confidence).
 - **Rule in code:** `verdict._decisive_adjudicator` + conflict branch of `compute_verdict`; protocol passes `followup_evidence` (evidence whose `notes` contain "fulfills need").
 
+## D10 — LLM investigators need data + explicit per-role methods in the prompt (AC16/AC18)
+- **Decision:** `InvestigationContext.to_prompt_block` serializes `claim.data` (shared bundled input, safe pre-reveal); `LLMInvestigator` appends a role-specific quantitative method (analyst: Cohen's d; statistician: two-sample t vs alpha; falsifier: raw-event RR + log-normal 95% CI vs baseline_rr) mirroring the deterministic lenses. `LLMConfig.max_tokens` default raised 1024→4096 and `chat_json` retries once with a "terse JSON" prompt on parse failure.
+- **Rationale:** Two live-run failures (kept as evidence in PROGRESS.md): (a) prompt omitted `claim.data` → all roles honestly abstained ("no bundled data"); (b) 1024-token budget truncated verbose model JSON → `ValueError`. Also: `LLMClient` double-wrapping was guarded (`TypeError`), and the protocol hard-fails when ALL investigators fail — a zero-evidence run must not masquerade as INCONCLUSIVE.
+- **Verified:** live repl_claw on misleading fixture → REFUTED 0.98, 3 clean calls, 2847 real tokens, 0 errors (2026-10-07).
+
+## D11 — Demo/eval narrative is derived from run outputs, never fixed (AC18)
+- **Decision:** `demo.py`'s "Interpretation" section, the Case-2 heading, and the "commitments before reveal" table are all generated from the run's own results (verdict labels, need count + fulfillment via `notes = "fulfills need ..."`, `committed` events before the `revealing` phase). A need is only described as "fulfilled" when actual follow-up evidence exists.
+- **Rationale:** Independent code review flagged that a static interpretation paragraph contradicted the live run (which had no conflict → no follow-up) and that `needs.jsonl` is written at emission, not fulfillment. Every reported number in artifacts must trace to computed run data.
+- **Verified:** deterministic demo (conflict → 1 fulfilled follow-up → REFUTED 0.256) and LLM demo (3-way agreement → 0 needs → REFUTED 0.98) both render narratives consistent with their own tables.
+
+## D12 — Fixtures must be internally consistent in *direction*, not just magnitude
+- **Decision:** In all "treatment increases" fixtures, `mean_treat > mean_ctrl` (was reversed: 5.0/6.0). Affected: clean_supported, misleading_wrong_test, wrong_param_magnitude, data_leakage + `SUPPORTED_DATA` in tests + README example.
+- **Rationale:** A live direction-aware model correctly read the reversed means as contradicting "treatment increases" — the *model was right and the fixture was wrong*. Deterministic lenses are magnitude-based (|t|, |d|, raw RR), so the flip is a strict consistency improvement: verified zero regression (60 tests, demo 0.980/0.256, benchmark table byte-identical).
+- **Rule:** before shipping a fixture, check claim direction vs every bundled metric's direction; keep `events_*`/`baseline_rr` as the falsifier's raw-data anchor.
+
 ---
 
 ## Reuse Matrix (mandatory gate)

@@ -1,0 +1,27 @@
+{
+  "run_id": "run-6749e1569032",
+  "claim_id": "demo-misleading_wrong_test",
+  "strategy": "repl_claw_blind_commit_reveal",
+  "protocol_version": "v1",
+  "model": "default",
+  "n_investigators": 3,
+  "config": {
+    "min_independent": 3,
+    "shared_public_materials": [],
+    "investigators": [
+      "inv-analyst-1",
+      "inv-statistician-1",
+      "inv-falsifier-1"
+    ]
+  },
+  "created_at": "2026-10-07T13:52:30.980991+00:00",
+  "completed_at": "2026-10-07T13:52:38Z",
+  "usage": {
+    "prompt_tokens": 1874,
+    "completion_tokens": 875,
+    "total_tokens": 2749,
+    "tool_calls": 0,
+    "llm_calls": 3,
+    "wall_clock_s": 0.0
+  }
+}

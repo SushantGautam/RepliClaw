@@ -1,0 +1,31 @@
+{
+  "commitment_id": "cmt-single-agent-a57f71",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "ab6fef6bee2c1615d1f2f18a17627fe7a6cffac1985133fb99951f4b663698e0",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:52:41.097796+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The raw data shows equal event counts in both groups (RR=1.0), directly contradicting the claimed RR of 1.5, and the continuous outcome effect size (Cohen's d=0.7) does not validate a 50% relative increase in events.",
+    "plan": "1. Calculate the observed Relative Risk (RR) from the provided event counts: events_treat/tot_treat divided by events_ctrl/tot_ctrl. 2. Compare the observed RR to the claimed baseline_rr of 1.5. 3. Calculate Cohen's d for the continuous means using the pooled standard deviation to assess the magnitude of the mean difference as per role instructions.",
+    "evidence": {
+      "observed_rr": 1.0,
+      "claimed_rr": 1.5,
+      "rr_discrepancy": "Observed RR is 1.0 (200/1000 vs 200/1000), which is inconsistent with the claimed 1.5.",
+      "pooled_sd": 1.0,
+      "cohens_d": 1.0,
+      "mean_diff": 1.0,
+      "note": "While Cohen's d is 1.0 (large effect on means), the specific claim regarding 'event rate' and 'RR=1.5' is refuted by the binary event data provided."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "f90d5640e2817a979d7a57bf22d527b8105a3a31d76d61624eebcb634a1767fe"
+}

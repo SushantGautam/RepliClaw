@@ -37,9 +37,9 @@ class LLMConfig:
     )
     model: str = field(default_factory=lambda: os.environ.get("REPLICLAW_LLM_MODEL", DEFAULT_MODEL))
     max_calls: int = field(default_factory=lambda: int(os.environ.get("REPLICLAW_LLM_MAX_CALLS", "64")))
-    max_tokens: int = int(os.environ.get("REPLICLAW_LLM_MAX_TOKENS", "1024"))
-    temperature: float = float(os.environ.get("REPLICLAW_LLM_TEMPERATURE", "0.2"))
-    timeout: float = float(os.environ.get("REPLICLAW_LLM_TIMEOUT", "120"))
+    max_tokens: int = field(default_factory=lambda: int(os.environ.get("REPLICLAW_LLM_MAX_TOKENS", "4096")))
+    temperature: float = field(default_factory=lambda: float(os.environ.get("REPLICLAW_LLM_TEMPERATURE", "0.2")))
+    timeout: float = field(default_factory=lambda: float(os.environ.get("REPLICLAW_LLM_TIMEOUT", "120")))
 
     @property
     def available(self) -> bool:
@@ -54,6 +54,9 @@ class LLMClient:
     """Thin OpenAI-compatible client with usage accounting."""
 
     def __init__(self, cfg: Optional[LLMConfig] = None):
+        if isinstance(cfg, LLMClient):
+            # Common wiring mistake: passing a client where a config is expected.
+            raise TypeError("LLMClient takes an LLMConfig, not another LLMClient")
         self.cfg = cfg or LLMConfig()
         self.usage = ResourceUsage()
         self._calls = 0
@@ -101,15 +104,24 @@ class LLMClient:
         return resp.choices[0].message.content or ""
 
     def chat_json(self, prompt: str, system: Optional[str] = None, max_tokens: Optional[int] = None) -> Dict[str, Any]:
-        raw = self.chat(
-            prompt,
-            system=system or (
-                "You are a careful, quantitative scientific investigator. "
-                "Return ONLY a valid JSON object, no markdown, no commentary."
-            ),
-            max_tokens=max_tokens,
+        system = system or (
+            "You are a careful, quantitative scientific investigator. "
+            "Return ONLY a valid JSON object, no markdown, no commentary."
         )
-        return _extract_json(raw)
+        raw = self.chat(prompt, system=system, max_tokens=max_tokens)
+        try:
+            return _extract_json(raw)
+        except ValueError:
+            # One retry: models occasionally truncate or malform the JSON
+            # (long reasoning before the object). Ask for a terse version.
+            raw2 = self.chat(
+                prompt + "\n\n# RETRY\nYour previous reply was not parseable as a "
+                "single JSON object. Respond again with ONLY the JSON object — "
+                "keep every string value short (under 60 characters).",
+                system=system,
+                max_tokens=max_tokens,
+            )
+            return _extract_json(raw2)
 
 
 def _extract_json(raw: str) -> Dict[str, Any]:
@@ -148,6 +160,43 @@ FINDING_SCHEMA = {
     "executable": "true if you ran actual computation, else false",
 }
 
+# Per-role method so each investigator genuinely applies a DIFFERENT analysis
+# to the bundled data — the structural basis for honest disagreement.
+_ROLE_METHOD = {
+    "analyst": (
+        "Role: ANALYST. Estimate the effect size directly from the bundled data. "
+        "If `mean_treat`/`mean_ctrl` and `sd_*` are present, compute Cohen's d = "
+        "(mean_treat - mean_ctrl) / pooled_sd. Judge whether |d| >= 0.5 (a "
+        "meaningful effect) in the direction the claim asserts. Report d and your "
+        "reading of the raw means."
+    ),
+    "statistician": (
+        "Role: STATISTICIAN. Run the inferential test the claim's framing implies. "
+        "For two-group means with `n`, `mean_*`, `sd_*`, do a two-sample "
+        "independent t-test (pooled) and report t, df, and a two-sided p-value "
+        "against `alpha` (default 0.05). Conclude 'supported' only if the test is "
+        "significant in the claimed direction; 'refuted' if the data flatly "
+        "contradict it; 'uncertain' if not significant."
+    ),
+    "falsifier": (
+        "Role: FALSIFIER. Attack the claim by recomputing the primary endpoint "
+        "from RAW event counts, ignoring any published figure. If "
+        "`events_treat`/`events_ctrl`/`tot_treat`/`tot_ctrl` are present, compute "
+        "the raw relative risk RR = (events_treat/tot_treat)/(events_ctrl/"
+        "tot_ctrl) and its 95% CI (log-normal: exp(ln(RR) ± 1.96*sqrt(1/e_t + "
+        "1/e_c))). If `baseline_rr` is present, compare the published/baseline RR "
+        "to the raw RR: if they disagree, or the raw CI includes 1, conclude "
+        "'refuted' (the published figure is not supported by the raw data). "
+        "Only 'supported' if the raw data independently reproduce the claimed "
+        "effect with a CI excluding 1."
+    ),
+}
+_ROLE_METHOD_DEFAULT = (
+    "Role: follow-up investigator. Independently re-derive the primary result "
+    "from the bundled raw data using the method most appropriate to the data "
+    "available, and state whether it reproduces or contradicts the claim."
+)
+
 
 class Investigator:
     def __init__(self, config: InvestigatorConfig):
@@ -168,10 +217,17 @@ class LLMInvestigator(Investigator):
     def run(self, context) -> Dict[str, Any]:
         prompt = context.to_prompt_block(revealed=False)
         prompt += (
-            "\n\n# OUTPUT\nInvestigate the claim independently. Do NOT assume any "
+            "\n\n# ROLE METHOD\n"
+            + _ROLE_METHOD.get(context.investigator.role.value, _ROLE_METHOD_DEFAULT)
+            + "\n\n# OUTPUT\nInvestigate the claim independently. Do NOT assume any "
             "other investigator's result. Return a JSON object with exactly these keys:\n"
             + json.dumps(FINDING_SCHEMA, indent=2)
-            + "\nBe quantitative. If the bundled data is insufficient or misleading, say so."
+            + "\nBe quantitative: show the numbers you computed in `evidence`. "
+            "Set `conclusion` to one of: 'supported', 'refuted', 'uncertain'. "
+            "Set `executable` to true only if your conclusion rests on a concrete "
+            "computation over the bundled data (not a hunch). If the bundled data is "
+            "insufficient or the published figure is inconsistent with the raw data, "
+            "say so explicitly."
         )
         finding = self.client.chat_json(prompt)
         # Normalize.

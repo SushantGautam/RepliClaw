@@ -1,0 +1,29 @@
+{
+  "commitment_id": "cmt-dag-critic-fc19ad",
+  "claim_id": "demo-misleading_wrong_test",
+  "agent_id": "dag-critic",
+  "role": "critic",
+  "content_hash": "f013b7719933633b2aa69fe4560947a89ea9cf890d6b4db104c2dd0ca85c5f0e",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:52:51.177865+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "The bundled data shows an equal number of events in both groups (200 vs 200), yielding a Relative Risk of 1.0, which directly contradicts the claimed RR of 1.5.",
+    "plan": "Calculate the event rate for the treatment group and the control group using the provided counts (events_treat/tot_treat and events_ctrl/tot_ctrl). Compute the Relative Risk (RR) as the ratio of these two rates. Compare the calculated RR to the claimed baseline_rr of 1.5.",
+    "evidence": {
+      "event_rate_treat": 0.2,
+      "event_rate_ctrl": 0.2,
+      "calculated_rr": 1.0,
+      "claimed_rr": 1.5,
+      "discrepancy": "Calculated RR (1.0) is not consistent with Claimed RR (1.5)."
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "seal_hash": "e7b4581bd8b3086a87e9f7cbe1999f741ef429d594302f40109d524c2cb8e022"
+}
