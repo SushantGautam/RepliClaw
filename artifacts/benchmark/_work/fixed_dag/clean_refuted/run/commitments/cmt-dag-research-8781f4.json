@@ -1,0 +1,26 @@
+{
+  "commitment_id": "cmt-dag-research-8781f4",
+  "claim_id": "claim-clean_refuted",
+  "agent_id": "dag-research",
+  "role": "analyst",
+  "content_hash": "31f674e14e9630ac7a10baec6ccc133f21e6ff259b25c57a3ab2833a3c440e8f",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:20:13.871784+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "uncertain",
+    "statement": "standardized effect size d=0.00",
+    "plan": "pooled effect size from bundled per-arm stats",
+    "evidence": {
+      "effect_size": 0.0,
+      "significant": false
+    },
+    "confidence": 0.6,
+    "executable": true
+  },
+  "seal_hash": "716703542c941bbcdba4e0443e5b870770fc083fa6e4fc1eb7b806527af0796e"
+}

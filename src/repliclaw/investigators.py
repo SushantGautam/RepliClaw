@@ -261,6 +261,19 @@ class DeterministicInvestigator(Investigator):
             # 'leakage' fault will push the naive reading off the raw events.
             rr = _risk_ratio(data)
             baseline = float(data.get("baseline_rr", 0.0)) or None
+            has_raw = None not in (
+                data.get("events_treat"), data.get("tot_treat"),
+                data.get("events_ctrl"), data.get("tot_ctrl"),
+            )
+            if not has_raw:
+                # No raw events to recompute from: this lens cannot adjudicate.
+                return {
+                    "conclusion": "uncertain",
+                    "statement": "no raw event counts bundled; cannot falsify from raw data",
+                    "plan": "recompute RR and CI from raw event counts",
+                    "evidence": {"error": "no raw events"},
+                    "confidence": 0.2,
+                }
             lo, hi = _rr_ci(data)
             # Falsifier flags discrepancy if published RR is not within
             # the confidence interval recomputed from raw events.

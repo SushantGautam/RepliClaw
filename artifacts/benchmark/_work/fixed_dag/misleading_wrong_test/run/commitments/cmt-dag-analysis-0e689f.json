@@ -1,0 +1,28 @@
+{
+  "commitment_id": "cmt-dag-analysis-0e689f",
+  "claim_id": "claim-misleading_wrong_test",
+  "agent_id": "dag-analysis",
+  "role": "statistician",
+  "content_hash": "d3a1e6840e7999317119146a487198c576412cd3ccf75b2ca06d898aa5814efd",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:18:51.518101+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "two-sample t-test: t=-14.14, p=0.0000 (alpha=0.05)",
+    "plan": "independent two-sample t-test on bundled per-arm means",
+    "evidence": {
+      "t": -14.142,
+      "p": 0.0,
+      "significant": true,
+      "risk_ratio_observed": 1.0
+    },
+    "confidence": 0.9,
+    "executable": true
+  },
+  "seal_hash": "5f6b9a6bd44b02e774ab49169c4e3db42b4ff4dc468eb66931875c55d4701a2e"
+}

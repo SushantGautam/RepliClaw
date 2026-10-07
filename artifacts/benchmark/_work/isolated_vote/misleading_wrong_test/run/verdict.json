@@ -1,0 +1,34 @@
+{
+  "claim_id": "claim-misleading_wrong_test",
+  "label": "INCONCLUSIVE",
+  "confidence": 0.475,
+  "n_support": 2,
+  "n_contradict": 1,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 3,
+  "unresolved_conflicts": [
+    {
+      "agents": [
+        "inv-analyst-1",
+        "inv-falsifier-1",
+        "inv-statistician-1"
+      ],
+      "support": [
+        "ev-inv-analyst-1-3bb6eccd",
+        "ev-inv-statistician-1-19ef2fb1"
+      ],
+      "contradict": [
+        "ev-inv-falsifier-1-e62681f7"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "ev-inv-analyst-1-3bb6eccd",
+    "ev-inv-statistician-1-19ef2fb1",
+    "ev-inv-falsifier-1-e62681f7"
+  ],
+  "reasoning": "Unresolved independent disagreement between ['inv-analyst-1', 'inv-falsifier-1', 'inv-statistician-1']; weighted score +2.12 (support). No decisive follow-up; abstain.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:20:13.918675+00:00"
+}

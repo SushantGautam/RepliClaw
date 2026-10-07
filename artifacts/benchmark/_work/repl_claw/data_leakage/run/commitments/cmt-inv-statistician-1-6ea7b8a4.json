@@ -1,0 +1,40 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-6ea7b8a4",
+  "claim_id": "claim-data_leakage",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "11a1d5fb7499eb5502ee0cec509af85a56997386977e626ccbbd58d7d3199fe3",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:20:14.001111+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "two-sample t-test: t=-14.14, p=0.0000 (alpha=0.05)",
+    "plan": "independent two-sample t-test on bundled per-arm means",
+    "evidence": {
+      "t": -14.142,
+      "p": 0.0,
+      "significant": true,
+      "risk_ratio_observed": 1.0499999999999998
+    },
+    "confidence": 0.9,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:20:14.004750+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "two-sample t-test: t=-14.14, p=0.0000 (alpha=0.05)",
+    "plan": "independent two-sample t-test on bundled per-arm means",
+    "evidence": {
+      "t": -14.142,
+      "p": 0.0,
+      "significant": true,
+      "risk_ratio_observed": 1.0499999999999998
+    },
+    "confidence": 0.9,
+    "executable": true
+  },
+  "seal_hash": "9e26266430f89dbdaaba938958fffed2977b48bc4b18ca6c74519b7b9d6d9cb4"
+}

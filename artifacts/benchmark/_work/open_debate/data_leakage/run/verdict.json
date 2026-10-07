@@ -1,0 +1,34 @@
+{
+  "claim_id": "claim-data_leakage",
+  "label": "INCONCLUSIVE",
+  "confidence": 0.475,
+  "n_support": 2,
+  "n_contradict": 1,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 3,
+  "unresolved_conflicts": [
+    {
+      "agents": [
+        "inv-analyst-1",
+        "inv-falsifier-1",
+        "inv-statistician-1"
+      ],
+      "support": [
+        "ev-inv-analyst-1-9233294c",
+        "ev-inv-statistician-1-f028c500"
+      ],
+      "contradict": [
+        "ev-inv-falsifier-1-aba7a694"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "ev-inv-analyst-1-9233294c",
+    "ev-inv-statistician-1-f028c500",
+    "ev-inv-falsifier-1-aba7a694"
+  ],
+  "reasoning": "Unresolved independent disagreement between ['inv-analyst-1', 'inv-falsifier-1', 'inv-statistician-1']; weighted score +2.12 (support). No decisive follow-up; abstain.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:20:13.940971+00:00"
+}

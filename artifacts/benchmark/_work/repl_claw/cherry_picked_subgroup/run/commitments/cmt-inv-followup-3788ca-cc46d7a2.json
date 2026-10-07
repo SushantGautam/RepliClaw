@@ -1,0 +1,40 @@
+{
+  "commitment_id": "cmt-inv-followup-3788ca-cc46d7a2",
+  "claim_id": "claim-cherry_picked_subgroup",
+  "agent_id": "inv-followup-3788ca",
+  "role": "statistician",
+  "content_hash": "148ef04da597669d44f3c4c9747259dcaa67d431a6e826def92eea2d2d732483",
+  "phase": "revealed",
+  "timestamp": "2026-10-07T13:20:13.962381+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "uncertain",
+    "statement": "two-sample t-test: t=0.71, p=0.4795 (alpha=0.05)",
+    "plan": "independent two-sample t-test on bundled per-arm means",
+    "evidence": {
+      "t": 0.707,
+      "p": 0.4795,
+      "significant": false,
+      "risk_ratio_observed": 2.0
+    },
+    "confidence": 0.5,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-07T13:20:13.962778+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "uncertain",
+    "statement": "two-sample t-test: t=0.71, p=0.4795 (alpha=0.05)",
+    "plan": "independent two-sample t-test on bundled per-arm means",
+    "evidence": {
+      "t": 0.707,
+      "p": 0.4795,
+      "significant": false,
+      "risk_ratio_observed": 2.0
+    },
+    "confidence": 0.5,
+    "executable": true
+  },
+  "seal_hash": "a72e59d43266d2ab9091fa117aa32b69175e6eac3726ffeaa84e02c8476fd178"
+}

@@ -1,0 +1,34 @@
+{
+  "claim_id": "claim-wrong_param_magnitude",
+  "label": "INCONCLUSIVE",
+  "confidence": 0.475,
+  "n_support": 2,
+  "n_contradict": 1,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 3,
+  "unresolved_conflicts": [
+    {
+      "agents": [
+        "inv-analyst-1",
+        "inv-falsifier-1",
+        "inv-statistician-1"
+      ],
+      "support": [
+        "ev-inv-analyst-1-14493dee",
+        "ev-inv-statistician-1-079a2396"
+      ],
+      "contradict": [
+        "ev-inv-falsifier-1-27ce7e08"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "ev-inv-analyst-1-14493dee",
+    "ev-inv-statistician-1-079a2396",
+    "ev-inv-falsifier-1-27ce7e08"
+  ],
+  "reasoning": "Unresolved independent disagreement between ['inv-analyst-1', 'inv-falsifier-1', 'inv-statistician-1']; weighted score +2.12 (support). No decisive follow-up; abstain.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:20:13.922053+00:00"
+}

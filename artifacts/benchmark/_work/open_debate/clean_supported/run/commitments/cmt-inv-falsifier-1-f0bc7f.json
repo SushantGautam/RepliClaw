@@ -1,0 +1,32 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-f0bc7f",
+  "claim_id": "claim-clean_supported",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "510f7015f449f2ea35600d6cc744e3039023179f3bf72ffd9fb212a57c7b1c1d",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:20:13.934038+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "published RR=1.5 vs raw-event RR=1.500 (95% CI [1.283,1.753]); CI excludes 1 → effect real",
+    "plan": "recompute RR and CI from raw event counts; compare to published figure",
+    "evidence": {
+      "rr_published": 1.5,
+      "rr_raw": 1.4999999999999998,
+      "ci": [
+        1.283,
+        1.753
+      ],
+      "ci_excludes_one": true,
+      "mismatch": false
+    },
+    "confidence": 0.8,
+    "executable": true
+  },
+  "seal_hash": "fa7129d3e9ba480080f35b93795094724c5159804df527a8defb46378dcec8e0"
+}

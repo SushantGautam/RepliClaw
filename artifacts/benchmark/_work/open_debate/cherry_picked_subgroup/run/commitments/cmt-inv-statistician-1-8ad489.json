@@ -1,0 +1,28 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-8ad489",
+  "claim_id": "claim-cherry_picked_subgroup",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "148ef04da597669d44f3c4c9747259dcaa67d431a6e826def92eea2d2d732483",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:20:13.925254+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "uncertain",
+    "statement": "two-sample t-test: t=0.71, p=0.4795 (alpha=0.05)",
+    "plan": "independent two-sample t-test on bundled per-arm means",
+    "evidence": {
+      "t": 0.707,
+      "p": 0.4795,
+      "significant": false,
+      "risk_ratio_observed": 2.0
+    },
+    "confidence": 0.5,
+    "executable": true
+  },
+  "seal_hash": "b9b4beff76610557f24ef5516df9c84229d1e791fe9631dbd2e11bc53b087c6f"
+}

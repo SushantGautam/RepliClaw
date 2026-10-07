@@ -1,0 +1,32 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-8d72db",
+  "claim_id": "claim-misleading_wrong_test",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "f98dc802ffd4fcc03978dd0fa652adb7ce775a7ce773343be533d46bebb8ce0e",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:20:13.918202+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "refuted",
+    "statement": "published RR=1.5 vs raw-event RR=1.000 (95% CI [0.839,1.192]); CI includes 1 → effect not established",
+    "plan": "recompute RR and CI from raw event counts; compare to published figure",
+    "evidence": {
+      "rr_published": 1.5,
+      "rr_raw": 1.0,
+      "ci": [
+        0.839,
+        1.192
+      ],
+      "ci_excludes_one": false,
+      "mismatch": true
+    },
+    "confidence": 0.7,
+    "executable": true
+  },
+  "seal_hash": "55ad452ab9e82e3ee0493c39ab4e5ded95614d2d1e1e51727f3e3642335a2bea"
+}

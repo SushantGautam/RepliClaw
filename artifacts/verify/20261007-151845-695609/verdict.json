@@ -1,0 +1,19 @@
+{
+  "claim_id": "claim-c6dbd3cfccf7",
+  "label": "SUPPORTED",
+  "confidence": 0.98,
+  "n_support": 3,
+  "n_contradict": 0,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 3,
+  "unresolved_conflicts": [],
+  "evidence_refs": [
+    "ev-inv-analyst-1-bc072e91",
+    "ev-inv-statistician-1-c250d7c4",
+    "ev-inv-falsifier-1-8cb18486"
+  ],
+  "reasoning": "Weighted evidence score +6.26 in favor; 3 support / 0 contradict; 0 replication(s). No unresolved independent conflict.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:18:45.349429+00:00"
+}

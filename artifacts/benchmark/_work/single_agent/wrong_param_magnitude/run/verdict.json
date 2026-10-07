@@ -1,0 +1,17 @@
+{
+  "claim_id": "claim-wrong_param_magnitude",
+  "label": "SUPPORTED",
+  "confidence": 0.98,
+  "n_support": 1,
+  "n_contradict": 0,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 1,
+  "unresolved_conflicts": [],
+  "evidence_refs": [
+    "ev-single-agent-4821cc28"
+  ],
+  "reasoning": "Weighted evidence score +1.59 in favor; 1 support / 0 contradict; 0 replication(s). No unresolved independent conflict.",
+  "error_correlation": null,
+  "timestamp": "2026-10-07T13:20:13.866398+00:00"
+}

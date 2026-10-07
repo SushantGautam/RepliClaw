@@ -1,0 +1,24 @@
+{
+  "claim_id": "claim-wrong_param_magnitude",
+  "statement": "Treatment triples the event rate (published RR=3.0) versus control.",
+  "domain": "clinical",
+  "subclaims": [],
+  "assumptions": [],
+  "data": {
+    "n": 400,
+    "mean_treat": 5.0,
+    "mean_ctrl": 6.0,
+    "sd_treat": 1.0,
+    "sd_ctrl": 1.0,
+    "alpha": 0.05,
+    "baseline_rr": 3.0,
+    "events_treat": 300,
+    "events_ctrl": 200,
+    "tot_treat": 1000,
+    "tot_ctrl": 1000
+  },
+  "source_artifacts": [],
+  "reference_truth": "refuted",
+  "seeded_fault": "wrong_param",
+  "created_at": "2026-10-07T13:20:14.035093+00:00"
+}

@@ -1,0 +1,26 @@
+{
+  "commitment_id": "cmt-dag-critic-4145c8",
+  "claim_id": "claim-cherry_picked_subgroup",
+  "agent_id": "dag-critic",
+  "role": "critic",
+  "content_hash": "ea09b632c666230e18b7de601ce31c1ce46fddfdde719f4ac4abae8e497da7ac",
+  "phase": "committed",
+  "timestamp": "2026-10-07T13:20:13.868786+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "uncertain",
+    "statement": "standardized effect size d=0.07",
+    "plan": "pooled effect size from bundled per-arm stats",
+    "evidence": {
+      "effect_size": 0.071,
+      "significant": false
+    },
+    "confidence": 0.6,
+    "executable": true
+  },
+  "seal_hash": "8d6c0121128f648bf4b823ca90757eb1cd9f6ee3d8f8c06061adb09944b4165a"
+}
