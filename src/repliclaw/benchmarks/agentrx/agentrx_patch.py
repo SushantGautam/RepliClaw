@@ -24,6 +24,13 @@ Scientific label: D-V3-010 (docs/next_stage/DECISIONS.md). Every run through
 this wiring is a **MODEL-SUBSTITUTION BASELINE**, never the official AgentRx
 baseline; :func:`stamp_model_substitution_metadata` enforces the label in
 run metadata.
+
+Mechanical label enforcement (F-W2-10): the routed factories REFUSE to
+serve completions until :func:`stamp_model_substitution_metadata` has been
+called for the active run dir (identified by the ``REPLICLAW_RUN_DIR``
+environment variable, exported before the pipeline stages run). The override
+``apply_simula_patch(..., enforce_label=False)`` disables this check —
+**tests only**, never for official/live runs.
 """
 from __future__ import annotations
 
@@ -47,9 +54,26 @@ ENDPOINT = "simulachat"
 #: :func:`apply_simula_patch` call (test/diagnostics + token provenance).
 CALLS_SERVED: List[Dict[str, Any]] = []
 
+#: Env var naming the run dir active for the current patched pipeline run.
+#: The routed factories refuse to serve completions until
+#: :func:`stamp_model_substitution_metadata` has been called for it.
+ACTIVE_RUN_DIR_ENV = "REPLICLAW_RUN_DIR"
+
+#: Run dirs for which the model-substitution label has been stamped by
+#: :func:`stamp_model_substitution_metadata` in this process.
+STAMPED_RUN_DIRS: List[str] = []
+
+
+class SimulaChatNotStampedError(RuntimeError):
+    """Raised by the routed SimulaChat factories when the active run dir has
+    not been labeled via :func:`stamp_model_substitution_metadata`."""
+
 __all__ = [
+    "ACTIVE_RUN_DIR_ENV",
     "CALLS_SERVED",
     "ENDPOINT",
+    "STAMPED_RUN_DIRS",
+    "SimulaChatNotStampedError",
     "SimulaPatchState",
     "apply_simula_patch",
     "stamp_model_substitution_metadata",
@@ -80,8 +104,25 @@ class _EndpointChoice(str):
         return hash("simula-choice")
 
 
-def _serve(**_kwargs: Any) -> SimulaChatClient:
-    """Factory body: build + record."""
+def _serve(enforce_label: bool = True, **_kwargs: Any) -> SimulaChatClient:
+    """Factory body: enforce the label gate, then build + record.
+
+    Refuses to serve until the active run dir (``REPLICLAW_RUN_DIR``) has
+    been stamped via :func:`stamp_model_substitution_metadata`, unless
+    *enforce_label* is False — an explicit override **for tests only**.
+    """
+    if enforce_label:
+        active = os.environ.get(ACTIVE_RUN_DIR_ENV)
+        if active is not None and active not in STAMPED_RUN_DIRS:
+            raise SimulaChatNotStampedError(
+                "SimulaChat client refused: the active run dir "
+                f"({active!r}) has not been labeled with "
+                f"stamp_model_substitution_metadata(). Every run through "
+                f"this wiring is a {MODEL_SUBSTITUTION_LABEL!r} baseline; "
+                "stamp the run metadata BEFORE the pipeline stages run. "
+                "(Override with apply_simula_patch(..., enforce_label=False) "
+                "for tests only — never for official/live runs.)"
+            )
     client = SimulaChatClient(config=load_config())
     CALLS_SERVED.append({"factory": "client"})
     return client
@@ -92,6 +133,19 @@ class _LLMAgentRoute(LLMAgent):
     with its real token usage (provenance for the substitution baseline)."""
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
+        # kwargs never contains config for the judge: apply_simula_patch
+        # stamps _label_enforced so the label gate matches the patch.
+        enforce = kwargs.pop("_label_enforced", True)
+        if enforce:
+            active = os.environ.get(ACTIVE_RUN_DIR_ENV)
+            if active is not None and active not in STAMPED_RUN_DIRS:
+                raise SimulaChatNotStampedError(
+                    "SimulaChat LLMAgent refused: the active run dir "
+                    f"({active!r}) has not been labeled with "
+                    f"stamp_model_substitution_metadata(). {MODEL_SUBSTITUTION_LABEL}"
+                    " (Override with apply_simula_patch(..., enforce_label=False) "
+                    "for tests only — never for official/live runs.)"
+                )
         super().__init__(*args, **kwargs)
         CALLS_SERVED.append({"factory": "LLMAgent", "model_name": self.model_name})
 
@@ -122,9 +176,17 @@ def total_tokens_served() -> Dict[str, int]:
     return out
 
 
-def apply_simula_patch(agentrx_root: str) -> "SimulaPatchState":
+def apply_simula_patch(agentrx_root: str,
+                       enforce_label: bool = True) -> "SimulaPatchState":
     """Patch AgentRx (imported from *agentrx_root*) for endpoint
-    ``"simulachat"``. Returns a :class:`SimulaPatchState` with ``undo()``."""
+    ``"simulachat"``. Returns a :class:`SimulaPatchState` with ``undo()``.
+
+    *enforce_label* (default True) makes the routed factories refuse to
+    serve completions until :func:`stamp_model_substitution_metadata` has
+    been called for the active run dir (``REPLICLAW_RUN_DIR`` env var).
+    Pass ``enforce_label=False`` **for tests only** — never for
+    official/live runs (F-W2-10).
+    """
     if agentrx_root not in sys.path:
         sys.path.insert(0, agentrx_root)
 
@@ -162,8 +224,9 @@ def apply_simula_patch(agentrx_root: str) -> "SimulaPatchState":
     #    else-branch (and llm_ir would raise, so llm_ir is handled by
     #    endpoint normalization below); serve SimulaChat there. The stages
     #    call ``LLMAgentTrapi.trapi_mk_client()`` (staticmethod, no args).
-    def _trapi_mk_routed(*args: Any, **kwargs: Any) -> Any:
-        return _serve()
+    def _trapi_mk_routed(enforce_label: bool = enforce_label,
+                         *args: Any, **kwargs: Any) -> Any:
+        return _serve(enforce_label=enforce_label)
 
     trapi_mod.LLMAgent.trapi_mk_client = _trapi_mk_routed  # type: ignore[assignment]
 
@@ -197,9 +260,16 @@ def apply_simula_patch(agentrx_root: str) -> "SimulaPatchState":
     #    points at our LLMAgent, so the judge class body (all
     #    _parse_json_response / judge_response methods) is preserved
     #    verbatim and only the LLM transport is ours.
+    # Route the judge's LLMAgent construction through the label gate by
+    # injecting _label_enforced (popped in _LLMAgentRoute.__init__).
+    class _LLMAgentRouteEnforced(_LLMAgentRoute):
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            kwargs.setdefault("_label_enforced", enforce_label)
+            super().__init__(*args, **kwargs)
+
     def _get_llm_judge_class_routed():
         if str(judge_mod.ENDPOINT_USED) == ENDPOINT:
-            copilot_mod.LLMAgent = _LLMAgentRoute
+            copilot_mod.LLMAgent = _LLMAgentRouteEnforced
             judge_mod.ENDPOINT_USED = "copilot"
             try:
                 cls = saved["get_llm_judge_class"]()
@@ -246,45 +316,94 @@ def apply_simula_patch(agentrx_root: str) -> "SimulaPatchState":
 
     state = SimulaPatchState(
         judge_mod=judge_mod, g=g, copilot_mod=copilot_mod, trapi_mod=trapi_mod,
+        ir_mod=ir_mod, run_py_mod=_import_run_py_or_none(),
         run_py=_orig_run_py_stages, saved=saved,
     )
     return state
 
 
+def _import_run_py_or_none() -> Any:
+    """Import run.py from the AgentRx root if possible; else None.
+
+    Undo must not depend on re-importing run.py (F-W2-2); capture the
+    module object once, at apply time, best-effort.
+    """
+    try:
+        import run as run_py  # type: ignore[import-not-found]
+        return run_py
+    except ImportError:
+        return None
+
+
 class SimulaPatchState:
     """Holds the originals for :meth:`undo`. Keeps module references for
-    tests and the smoke runner."""
+    tests and the smoke runner.
+
+    Restores come from the snapshot taken at :func:`apply_simula_patch`
+    time (module objects + original attribute values); :meth:`undo` never
+    re-imports anything (F-W2-2).
+    """
 
     def __init__(self, judge_mod: Any, g: Any, copilot_mod: Any, trapi_mod: Any,
+                 ir_mod: Any, run_py_mod: Any,
                  run_py: Dict[str, Any], saved: Dict[str, Any]) -> None:
         self.judge_mod = judge_mod
         self.g = g
         self.copilot_mod = copilot_mod
         self.trapi_mod = trapi_mod
+        self._ir_mod = ir_mod
+        self._run_py_mod = run_py_mod
         self._run_py = run_py
         self._saved = saved
+        self._undone = False
 
     def undo(self) -> None:
-        """Restore every patched object."""
-        import agentrx.ir.trajectory_ir as ir_mod
-        import run as run_py  # type: ignore[import-not-found,no-redef]
+        """Best-effort, idempotent restore (F-W2-2).
+
+        Every patched attribute is restored from the apply-time snapshot in
+        its own try/except, so one failing step never leaves the process
+        half-patched by omission. If ANY attribute could not be restored,
+        a single :class:`RuntimeError` is raised at the end naming all of
+        them — fail loud, never silently half-patched. A second ``undo()``
+        call is a no-op (the snapshot only describes the patched state).
+        """
+        if self._undone:
+            return
+        self._undone = True
 
         s = self._saved
-        self.g.DEFAULT_ENDPOINT = s["DEFAULT_ENDPOINT"]
-        self.g.TRAPI_DEPLOYMENT_NAME = s["TRAPI_DEPLOYMENT_NAME"]
-        self.g.TRAPI_MODEL_NAME = s["TRAPI_MODEL_NAME"]
-        self.trapi_mod.LLMAgent.trapi_mk_client = s["trapi_mk_client"]  # type: ignore[assignment]
-        self.copilot_mod.copilot_mk_client = s["copilot_mk_client"]
-        self.copilot_mod._verify_cli = s["verify_cli"]
-        self.copilot_mod.LLMAgent = s["copilot_LLMAgent"]
-        self.judge_mod.get_llm_judge_class = s["get_llm_judge_class"]
+        failures: List[str] = []
+
+        def _restore(label: str, target: Any, attr: str, value: Any) -> None:
+            try:
+                setattr(target, attr, value)
+            except BaseException as e:  # noqa: BLE001 — report, keep restoring
+                failures.append(f"{label}.{attr} ({e!r})")
+
+        _restore("g", self.g, "DEFAULT_ENDPOINT", s["DEFAULT_ENDPOINT"])
+        _restore("g", self.g, "TRAPI_DEPLOYMENT_NAME", s["TRAPI_DEPLOYMENT_NAME"])
+        _restore("g", self.g, "TRAPI_MODEL_NAME", s["TRAPI_MODEL_NAME"])
+        _restore("trapi_mod.LLMAgent", self.trapi_mod.LLMAgent,
+                 "trapi_mk_client", s["trapi_mk_client"])
+        _restore("copilot_mod", self.copilot_mod, "copilot_mk_client",
+                 s["copilot_mk_client"])
+        _restore("copilot_mod", self.copilot_mod, "_verify_cli", s["verify_cli"])
+        _restore("copilot_mod", self.copilot_mod, "LLMAgent", s["copilot_LLMAgent"])
+        _restore("judge_mod", self.judge_mod, "get_llm_judge_class",
+                 s["get_llm_judge_class"])
         if "llm_ir" in s:
-            ir_mod.llm_ir = s["llm_ir"]
-        try:
+            _restore("ir_mod", self._ir_mod, "llm_ir", s["llm_ir"])
+        if self._run_py_mod is not None:
             for name, fn in self._run_py.items():
-                setattr(run_py, name, fn)
-        except ImportError:
-            pass
+                _restore(f"run_py.{name}", self._run_py_mod, name, fn)
+
+        if failures:
+            raise RuntimeError(
+                "apply_simula_patch().undo() could not restore "
+                f"{len(failures)} attribute(s); the process may still be "
+                "patched — do NOT run the official pipeline in this "
+                "process. Unrestored: " + "; ".join(failures)
+            )
 
 
 def stamp_model_substitution_metadata(run_dir: str,
@@ -314,4 +433,9 @@ def stamp_model_substitution_metadata(run_dir: str,
     os.makedirs(run_dir, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=2, sort_keys=True)
+    # Mechanical label gate (F-W2-10): the routed factories will serve
+    # completions for this run dir only after this call has succeeded.
+    canonical = os.path.abspath(run_dir)
+    if canonical not in STAMPED_RUN_DIRS:
+        STAMPED_RUN_DIRS.append(canonical)
     return path
