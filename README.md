@@ -73,6 +73,7 @@ Key modules (`src/repliclaw/`):
 | `strategies.py` | the 5 coordination baselines on one shared task interface |
 | `benchmark.py` | controlled known-answer harness (6 tasks, 4 seeded fault modes) |
 | `verify.py` | cross-team `verify(claim, artifacts=None, config=None)` |
+| `observability.py` | OTel/OpenInference span emission (no-op when no provider; the Studio OTLP seam) |
 | `cli.py` | `repliclaw verify` / `benchmark` / `demo` |
 | `scienceclaw_adapter.py` | reuse (not fork) of ScienceClaw Need/Artifact/Reactor primitives |
 
@@ -84,7 +85,7 @@ Python ≥ 3.10.
 # 1. install (ScienceClaw primitives are vendored under deps/scienceclaw)
 pip install -e ".[dev]"
 
-# 2. hermetic test suite (no network; 62 tests)
+# 2. hermetic test suite (no network; 66 tests)
 python -m pytest
 
 # 2b. static checks (both configured in pyproject.toml)
@@ -127,6 +128,33 @@ key via `REPLICLAW_LLM_API_KEY` or `CUSTOM_SIMULACHAT_KEY`, `REPLICLAW_LLM_MODEL
 `backend=deterministic` is fully offline and hermetic — it applies per-role
 statistical lenses (effect size / two-sample t / raw-event risk-ratio with CI)
 so the whole protocol is testable without network access.
+
+## Observability (the SimpleAuditStudio seam)
+
+Every run emits conventional **OpenTelemetry** spans (`src/repliclaw/observability.py`):
+a `repliclaw.run` root (OpenInference `AGENT`) with per-investigator
+`repliclaw.investigator` spans (blinded loop + emergent follow-ups) and per-phase
+`repliclaw.phase.*` duration markers. Verdict label/confidence and
+`llm.token_count.*` are attached to the run span. Attributes use OpenInference
+semantic conventions where they exist and `repliclaw.*` namespaced keys otherwise.
+
+The emission is **OTel API-only and a no-op when no `TracerProvider` is set**, so the
+hermetic suite and benchmark never require the SDK. To send spans to
+**SimpleAuditStudio** (or any OTLP backend) you only configure a provider at startup:
+
+```python
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.trace import set_tracer_provider
+
+provider = TracerProvider()
+provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
+set_tracer_provider(provider)   # RepliClaw resolves the tracer lazily per call
+```
+
+RepliClaw never imports SimpleAuditStudio (it is a Django + Hatchet + Postgres app —
+see D06/D14); the OTLP exporter is the integration point.
 
 ## The five baselines (shared task interface)
 
@@ -186,9 +214,9 @@ never edits results.
 
 ```
 src/repliclaw/        the library (see module table above)
-tests/                62 hermetic tests (isolation, commit/reveal integrity,
+tests/                66 hermetic tests (isolation, commit/reveal integrity,
                       contradiction → follow-up, verdict provenance,
-                      strategies, benchmark, CLI/verify)
+                      strategies, benchmark, CLI/verify, OTel spans)
 tests/fixtures/       known-answer benchmark tasks
 artifacts/            demo + benchmark outputs (reproducible)
 deps/scienceclaw/     vendored ScienceClaw primitives (reused, not forked)
@@ -202,7 +230,7 @@ DECISIONS.md / PROGRESS.md / EXECUTION_STATE.md / IMPLEMENTATION_PLAN.md
 
 | AC | evidence |
 |---|---|
-| AC01 | this README; `pip install -e ".[dev]"` + `python -m pytest` (62 tests, hermetic) |
+| AC01 | this README; `pip install -e ".[dev]"` + `python -m pytest` (66 tests, hermetic) |
 | AC02 | `repliclaw verify` CLI + `verify()` Python API (src/repliclaw/cli.py, verify.py) |
 | AC03 | 3+ investigators with `ContextEnforcer`/`PhaseGate`; tests/test_isolation.py |
 | AC04 | sealed `Commitment` records pre-reveal; mismatch ⇒ REJECTED + re-seal; tests/test_commit_reveal.py |
@@ -214,9 +242,9 @@ DECISIONS.md / PROGRESS.md / EXECUTION_STATE.md / IMPLEMENTATION_PLAN.md
 | AC10 | 6 known-answer fixtures, 4 seeded fault modes; tests/test_benchmark.py |
 | AC11 | `benchmark.py` metrics: correctness/FA/FR/inconclusive, error-correlation proxy, recovery, diversity, tokens, latency; artifacts/benchmark/ |
 | AC12 | misleading_wrong_test end-to-end: conflict → follow-up falsification → REFUTED recovery; artifacts/demo/case_misleading/ |
-| AC13 | this README §Cross-team surface; tests/test_cli_and_verify.py |
-| AC14 | 62-test suite incl. isolation, commit/reveal integrity, contradiction/follow-up, verdict provenance, benchmark re-run determinism |
-| AC15 | `python -m pytest` (62 passed); `ruff check` (0 errors); `mypy src/repliclaw/` (no issues); `[tool.ruff]`+`[tool.mypy]` in pyproject.toml |
+| AC13 | this README §Cross-team surface + §Observability; tests/test_cli_and_verify.py; tests/test_observability.py (OTel/OpenInference span emission) |
+| AC14 | 66-test suite incl. isolation, commit/reveal integrity, contradiction/follow-up, verdict provenance, benchmark re-run determinism, OTel span emission |
+| AC15 | `python -m pytest` (66 passed); `ruff check` (0 errors); `mypy src/repliclaw/` (no issues); `[tool.ruff]`+`[tool.mypy]` in pyproject.toml |
 | AC16 | `repliclaw demo` → artifacts/demo*/ (deterministic, committed) + artifacts/demo-llm (live) |
 | AC17 | this README (hypothesis, architecture, baselines, reproduction, not-a-fixed-DAG) |
 | AC18 | all reported numbers computed by the harness at run time; demo shows real model outputs with per-call usage accounting |

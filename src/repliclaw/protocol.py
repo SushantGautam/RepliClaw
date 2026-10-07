@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 from . import canonical
+from . import observability as obs
 from . import scienceclaw_adapter as sc
 from .evidence import detect_conflicts
 from .isolation import ContextEnforcer, PhaseGate
@@ -139,7 +140,37 @@ class RepliClawProtocol:
         )
         self.store.save_run(run_meta.to_dict())
 
+        # Root OTel span for this run (no-op when no TracerProvider is set).
+        # Child investigator spans (started in _run_phases) nest under it so an
+        # OTLP consumer (e.g. SimpleAuditStudio) can see the full isolated run.
+        with obs.run_span(
+            run_id=run_meta.run_id,
+            strategy=self.strategy,
+            claim_id=claim.claim_id,
+            n_investigators=len(investigators),
+            task_instructions=task_instructions,
+        ) as run_span_obj:
+            result = self._run_phases(claim, investigators, run_meta, t0, errors, task_instructions)
+            obs.finish_run_span(
+                run_span_obj,
+                label=result.verdict.label.value,
+                confidence=result.verdict.confidence,
+                usage=result.usage,
+                errors=result.errors,
+            )
+        return result
+
+    def _run_phases(
+        self,
+        claim: Claim,
+        investigators: List[InvestigatorConfig],
+        run_meta: RunMetadata,
+        t0: float,
+        errors: List[str],
+        task_instructions: str = "",
+    ) -> ProtocolResult:
         # ---------------- Phase 1: BLIND ----------------
+        blind_span = obs.start_span("repliclaw.phase.blind", {obs.PHASE_ATTR: "blind"})
         self.gate.advance("blind")
         self.store.event("phase", phase="blind", n_investigators=len(investigators))
         findings: Dict[str, Dict[str, Any]] = {}
@@ -153,15 +184,19 @@ class RepliClawProtocol:
                 shared_public_materials=self.shared_public_materials,
             )
             contexts[cfg.agent_id] = ctx
-            try:
-                inv = self.investigator_factory(cfg)
-                finding = inv.run(ctx)
-            except Exception as exc:  # noqa: BLE001 - record, don't crash the run
-                errors.append(f"{cfg.agent_id}: {type(exc).__name__}: {exc}")
-                self.store.event("investigator_error", agent_id=cfg.agent_id, error=str(exc))
-                continue
+            with obs.investigator_span(cfg.agent_id, cfg.role.value) as inv_span:
+                try:
+                    inv = self.investigator_factory(cfg)
+                    finding = inv.run(ctx)
+                except Exception as exc:  # noqa: BLE001 - record, don't crash the run
+                    errors.append(f"{cfg.agent_id}: {type(exc).__name__}: {exc}")
+                    self.store.event("investigator_error", agent_id=cfg.agent_id, error=str(exc))
+                    if inv_span is not None:
+                        inv_span.set_attribute("error", str(exc))
+                    continue
             findings[cfg.agent_id] = finding
             self._account_usage(inv)
+        obs.end_span(blind_span)
 
         if not findings:
             # Total investigator failure (e.g. bad backend wiring) is a hard
@@ -176,120 +211,125 @@ class RepliClawProtocol:
             )
 
         # ---------------- Phase 2: COMMIT ----------------
-        self.gate.advance("committed")
-        self.store.event("phase", phase="committed")
-        commitments: Dict[str, Commitment] = {}
-        for agent_id, finding in findings.items():
-            payload = commit_payload(finding)
-            c = Commitment(
-                commitment_id=f"cmt-{agent_id}-{uuid.uuid4().hex[:8]}",
-                claim_id=claim.claim_id,
-                agent_id=agent_id,
-                role=finding.get("role", ""),
-                content=payload,
-                content_hash=canonical.commit_hash(payload),
-            )
-            self.store.commit(c)
-            commitments[agent_id] = c
+        with obs.phase_span("committed"):
+            self.gate.advance("committed")
+            self.store.event("phase", phase="committed")
+            commitments: Dict[str, Commitment] = {}
+            for agent_id, finding in findings.items():
+                payload = commit_payload(finding)
+                c = Commitment(
+                    commitment_id=f"cmt-{agent_id}-{uuid.uuid4().hex[:8]}",
+                    claim_id=claim.claim_id,
+                    agent_id=agent_id,
+                    role=finding.get("role", ""),
+                    content=payload,
+                    content_hash=canonical.commit_hash(payload),
+                )
+                self.store.commit(c)
+                commitments[agent_id] = c
 
         # ---------------- Phase 3: REVEAL ----------------
-        self.gate.advance("revealing")
-        self.store.event("phase", phase="revealing")
-        revealed: Dict[str, Dict[str, Any]] = {}
-        for agent_id, c in commitments.items():
-            try:
-                res = self.store.verify_reveal(c.commitment_id, c.content)
-                if not res.get("verified"):
-                    errors.append(f"{agent_id}: reveal not verified")
-                revealed[agent_id] = c.content
-                self.store.event("reveal_ok", agent_id=agent_id, commitment_id=c.commitment_id)
-            except RevealMismatchError as exc:
-                errors.append(f"{agent_id}: reveal mismatch — {exc}")
-                self.store.event("reveal_mismatch", agent_id=agent_id, commitment_id=c.commitment_id)
-        self.gate.advance("revealed")
+        with obs.phase_span("revealing"):
+            self.gate.advance("revealing")
+            self.store.event("phase", phase="revealing")
+            revealed: Dict[str, Dict[str, Any]] = {}
+            for agent_id, c in commitments.items():
+                try:
+                    res = self.store.verify_reveal(c.commitment_id, c.content)
+                    if not res.get("verified"):
+                        errors.append(f"{agent_id}: reveal not verified")
+                    revealed[agent_id] = c.content
+                    self.store.event("reveal_ok", agent_id=agent_id, commitment_id=c.commitment_id)
+                except RevealMismatchError as exc:
+                    errors.append(f"{agent_id}: reveal mismatch — {exc}")
+                    self.store.event("reveal_mismatch", agent_id=agent_id, commitment_id=c.commitment_id)
+            self.gate.advance("revealed")
 
         # ---------------- Phase 4: EVIDENCE GRAPH ----------------
-        evidence: List[Evidence] = []
-        conclusions = {a: (v.get("conclusion") or "").lower() for a, v in revealed.items()}
-        for agent_id, v in revealed.items():
-            rel = self._relation_from_conclusion(conclusions[agent_id])
-            ev = Evidence(
-                evidence_id=f"ev-{agent_id}-{uuid.uuid4().hex[:8]}",
-                claim_id=claim.claim_id,
-                agent_id=agent_id,
-                relation=rel,
-                finding=v,
-                commitment_id=commitments[agent_id].commitment_id,
-                executable=bool(v.get("executable", False)),
-                confidence=float(v.get("confidence", 0.5) or 0.5),
-            )
-            self.store.append_evidence(ev)
-            evidence.append(ev)
+        with obs.phase_span("evidence"):
+            evidence: List[Evidence] = []
+            conclusions = {a: (v.get("conclusion") or "").lower() for a, v in revealed.items()}
+            for agent_id, v in revealed.items():
+                rel = self._relation_from_conclusion(conclusions[agent_id])
+                ev = Evidence(
+                    evidence_id=f"ev-{agent_id}-{uuid.uuid4().hex[:8]}",
+                    claim_id=claim.claim_id,
+                    agent_id=agent_id,
+                    relation=rel,
+                    finding=v,
+                    commitment_id=commitments[agent_id].commitment_id,
+                    executable=bool(v.get("executable", False)),
+                    confidence=float(v.get("confidence", 0.5) or 0.5),
+                )
+                self.store.append_evidence(ev)
+                evidence.append(ev)
 
-        conflicts = detect_conflicts(evidence)
-        agreement = self._agreement(conclusions)
-        self.store.event(
-            "agreement_computed",
-            agreement=agreement,
-            n_conflicts=len(conflicts),
-            label=self._agreement_label(agreement),
-        )
+            conflicts = detect_conflicts(evidence)
+            agreement = self._agreement(conclusions)
+            self.store.event(
+                "agreement_computed",
+                agreement=agreement,
+                n_conflicts=len(conflicts),
+                label=self._agreement_label(agreement),
+            )
 
         # ---------------- Phase 5: EMERGENT FOLLOW-UP ----------------
-        self.gate.advance("followup")
-        self.store.event("phase", phase="followup")
-        needs: List[FollowUpNeed] = []
-        if conflicts or agreement["unresolved"] or agreement["label"] == "conflict":
-            need = FollowUpNeed(
-                need_id=f"need-{uuid.uuid4().hex[:10]}",
-                claim_id=claim.claim_id,
-                kind=NeedKind.FALSIFICATION if agreement["label"] == "conflict" else NeedKind.REPLICATION,
-                query=self._need_query(claim, conflicts),
-                rationale=(
-                    "Investigators disagree / evidence insufficient: an independent "
-                    "follow-up analysis is required before a verdict can be trusted."
-                ),
-                triggered_by=[e.evidence_id for e in evidence if e.relation in (
-                    EvidenceRelation.SUPPORTS, EvidenceRelation.CONTRADICTS)],
-            )
-            need.priority = sc.pressure_score(
-                {"artifact_type": need.artifact_type, "query": need.query,
-                 "rationale": need.rationale, "created_at": need.created_at},
-                parent_artifact_id="", producer_agent="orchestrator",
-                investigation_id=claim.claim_id,
-            )
-            self.store.append_need(need)
-            needs.append(need)
-            followup_ev = self._fulfill_need(claim, need, evidence, revealed, errors)
-            if followup_ev is not None:
-                evidence.append(followup_ev)
-                self.store.event("need_fulfilled", need_id=need.need_id,
-                                 evidence_id=followup_ev.evidence_id)
-                # Re-score conflicts after follow-up.
-                conflicts = detect_conflicts(evidence)
+        with obs.phase_span("followup"):
+            self.gate.advance("followup")
+            self.store.event("phase", phase="followup")
+            needs: List[FollowUpNeed] = []
+            if conflicts or agreement["unresolved"] or agreement["label"] == "conflict":
+                need = FollowUpNeed(
+                    need_id=f"need-{uuid.uuid4().hex[:10]}",
+                    claim_id=claim.claim_id,
+                    kind=NeedKind.FALSIFICATION if agreement["label"] == "conflict" else NeedKind.REPLICATION,
+                    query=self._need_query(claim, conflicts),
+                    rationale=(
+                        "Investigators disagree / evidence insufficient: an independent "
+                        "follow-up analysis is required before a verdict can be trusted."
+                    ),
+                    triggered_by=[e.evidence_id for e in evidence if e.relation in (
+                        EvidenceRelation.SUPPORTS, EvidenceRelation.CONTRADICTS)],
+                )
+                need.priority = sc.pressure_score(
+                    {"artifact_type": need.artifact_type, "query": need.query,
+                     "rationale": need.rationale, "created_at": need.created_at},
+                    parent_artifact_id="", producer_agent="orchestrator",
+                    investigation_id=claim.claim_id,
+                )
+                self.store.append_need(need)
+                needs.append(need)
+                followup_ev = self._fulfill_need(claim, need, evidence, revealed, errors)
+                if followup_ev is not None:
+                    evidence.append(followup_ev)
+                    self.store.event("need_fulfilled", need_id=need.need_id,
+                                     evidence_id=followup_ev.evidence_id)
+                    # Re-score conflicts after follow-up.
+                    conflicts = detect_conflicts(evidence)
+                else:
+                    self.store.event("need_unfulfilled", need_id=need.need_id)
             else:
-                self.store.event("need_unfulfilled", need_id=need.need_id)
-        else:
-            self.store.event("no_followup_needed", agreement=agreement)
+                self.store.event("no_followup_needed", agreement=agreement)
 
         # ---------------- Phase 6: VERDICT ----------------
-        self.gate.advance("verdict")
-        self.store.event("phase", phase="verdict")
-        verdict = compute_verdict(
-            claim, evidence,
-            conflicts=conflicts,
-            independent_count=self._independent_count(evidence),
-            followup_evidence=[e for e in evidence if "fulfills need" in (e.notes or "")],
-        )
-        self.store.save_verdict(verdict)
+        with obs.phase_span("verdict"):
+            self.gate.advance("verdict")
+            self.store.event("phase", phase="verdict")
+            verdict = compute_verdict(
+                claim, evidence,
+                conflicts=conflicts,
+                independent_count=self._independent_count(evidence),
+                followup_evidence=[e for e in evidence if "fulfills need" in (e.notes or "")],
+            )
+            self.store.save_verdict(verdict)
 
-        run_meta.completed_at = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        run_meta.usage = self._usage
-        self.store.save_run(run_meta.to_dict())
-        self._usage.wall_clock_s = time.time() - t0
+            run_meta.completed_at = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            run_meta.usage = self._usage
+            self.store.save_run(run_meta.to_dict())
+            self._usage.wall_clock_s = time.time() - t0
 
-        # Save artifacts + report + metrics.
-        self._save_artifacts(claim, evidence, commitments)
+            # Save artifacts + report + metrics.
+            self._save_artifacts(claim, evidence, commitments)
         return ProtocolResult(
             run_id=run_meta.run_id,
             claim_id=claim.claim_id,
@@ -378,8 +418,9 @@ class RepliClawProtocol:
             shared_public_materials=self.shared_public_materials,
         )
         try:
-            inv = self.followup_factory(cfg)
-            finding = inv.run(ctx)
+            with obs.investigator_span(cfg.agent_id, cfg.role.value):
+                inv = self.followup_factory(cfg)
+                finding = inv.run(ctx)
         except Exception as exc:  # noqa: BLE001
             errors.append(f"followup {cfg.agent_id}: {type(exc).__name__}: {exc}")
             self.store.event("followup_error", agent_id=cfg.agent_id, error=str(exc))

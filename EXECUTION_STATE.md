@@ -3,10 +3,10 @@
 Status: `COMPLETE`
 
 ## Cursor
-- Milestone: **COMPLETE — M1–M10 all built, committed, and verified. Every acceptance criterion AC01–AC18 has concrete evidence (map in README).**
+- Milestone: **COMPLETE — M1–M10 built, committed, and verified; every acceptance criterion AC01–AC18 has concrete evidence (map in README). Post-COMPLETE: OTel/OpenInference span emission implemented (D06 made literally true, D14).**
 - Branch: `repl-claw-dev`
-- Commits: `2a7d1e9` (spec) → `e7c4a3b` (M1–M4 core + tests) → `c04b2fa` (M5 baselines + M6 benchmark) → `5f2e012` (M8 verify/CLI) → `acaefbb` (M9 live-LLM demo + M10 README/AC map) → `c010481` (lint/type gate + benchmark re-run reproducibility fix, D13).
-- Tests: **62 passing, hermetic** (`python -m pytest`); **`ruff check` 0 errors + `mypy` no issues in 15 files** (AC15 full static gate, D13); clean-venv install verified (AC01).
+- Commits: `2a7d1e9` (spec) → `e7c4a3b` (M1–M4 core + tests) → `c04b2fa` (M5 baselines + M6 benchmark) → `5f2e012` (M8 verify/CLI) → `acaefbb` (M9 live-LLM demo + M10 README/AC map) → `c010481` (lint/type gate + benchmark re-run reproducibility fix, D13) → `05c80ca` (cursor update) → `043d31e` (OTel span layer, D14).
+- Tests: **66 passing, hermetic** (`python -m pytest`); **`ruff check` 0 errors + `mypy` no issues in 16 files** (AC15 full static gate, D13); clean-venv install verified (AC01).
 - Canonical committed evidence: `artifacts/benchmark/` (reports), `artifacts/demo/` (deterministic, incl. AC12 recovery), `artifacts/demo-llm/` (live model outputs, AC16/AC18).
 
 ## Verified facts (this segment)
@@ -24,6 +24,7 @@ Status: `COMPLETE`
 - None — task complete. For a future session: `python -m pytest` reproduces everything offline; `repliclaw demo --backend auto` reproduces the demo (llm if a key is present, else deterministic).
 
 ## Verification log (latest first)
+- 2026-10-07: **OTel/OpenInference span emission implemented (D14, makes D06 literally true).** `src/repliclaw/observability.py` (OTel API-only, no-op when no TracerProvider, tracer resolved lazily per call, `set_test_tracer` injection seam) + `protocol.py` instrumented: `repliclaw.run` root (OpenInference AGENT) → per-investigator `repliclaw.investigator` spans (blind loop + emergent follow-ups) + per-phase `repliclaw.phase.{blind,committed,revealing,evidence,followup,verdict}` non-current duration spans; verdict label/confidence + `llm.token_count.*` on the run span. `tests/test_observability.py` (4 tests, SDK-free fake tracer — env SDK is version-skew-broken, so `InMemorySpanExporter` is unusable) proves the real run emits the tree with correct parenting, an `inv-followup-*` span on the conflict path, and genuine OpenInference constants. Gate: **66 tests** (62+4), ruff 0, mypy clean (16 files). Studio integration = configure an OTLP `TracerProvider`, no code change (README §Observability).
 - 2026-10-07: **AC15 strengthened (D13).** Added ruff+mypy gate; fixed 26 ruff + 10 mypy findings (incl. a real `List[str]`→`List[Dict[str,Any]]` bug on `Verdict.unresolved_conflicts`). Result: ruff 0 errors, mypy clean (15 files). Regenerated canonical `artifacts/benchmark/` (committed CSV was stale: `n_needs=4`→`1`, table story unchanged).
 - 2026-10-07: **Benchmark reproducibility bug found + fixed.** `RunStore.append_need` is append-mode, so re-running the benchmark into a dirty `_work/` inflated `n_needs` (the root cause of the stale `4`). Fix: `run_benchmark` now wipes each per-run `run_dir` before running; proven by running twice into one dir (both `n_needs=1`) + new regression test `test_benchmark_is_deterministic_across_reruns`. Suite now **62 tests**, ruff+mypy clean, canonical artifact == clean `acaefbb` regen (cols 1–14).
 - 2026-10-07: LLM demo second run exposed missing claim.data in prompt (uniform abstention) — fixed with data block + per-role methods.

@@ -86,3 +86,19 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
   - No-accumulation proof: two consecutive `run_benchmark` into one dir → both `n_needs={1}`.
   - Decisions: D13 recorded.
 - Result: AC15 upgraded from "compileall OK" to a full static gate (compileall + ruff + mypy + suite); a real reproducibility defect in the AC11 harness was found and fixed with a regression guard. All 18 ACs still hold; COMPLETE remains accurate and is now stronger.
+
+## 2026-10-07 — OTel/OpenInference span emission implemented (D14; makes D06 literally true)
+- Context: post-COMPLETE audit of the user's question "why didn't you integrate SimpleAudit/Studio?" surfaced that D06 *claimed* "RepliClaw emits OpenTelemetry spans" while zero span code existed. Studio is spec-mandated out-of-scope (non-goal; Django+Hatchet+Postgres stack; no AC references it) — but the OTel emission was the *real, missing* seam. This entry adds it.
+- What changed:
+  - `src/repliclaw/observability.py` (NEW): OTel **API-only** module. `repliclaw.run` root span (OpenInference `AGENT`), per-investigator `repliclaw.investigator` spans, per-phase `repliclaw.phase.*` non-current duration spans. Verdict label/confidence + `llm.token_count.*` on the run span. Tracer resolved **lazily per call**; safe no-op when no TracerProvider is set. `set_test_tracer()` injection seam. OpenInference attribute names from `openinference.semconv` when installed, else exact literal fallbacks.
+  - `src/repliclaw/protocol.py`: `run()` split into a thin wrapper (opens `run_span`, delegates to `_run_phases`, calls `finish_run_span`) + `_run_phases(...)`. Blind loop + emergent follow-up wrapped in `investigator_span` (per-investigator failure still records + `continue`; all-fail still hard-raises). Phases 1–6 wrapped in `phase_span` (phase spans opened non-current so investigator spans still parent to the run span).
+  - `tests/test_observability.py` (NEW, 4 tests): SDK-free fake tracer via the injection seam (env SDK is version-skew-broken — `opentelemetry-sdk 1.39.1` vs `opentelemetry-api 1.45.0` → `ImportError: cannot import name '_ExtendedAttributes'`, so `InMemorySpanExporter` is unusable). Proves a real run emits the root/investigator/phase tree with correct parenting, an `inv-followup-*` span on the conflict path, no-provider safe no-op, and genuine OpenInference constants.
+  - `pyproject.toml`: `otel` extra now also ships `openinference-semantic-conventions`.
+  - Docs: D06 updated (implementation now backs the claim) + D14 recorded (API-only, no-op default, never imports SDK); README §Observability (Studio = configure an OTLP TracerProvider, no code change), module table, layout, AC13/AC14/AC15 rows + test count 62→66.
+- Commands/evidence:
+  - `python -m pytest tests/test_observability.py` → **4 passed**
+  - `python -m pytest` → **66 passed** (62 + 4)
+  - `ruff check src/repliclaw/ tests/` → **All checks passed!**
+  - `mypy src/repliclaw/` → **no issues found in 16 source files**
+  - Debug note: a real run emitted the tree with correct parenting (root ← investigator + phase); the follow-up span appears on the misleading-wrong-test conflict path.
+- Result: D06's "RepliClaw emits OpenTelemetry spans" is now literally true and independently verified. Studio remains an *out-of-scope OTLP consumer* (non-goal) — the seam is real, the core stays hermetic. All 18 ACs still hold; COMPLETE remains accurate and is now stronger.
