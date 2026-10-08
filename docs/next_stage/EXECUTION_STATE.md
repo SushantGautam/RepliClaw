@@ -348,3 +348,29 @@ Awaiting explicit human choice. NO full round launched; NO public release; `main
   crashes), D-E likely still 0-complete under the envelope → a 40-run feasibility
   record that precisely characterizes the negative. Awaiting completion → T0+4
   report → 2 fresh outcome judges.
+
+## I4.18 — V3.3 round 5 executed + decisive result (2026-10-11)
+Round 5 (10×2×2, model `default`, frozen 520f6859) stopped at stop-2 after 16 runs
+(1,264,453 / 7,200,000 tok; D-E crash-equiv 8/20 = 0.40 > 0.25).
+- **C-EQ-TELEM: 7/8 completed, all 7 hits** (54–72K tok). 2 runs (P-05/P-06 s11)
+  were out-of-band (ratio >1.40) → **logged `volume_band_violation=True`, NOT
+  crashed** (confirming the demotion works live). C-EQ crash rate 0/20.
+- **D-E-TELEM: 1/16 COMPLETED — and it executed the full decentralized machinery**:
+  P-01 s12 (138,126 tok, **hit=True**). Its escrow ledger shows **phase1 + phase2-final
+  commits from all 3 investigators** (inv-a/b/c) — the commit-reveal / multi-agent
+  mechanism ran END-TO-END for the first time across the whole V3 series and got the
+  diagnosis right. Remaining 15: 4× budget-abort (150–154K tok, distinct-call
+  non-convergence), 4× AgentProtocolError (two consecutive malformed outputs, inv-a/
+  inv-b), 2 more... (see report). D-E crash-equiv 8/20.
+- **Scientific interpretation (feasibility record, NOT an effect estimate):** the
+  V3.3 repair (anti-loop cache + no per-tool caps + volume demoted) **successfully
+  instantiated the contrast** — the decentralized mechanism is demonstrably capable of
+  completing and being correct, but under the substituted model it does so only 1/16
+  of the time (the model's distinct-call rate still exhausts 150K in most runs). The
+  negative finding (no demonstrated decentralization advantage) is PRESERVED but now
+  more precisely characterized: the mechanism works but is model-limited under
+  substitution; C-EQ is far more reliable (7/8, all hits, no crashes) at lower cost.
+- Report: `.artifacts/rcaeval/pilot/run_v33/round5/pilot_report_round5.md`
+  (D-E crashes_by_cause protocol_violation=4, budget_exhaustion=4).
+- Next: 2 fresh independent OUTCOME judges (code + science) on round 5, then the
+  refined V3 campaign report. NO confirmatory claim (no-confirmatory-reuse).
