@@ -1,0 +1,16 @@
+{
+  "providers": {
+    "repliclaw-gateway": {
+      "baseUrl": "https://simulachat.sushant.pp.ua/api/v1",
+      "api": "openai-completions",
+      "apiKey": "$REPLICLAW_LLM_API_KEY",
+      "models": [
+        {
+          "id": "REPLACE_WITH_VERIFIED_MODEL_ID",
+          "name": "Shared RepliClaw coding model",
+          "reasoning": true
+        }
+      ]
+    }
+  }
+}
