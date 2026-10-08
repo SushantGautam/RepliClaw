@@ -1,3 +1,9 @@
+# SCIENCECLAW CURRENT RESEARCH MISSION (v2, supersedes older completion targets)
+
+**Primary scientific problem:** decentralized, independently precommitted, experimentally verified **AI failure cause diagnosis** using a shared evidence ledger and local experiment selection. Build only what can be rigorously measured. See `docs/EVIDENCE_ESCROW_SWARM.md`, `docs/EXPERIMENT_PROTOCOL_V2.md`, `docs/PRIOR_ART_NOVELTY_GATE.md`, `docs/FLAGSHIP_CASE.md`. The RepliClaw prototype's historic goals AC01–AC18 remain archival. Next work tickets are P00–P12 in `IMPLEMENTATION_PLAN.md`. Resume safely using `docs/AGENT_MIGRATION.md`. A green old test suite or deterministic toy benchmark does NOT complete these new scientific acceptance criteria. Scientific originality relative to AutoScientists/AgentRx remains to be demonstrated, not presumed. A human must review application and final submission.
+
+---
+
 # RepliClaw — Task Specification
 
 ## Goal
