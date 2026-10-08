@@ -378,3 +378,41 @@ ledgered (1,264,453 / 7,200,000 tok; D-E crash-equiv 8/20 = 0.40 > 0.25).
   (D-E crashes_by_cause protocol_violation=4, budget_exhaustion=4).
 - Next: 2 fresh independent OUTCOME judges (code + science) on round 5, then the
   refined V3 campaign report. NO confirmatory claim (no-confirmatory-reuse).
+
+## I4.19 — Round-5 outcome judges + both SHOULD-FIX applied (2026-10-11)
+Two fresh independent round-5 OUTCOME judges (code + science) on the executed run:
+- **Code judge: PASS (no BLOCKER, no SHOULD-FIX).** All 6 integrity questions PASS:
+  * **Stop-trip:** tripped at the **11-run trip snapshot, D-E 7/20 = 0.35 > 0.25**
+    (STOP.json/case_check.json boundary); stop-1 correctly NOT tripped (sat D-E 0.0,
+    C-EQ 0.10 < 0.25); stop-3 (774,411 < 7.2M) and stop-4 (floor) correctly NOT
+    tripped. The report's 8/20 = 0.40 is the final-ledger state; 5 in-flight runs
+    landed after the trip. **Both 0.35 and 0.40 > 0.25 → trip valid either way.**
+  * **Metrics:** every reported figure recomputed and matched the raw ledger
+    exactly (D-E tokens 834,994; C-EQ 429,459; round 1,264,453; hits 1/1 & 7/7).
+  * **D-E completion integrity:** 6 escrow entries (3 phase1 sealed + 3
+    phase2-final, all 3 investigators, commit→reveal ordered); ground truth
+    `re1ob_adservice_cpu_1 → adservice` verified in case data (parquet), not the
+    score file; 138,126 tok < 150K; tool_calls 49 = sum over 4 sandboxes, each ≪48.
+  * **Volume demotion live:** P-05/P-06 C-EQ ratio 1.7506/1.8696 →
+    `volume_band_violation=true`, `status=completed` (NOT crashed); no C-EQ crashed.
+  * **No post-freeze change:** all 4 frozen hashes recompute @520f6859; the
+    520f6859→9ac14c3b diff is **docs-only**, zero source changed.
+  * **No leakage/cherry-pick:** no ground-truth in any agent-facing payload;
+    report is the full 16-run ledger.
+- **Science judge: PASS, contingent on 2 SHOULD-FIX (both now APPLIED):**
+  * **(Q4) Gate clearance not evidenced in the freeze doc** (header still "DRAFT —
+    pending judges" 47 s before launch). FIXED: added a gate-clearance record to
+    `v33_prereg_freeze_DRAFT.md` (now "FINAL") documenting that the 2 fresh
+    pre-run judges DID PASS (I4.16), both SHOULD-FIX applied pre-freeze, and the
+    human re-confirmed scope/spend — v33 worktree commit `ca827ac8`.
+  * **(Q6/Q3) Throughput gap must be labeled confounded, not an effect.** FIXED:
+    added the mandatory characterization to the campaign report (C-EQ 7/7 vs D-E
+    1/9 is an architecture×fixed-envelope token-cost product, inflated by model
+    substitution; the anti-loop cache asymmetry is **pro-D-E**, not against it) —
+    dev commit `aa79e41b`.
+- **Net verdict:** round 5 stands as a defensible **feasibility + refined-negative**
+  record. The D-E completion is a genuine, hash-sealed, budget-respecting,
+  ground-truth-verified end-to-end execution of the decentralized mechanism
+  (n=1); the negative finding is preserved and refined (mechanism capable +
+  occasionally correct but not reliable under the substituted model + 150K
+  envelope; no advantage demonstrated). No n=1 statistics computed by either judge.
