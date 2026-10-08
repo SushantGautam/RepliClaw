@@ -725,6 +725,7 @@ def perform_case(
         "case_sha256": _case_sha256(registry, case),
         "interface": "v3_telemetry_arm_addendum §2/§4 OBS tool parity; telemetry_arms arms",
         "protocol_errors": result.protocol_errors,
+        "crash_error": result.crash_error,
         "prompt_volume_ratio": result.prompt_volume_ratio,
         "escrow_ledger_path": result.escrow_ledger_path,
     }

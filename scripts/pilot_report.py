@@ -76,8 +76,33 @@ def load_runs(round_dir: Path) -> list[dict[str, Any]]:
     return runs
 
 
-def per_arm_stats(runs: list[dict[str, Any]]) -> dict[str, Any]:
+def _classify_cause(r: dict[str, Any], round_dir: Path) -> str:
+    """Crash-cause attribution (Science Judge note, no causal claim):
+    budget-exhaustion vs model protocol violation vs other-harness."""
+    status = r.get("status", "")
+    if status == "aborted_budget":
+        return "budget_exhaustion"
+    # run_path is relative to the run dir (parent of round dir): "round1/<case>/seed<s>/<arm>"
+    p = round_dir.parent / r.get("run_path", "") / "status.json"
+    if p.is_file():
+        d = json.loads(p.read_text())
+        err = str(d.get("crash_error") or d.get("error") or "")
+        if "AgentProtocolError" in err or "malformed action" in err:
+            return "protocol_violation"
+        if "prompt-volume" in err:
+            return "volume_canary_harness"
+        if int(d.get("protocol_errors") or 0) > 0:
+            return "protocol_violation"
+    return "other_harness"
+
+
+def per_arm_stats(runs: list[dict[str, Any]], round_dir: Path) -> dict[str, Any]:
+    """Per-arm stats. Crash rate uses the FULL cohort denominator
+    (TOTAL_CASES x N_CASES_SEEDS = 20), spec §5 rule 2 verbatim — the
+    same denominator as the driver (code-judge observation on the
+    earlier running-denominator version)."""
     out: dict[str, Any] = {}
+    cohort = N_CASES * N_CASES_SEEDS
     for arm in ARMS:
         arm_runs = [r for r in runs if r.get("arm") == arm]
         by_case: dict[str, dict[str, Any]] = {}
@@ -86,6 +111,7 @@ def per_arm_stats(runs: list[dict[str, Any]]) -> dict[str, Any]:
         sat_cases = []
         run_successes = 0
         crashes_by_status: dict[str, int] = {}
+        crashes_by_cause: dict[str, int] = {}
         hits = 0
         scoreable = 0
         for case, seeds in sorted(by_case.items()):
@@ -105,7 +131,10 @@ def per_arm_stats(runs: list[dict[str, Any]]) -> dict[str, Any]:
                         scoreable += 1
                 else:
                     crashes_by_status[status] = crashes_by_status.get(status, 0) + 1
+                    cause = _classify_cause(s, round_dir)
+                    crashes_by_cause[cause] = crashes_by_cause.get(cause, 0) + 1
         s_val = len(sat_cases) / N_CASES
+        crashes = len(arm_runs) - run_successes
         out[arm] = {
             "n_runs": len(arm_runs),
             "run_successes": run_successes,
@@ -115,9 +144,8 @@ def per_arm_stats(runs: list[dict[str, Any]]) -> dict[str, Any]:
                 _binom_cdf_ge(N_CASES, s_val, 3), 6
             ),
             "crashes_by_status": crashes_by_status,
-            "crash_rate": (
-                (len(arm_runs) - run_successes) / len(arm_runs) if arm_runs else 0.0
-            ),
+            "crashes_by_cause": crashes_by_cause,
+            "crash_rate_full_cohort": crashes / cohort,
             "hits": hits,
             "scoreable_runs": scoreable,
             "cumulative_tokens": sum(int(r.get("tokens") or 0) for r in arm_runs),
@@ -143,7 +171,7 @@ def main() -> int:
         print(f"no ledger found in {round_dir}", file=sys.stderr)
         return 1
 
-    stats = per_arm_stats(runs)
+    stats = per_arm_stats(runs, round_dir)
     sat = {a: set(stats[a]["saturation_cases"]) for a in ARMS}
     cases_seen = sorted({run["case"] for run in runs})
     sigma_d = sorted((sat[ARMS[0]] - sat[ARMS[1]]) | (sat[ARMS[1]] - sat[ARMS[0]]))
@@ -177,6 +205,15 @@ def main() -> int:
         "seeds": sorted({str(run["seed"]) for run in runs}),
         "cases_seen": cases_seen,
         "no_effect_claim": NO_EFFECT_CLAUSE,
+        "crash_cause_note": (
+            "Crash causes are tabulated for disclosure; stop-2 is a "
+            "feasibility instrument whose crash class is cause-agnostic "
+            "by frozen spec (harness error, abort, or timeout). No causal "
+            "'model capability' attribution is claimed here; a majority-"
+            "protocol attribution would route to the frozen contingency "
+            "(human decision on a stronger model), not to a capability "
+            "verdict in this report."
+        ),
         "sigma_d_cases": sigma_d,
         "dead_contrast_both_saturated": dead_contrast,
         "neither_saturated": neither,
@@ -209,23 +246,28 @@ def render_md(rep: dict[str, Any]) -> str:
         "",
         "## Per-arm saturation (S-W2-4 disclosure)",
         "",
-        "| Arm | s (k/10) | binom trip P @ observed s | run successes | crashes (by status) | tokens | wall (s) |",
-        "|---|---|---|---|---|---|---|",
+        "| Arm | s | trip P | successes | crash rate (/20) | crashes (by cause) | tokens | wall (s) |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for a in rep["arms"]:
         s = rep["per_arm"][a]
-        crashes = ", ".join(f"{k}={v}" for k, v in s["crashes_by_status"].items()) or "0"
+        causes = ", ".join(f"{k}={v}" for k, v in s["crashes_by_cause"].items()) or "0"
         lines.append(
             f"| {a} | {s['s']:.2f} | {s['binom_trip_probability_at_observed_s']} "
-            f"| {s['run_successes']}/{s['n_runs']} | {crashes} "
-            f"| {s['cumulative_tokens']:,} | {s['cumulative_wall_s']:,.1f} |"
+            f"| {s['run_successes']}/{s['n_runs']} | {s['crash_rate_full_cohort']:.2f} "
+            f"| {causes} | {s['cumulative_tokens']:,} | {s['cumulative_wall_s']:,.1f} |"
         )
+    lines += [
+        "",
+        f"> {rep['crash_cause_note']}",
+    ]
     lines += [
         "",
         "## Contrast (disclosure, not a separate stop)",
         "",
         f"- σ̂_D (exactly one arm saturated): {len(rep['sigma_d_cases'])} — {rep['sigma_d_cases'] or '[]'}",
-        f"- dead contrast (both saturated): {len(rep['dead_contrast_both_saturated'])} — {rep['dead_contrast_both_saturated'] or '[]'}",
+        f"- dead contrast (both saturated): {len(rep['dead_contrast_both_saturated'])} — "
+        f"{rep['dead_contrast_both_saturated'] or '[]'}",
         f"- neither saturated: {len(rep['neither_saturated'])} — {rep['neither_saturated'] or '[]'}",
         "",
         "## Budget",
@@ -239,10 +281,11 @@ def render_md(rep: dict[str, Any]) -> str:
     if so["tripped"]:
         stop = so.get("stop") or {}
         tripped = stop.get("tripped")
-        if isinstance(tripped, list):
-            lines.append(f"- **TRIPPED**: {', '.join(tripped)}")
+        names = ", ".join(tripped) if isinstance(tripped, list) else str(tripped or "?")
+        if "stop2_crash" in names:
+            lines.append(f"- **TRIPPED**: {names} — FEASIBILITY-FAILED (cause-mixed; see cause table)")
         else:
-            lines.append(f"- **TRIPPED**: {tripped or 'see STOP.json'}")
+            lines.append(f"- **TRIPPED**: {names}")
     else:
         lines.append("- no stop tripped")
     lc = so.get("last_case_check")
