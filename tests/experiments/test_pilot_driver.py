@@ -606,3 +606,72 @@ def test_parallel_refuses_partial_round_state(tmp_path: Path, monkeypatch: pytes
         "--cases-index", str(index),
     ])
     assert code == 1  # EXIT_REFUSED
+
+
+# ---------------------------------------------------------------------------
+# Post-round-4 defect regressions (science-judge-r4 Q1; code-judge-r4)
+# ---------------------------------------------------------------------------
+def test_stop1_one_seed_success_not_saturated() -> None:
+    """Round-4 regression: a case where the arm succeeded on only 1 of 2
+    seeds (other seed not yet ledgered, e.g. a stop-tripped round) must NOT
+    count as saturated. Pre-fix, 3 such one-seed C-EQ successes gave sat
+    3/10 = 0.30 and a false stop-1 co-trip (spec-correct sat = 0.0)."""
+    runs: list[pr.RunRecord] = []
+    # 3 cases: C-EQ hit on seed 20261011 only (seed 20261012 absent),
+    # D-E aborted on that seed too.
+    for case_no in range(1, 4):
+        case = f"RCA-P-{case_no:02d}"
+        runs += [_rec(case, 20261011, "C-EQ-TELEM", hit=True),
+                 _rec(case, 20261011, "D-E-TELEM", status="aborted_budget")]
+    checks = pr.evaluate_stop_rules(runs, cases_completed=3)
+    assert checks["stop1_ssat"]["sat"]["C-EQ-TELEM"] == pytest.approx(0.0)
+    assert checks["stop1_ssat"]["sat"]["D-E-TELEM"] == pytest.approx(0.0)
+    assert checks["stop1_ssat"]["tripped"] is False
+
+
+def test_stop1_two_seed_success_still_saturated() -> None:
+    """Control: full 2-seed success still saturates (3/10 trips stop-1)."""
+    runs = [
+        _rec(f"RCA-P-{n:02d}", seed, "C-EQ-TELEM", hit=True)
+        for n in range(1, 4) for seed in (20261011, 20261012)
+    ]
+    checks = pr.evaluate_stop_rules(runs, cases_completed=3)
+    assert checks["stop1_ssat"]["sat"]["C-EQ-TELEM"] == pytest.approx(0.30)
+    assert checks["stop1_ssat"]["tripped"] is True
+
+
+def test_seq_driver_refuses_stop_tripped_round(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Code-judge-r4 SHOULD-FIX: a round dir containing STOP.json is closed
+    and must be refused by the sequential driver (no relaunch / --continue)."""
+    import argparse
+
+    out = tmp_path / "run"
+    round_dir = out / "round7"
+    round_dir.mkdir(parents=True)
+    (round_dir / "STOP.json").write_text('{"tripped": ["stop2_crash"]}', encoding="utf-8")
+    args = argparse.Namespace(
+        round_no=7, out=str(out), max_cases=None, label="t",
+        autonomous=True, continue_=True, cases_index=pr.DEFAULT_CASES_INDEX,
+    )
+    monkeypatch.setattr(pr, "provider_env_complete", lambda: True)
+    monkeypatch.setattr(pr, "build_simula_client", pr.build_fake_client)
+    assert pr.cmd_run(args) == pr.EXIT_STOP_TRIP
+
+
+def test_parallel_driver_refuses_stop_tripped_round(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Code-judge-r4 SHOULD-FIX (parallel surface): STOP.json closes the
+    round dir for the parallel driver as well (pre-fix the refusal was
+    incidental, via non-completed status.json files)."""
+    import argparse
+
+    out = tmp_path / "run"
+    round_dir = out / "round8"
+    round_dir.mkdir(parents=True)
+    (round_dir / "STOP.json").write_text('{"tripped": ["stop2_crash"]}', encoding="utf-8")
+    args = argparse.Namespace(
+        round_no=8, out=str(out), concurrency=2, fake=True, max_cases=None,
+        no_index=True, cases_index=None, label="t",
+    )
+    import pilot_parallel as pp
+    monkeypatch.setattr(pp.pr, "check_frozen_ids_and_manifest", lambda _p: 0)
+    assert pp.cmd_run(args) == pp.EXIT_STOP_TRIP
