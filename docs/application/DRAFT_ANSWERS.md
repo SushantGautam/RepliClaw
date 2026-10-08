@@ -14,6 +14,15 @@ Companion files: `FACT_CHECK_LIST.md` (every claim → file + commit SHA or UNVE
 - Date note: commit author/committer dates are 2026-10-08 (today). The P02/P03/P04 checkpoint
   headers are dated 2026-10-10; this mismatch is flagged in `FACT_CHECK_LIST.md` (A6). We use
   "as of 2026-10-08" for public scoping.
+- **State note (2026-10-08, run branch `repl-claw-dev` @ `1012ff7`):** the per-module gates
+  below (P02/P03/P04, 78/73/74) are *historical module checkpoints*. Since the draft was first
+  written, P05/P06/P07/P08 components have landed on the run branch. The **run-branch full gate
+  is 149 passed, 8 skipped; ruff clean; mypy clean (54 files)** and the scorer self-test passes
+  (`p08.score --self-test` → PASS). We distinguish, and keep distinct, three things:
+  (1) *implemented + unit/contract-tested offline* (the live-LLM arm, scorer),
+  (2) *runnable deterministic now* (the offline campaign), and
+  (3) *scheduled for the live window, not yet executed* (the live LLM runs). See F20–F28 in
+  `FACT_CHECK_LIST.md`.
 
 **Project name / one-line claim** (per `docs/APPLICATION_V2.md` "Naming"):
 - Project: **RepliClaw: an Evidence-Escrow Scientific Swarm**
