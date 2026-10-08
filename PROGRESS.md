@@ -214,3 +214,10 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - Commands/evidence: `.worktrees/p08-live/.venv` pytest 141/8; run-branch `.venv` pytest 149/8 + `ruff check` All checks passed + `mypy` no issues (54 files); 5 parity tests pass; offline 6-cycle slice runs clean (parity reference, 3500 offline tokens).
 - Fleet: token-floor-measure (1670f65f) + code-judge-live-eess (466e3ae5) dispatched in flight; runner-cli-usage (e7ac1011-6231) steered with hard checkpoint (was 357 tool calls / 0 files written).
 - Next: collect token floor → fill PREREG §5.1 + re-derive budget/ceiling; collect code judge → fix BLOCKER/MAJOR; collect runner CLI → D-10 pin + §10.1 commands; re-submit prereg to science judge ca89d310.
+
+## 2026-10-08 22:10 — Compaction recovery: fleet 0→5
+- **Event:** session compaction cleared ALL 6 background agents (list_agents empty). Run branch untouched @ 17b37a4; dead runner worker's WIP safe uncommitted in main tree.
+- **Recovered:** runner-cli-finish (3c1bc3f2, worktree p08-runner2, reusing dead worker's WIP logic), science-judge-redflags2 (a90304fb), code-judge-harness2 (dd8bbe25), prereg-v12-amendment (1bdc6490, drafts the R1 correction as a versioned pre-run amendment), floor-tests-port (ddf44a39).
+- **Not re-dispatched (subsumed):** code-judge-live-eess, science-judge-prereg-v11.
+- **Gate:** not re-run at tip (main tree dirty by design during runner build); last green gate 149/8 @ f45fe16.
+- **Next:** collect 5 results; integrate runner CLI (worktree branch or main-tree WIP — whichever passes gate); v1.2 amendment → judge sign-off; NO live run until R1 amendment signed + R2/R5 fixes green + human authorization.
