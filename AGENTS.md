@@ -176,3 +176,8 @@ Ask only when a decision is genuinely external and cannot safely be inferred. If
 
 ## Final principle
 Errors, failing tests, dead ends, context compaction, and process restarts are intermediate states. Preserve state, resume, change strategy when evidence demands it, and continue until the requested result is demonstrably complete or externally blocked.
+
+
+## ACTIVE OVERRIDE — ScienceClaw 2026 competition program (2026-10-08)
+The previous M0–M10 / AC01–AC18 COMPLETE status applies **only to the prototype**. The active `EXECUTION_STATE.md` is now **WORKING**. The current competition program, which supersedes old implementation tasks, lives in `docs/COMPETITION_STRATEGY.md` and new `IMPLEMENTATION_PLAN.md`. For VS Code fleet usage read `docs/FLEET_PLAYBOOK.md`, `docs/QUALITY_GATES.md`, and `.github/copilot-instructions.md`; select orchestrator, builder, code judge and science judge from `.github/agents/`. Start from `SEED_PROMPT.md`.
+Implement code in isolated worktree sessions only; read-only subagents may research concurrently. The integrator alone mutates shared state and merges into the base branch. Require red/green evidence, two independent P0 reviewers, G0–G6 stage gates and saved checkpoints with SHAs and actual test logs. Prior historical progress is not a new pass. Never claim a worker was launched, a command run, or review passed unless verified. Read the **new** cursor before all other program assumptions.
