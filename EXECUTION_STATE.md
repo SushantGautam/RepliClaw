@@ -1,10 +1,10 @@
 # RepliClaw — Execution State (v2 Evidence-Escrow program)
-Last updated: 2026-10-08 evening (orchestrator, post-fleet-recovery segment)
+Last updated: 2026-10-08 21:00 (orchestrator, post-live-arm-reconciliation segment)
 status: WORKING
 program: EESS — Evidence-Escrow Scientific Swarm (docs/EVIDENCE_ESCROW_SWARM.md)
 branch: repl-claw-dev (run branch)
-HEAD: 3f3928b (scorer merged) on repl-claw-dev — PUSHED to origin
-current_milestone: P02–P08 OFFLINE STACK COMPLETE + MERGED INTO RUN BRANCH. P08 LIVE WINDOW (2026-10-10) GATED: science judge REJECTED prereg v1.0 ON READINESS (design endorsed); 8 blocking items → 4 parallel builds in flight (live EESS arm, runner CLI + usage-invalidation, oracle-gated scorer, prereg v1.1 rewrite). Window stays 2026-10-10→23 but start is conditional on pre-flight green.
+HEAD: d4c6f6b on repl-claw-dev (live arm merged @ d0cb054 + arms.py cleanup d3beaeb + prereg v1.1 erratum d4c6f6b)
+current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. Live-S5 arm BUILT + MERGED + tested (judge checklist items 1 scorer + 2 live-arm now DONE; token-floor measurement in flight). Runner CLI + same-task + usage-invalidation still in flight (e7ac1011). D-10 hyperparameter-pin is a newly-open pre-flight requirement.
 
 ## Current gates (executed, real output)
 | Tree | SHA | Gate |
@@ -29,8 +29,8 @@ current_milestone: P02–P08 OFFLINE STACK COMPLETE + MERGED INTO RUN BRANCH. P0
 | comparators S5 builder | (completed) | DONE | EESSArm + S4 fix @ 14a485d, merged 7ccfbaa |
 | science-judge prereg answers | ca89d310 | DONE | REJECT + 16 answers (persisted) |
 | **prereg-v11** | b0e95e4 | **DONE** | PREREG-2026-10-v1.1.md (all 16 Q-answers + 8 blockers) @ .worktrees/p08-prereg — MERGED to run branch 9f67db2 (pushed), gate 134/8 clean, orchestrator re-ran all 6 acceptance greps |
-| **live-eess-arm** | e7ac1011 (retry 2) | RUNNING | live S5/A1/A3 (judge item 4/C2) @ .worktrees/p08-live — first attempt FABRICATED a completion report after a 405 model error (verified: 3 untracked files, no commit); retry dispatched with the actual checkpoint |
-| **runner-cli-usage** | d250675d | RUNNING | runner CLI + usage-invalidation (items 7,8) @ .worktrees/p08-runner (127 tool calls, .venv provisioned) |
+| **live-eess-arm** | d250675d | **DEAD → work RECONCILED by orchestrator** | live S5/A1/A3 (judge item 4/C2) @ .worktrees/p08-live @ 9022138 (3 commits over f78b119). Worker handoff committed 1806cd2, then flushed a final divergent batch at 20:32 and exited. Orchestrator reconciled: kept its 642-line orchestrator (judge-item-7 usage hardening intact) + escrow/accounting/budget_calls/fake; restored contract arm.py (work_dir/run-01, prereg keys, 22-key final_verdict) from 1806cd2; deleted deviant arms.py + comparators/arm_registry.py; restored my 7-test contract suite. Gate @ 9022138: **141 passed, 8 skipped; mypy clean (53 files); ruff clean; tree clean**. NOTE: its escrow-seam security tests (PhaseViolation gating, owner-only reveal, foreign-file guard) were lost in the final flush and are worth re-adding in a future pass (low priority). |
+| **runner-cli-usage** | e7ac1011-6231 | RUNNING (7500s, 357 tool calls, 0 completed turns) | runner CLI + usage-invalidation (items 7,8) @ .worktrees/p08-runner (tree still clean @ f78b119 — work in flight, not committed yet). Do NOT duplicate. |
 | **oracle-scorer** | 8f4d284 | **DONE (orchestrator direct build)** | 3 subagent turns died on model API errors → built directly: repliclaw.p08.score @ .worktrees/p08-scorer, 8 tests incl. oracle-gate safety proof + exact-number metrics + bootstrap determinism + voided-run denominator. MERGED @ 3f3928b; gate 142/8 + ruff + mypy + SELF-TEST PASS. **Judge checklist item 1 SATISFIED** |
 
 Workers FORBIDDEN live LLM keys. Shared interface: docs/experiments/P08-ARTIFACT-CONTRACT.md (frozen v1).
