@@ -416,3 +416,34 @@ Two fresh independent round-5 OUTCOME judges (code + science) on the executed ru
   (n=1); the negative finding is preserved and refined (mechanism capable +
   occasionally correct but not reliable under the substituted model + 150K
   envelope; no advantage demonstrated). No n=1 statistics computed by either judge.
+
+## I4.20 — V3.4 prepared: symmetric 300K envelope, D-E reliability round (D-V3-018) (2026-10-11)
+Under the standing full-permission + unlimited-`default` approval and the
+round-5 science judge's Q5 recommendation, I proceeded with **option (ii)** —
+a V3.4 reliability-characterization round at a **symmetric 300K per-run
+envelope** (round 6), to disambiguate whether D-E's round-5 1/9 completion was
+envelope-bound or mechanism/model-bound.
+- **Isolated worktree** `/Users/sushantgautam/Documents/RepliClaw-stg2-v34`
+  (branch `wip/v34-de-envelope`, parent = V3.3 frozen `ca827ac`).
+- **Single symmetric change:** `MAX_TOKENS_PER_RUN` 150_000 → 300_000 (the ONE
+  A1-parity-guarded shared constant → both arms get 300K identically), and
+  `ROUND_TOKEN_CEILING` 7_200_000 → 12_000_000 (mechanical: 40 runs × 300K).
+  Files: `telemetry_arms.py`, `pilot_run.py` (ceiling), `pilot_parallel.py`
+  (stale comment only). `telemetry.py` + `pilot_report.py` byte-identical.
+- **Gates GREEN:** 463 passed / 20 skipped / 3 xfailed / 0 failed; ruff clean;
+  mypy clean. Tests updated for new constants (test_v32_amended_constants,
+  test_stop3_ceiling_preemptive, parallel_meta + envelope assertions,
+  test_v32_amended_envelope_constants).
+- **Frozen hashes @0672615d:** telemetry.py 3149ff75 (unchanged),
+  telemetry_arms.py d62b4638, pilot_run.py e040650c, pilot_parallel.py bbec3e00,
+  pilot_report.py 897d10b7 (unchanged).
+- **Freeze:** `design/v34_prereg_freeze_DRAFT.md` @ `54f5267f` (DRAFT — pending
+  2 fresh independent judges + human re-confirm). Case data copied to v34
+  worktree (cases.parquet md5 matches the working v33 copy).
+- **Preregistered interpretations (anti-post-hoc):** (a) D-E completion rate
+  RISES at 300K w/ stable accuracy → envelope-bound; (b) stays ~1/20 →
+  mechanism/model-bound. Either is valid; NOT preregistered that D-E wins; no
+  effect/superiority claim; no-confirmatory-reuse.
+- **Next:** dispatch 2 FRESH independent pre-run judges (code + science) on the
+  V3.4 diff; apply any SHOULD-FIX + re-stamp; then launch round 6 on
+  SimulaChat `default` (concurrency 6). Model change (c) still NOT authorized.
