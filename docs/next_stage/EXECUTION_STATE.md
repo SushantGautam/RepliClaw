@@ -447,3 +447,41 @@ envelope-bound or mechanism/model-bound.
 - **Next:** dispatch 2 FRESH independent pre-run judges (code + science) on the
   V3.4 diff; apply any SHOULD-FIX + re-stamp; then launch round 6 on
   SimulaChat `default` (concurrency 6). Model change (c) still NOT authorized.
+
+## I4.21 — V3.4 freeze FINAL; round 6 LAUNCHED (2026-10-11)
+- **Both fresh V3.4 pre-run judges PASSed** (independent, V3.5-round not reused
+  from V3.3):
+  - **Code judge: clean PASS.** 6/6 questions satisfied (no leakage, no
+    cherry-pick, parity guard intact, ceiling arithmetic 39×300K fits /
+    40×300K breaches, reservation auto-scales). 1 SHOULD-FIX:
+    `pilot_report.py:46` display-only ceiling stale at 7_200_000.
+  - **Science judge: conditional PASS, 4 minimum amendments** — all applied:
+    (1) D-E-only docstring → both-arms symmetric [applied];
+    (2) wall-cap confound → prereg **Amendment A2**: third outcome class
+    `wall-cap-bound`, calibrated NON-BINDING (round-5 max wall 70.2 s vs 900 s;
+    2× token work ≈ 140 s ≪ 900 s); (3) baseline denominator → **A3**:
+    per-ledgered-run (round-6 D-E / its ledgered runs vs round-5 **1/9**, not
+    blended ~1/20); (4) C-EQ non-envelope-boundness → **A4**: C-EQ@300K is a
+    reproducibility check, NOT a new reference (round-5 C-EQ@150K 7/7 stands).
+- **Applied + re-verified:** code-judge fix made `pilot_report.py` derive
+  `ROUND_TOKEN_CEILING` from `pilot_run` (no drift possible); verified via
+  report regeneration (`"round_token_ceiling": 12000000`). Gates at final code:
+  **472 passed / 11 skipped / 3 xfailed / 0 failed; ruff clean; mypy clean**
+  (6 files); offline smoke 4/4, v32_constants 300000/12000000.
+- **Freeze:** `design/v34_prereg_freeze.md` (FINAL) @ v34 worktree `5fd3075`;
+  frozen hashes @ `6e32153`: telemetry.py 3149ff75 (unchanged),
+  telemetry_arms.py **d907a13c**, pilot_run.py e040650c, pilot_parallel.py
+  bbec3e00, pilot_report.py **8eda6095**.
+- **Launch authority:** standing full-permission + unlimited SimulaChat
+  `default` approval; scope re-confirm recorded per launch protocol (option
+  (ii) was explicitly authorized).
+- **ROUND 6 LAUNCHED** (2026-10-11, ~00:15Z local): worktree
+  `/Users/sushantgautam/Documents/RepliClaw-stg2-v34`,
+  `scripts/pilot_parallel.py run --round 6 --out .artifacts/rcaeval/pilot/run_v34
+  --concurrency 6`, model `default` (echoes Qwen3.8-27B, MODEL-SUBSTITUTION),
+  40 runs (10 cases × 2 seeds × 2 arms), 12M safety ceiling, 900 s wall.
+- **Next:** on completion → verify escrow + STOP.json, dispatch 2 FRESH
+  round-6 outcome judges (code + science), record I4.22, update campaign
+  report §2c per preregistered A2/A3/A4 interpretations (envelope-bound vs
+  mechanism/model-bound — whichever the data shows). Model change (c) still
+  NOT authorized.
