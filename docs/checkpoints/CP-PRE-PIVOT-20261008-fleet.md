@@ -83,3 +83,12 @@ See §1. Design is decision-complete; F06 ticket ready (`docs/fleet/F06.md`).
 2. Inventory this checkpoint + each `docs/fleet/handoff-*.md` (f02/f03/f05 have §PRE-PIVOT STATUS).
 3. Salvage per new ticket mapping; re-run gates in each worktree before building on them (commands in each handoff).
 4. F01 R2 and F05 R2 re-reviews can be re-dispatched cheaply if the new program reuses those branches.
+
+## 8. Verified files changed per branch (vs baseline `a14fa67`, checked 2026-10-08 15:05)
+
+- **f01** `w1/F01-baseline-validity` @ `c4c95c8`: `src/repliclaw/{isolation,investigators,strategies}.py`, `tests/test_f01_validity.py`, `docs/fleet/handoff-F01.md` (plus shared fleet-contract docs from `2ba5847`).
+- **f02** `w2/F02-execution-honesty` @ `2afa7df`: `src/repliclaw/{execution,investigators,models,protocol}.py` (execution.py NEW), `tests/test_execution.py`, `docs/fleet/handoff-F02.md`.
+- **f03** `w3/F03-eval-fairness` @ `32b6330`: `tests/fixtures/heldout/*.json` (9 fixtures + manifest), `tests/test_evaluation.py`, `docs/fleet/handoff-F03.md`.
+- **f04** `w4/F04-need-dispatch` @ `0ca2e61` (merged into main @ `2ccb629`): `docs/design/NEED_DISPATCH.md`, `tests/test_need_dispatch_spec.py`, `docs/fleet/handoff-F04.md`.
+- **f05** `w5/F05-science-feasibility` @ `ef3584b`: `experiments/tox21_ar_agonist/**` (data TSV, fetch_and_transform.py, run_case.py, reproduce.sh, MANIFEST.json, claim_freeze.json, outputs/), `data/` gitignore tweak, `docs/design/SCIENTIFIC_CASE.md`, `tests/test_f05_feasibility.py`, `docs/fleet/handoff-F05.md`.
+- **main** `repl-claw-dev` @ `2efd406`: F04 files (above) + `docs/fleet/{README,F01..F06,JUDGES}.md`, `DECISIONS.md`, `EXECUTION_STATE.md`, `IMPLEMENTATION_PLAN.md`, `PROGRESS.md`, `docs/checkpoints/CP-20261008-{G0,F04}.md`, this file.
