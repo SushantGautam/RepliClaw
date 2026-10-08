@@ -12,3 +12,8 @@
 - **Key findings:** (1) D-E infeasibility is multi-resource and confirmed across 6 cases — not a single-case artifact; (2) the C-EQ volume canary is over-sensitive: same case/seed/arm completed at 1.235 in canary, crashed at 1.601 in round 4 → live model makes the ratio non-deterministic; (3) stop rules + parallel driver + ceiling gate all behaved exactly as designed (bounded spend, correct trip, clean STOP.json).
 - **Artifacts:** `.artifacts/rcaeval/pilot/run_v32/round4/` (STOP.json, parallel_meta.json, 16 run dirs, pilot_report_round4.json/.md); log `.artifacts/rcaeval/pilot/run_v32_round4.log`.
 - **Next:** outcome judges (dispatched); then HUMAN GATE per D-V3-017 (stop trip → human).
+
+## I4.13 — Round-4 outcome reviews + defect fixes (2026-10-11)
+- **Judges:** science-judge-r4 PASS-integrity / FAIL-WITH-DEFECT(stop-1) / RECOMMEND(b) V3.3; code-judge-r4 PASS (evidence admissible; stop-2 mislabel refuted; 1 SHOULD-FIX resume guard).
+- **Defects fixed (57d1e1f):** arm_saturated seed-level denominator; STOP.json closed-round guard in both drivers. 471 passed / 8 skipped / 3 xfailed; ruff + mypy clean.
+- **Next:** HUMAN GATE — choose (a) close out / (b) V3.3 amendment / (c) model change (not authorized).
