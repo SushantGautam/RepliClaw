@@ -1,0 +1,56 @@
+{
+  "schema": "p08.live_token_floor_summary/1",
+  "case_id": "policy_rag_v1",
+  "arm": "S5 (live-LLM, EESSLiveS5Arm, arm key 'eess')",
+  "date": "2026-10-08",
+  "frozen_params": {
+    "lambda": 0.5,
+    "mu": 0.5,
+    "max_cycles": 6,
+    "offer_ttl_s": 120.0
+  },
+  "envelope": {
+    "max_tokens": 60000,
+    "max_wall_s": 900.0,
+    "max_agents": 3
+  },
+  "runs": [
+    {
+      "run": 1,
+      "harness_seed": 20261010,
+      "status": "completed",
+      "measured_floor_tokens": 1358,
+      "measured_wall_s": 11.2,
+      "llm_calls": 6,
+      "llm_calls_per_agent": {
+        "alpha": 2,
+        "beta": 2,
+        "gamma": 2
+      },
+      "work_dir": "artifacts/p08/live_token_floor/work"
+    },
+    {
+      "run": 2,
+      "harness_seed": 20261020,
+      "status": "completed",
+      "measured_floor_tokens": 1380,
+      "measured_wall_s": 16.3,
+      "llm_calls": 6,
+      "llm_calls_per_agent": {
+        "alpha": 2,
+        "beta": 2,
+        "gamma": 2
+      },
+      "work_dir": "artifacts/p08/live_token_floor/work_seed2"
+    }
+  ],
+  "floor_range_tokens": [
+    1358,
+    1380
+  ],
+  "headroom_vs_60k": {
+    "max_usage_fraction": 0.023,
+    "min_margin_x": 43.48
+  },
+  "method": "scripts/measure_live_token_floor.py (committed on run branch); authorized single-key live measurement, one run per seed; oracle never read; real SimpleAudit counterfactual execution. Totals re-derived independently from each run's budget_ledger.json; usage_present=true on every call in both runs."
+}
