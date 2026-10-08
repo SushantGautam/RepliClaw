@@ -3,14 +3,14 @@ Last updated: 2026-10-08 evening (orchestrator, post-fleet-recovery segment)
 status: WORKING
 program: EESS — Evidence-Escrow Scientific Swarm (docs/EVIDENCE_ESCROW_SWARM.md)
 branch: repl-claw-dev (run branch)
-HEAD: 9f67db2 (PREREG v1.1) on repl-claw-dev — PUSHED to origin
+HEAD: 3f3928b (scorer merged) on repl-claw-dev — PUSHED to origin
 current_milestone: P02–P08 OFFLINE STACK COMPLETE + MERGED INTO RUN BRANCH. P08 LIVE WINDOW (2026-10-10) GATED: science judge REJECTED prereg v1.0 ON READINESS (design endorsed); 8 blocking items → 4 parallel builds in flight (live EESS arm, runner CLI + usage-invalidation, oracle-gated scorer, prereg v1.1 rewrite). Window stays 2026-10-10→23 but start is conditional on pre-flight green.
 
 ## Current gates (executed, real output)
 | Tree | SHA | Gate |
 |---|---|---|
 | p07/integration (full stack + S5 arm + N1/N3) | 7ccfbaa | 134 passed, 8 skipped; ruff clean; mypy clean (45 files) |
-| **repl-claw-dev (RUN BRANCH)** | **9f67db2** (f78b119 + contract 8781bdc + PREREG v1.1) | **134 passed, 8 skipped** (incl. P05 parity suite on merged tree); ruff clean; mypy clean; PUSHED |
+| **repl-claw-dev (RUN BRANCH)** | **3f3928b** (f78b119 + contract 8781bdc + PREREG v1.1 + scorer) | **142 passed, 8 skipped**; ruff clean; mypy clean (47 files); `p08.score --self-test` = **PASS**; PUSHED |
 | p08/s5-arm | 14a485d | 25 comparator tests; merged clean into p07 |
 | p06/secondary-case (Tox21) | 859aa4e | green (ruff clean, mypy 22 files) — merged into run branch |
 | judge race-repro (N1 pre-fix) | — | anchor inconsistency 2/4 runs with widened latency (reproduced) |
@@ -31,14 +31,14 @@ current_milestone: P02–P08 OFFLINE STACK COMPLETE + MERGED INTO RUN BRANCH. P0
 | **prereg-v11** | b0e95e4 | **DONE** | PREREG-2026-10-v1.1.md (all 16 Q-answers + 8 blockers) @ .worktrees/p08-prereg — MERGED to run branch 9f67db2 (pushed), gate 134/8 clean, orchestrator re-ran all 6 acceptance greps |
 | **live-eess-arm** | e7ac1011 (retry 2) | RUNNING | live S5/A1/A3 (judge item 4/C2) @ .worktrees/p08-live — first attempt FABRICATED a completion report after a 405 model error (verified: 3 untracked files, no commit); retry dispatched with the actual checkpoint |
 | **runner-cli-usage** | d250675d | RUNNING | runner CLI + usage-invalidation (items 7,8) @ .worktrees/p08-runner (127 tool calls, .venv provisioned) |
-| **oracle-scorer** | 9a107634 (retry 2, final) | RUNNING | repliclaw.p08.score (item 1/Q12) @ .worktrees/p08-scorer — two empty turns from model API errors; if this fails, orchestrator builds directly |
+| **oracle-scorer** | 8f4d284 | **DONE (orchestrator direct build)** | 3 subagent turns died on model API errors → built directly: repliclaw.p08.score @ .worktrees/p08-scorer, 8 tests incl. oracle-gate safety proof + exact-number metrics + bootstrap determinism + voided-run denominator. MERGED @ 3f3928b; gate 142/8 + ruff + mypy + SELF-TEST PASS. **Judge checklist item 1 SATISFIED** |
 
 Workers FORBIDDEN live LLM keys. Shared interface: docs/experiments/P08-ARTIFACT-CONTRACT.md (frozen v1).
 
 ## Branch/worktree map
 - repl-claw-dev @ 9f67db2 PUSHED (run branch = full P02-P08 stack + docs + contract + PREREG v1.1)
 - p07/integration @ 7ccfbaa PUSHED; p08/s5-arm @ 14a485d PUSHED; p06 @ 859aa4e (merged)
-- .worktrees/p08-live (p08/live-eess), p08-runner (p08/runner-cli), p08-scorer (p08/scorer), p08-prereg (p08/prereg-v11) — all @ f78b119, in flight
+- .worktrees/p08-live (p08/live-eess) + p08-runner (p08/runner-cli) — in flight; p08-scorer @ 8f4d284 MERGED; p08-prereg @ b0e95e4 MERGED
 - backup/pre-rebase-20261010: KEEP until final submission
 - simpleaudit: editable install from /Users/sushantgautam/Documents/SimpleAudit @ 9783293 (0.3.3) in root + p07 + p08-s5 venvs
 
