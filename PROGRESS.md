@@ -109,3 +109,13 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - Observed: baseline honest — prototype green, competition program NOT complete. Confirmed G3/G4/G5 defects in source (strategies.py debate revealed=False hardcode; isolated_vote full-verdict; self-attested executable; dev-only fixtures).
 - Artifacts: logs/G0-baseline-20261008.txt, docs/checkpoints/CP-20261008-G0.md, docs/fleet/*.md.
 - Next: W1–W5 implementing in worktrees; per-ticket judge reviews (code + science) → integrate F01→F02→F03→F05 → checkpoints; then F06 distributed dispatch.
+
+## [2026-10-08] F04 integrated (design-only, dual-judge PASS)
+- Changed: `docs/design/NEED_DISPATCH.md` (840-line decision-complete design), `tests/test_need_dispatch_spec.py`
+  (8 frozen spec scenarios, skipped until F06), `docs/fleet/handoff-F04.md`. Merged @ 2ccb629.
+- Verified: Code Judge PASS (verified 66+8skipped, src/ byte-identical to base, scenarios satisfiable vs real substrate,
+  SPEC-3 → protocol.py:401-404 force-map = exact G1 target); Science Judge PASS (20+ citations verified, all
+  substantive claims correct); main-tree gate 66 passed + 8 skipped, ruff 0, mypy 0.
+- Artifacts: `docs/checkpoints/CP-20261008-F04.md` (incl. 8 F06 carry-over items: open_needs closure,
+  preferred_skills field, real-subprocess spec, frozen-clock SPEC-6, citation fixes).
+- Next: F01 science judge → merge F01; F02/F03/F05 workers in flight.
