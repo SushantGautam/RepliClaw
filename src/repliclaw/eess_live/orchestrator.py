@@ -558,6 +558,16 @@ class LiveEESSOrchestrator:
                     f"confidence, defect_class, target_artifact, statement, "
                     f"evidence_cited (list of evidence_ids you relied on)."
                 )
+                # A4 hardening (code-judge): guard the FULL assembled prompt
+                # string (per the amendment's "appear in the prompt"), not just
+                # the machine-injected evidence block. Covers the rendered
+                # commitment line and every other rendered field.
+                for forbidden in EVIDENCE_FORBIDDEN_SUBSTRINGS:
+                    if forbidden in prompt:
+                        raise RuntimeError(
+                            f"verdict prompt for {agent_id} contains forbidden "
+                            f"oracle substring {forbidden!r} — refusing to leak"
+                        )
                 payload = self._llm_call(agent_id, client, prompt, purpose="verdict")
                 conclusion = str(payload.get("conclusion", "uncertain"))
                 if conclusion not in ("supported", "refuted", "uncertain"):
