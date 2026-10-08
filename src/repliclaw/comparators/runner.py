@@ -20,7 +20,7 @@ from typing import Any, Callable, Dict, List
 from ..models import Claim, InvestigatorConfig
 from .arms import ArmResult, ArmSpec
 from .budget import BudgetEnvelope, BudgetLedger
-from .managers import AdaptiveCentralManager, OpenSharingSwarm, SingleAgentBaseline
+from .managers import AdaptiveCentralManager, EESSArm, OpenSharingSwarm, SingleAgentBaseline
 
 
 def arm_registry() -> Dict[str, Callable[[Callable[[InvestigatorConfig], Any]], Any]]:
@@ -32,6 +32,7 @@ def arm_registry() -> Dict[str, Callable[[Callable[[InvestigatorConfig], Any]], 
         "single_agent": SingleAgentBaseline,
         "adaptive_central": AdaptiveCentralManager,
         "open_sharing_swarm": OpenSharingSwarm,
+        "eess": EESSArm,
     }
 
 
