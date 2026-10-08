@@ -351,25 +351,29 @@ Awaiting explicit human choice. NO full round launched; NO public release; `main
 
 ## I4.18 — V3.3 round 5 executed + decisive result (2026-10-11)
 Round 5 (10×2×2, model `default`, frozen 520f6859) stopped at stop-2 after 16 runs
-(1,264,453 / 7,200,000 tok; D-E crash-equiv 8/20 = 0.40 > 0.25).
-- **C-EQ-TELEM: 7/8 completed, all 7 hits** (54–72K tok). 2 runs (P-05/P-06 s11)
-  were out-of-band (ratio >1.40) → **logged `volume_band_violation=True`, NOT
-  crashed** (confirming the demotion works live). C-EQ crash rate 0/20.
-- **D-E-TELEM: 1/16 COMPLETED — and it executed the full decentralized machinery**:
-  P-01 s12 (138,126 tok, **hit=True**). Its escrow ledger shows **phase1 + phase2-final
-  commits from all 3 investigators** (inv-a/b/c) — the commit-reveal / multi-agent
-  mechanism ran END-TO-END for the first time across the whole V3 series and got the
-  diagnosis right. Remaining 15: 4× budget-abort (150–154K tok, distinct-call
-  non-convergence), 4× AgentProtocolError (two consecutive malformed outputs, inv-a/
-  inv-b), 2 more... (see report). D-E crash-equiv 8/20.
+ledgered (1,264,453 / 7,200,000 tok; D-E crash-equiv 8/20 = 0.40 > 0.25).
+- **C-EQ-TELEM: 7/7 ledgered runs completed, all 7 hits** (54,943–71,866 tok),
+  crash rate 0/20. 2 runs (P-05/P-06 s11) were out-of-band (ratio >1.40) →
+  **logged `volume_band_violation=True`, NOT crashed** (confirming the demotion
+  works live on real data).
+- **D-E-TELEM: 1/9 ledgered runs COMPLETED — and it executed the full decentralized
+  machinery**: P-01 s12 (138,126 tok, **hit=True**). Its escrow ledger shows
+  **phase1 + phase2-final commits from all 3 investigators** (inv-a/b/c) — the
+  commit-reveal / multi-agent mechanism ran END-TO-END for the first time across the
+  whole V3 series and got the diagnosis right. The 8 non-completions: 4×
+  budget-abort (150,397–154,253 tok; P-02s11, P-04s12, P-05s11, P-06s11;
+  distinct-call non-convergence) + 4× AgentProtocolError (two consecutive malformed
+  outputs, inv-a/inv-b; P-01s11, P-03s11, P-03s12, P-04s11 at only ~21–22K tok).
+  11 D-E runs never reached at trip. D-E crash-equiv 8/20 = 0.40 > 0.25 → stop-2.
 - **Scientific interpretation (feasibility record, NOT an effect estimate):** the
   V3.3 repair (anti-loop cache + no per-tool caps + volume demoted) **successfully
   instantiated the contrast** — the decentralized mechanism is demonstrably capable of
-  completing and being correct, but under the substituted model it does so only 1/16
-  of the time (the model's distinct-call rate still exhausts 150K in most runs). The
-  negative finding (no demonstrated decentralization advantage) is PRESERVED but now
-  more precisely characterized: the mechanism works but is model-limited under
-  substitution; C-EQ is far more reliable (7/8, all hits, no crashes) at lower cost.
+  completing AND being correct, but under the substituted model it does so only 1/9 of
+  the time (the model's distinct-call rate still exhausts the 150K envelope in most
+  D-E runs; other runs emit malformed actions). The negative finding (no demonstrated
+  decentralization advantage) is PRESERVED but now more precisely characterized: the
+  mechanism works but is model-limited under substitution; C-EQ is far more reliable
+  (7/7 all-hits, zero crashes) at lower cost.
 - Report: `.artifacts/rcaeval/pilot/run_v33/round5/pilot_report_round5.md`
   (D-E crashes_by_cause protocol_violation=4, budget_exhaustion=4).
 - Next: 2 fresh independent OUTCOME judges (code + science) on round 5, then the
