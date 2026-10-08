@@ -78,7 +78,7 @@ Judge verdict: **NO-GO** for bulk live runs. 7/7 hotspots VERIFIED. Blockers + s
 | Judge item | Amendment | Status |
 |---|---|---|
 | H1 — P1 rule fix + scorer re-validation | A1 + A1.7 | Amendment: canonical string adopted (judge's verbatim, strict CI_lower>0 / NOT_SUPPORTED / A1.8 non-inferiority scope) @ a30b77d. Scorer: **scorer-align (6079ec46)** running on p08/scorer-align @ dc0e78f. |
-| H5 — reference_truth leak guard | A6 test 1 | **leak-guard-canary (3c2177bc)** running on p08/leak-guard @ f2657d1. |
+| H5 — reference_truth leak guard | A6 test 1 | **MERGED** (p08/leak-guard @ ae68211; CLI-level redaction + regression test @ d269a15): two-layer fix (fallback→INCONCLUSIVE, harness+CLI redaction of reference_truth AND seeded_fault) + 10 tests incl. leaky-vs-clean canary. Gate 202/8 @ d269a15. |
 | H2 — evidence in verdict prompt | A4 | **prompt-evidence (84468580)** running on p08/prompt-evidence @ dc0e78f (all 4 A4 gates as named tests). |
 | Judge sign-off + human two-key | §9 | AFTER H1/H2/H5 merged green + code-judge report + v1.2 sign-off. |
 Non-blocking (report/audit): H3 autonomy framing (A5 applied @ f2657d1), H4 S3 relabel (A3 in amendment), H6 effective treatment (A4/A6 + runner CLI metadata), H7 RandomPolicy (**DONE @ dc0e78f** — stream-preserving fix merged, order-identity proven, no A3 re-pin needed).
