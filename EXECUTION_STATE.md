@@ -42,7 +42,24 @@ current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. Live-S5 arm BUI
 Workers FORBIDDEN live LLM keys EXCEPT token-floor-measure (single authorized measurement, <25k tokens). Shared interface: docs/experiments/P08-ARTIFACT-CONTRACT.md (frozen v1).
 
 ## Branch/worktree map
-- **repl-claw-dev @ 5cbcca1 PUSHED** (run branch = full P02-P08 stack + docs + contract + PREREG v1.1 + scorer + live arm + C1 parity artifact; 149 passed/8 skipped, ruff+mypy clean)
+- **repl-claw-dev @ f45fe16 PUSHED** (run branch = full P02-P08 stack + docs + contract + PREREG v1.1 + scorer + live arm + C1 parity artifact + token floor + P09 docs; **tree currently DIRTY: runner worker is writing src/ files into the main tree mid-run — gate only at commit boundaries**)
+- **p08/token-floor @ 4af1d0d** — superseded by the parallel session's 6-cycle measurement (main tree c523329); kept as documented alternative (2-cycle + 3× labeled estimate + 18 offline tests). NOT merged (its artifacts conflict with the 6-cycle version; primary = 6-cycle).
+
+## SCIENCE RED FLAGS (2026-10-08, docs/P08_SCIENCE_VALIDITY_HOTSPOTS.md — all 7 VERIFIED in source by orchestrator)
+- **R1 (BLOCKER — ORCHESTRATOR-CONFIRMED NUMERICALLY):** P1 decision rule sign-reversed AND comparator-mismatched — PREREG §2/§8.1 lines 34/194/211: "S5 succeeds iff CI upper(S5−S3 on M1) < 0". Verified: rule fires **only** when S5 LOSES (S5−S3 ub=−0.25 → fires; S5−S3 ub=+0.35 → not). Comparator: rule uses S3, hypothesis claims S4. **NO live run until a versioned amendment (v1.2) with corrected estimand/polarity is judge-approved.**
+- **R2 (BLOCKER):** post-evidence verdict prompt (orchestrator.py ~443-451) contains NO actual evidence — LLM verdicts are not causally informed by data. Amendment-triggering fix + parity rerun required.
+- **R3:** autonomy framing overstated (fixed HYP_BY_AGENT/ARM_BY_HYP menu + sequential cycles) → must be labeled "local decentralized selection over a frozen preregistered menu".
+- **R4:** S3 = incumbent RepliClaw protocol (managers.py:56 strategy="repl_claw"), not neutral central manager → confound; relabel per prior judge.
+- **R5:** reference_truth fallback in arm (managers.py:192) → possible oracle path into reported verdicts; need no-leak negative test.
+- **R6:** LLM client sends no reasoning_effort (known) → run_metadata must record EFFECTIVE treatment, never overclaim.
+- **R7:** RandomPolicy double RNG draw (policy.py:167-168) → trace mislabel; one-line fix, selection-neutral.
+- **NO BULK LIVE RUN** until: R1 amendment approved + R2 fix + R5 guard + independent science approval + human authorization.
+- Adjudication in flight: science-judge-red-flags (6eef2110) + code-judge-harness (17b9f336), reports → docs/fleet/reviews/SCIENCE-JUDGE-HARNESS-RED-FLAGS-20261008.md / CODE-JUDGE-HARNESS-20261008.md.
+
+## Model/harness configuration (actual, per docs/FLEET_MODEL_THINKING_AND_REUSE.md)
+- **Effective engineering model:** all 7 active workers run on the orchestrator default (this Copilot SDK session model). No per-worker thinking-level control exists in this VS Code agent interface — the task tool exposes no thinking-effort parameter, so the requested low/medium/high/xhigh split is **NOT claimable**; recorded as unsupported, not faked. (Historical idle workers show `sigma2.no-NonThinking/Qwen3.8-27B` was used when explicitly selected for mechanical tasks.)
+- **Scientific arms (frozen, unchanged):** LLMClient sends model="default", base_url=simulachat.sushant.pp.ua/api/v1, temperature=0.2, max_tokens=4096, NO reasoning_effort (R6). This treatment is frozen for all P08 arms; no thinking claim in the application.
+- **Pi PoC: NOT RUN** — Pi CLI is not installed on this machine (`which pi` empty). Installing an unfamiliar CLI mid-campaign is not a safe reversible default; the optional PoC is skipped and recorded. Python RepliClaw remains the sole scientific execution runtime (per AGENT_HARNESS_DECISION).
 - p07/integration @ 7ccfbaa PUSHED; p08/s5-arm @ 14a485d PUSHED; p06 @ 859aa4e (merged)
 - p08/live-eess @ 9022138 MERGED (d0cb054); p08/scorer @ 8f4d284 MERGED (3f3928b); p08-prereg @ b0e95e4 MERGED
 - .worktrees/p08-runner (p08/runner-cli @ f78b119, worker in flight) + .worktrees/p08-tokenfloor (p08/token-floor, live-key measurement in flight)
