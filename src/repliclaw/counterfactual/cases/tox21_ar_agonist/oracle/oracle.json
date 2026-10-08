@@ -1,0 +1,33 @@
+{
+  "case": "tox21_ar_agonist_v1",
+  "expected_arm_outcomes": {
+    "I0_baseline": {
+      "functionalization": "none",
+      "mean_delta_logp": 0.0
+    },
+    "I1_OH": {
+      "functionalization": "hydroxylation",
+      "mean_delta_logp": -0.2944
+    },
+    "I2_Cl": {
+      "functionalization": "chlorination",
+      "mean_delta_logp": 0.6534
+    },
+    "I3_Me": {
+      "functionalization": "methylation",
+      "mean_delta_logp": 0.30842
+    }
+  },
+  "expected_ranking_by_mean_delta_logp": "I0_baseline(0) < I1_OH < I3_Me < I2_Cl  (expected direction)",
+  "hypothesis": "H_FT",
+  "hypothesis_statement": "The type of a single directed aromatic functionalization determines the mean change in Crippen logP of the frozen 48-compound Tox21 AR-agonist subset: hydroxylation lowers logP, chlorination and methylation raise it by distinct magnitudes, so the four arms yield distinct mean_delta_logp outcomes.",
+  "note": "Frozen from a real offline RDKit run on the 48-compound subset (rdkit_version recorded in data/molecules.json). The judge alone reads this file; no arm code path references it.",
+  "reference_measurement": "rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP), site=first_aromatic_implicit_h_carbon",
+  "schema": "repliclaw.sealed_oracle/v1",
+  "seeded_fault": null,
+  "supports_hypothesis": {
+    "H_FT": "distinct, direction-consistent per-arm mean_delta_logp"
+  },
+  "tolerance_abs_delta_logp": 0.001,
+  "true_cause": "functionalization_type_drives_logp"
+}
