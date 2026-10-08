@@ -2,6 +2,37 @@
 
 Append-only. Each entry: what changed / commands run / observed result / artifacts / next action.
 
+## 2026-10-10 — P04 COMPLETE: decentralized need market, gates green (orchestrator, direct build)
+- What changed (all new on branch `p04/need-market` @ 1b48ac2 in `.worktrees/p04`, base b5f7bfb):
+  - `src/repliclaw/needmarket/needs.py`: `Need` (schema `repliclaw.need/v1`, frozen), `CostEstimate`, `WorkerCapability`, pure `eligible()`.
+  - `src/repliclaw/needmarket/broker.py`: `NeedBroker` — append-only `needs.jsonl`+`events.jsonl`, O_EXCL lease files (the lock file is the lease), injectable `clock`, budget enforcement (`BudgetExhausted`), exactly-once verified fulfilment (`late_fulfilment` / `fulfilment_duplicate_suppressed`), **no ranking API in public surface**.
+  - `src/repliclaw/needmarket/policy.py`: `LocalEigPolicy` (U = gain/cost + λ·diversity − μ·crowding; transparent components+reason per action), `RandomPolicy` (seeded), `GreedySharedPolicy` (agent-agnostic comparator).
+  - `src/repliclaw/needmarket/worker.py`: `NeedWorker.cycle()` — open_needs → eligible → local rank → `choice_ranked` BEFORE claim → claim → blind `execute(need)` → `fulfill(verified=…)`; `choice_changed` event on evidence-snapshot ranking deltas; abstain events with reasons.
+  - `src/repliclaw/needmarket/replay.py`: `snapshot(evidence)` (canonical sha256) + event replay helpers (P07 support).
+  - `tests/test_needmarket.py`: the 8 ticket-mandated tests.
+- Commands/evidence (run in `.worktrees/p04`):
+  - `.venv/bin/python -m pytest` → **74 passed, 8 skipped in 3.54s** (66 base + 8 new).
+  - `.venv/bin/python -m ruff check src tests` → clean (6 autofixes: import order).
+  - `.venv/bin/python -m mypy src` → clean (22 files, 1 null-narrowing fix).
+- Design fix during build (caught by test 2): first draft unlinked dead locks on expiry → every re-claim regressed to generation 1. Final: dead lock file is a **generation tombstone**; `claim()` takes FileExistsError path, computes generation+1, O_EXCL winner unlinks+recreates. `expire_due` idempotent per (need, generation).
+- Observed: two real OS subprocesses racing one O_EXCL claim → exactly 1 `need_claimed` event, 1 winner; SIGKILL crash → expiry after 0.5 s real TTL → generation-2 claim + fulfilment by second agent; T4 observed ranking flip I_R→I_J on new evidence with `choice_changed` {prev, new, snapshot_sha, delta_reason}.
+- Artifacts: `docs/checkpoints/CP-P04.md`, `docs/fleet/handoff-P04.md` (incl. NOT-PROVEN + attack list).
+- Next: P07 integration of p02+p03+p04 (merged gate + dual judges); meanwhile P05/P06 builder agents running in background.
+
+## 2026-10-10 — P03 COMPLETE: evidence-escrow ledger, gates green (orchestrator, direct build)
+- What changed (all new on branch `p03/evidence-escrow` @ ba71a4d in `.worktrees/p03`, base b5f7bfb):
+  - `src/repliclaw/escrow/packet.py`: `PredictionPacket` (frozen, `schema_` alias, uuid4 packet_id).
+  - `src/repliclaw/escrow/phase.py`: COMMIT→REVEAL→EXECUTE→RESOLVE one-step protocol, `PhaseViolation`.
+  - `src/repliclaw/escrow/ledger.py`: append-only JSONL ledger, hash-chained events (`prev_event_sha256 = sha256(canonical(prev event minus prev/ts))`, genesis 0×64), `verify_ledger` mirrors exactly, deterministic snapshots (ts excluded), O_APPEND single-write atomicity, duplicate-commit guard (committed OR revealed → `DuplicateCommitment`), mismatched reveal → `reveal_mismatch` event, never published; private packets under `private/<agent_id>/`; `EvidenceObservation` with top-level `run_id` (contract §3).
+  - `tests/test_escrow.py`: 7 red-first tests (chain tamper detection, phase violations, reveal isolation, concurrency Part A single-writer + Part B two real Popen processes).
+- Commands/evidence (run in `.worktrees/p03`):
+  - `.venv/bin/python -m pytest` → **69 passed, 8 skipped** (62 base + 7 new).
+  - `.venv/bin/python -m ruff check src tests` → clean (1 import-order autofix).
+  - `.venv/bin/python -m mypy src` → clean (20 files).
+- Debug notes: `ts` initially leaked into the chain → identical action sequences gave different snapshots; fixed by excluding `ts` (and `phase`) from chained/snapshot content. Pydantic shadowing warning → `schema_` attr with alias. Duplicate-commit check moved to COMMIT phase (commit-after-reveal = `PhaseViolation`, not duplicate).
+- Artifacts: `docs/checkpoints/CP-P03.md`, `docs/fleet/handoff-P03.md`.
+- Next: P04 need market (done, see entry above), then P07 integration.
+
 ## 2026-10-10 — P02 COMPLETE: real SimpleAudit counterfactuals, gates green (orchestrator, direct build)
 - What changed (all new files on branch `p02/simpleaudit-counterfactual` @ 3f452b2 in `.worktrees/p02`):
   - `src/repliclaw/execution.py` (f02 port, verbatim): ExecutionRecord + subprocess runner + clean-dir verifier.
