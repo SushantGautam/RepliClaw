@@ -1,0 +1,2 @@
+{"agent_id": null, "payload": {"arm": "eess_offline", "event": "run_start"}, "seq": 1, "type": "trace"}
+{"agent_id": null, "payload": {"status": "completed", "verdict": "SUPPORTED"}, "seq": 2, "type": "verdict"}
