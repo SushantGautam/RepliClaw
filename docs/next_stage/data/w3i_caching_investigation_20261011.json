@@ -1,0 +1,50 @@
+{
+  "title": "Science-judge BLOCKER investigation \u2014 round-2 C-EQ RCA-P-01 cross-round response identity",
+  "generated_utc": "2026-10-11",
+  "trigger": "Science judge (I4.8 review) BLOCKER (Q2/Q5): round-2 C-EQ RCA-P-01 cells showed cross-model byte-identical token totals (54,759/54,721) and a very high fraction of content-identical manager responses vs round 1 (Qwen), suggesting an undisclosed response-level caching/replay layer at the gateway.",
+  "claims_under_test": [
+    "C1: the SimulaChat client or gateway replayed cached responses keyed on the prompt",
+    "C2: round-2 C-EQ RCA-P-01 completions are not valid live Borealis2-preview evidence"
+  ],
+  "evidence": {
+    "E1_no_client_cache": {
+      "claim": "The client (src/repliclaw/benchmarks/agentrx/simula.py) has no caching layer: every ask() issues a live chat.completions.create; retries are 429/5xx only and a retried request is not deduplicated.",
+      "status": "VERIFIED (code inspection)"
+    },
+    "E2_token_identity_explained": {
+      "claim": "The 'byte-identical token totals' are NOT provider-reported usage. In _usage_tokens (telemetry_arms.py), if a response carries no usage object the code falls back to a deterministic LENGTH ESTIMATE (chars//4) over the (compacted) send view. For the C-EQ RCA-P-01 runs both rounds used the length_estimate path with identical prompt bytes (deterministic sandbox: entry-24 prompt sha16 c0dbc69150c70479, len 788, byte-identical across rounds and seeds) and the same number of calls (14), so identical prompt/completion token COUNTS are the expected arithmetic of the estimator, not evidence of replay.",
+      "status": "VERIFIED (code + audit data: manager tokens field round1==round2 == {prompt:44568, completion:458, total:45026}, llm_calls 14)"
+    },
+    "E3_response_identity_strict": {
+      "claim": "Content-only diff of the 14 manager responses per seed: 12/14 identical across rounds for BOTH seeds. Genuinely different responses: seed 20261011 entries 1 (sealed forecast, 1-service difference) and 27 (final commit, confidence 0.72 vs 0.78); seed 20261012 entries 25 (commit ranking: productcatalogservice vs recommendationservice) and 27. The high-identity count is explained by (a) identical prompts (deterministic sandbox tool outputs), (b) temp 0.2 near-determinism (replay probes below), (c) identical short JSON tool-call actions on identical deterministic data. It is consistent with two calls to a Qwen-base-class model on the same deterministic input, and is NOT in itself proof of caching.",
+      "status": "VERIFIED (strict content diff, both seeds)"
+    },
+    "E4_replays_distinct": {
+      "claim": "Faithful replays (reconstructed session view via _compacted_view(), live gateway, temp 0.2): the round-2-1011 view sent to 'default' (Qwen3.8-27B) reproduces Qwen's round-1 original response EXACTLY (checkoutservice/recommendationservice/productcatalogservice, 0.55); the same view sent to 'Borealis2-preview' returns a DIFFERENT response (redis/productcatalogservice/.../shippingservice, 0.15). A prompt-keyed replay layer would return the same string for both model ids. => C1 refuted for the prompt-keyed-cache hypothesis.",
+      "status": "VERIFIED (replays, 2 models)"
+    },
+    "E5_backend_varies": {
+      "claim": "The two configured model ids are backed by different backends: (a) temp 1.0 creative test -> completely different micro-stories; (b) identity probe at temp 0.0 asked for a fact about the 'Qwen3.8-27B' family: Qwen3.8-27B (default) answered honestly that no such public model family exists, while Borealis2-preview answered with a specific (confident) description of the Qwen3.8-27B MoE family \u2014 i.e., Borealis2-preview's training/system presents it AS Qwen3.8-27B. The gateway catalog shows: 'default' has base_model_id='Qwen3.8-27B'; 'Borealis2-preview' has base_model_id=null and an older 2023-02-28 creation timestamp (gateway metadata, not model truth).",
+      "status": "VERIFIED (probes + catalog)"
+    },
+    "E6_residual_anomaly": {
+      "claim": "RESIDUAL (unexplained, bounded): the LIVE round-2 seed-20261011 entry-25 commit matched Qwen's round-1 answer EXACTLY (0.55), while all 14 controlled Borealis2-preview replays of the same view (4 initial + 10 rapid) returned the Borealis-style answer (redis, 0.15) \u2014 0/14 matched the live Qwen-identical string. At the moment of the live round-2 call, the Borealis2-preview id evidently produced a Qwen-identical output. Most plausible cause: a transient auto-fallback to a Qwen3.8-27B-equivalent backend during the campaign (the catalog's auto_fallback_router entry makes a provider-side fallback plausible), or a heterogeneous Borealis worker. It affects ONE cell (R2 C-EQ P-01/20261011); R2 C-EQ P-01/20261012 produced genuinely different answers (live Borealis), and P-03/20261011 completed with its own answer.",
+      "status": "OPEN-RESIDUAL (bounded to one cell; cannot be re-verified live because the exact request is not reproducible without replaying the full campaign \u2014 and the campaign cannot be re-run: see cap)"
+    },
+    "E7_DE_untainted": {
+      "claim": "D-E cross-round identity check: per-agent content diffs show low response identity (7/23 and 9/14 for inv-a; other investigators mostly unscheduled) and different token totals in every run (all 6 D-E runs tok-diff) \u2014 no caching signature in the D-E arm. The headline round-2 result (D-E 6/20 all budget_exhaustion, model-invariant) is unaffected by this investigation.",
+      "status": "VERIFIED"
+    }
+  },
+  "determinism_probes": {
+    "borealis_replays_live_view_temp0p2": "x4 byte-identical (usage 4960/41); +10 rapid calls: 8/10 byte-identical, 2/10 same-length variant (recommendationservice<->productcatalogservice), 0/14 matched the Qwen-identical string",
+    "qwen_replays_temp0p2": "x2 byte-identical (usage 4794/42), reproducing the round-1 original",
+    "temp1_creative": "distinct backends diverge (different stories)"
+  },
+  "verdict": {
+    "C1": "REFUTED as stated \u2014 no prompt-keyed replay layer found; distinct model ids return distinct answers on the same view; identical token counts are explained by the deterministic length-estimate fallback (E2).",
+    "C2": "DOWNGRADED TO NOTE (not a full invalidation): R2 C-EQ P-01/20261011 carries a contamination caveat (E6) \u2014 one commit cell may reflect a transient Qwen-equivalent backend behind the Borealis2-preview id. R2 C-EQ P-01/20261012 and P-03/20261011 are live Borealis-class. The round-2 D-E finding (6/20 budget exhaustion) is unimpaired (E7).",
+    "additional_disclosure": "Borealis2-preview self-identifies as Qwen3.8-27B (E5b). It is treated as a 'Qwen-base-class variant' for the purposes of the stronger-model premise: the round-2 re-pilot demonstrates instrument/model-variant invariance of the D-E budget-exhaustion result, NOT that a demonstrably stronger model was tested. The D-V3-014 option-(a) premise ('a stronger model would make D-E feasible') remains UNTESTED by a genuinely stronger model \u2014 glm-5-2-fp8 was access-blocked (401 key expired)."
+  },
+  "artifacts_note": "All probe/replay scripts were run ad hoc via the project venv against the live gateway with the env-key; raw per-call outputs were printed to the orchestrator log. This JSON is the persisted evidence record. No ground-truth labels, credentials, or restricted data are included."
+}

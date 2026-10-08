@@ -1,0 +1,31 @@
+{
+  "probed_at": "20261010T184411Z",
+  "results": [
+    {
+      "model": "glm-5-2-fp8",
+      "ok": false,
+      "error": "RuntimeError: SimulaChat HTTP 401: api key expired\n",
+      "wall_s": 0.35
+    },
+    {
+      "model": "Borealis2-preview",
+      "ok": true,
+      "wall_s": 0.64,
+      "raw": "{\"action\": \"tool_call\", \"tool\": \"service_metrics\", \"args\": {\"service\": \"checkoutservice\"}}",
+      "usage": {
+        "prompt": 204,
+        "completion": 27,
+        "total": 231
+      },
+      "json_valid": true,
+      "action": "tool_call",
+      "protocol_ok": true
+    },
+    {
+      "model": "autoroute",
+      "ok": false,
+      "error": "KeyError: 'choices'",
+      "wall_s": 0.15
+    }
+  ]
+}

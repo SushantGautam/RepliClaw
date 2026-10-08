@@ -45,7 +45,10 @@ NO_EFFECT_CLAUSE = (
     "from this pilot (frozen spec §6 no-confirmatory-reuse clause). Pilot "
     "results cannot be reused as heldout evidence."
 )
-MODEL_LABEL = (
+# Fallback label (round 1's model). main() prefers the actual model
+# recorded in the round's status.json files, so per-round reports always
+# name the model that actually ran (e.g. round 2: Borealis2-preview).
+DEFAULT_MODEL_LABEL = (
     "MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B) — NOT the official "
     "released baseline"
 )
@@ -197,9 +200,33 @@ def main() -> int:
             },
         }
 
+    # Derive the model label from the actual per-run status.json (model +
+    # label fields the driver wrote), falling back to the round-1 label.
+    model_ids: dict[str, str] = {}
+    for status_file in sorted(round_dir.glob("*/*/*/status.json")):
+        try:
+            d = json.loads(status_file.read_text())
+        except json.JSONDecodeError:
+            continue
+        mid = d.get("model")
+        lbl = d.get("label")
+        if mid:
+            model_ids.setdefault(str(mid), str(lbl or ""))
+    if len(model_ids) == 1:
+        mid, lbl = next(iter(model_ids.items()))
+        model_label = (f"MODEL-SUBSTITUTION (SimulaChat {mid}) — "
+                       "NOT the official released baseline"
+                       if not lbl else lbl)
+    elif model_ids:
+        model_label = ("MODEL-SUBSTITUTION (SimulaChat "
+                       f"{sorted(model_ids)} mixed) — NOT the official "
+                       "released baseline")
+    else:
+        model_label = DEFAULT_MODEL_LABEL
+
     report = {
         "round": r,
-        "model_label": MODEL_LABEL,
+        "model_label": model_label,
         "arms": list(ARMS),
         "n_cases": N_CASES,
         "seeds": sorted({str(run["seed"]) for run in runs}),

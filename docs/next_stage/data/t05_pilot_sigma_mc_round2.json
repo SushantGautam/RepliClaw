@@ -1,0 +1,51 @@
+{
+ "meta": {
+  "label": "T0+5 pilot-\u03c3 variant cell set (SIMULATION-ONLY: synthetic Bernoulli data; power of the frozen one-sided percentile-bootstrap rule; no live RepliClaw outcome data enters the MC)",
+  "protocol_basis": "g3_pilot_spec_draft.md T0+5 row; monte_carlo_power_v3.md \u00a73.2 item 3; spec \u00a76 estimator definitions; statistical_protocol_v3.md \u00a74.1",
+  "pilot_report": {
+   "path": ".artifacts/rcaeval/pilot/run/round2/pilot_report_round2.json",
+   "sha256": "6769ad47def86ec9b4695dc3df4478903c4dba91aee488a3713300133f0e1939",
+   "round": "2",
+   "model_label": "MODEL-SUBSTITUTION (SimulaChat Borealis2-preview) \u2014 NOT the official released baseline"
+  },
+  "round2_note": "round-2 input arrives post-run: pass the round-2 pilot_report_round2.json to the same script; per-round \u03c3\u0302_D and per-round cell set are disclosed in the output",
+  "ci_step": "pinned L5 cluster_bootstrap_ci verbatim, B=10000, seed=20261009 (PCG64), percentile 95%",
+  "mc_seed_scheme": "default_rng(20261009 + cell_index); pilot-\u03c3 cells are new cells extending from index 254 in deterministic order",
+  "reps_per_cell": 10000,
+  "sigma2_dist": "p_c ~ U[0.35\u2212\u03c3\u0302_D/2, 0.35+\u03c3\u0302_D/2], clipped to [0,1]; D-E: min(1, p_c+\u0394); no-saturation rows",
+  "inflation_1_3": "NOT applied to MC cells (retired \u00a74.2 formula constant; MC grid is sole power authority per D-V3-008) \u2014 bracketed against stored 'low' and 'mid' rows instead; FLAGGED for orchestrator",
+  "numpy_version": "2.4.6"
+ },
+ "pilot_side": {
+  "sigma_d_cases_paired": {
+   "RCA-P-01": -1.0,
+   "RCA-P-02": 0.0,
+   "RCA-P-03": -0.5
+  },
+  "excluded_cases": {},
+  "sigma2_hat": 0.5,
+  "per_arm": {
+   "C-EQ-TELEM": {
+    "s": 0.1,
+    "saturation_cases": [
+     "RCA-P-01"
+    ],
+    "crash_rate_full_cohort": 0.15,
+    "n_runs": 6
+   },
+   "D-E-TELEM": {
+    "s": 0.0,
+    "saturation_cases": [],
+    "crash_rate_full_cohort": 0.3,
+    "n_runs": 6
+   }
+  },
+  "both_saturated": [],
+  "exactly_one_saturated": [
+   "RCA-P-01"
+  ],
+  "no_effect_claim": "No effect estimate, power claim, or superiority statement is reported from this pilot (frozen spec \u00a76 no-confirmatory-reuse clause). Pilot results cannot be reused as heldout evidence."
+ },
+ "cells": [],
+ "insufficient_estimate": "n paired-contrast cases = 3 < minimum viable 8 (spec \u00a72 fallback); \u03c3\u0302_D underdetermined \u2014 no pilot-\u03c3 MC cells computed, none fabricated. Round report still records the pilot-side disclosure above."
+}
