@@ -186,14 +186,23 @@ def load_arm_claim(case_name: str, root: Optional[Path] = None) -> Claim:
 
 
 def default_envelope(case_name: str) -> BudgetEnvelope:
-    """The default matched envelope for a case (task spec: 60k / 900 s / 4).
+    """The default matched envelope for a case (60k / 900 s / 4 agents).
 
     ``case_name`` is accepted for a stable, documented signature; the default
-    envelope is uniform across the supported cases. The prereg v1.1 §5.1 LLM
-    baseline envelope is 60,000 / 900 s / 3 agents; the CLI default uses 4
-    agents so that S3's evidence-driven follow-up agent (its 4th distinct
-    investigator) completes instead of tripping the agent cap — see the
-    runner report for this deviation.
+    envelope is uniform across the supported cases.
+
+    Agent-cap semantics (PREREG-2026-10 v1.2 A7): the ledger enforces
+    ``max_agents`` as a CUMULATIVE count of distinct investigators
+    (``budget.py``: ``new_agents = self._agents + rec.n_agents``), so the cap
+    is "total distinct agents deployed by the arm", not "max concurrent".
+    The incumbent S3 baseline deploys 3 initial investigators + 1
+    evidence-driven follow-up (4 distinct), so the 3-agent v1.1 §5.1 cap
+    would abort S3 before completion. The v1.2 A7 amendment therefore fixes
+    the LIVE campaign envelope at 60,000 / 900 s / **4** for ALL six arms
+    (matched cap preserved; token/wall ceilings and the 10.8M master ceiling
+    unchanged). This default (4) is what pre-flight smoke runs and the
+    campaign runner use; override with ``--envelope-agents`` if a different
+    matched cap is required (the envelope hash then changes, per C1).
     """
     _ = case_name  # uniform default; the name is recorded by the caller.
     return BudgetEnvelope(max_tokens=60_000, max_wall_s=900.0, max_agents=4)
