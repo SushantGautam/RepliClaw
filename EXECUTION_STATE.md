@@ -9,8 +9,9 @@ current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. Live-S5 arm BUI
 ## Current gates (executed, real output)
 | Tree | SHA | Gate |
 |---|---|---|
+| **repl-claw-dev (RUN BRANCH)** | **d3beaeb** (f78b119 + contract + PREREG v1.1 + scorer 3f3928b + live-arm merge d0cb054 + arms.py cleanup d3beaeb; erratum d4c6f6b) | **149 passed, 8 skipped**; ruff clean; mypy clean (54 files); `p08.score --self-test` PASS; 5 parity tests pass |
+| p08/live-eess (live S5/A1/A3 arms) | 9022138 (1806cd2 + 2 integration commits) | **141 passed, 8 skipped**; ruff clean; mypy clean (53 files); tree clean; MERGED into run branch |
 | p07/integration (full stack + S5 arm + N1/N3) | 7ccfbaa | 134 passed, 8 skipped; ruff clean; mypy clean (45 files) |
-| **repl-claw-dev (RUN BRANCH)** | **3f3928b** (f78b119 + contract 8781bdc + PREREG v1.1 + scorer) | **142 passed, 8 skipped**; ruff clean; mypy clean (47 files); `p08.score --self-test` = **PASS**; PUSHED |
 | p08/s5-arm | 14a485d | 25 comparator tests; merged clean into p07 |
 | p06/secondary-case (Tox21) | 859aa4e | green (ruff clean, mypy 22 files) — merged into run branch |
 | judge race-repro (N1 pre-fix) | — | anchor inconsistency 2/4 runs with widened latency (reproduced) |
@@ -32,8 +33,10 @@ current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. Live-S5 arm BUI
 | **live-eess-arm** | d250675d | **DEAD → work RECONCILED by orchestrator** | live S5/A1/A3 (judge item 4/C2) @ .worktrees/p08-live @ 9022138 (3 commits over f78b119). Worker handoff committed 1806cd2, then flushed a final divergent batch at 20:32 and exited. Orchestrator reconciled: kept its 642-line orchestrator (judge-item-7 usage hardening intact) + escrow/accounting/budget_calls/fake; restored contract arm.py (work_dir/run-01, prereg keys, 22-key final_verdict) from 1806cd2; deleted deviant arms.py + comparators/arm_registry.py; restored my 7-test contract suite. Gate @ 9022138: **141 passed, 8 skipped; mypy clean (53 files); ruff clean; tree clean**. NOTE: its escrow-seam security tests (PhaseViolation gating, owner-only reveal, foreign-file guard) were lost in the final flush and are worth re-adding in a future pass (low priority). |
 | **runner-cli-usage** | e7ac1011-6231 | RUNNING (7500s, 357 tool calls, 0 completed turns) | runner CLI + usage-invalidation (items 7,8) @ .worktrees/p08-runner (tree still clean @ f78b119 — work in flight, not committed yet). Do NOT duplicate. |
 | **oracle-scorer** | 8f4d284 | **DONE (orchestrator direct build)** | 3 subagent turns died on model API errors → built directly: repliclaw.p08.score @ .worktrees/p08-scorer, 8 tests incl. oracle-gate safety proof + exact-number metrics + bootstrap determinism + voided-run denominator. MERGED @ 3f3928b; gate 142/8 + ruff + mypy + SELF-TEST PASS. **Judge checklist item 1 SATISFIED** |
+| **code-judge-live-eess** | 466e3ae5 | RUNNING (read-only) | Independent Code Judge on p08/live-eess @ 9022138 (escrow seam, budget integrity, A3 determinism, offline parity, test adequacy). Report → docs/fleet/reviews/CODE-JUDGE-P08-LIVE.md. |
+| **token-floor-measure** | 1670f65f | RUNNING | `scripts/measure_live_token_floor.py` + real-key live S5 floor run @ .worktrees/p08-tokenfloor (p08/token-floor). **AUTHORIZED the live key** (judge item 2/F). Artifact artifacts/p08/live_token_floor/floor.json. |
 
-Workers FORBIDDEN live LLM keys. Shared interface: docs/experiments/P08-ARTIFACT-CONTRACT.md (frozen v1).
+Workers FORBIDDEN live LLM keys EXCEPT token-floor-measure (single authorized measurement, <25k tokens). Shared interface: docs/experiments/P08-ARTIFACT-CONTRACT.md (frozen v1).
 
 ## Branch/worktree map
 - repl-claw-dev @ 9f67db2 PUSHED (run branch = full P02-P08 stack + docs + contract + PREREG v1.1)
