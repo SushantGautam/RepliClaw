@@ -1,0 +1,25 @@
+{
+  "commitment_id": "cmt-single-agent-00b52c",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "9afa5034e0a723899ad01a69aa280bbc576188f60a3250cfeef7cb65f8d8a24e",
+  "phase": "committed",
+  "timestamp": "2026-10-08T22:06:27.010819+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "uncertain",
+    "statement": "insufficient structured data to compute a test",
+    "plan": "recompute primary endpoint from raw events",
+    "evidence": {
+      "error": "insufficient data"
+    },
+    "confidence": 0.2,
+    "executable": true
+  },
+  "seal_hash": "32ca3c9450551d1fc76a2f36dd9fe940c226fe44da34ac61ea684f9191bf2ae9"
+}
