@@ -3,15 +3,15 @@ Last updated: 2026-10-08 23:20 (orchestrator, post-runner+leakguard integration)
 status: WORKING
 program: EESS — Evidence-Escrow Scientific Swarm (docs/EVIDENCE_ESCROW_SWARM.md)
 branch: repl-claw-dev (run branch)
-HEAD: 226d4b7 on repl-claw-dev (leak-guard ae68211 + runner d269a15 + preflight-5gates 6a9f2b7 + P09 fact-check f968a49/91930b5 + hero-demo merge 226d4b7; push ok)
+HEAD: 48b9872 on repl-claw-dev (leak-guard ae68211 + runner d269a15 + preflight-5gates 6a9f2b7 + P09 fact-check f968a49/91930b5 + hero-demo merge 226d4b7; push ok)
 current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. **2 of 3 NO-GO code blockers MERGED** (H5 leak-guard @ ae68211/d269a15; H7 RandomPolicy @ dc0e78f). H1 (scorer) + H2 (prompt) fixers in flight; preflight-gate + demo-prep workers in flight. Runner CLI MERGED (25 acceptance tests; 4 dead-WIP defects root-caused+fixed; dead WIP preserved on salvage/runner-wip-1bdc6490-replaced). Preflight 4-gate PASS @ d269a15; gate 202/8 + ruff + mypy clean @ d269a15.
 
 ## Current cursor
 status: WORKING
 next: WAIT for in-flight workers; on each completion: gate @ worktree + (H1/H2) code-judge spot review → merge into repl-claw-dev → push. After H1/H2 green: science-judge v1.2 sign-off request (matched reports) + HUMAN two-key authorization → live run eligibility. Bulk live run remains HARD NO-GO until then.
 active_workers (actual IDs — post-compaction; list_agents labels are shuffled, read_agent is authoritative):
-  - H1 (P1 rule + scorer align): **84468580** (scorer-align), worktree .worktrees/p08-scorer-align → p08/scorer-align @ dc0e78f
-  - H2 (evidence in verdict prompt): **6079ec46** (prompt-evidence), worktree .worktrees/p08-prompt-ev → p08/prompt-evidence @ dc0e78f
+  - H1 (P1 rule + scorer align): **DONE — MERGED @ 5967f24** (worker 84468580, commit a9779fb; code judge MERGE-OK 9/9 → CODE-JUDGE-SCORER-A17-20261008.md)
+  - H2 (evidence in verdict prompt): **6079ec46** (prompt-evidence), worktree .worktrees/p08-prompt-ev → p08/prompt-evidence @ dc0e78f — field names confirmed to it mid-flight
   - preflight gate 5 (runner-CLI smoke): **DONE @ 6a9f2b7** (9270dbfe, NonThinking) — all 5 gates PASS, pushed
   - P09 hero demo: **DONE — MERGED @ 226d4b7** (cec5d6ea, a281006): scripts/demo_hero.py + DEMO_NARRATIVE.md + 3 committed evidence runs; integration-verified (2 runs exit 0, digest 76ce5f35... stable, 8 unmet items honestly listed)
   - P09 fact-check rerun: **DONE @ f968a49** (871bd3ef, NonThinking): FACT_CHECK_LIST + SUBMISSION_CHECKLIST re-verified @ 617b329 (202/8, 55 files); DRAFT_ANSWERS count fix @ 91930b5 (orchestrator)
@@ -20,7 +20,10 @@ merged_this_segment:
   - dc0e78f: stream-preserving RandomPolicy fix (code-judge 2000-seed sweep independently derived the SAME fix as the merged one)
   - ae68211: p08/leak-guard ff-merge (H5: two-layer no-oracle-leak, 9 tests)
   - d269a15: p08/runner-cli-2 merge (runner CLI + case_loader + D-10 pin; conflict resolved: __all__ union + CLI-level redact_claim_for_arms wiring + regression test — judge's post-merge item-3 extension)
-  - acb2ada: state + preflight green record
+  - 6a9f2b7: preflight gate 5 (runner-CLI smoke) — 5/5 gates PASS
+  - 226d4b7: p08/demo-prep merge (P09 hero demo + narrative; science digest 76ce5f35... stable; 8 unmet items honest)
+  - 5967f24: **p08/scorer-align merge (H1: v1.2 canonical P1 rule; code judge MERGE-OK 9/9)**; gate 207/8 @ 5967f24
+  - P09 docs current at 5967f24: FACT_CHECK_LIST F25/F27 + section E, SUBMISSION_CHECKLIST step 9 (floor + P1 alignment now LANDED; remaining in-flight = A4 only + sign-offs); DRAFT_ANSWERS 202/8 @ 91930b5
 envelope_deviation: runner default_envelope = 4 agents (S3's evidence-driven follow-up deploys a 4th; 4×30×60k=7.2M ≤ 10.8M ceiling — budget parity still holds). Requires prereg v1.3 candidate note (or erratum) — record before sign-off.
 s3_residual: RESOLVED by inspection @ 8a287a9 — S3 runs the full investigator pipeline (same verdict shape); no M1 special handling needed.
 
@@ -95,7 +98,7 @@ Workers FORBIDDEN live LLM keys EXCEPT token-floor-measure (single authorized me
 Judge verdict: **NO-GO** for bulk live runs. 7/7 hotspots VERIFIED. Blockers + status:
 | Judge item | Amendment | Status |
 |---|---|---|
-| H1 — P1 rule fix + scorer re-validation | A1 + A1.7 | Amendment: canonical string adopted (judge's verbatim, strict CI_lower>0 / NOT_SUPPORTED / A1.8 non-inferiority scope) @ a30b77d. Scorer: **84468580 (scorer-align)** running on p08/scorer-align @ dc0e78f. |
+| H1 — P1 rule fix + scorer re-validation | A1 + A1.7 | **MERGED @ 5967f24** (a9779fb): canonical string byte-identical (sha256 766f4eb9…), S5−S4, strict branches, 5 sealed fixtures, no_valid_runs degraded path. Code judge MERGE-OK 9/9 (CODE-JUDGE-SCORER-A17-20261008.md). Gate 207/8 @ 5967f24. Operational note: live runs must use --seed 20261010. |
 | H5 — reference_truth leak guard | A6 test 1 | **MERGED** (p08/leak-guard @ ae68211; CLI-level redaction + regression test @ d269a15): two-layer fix (fallback→INCONCLUSIVE, harness+CLI redaction of reference_truth AND seeded_fault) + 10 tests incl. leaky-vs-clean canary. Gate 202/8 @ d269a15. |
 | H2 — evidence in verdict prompt | A4 | **prompt-evidence (84468580)** running on p08/prompt-evidence @ dc0e78f (all 4 A4 gates as named tests). |
 | Judge sign-off + human two-key | §9 | AFTER H1/H2/H5 merged green + code-judge report + v1.2 sign-off. |

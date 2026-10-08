@@ -231,12 +231,14 @@ v1.1 alone while it is unsigned) **and** human (project-lead) authorization, bot
 
 1. **Pre-flight (all must be green before run 1):** the primary run-branch gate (F20), the scorer
    `--self-test` (F25), P02 leakage test, the P05 parity suite (F23), and — before the window can
-   open — the remaining in-flight pieces must be landed and pinned: the measured live token floor
-   committed to git, the v1.2-AMENDMENT science-judge sign-off, and the `score.py` P1-rule
-   alignment to the v1.2 canonical rule (F25/F27/F28). The runner CLI, same-task `case_loader`,
-   usage-invalidation and the D-10 hyperparameter pin (λ=μ=0.5, max_cycles=6, offer TTL=120s)
-   are already landed (`d269a15`); `experiments/policy_rag/preflight.sh` runs all 5 gates
-   (including the runner CLI smoke, gate 5, added at `6a9f2b7`).
+   open — the remaining in-flight piece must be landed and pinned: the A4 evidence-in-verdict-prompt
+   fix (worker in flight at `5967f24`), plus the v1.2-AMENDMENT science-judge sign-off (F25/F27/F28).
+   Already landed and pinned: the measured live token floor (§5.1 filled; `artifacts/p08/live_token_floor/`),
+   the `score.py` P1-rule alignment to the v1.2 canonical rule (merged `5967f24`, code-judge
+   MERGE-OK, F25), the runner CLI, same-task `case_loader`, usage-invalidation and the D-10
+   hyperparameter pin (λ=μ=0.5, max_cycles=6, offer TTL=120s) (`d269a15`);
+   `experiments/policy_rag/preflight.sh` runs all 5 gates (including the runner CLI smoke, gate 5,
+   added at `6a9f2b7`).
 2. **Run the preregistered arms** (S5 live EESS, S3 adaptive central, S4 open-sharing, S0
    single-agent, and the A1 no-escrow / A3 random-select ablations) under the shared frozen
    `BudgetEnvelope`, same task/case/oracle. The arms already exist on the run branch
