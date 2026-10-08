@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from .arms import ArmResult, ArmRunner, ArmSpec, ComparatorArm
 from .budget import BudgetEnvelope, BudgetLedger, BudgetOverflow, BudgetRecord
-from .managers import AdaptiveCentralManager, OpenSharingSwarm, SingleAgentBaseline
+from .managers import AdaptiveCentralManager, EESSArm, OpenSharingSwarm, SingleAgentBaseline
 from .runner import ComparatorHarness, arm_registry, assert_budget_parity
 
 __all__ = [
@@ -32,6 +32,7 @@ __all__ = [
     "BudgetRecord",
     "ComparatorArm",
     "ComparatorHarness",
+    "EESSArm",
     "OpenSharingSwarm",
     "SingleAgentBaseline",
     "arm_registry",
