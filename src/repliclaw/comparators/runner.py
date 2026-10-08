@@ -174,12 +174,24 @@ ARM_ALIASES = {
     "eess_random_select": "eess_random_select",
 }
 
-# Live-LLM arms: need a real client (or the fake) and the primary case.
+# Live-LLM arms: CAN run live (primary case) — need a real client (or the fake).
 # PREREG-2026-10 v1.2 A8 (RC-1, executor parity): the P1 pair (S5 vs S4) — and
-# the RQ2 comparators S3/S0 — must run the SAME live-LLM executor as S5 (same
-# LLMConfig + harness seed), so all six primary arms are live. S0/S3/S4 route
-# through the EXISTING comparators arms with an LLM investigator factory
-# (see _run_live_strategy), NOT through eess_live.live_arm_registry.
+# the RQ2 comparators S3/S0 — run the SAME live-LLM executor as S5 (same
+# LLMConfig + harness seed), so all six arms are live ON THE PRIMARY CASE
+# (policy_rag_v1). S0/S3/S4 route through the EXISTING comparators arms with an
+# LLM investigator factory (see _run_live_strategy), NOT through
+# eess_live.live_arm_registry.
+#
+# DEFECT C1 FIX (case-conditional live-vs-offline): "in LIVE_KEYS" only says an
+# arm *can* be live — it is live ONLY on the primary case. On the secondary
+# no-LLM case (tox21_ar_agonist) S0/S3/S4 MUST run offline (deterministic,
+# exit 0) — that is the frozen v1.1 RQ4/P4 no-LLM sub-study, which pre-dates A8
+# and is preserved verbatim (test_p08_runner_cli.tox21 offline arms). S5/A1/A3
+# are live-ONLY: they refuse the secondary case (the `if spec.secondary and
+# is_live` refusal branch below still fires for them, since is_live stays True
+# for them). The decision is computed in run_one_arm as:
+#   is_live = (arm_key in LIVE_KEYS) and (not spec.secondary
+#             or arm_key in _LIVE_ONLY_KEYS)
 LIVE_KEYS = {
     "eess",
     "eess_no_escrow",
@@ -188,9 +200,15 @@ LIVE_KEYS = {
     "adaptive_central",
     "open_sharing_swarm",
 }
-# The three newly-live strategy arms (A8): run via the comparators arms +
-# LLMInvestigator, not the EESS-lifecycle registry.
+# The three strategy arms that are live on the primary but MUST run offline on
+# the secondary no-LLM case (A8 + frozen RQ4/P4). They go through the
+# comparators arms + LLMInvestigator when live; they are simply absent from
+# LIVE_KEYS on the secondary case, so run_one_arm falls to the offline path.
 _LIVE_STRATEGY_KEYS = {"single_agent", "adaptive_central", "open_sharing_swarm"}
+# Arms that are live ONLY (refuse the secondary no-LLM case): the EESS-lifecycle
+# arms. They never run offline on the secondary — the refusal branch is their
+# correct, frozen behaviour (prereg v1.1 H).
+_LIVE_ONLY_KEYS = {"eess", "eess_no_escrow", "eess_random_select"}
 
 # D-10 frozen pin (prereg v1.1 §3.2): λ=μ=0.5, max_cycles=6, broker TTL=120 s.
 FROZEN_LAM = 0.5
@@ -608,9 +626,20 @@ def run_one_arm(args: argparse.Namespace) -> int:
               file=sys.stderr)
         return EXIT_REFUSAL
 
-    is_live = arm_key in LIVE_KEYS
+    # A8 (RC-1, executor parity) + DEFECT C1 FIX (case-conditional live-vs-
+    # offline). Membership in LIVE_KEYS only says an arm CAN be live; the arm
+    # IS live iff:
+    #   - primary case   -> every LIVE_KEYS arm is live (all six, incl. S0/S3/S4);
+    #   - secondary case -> ONLY the live-only arms (S5/A1/A3) stay live.
+    # S0/S3/S4 therefore run OFFLINE (deterministic, exit 0) on the secondary
+    # no-LLM case tox21_ar_agonist — that is the frozen v1.1 RQ4/P4 sub-study,
+    # preserved verbatim (test_p08_runner_cli.tox21 offline arms). S5/A1/A3 are
+    # live on BOTH cases; the refusal branch below fires exactly for them.
+    is_live = arm_key in LIVE_KEYS and (not spec.secondary or arm_key in _LIVE_ONLY_KEYS)
 
-    # Secondary (no-LLM) case: refuse live arms cleanly (exit 2, not a crash).
+    # Secondary (no-LLM) case: refuse the live-ONLY arms (S5/A1/A3) cleanly
+    # (exit 2, not a crash). S0/S3/S4 are no longer live on the secondary case
+    # (C1) so they fall through to the offline path instead of refusing.
     if spec.secondary and is_live:
         print(
             f"refusal: live arm {arm_key!r} cannot run the secondary no-LLM case "

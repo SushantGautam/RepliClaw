@@ -21,6 +21,16 @@ guard that refuses to emit a P1/RQ2 decision when a pair mixes executors
   the BudgetRecord (not clamped to the declared 3), completes without a
   mid-run abort, and the parity report's declared-vs-observed classification
   flags an observed count that exceeds the cap.
+* ``test_a8_live_arm_agent_accounting`` — DEFECT C3: a live EESS arm (S5/A1/A3)
+  records the TRUE observed distinct-agent count (3) in its arm-level
+  BudgetRecord, not the pre-fix hard-coded 0, while its per-call records keep
+  n_agents=0 (no double count).
+* ``test_a8_s0_s3_s4_live_on_primary`` — DEFECT C1: S0/S3/S4 are live
+  (``offline_arm=false``, ``model="fake-v1"``) on the primary case.
+* ``test_a8_s0_s3_s4_offline_on_tox21_secondary`` — DEFECT C1 (BLOCKER): on the
+  secondary no-LLM case S0/S3/S4 run OFFLINE (``offline_arm=true``,
+  ``model="deterministic"``, exit 0) — the frozen RQ4/P4 sub-study — while the
+  live-only S5/A1/A3 still refuse it (exit 2).
 * ``test_a8_fake_llmclient_parity_all_six_arms`` — all six arms complete on the
   fake client and are byte-identical (volatile keys stripped) across two runs
   — the §9 amendment gate item.
@@ -40,6 +50,12 @@ from repliclaw.comparators import runner
 from repliclaw.comparators.arms import ArmSpec
 from repliclaw.comparators.budget import BudgetEnvelope, BudgetLedger
 from repliclaw.comparators.managers import AdaptiveCentralManager
+from repliclaw.eess_live import (
+    EESSLiveA1Arm,
+    EESSLiveA3Arm,
+    EESSLiveS5Arm,
+    FakeLLMClient,
+)
 from repliclaw.investigators import DeterministicInvestigator
 from repliclaw.models import Claim
 from repliclaw.p08 import score as sc
@@ -120,11 +136,15 @@ def _det_factory(cfg) -> DeterministicInvestigator:
 # 1. All six primary arms route through the live path (A8 RC-1).
 # ---------------------------------------------------------------------------
 def test_a8_all_six_primary_arms_are_live() -> None:
-    """LIVE_KEYS contains every primary arm key: S0/S3/S4/S5/A1/A3.
+    """LIVE_KEYS contains every primary arm key (all six CAN be live), and the
+    case-conditional routing (DEFECT C1 fix) keeps them live on the PRIMARY
+    case while dropping S0/S3/S4 to offline on the secondary no-LLM case.
 
     Before A8 the three strategy arms (single_agent/adaptive_central/
     open_sharing_swarm) were OFFLINE (DeterministicInvestigator), making P1 a
-    live-vs-deterministic comparison. A8 puts them on the live path.
+    live-vs-deterministic comparison. A8 puts them on the live path on the
+    primary case. On the secondary case (tox21_ar_agonist) S0/S3/S4 MUST run
+    offline (frozen RQ4/P4); only S5/A1/A3 stay live and refuse it.
     """
     live = set(runner.LIVE_KEYS)
     for cli, key in runner.ARM_ALIASES.items():
@@ -138,6 +158,61 @@ def test_a8_all_six_primary_arms_are_live() -> None:
     # The three newly-live arms are routed via the strategy path, not the
     # EESS-lifecycle registry.
     assert set(LIVE_STRATEGY_KEYS) <= set(runner._LIVE_STRATEGY_KEYS)
+    # DEFECT C1 (case-conditional): the live-ONLY arms are exactly the
+    # EESS-lifecycle arms; S0/S3/S4 are live on the primary but offline on the
+    # secondary no-LLM case, so they must NOT be in _LIVE_ONLY_KEYS.
+    assert set(runner._LIVE_ONLY_KEYS) == {
+        "eess", "eess_no_escrow", "eess_random_select",
+    }
+    assert not (set(runner._LIVE_ONLY_KEYS) & set(runner._LIVE_STRATEGY_KEYS))
+    # eess_offline is always offline (never in LIVE_KEYS).
+    assert "eess_offline" not in live
+
+
+def test_a8_s0_s3_s4_live_on_primary(tmp_path: Path, monkeypatch) -> None:
+    """DEFECT C1: S0/S3/S4 are LIVE on the PRIMARY case (policy_rag_v1).
+
+    Each runs the live-LLM executor (fake client here): exit 0,
+    ``offline_arm=false``, ``model="fake-v1"`` — the A8 like-for-like
+    comparison vs S5. (S5/A1/A3 are also live here; pinned elsewhere.)
+    """
+    for arm in ["S0", "S3", "S4"]:
+        out = tmp_path / f"{arm}_primary"
+        code = _run_cli(arm, "policy_rag", "--client-factory", "fake",
+                        monkeypatch=monkeypatch, out=out)
+        assert code == 0, f"{arm} must complete on the primary case"
+        meta = json.loads((out / "run-01" / "run_metadata.json").read_text())
+        assert meta["case_id"] == "policy_rag_v1"
+        assert meta["offline_arm"] is False
+        assert meta["model"] == "fake-v1"
+        assert meta["client_factory"] == "fake"
+
+
+def test_a8_s0_s3_s4_offline_on_tox21_secondary(tmp_path: Path, monkeypatch) -> None:
+    """DEFECT C1 (BLOCKER): S0/S3/S4 run OFFLINE on the secondary no-LLM case.
+
+    The frozen v1.1 RQ4/P4 no-LLM sub-study runs S0/S3/S4 deterministically on
+    ``tox21_ar_agonist`` (pre-A8 behaviour). A8 made them unconditionally live,
+    which broke this study (exit-2 refusal). Fixed: on the secondary case they
+    fall to the offline path — exit 0, ``offline_arm=true``,
+    ``model="deterministic"``. S5/A1/A3 remain live-only (still refuse).
+    """
+    for arm in ["S0", "S3", "S4"]:
+        out = tmp_path / f"{arm}_secondary"
+        code = _run_cli(arm, "tox21_ar_agonist", monkeypatch=monkeypatch, out=out)
+        assert code == 0, f"{arm} must complete OFFLINE on the secondary case"
+        meta = json.loads((out / "run-01" / "run_metadata.json").read_text())
+        assert meta["case_id"] == "tox21_ar_agonist"
+        assert meta["status"] == "completed"
+        assert meta["offline_arm"] is True
+        assert meta["model"] == "deterministic"
+        assert meta["endpoint"] == "offline"
+        assert meta["client_factory"] == "none"
+    # Control: the live-ONLY EESS arms still refuse the secondary no-LLM case.
+    for arm in ["S5", "A1", "A3"]:
+        code = _run_cli(arm, "tox21_ar_agonist", "--client-factory", "fake",
+                        monkeypatch=monkeypatch, out=tmp_path / f"{arm}_sec")
+        assert code == 2, f"{arm} (live-only) must refuse the secondary case"
 
 
 # ---------------------------------------------------------------------------
@@ -367,6 +442,52 @@ def test_a8_agent_accounting_honest(tmp_path: Path) -> None:
     report2 = runner.assert_budget_parity([over], env)
     assert "synthetic_over" in report2["over_budget_arms"]
     assert report2["parity"] is False
+
+
+@pytest.mark.parametrize("arm_cls", [EESSLiveS5Arm, EESSLiveA1Arm, EESSLiveA3Arm])
+def test_a8_live_arm_agent_accounting(tmp_path: Path, arm_cls) -> None:
+    """DEFECT C3: a live EESS arm records the TRUE observed distinct-agent count
+    in its arm-level BudgetRecord (was hard-coded 0), so M5/M6 consumption is
+    honest for the live arms too.
+
+    The parent P05 ledger accumulates per-call records (n_agents=0 — their
+    token/wall are what is being summed) PLUS one aggregate arm-level record.
+    That aggregate must carry the observed distinct count (== ArmResult.n_agents),
+    never 0. The A7 cap still holds: the live orchestrator enforces distinct
+    agents <= max_agents per-call, so the aggregate cannot push a fresh per-arm
+    ledger over the cap.
+    """
+    # The A7 live envelope: 4-agent cap. The live EESS orchestrator deploys
+    # exactly 3 distinct agents (AGENT_IDS) on a normal fake run.
+    env = BudgetEnvelope(max_tokens=60_000, max_wall_s=900.0, max_agents=4)
+    claim = Claim(
+        claim_id="claim_live_test",
+        statement="The baseline policy-RAG system fails to cite the controlling provision.",
+        domain="policy_rag",
+    )
+    ledger = BudgetLedger(env)
+    spec = ArmSpec(arm_name=arm_cls.arm_label, claim_id=claim.claim_id, envelope=env)
+    arm = arm_cls(lambda _a: FakeLLMClient(), harness_seed=20261010)
+    res = arm.run(claim, ledger, spec, tmp_path / arm_cls.arm_label)
+
+    assert res.verdict_label != "ABORTED"
+    # The arm-level BudgetRecord records the TRUE distinct count, not 0.
+    arm_records = [r for r in ledger.records() if r.agent_id == f"{arm_cls.arm_label}-arm"]
+    assert arm_records, "no arm-level aggregate BudgetRecord was recorded"
+    n = arm_records[0].n_agents
+    assert n >= 1, "live arm must record >=1 distinct agent (was 0 pre-C3-fix)"
+    assert n == res.n_agents, "BudgetRecord.n_agents must equal the observed distinct count"
+    # The live EESS orchestrator deploys exactly the 3 AGENT_IDS on a normal
+    # (non-aborted) fake run, so the honest distinct count is 3 — and 3 <= the
+    # 4-agent A7 cap, so the aggregate record cannot push the ledger over cap.
+    assert n == 3
+    assert n <= env.max_agents
+    # NO double count: the parent P05 ledger receives ONLY this single
+    # arm-level aggregate (the orchestrator's per-call n_agents=0 records live
+    # in its OWN internal LiveBudgetLedger, which enforces the distinct-agent
+    # cap per-call and is never forwarded to the parent). So the parent's
+    # agent total is exactly the observed distinct count — recorded once.
+    assert sum(r.n_agents for r in ledger.records()) == n
 
 
 # ---------------------------------------------------------------------------
