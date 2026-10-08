@@ -1,10 +1,26 @@
 # RepliClaw — Execution State (v2 Evidence-Escrow program)
-Last updated: 2026-10-08 21:00 (orchestrator, post-live-arm-reconciliation segment)
+Last updated: 2026-10-08 23:20 (orchestrator, post-runner+leakguard integration)
 status: WORKING
 program: EESS — Evidence-Escrow Scientific Swarm (docs/EVIDENCE_ESCROW_SWARM.md)
 branch: repl-claw-dev (run branch)
-HEAD: d4c6f6b on repl-claw-dev (live arm merged @ d0cb054 + arms.py cleanup d3beaeb + prereg v1.1 erratum d4c6f6b)
-current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. Live-S5 arm BUILT + MERGED + tested (judge checklist items 1 scorer + 2 live-arm now DONE; token-floor measurement in flight). Runner CLI + same-task + usage-invalidation still in flight (e7ac1011). D-10 hyperparameter-pin is a newly-open pre-flight requirement.
+HEAD: acb2ada on repl-claw-dev (leak-guard ff ae68211 + runner merge d269a15 + state acb2ada; push ok)
+current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. **2 of 3 NO-GO code blockers MERGED** (H5 leak-guard @ ae68211/d269a15; H7 RandomPolicy @ dc0e78f). H1 (scorer) + H2 (prompt) fixers in flight; preflight-gate + demo-prep workers in flight. Runner CLI MERGED (25 acceptance tests; 4 dead-WIP defects root-caused+fixed; dead WIP preserved on salvage/runner-wip-1bdc6490-replaced). Preflight 4-gate PASS @ d269a15; gate 202/8 + ruff + mypy clean @ d269a15.
+
+## Current cursor
+status: WORKING
+next: WAIT for in-flight workers; on each completion: gate @ worktree + (H1/H2) code-judge spot review → merge into repl-claw-dev → push. After H1/H2 green: science-judge v1.2 sign-off request (matched reports) + HUMAN two-key authorization → live run eligibility. Bulk live run remains HARD NO-GO until then.
+active_workers (actual IDs — post-compaction; list_agents labels are shuffled, read_agent is authoritative):
+  - H1 (P1 rule + scorer align): **84468580** (scorer-align), worktree .worktrees/p08-scorer-align → p08/scorer-align @ dc0e78f
+  - H2 (evidence in verdict prompt): **6079ec46** (prompt-evidence), worktree .worktrees/p08-prompt-ev → p08/prompt-evidence @ dc0e78f
+  - preflight gate 5 (runner-CLI smoke): **9270dbfe** (NonThinking), main tree, preflight.sh only
+  - P09 hero demo: **cec5d6ea**, worktree .worktrees/p08-demo → p08/demo-prep @ acb2ada
+merged_this_segment:
+  - dc0e78f: stream-preserving RandomPolicy fix (code-judge 2000-seed sweep independently derived the SAME fix as the merged one)
+  - ae68211: p08/leak-guard ff-merge (H5: two-layer no-oracle-leak, 9 tests)
+  - d269a15: p08/runner-cli-2 merge (runner CLI + case_loader + D-10 pin; conflict resolved: __all__ union + CLI-level redact_claim_for_arms wiring + regression test — judge's post-merge item-3 extension)
+  - acb2ada: state + preflight green record
+envelope_deviation: runner default_envelope = 4 agents (S3's evidence-driven follow-up deploys a 4th; 4×30×60k=7.2M ≤ 10.8M ceiling — budget parity still holds). Requires prereg v1.3 candidate note (or erratum) — record before sign-off.
+s3_residual: RESOLVED by inspection @ 8a287a9 — S3 runs the full investigator pipeline (same verdict shape); no M1 special handling needed.
 
 ## Current gates (executed, real output)
 | Tree | SHA | Gate |
@@ -77,7 +93,7 @@ Workers FORBIDDEN live LLM keys EXCEPT token-floor-measure (single authorized me
 Judge verdict: **NO-GO** for bulk live runs. 7/7 hotspots VERIFIED. Blockers + status:
 | Judge item | Amendment | Status |
 |---|---|---|
-| H1 — P1 rule fix + scorer re-validation | A1 + A1.7 | Amendment: canonical string adopted (judge's verbatim, strict CI_lower>0 / NOT_SUPPORTED / A1.8 non-inferiority scope) @ a30b77d. Scorer: **scorer-align (6079ec46)** running on p08/scorer-align @ dc0e78f. |
+| H1 — P1 rule fix + scorer re-validation | A1 + A1.7 | Amendment: canonical string adopted (judge's verbatim, strict CI_lower>0 / NOT_SUPPORTED / A1.8 non-inferiority scope) @ a30b77d. Scorer: **84468580 (scorer-align)** running on p08/scorer-align @ dc0e78f. |
 | H5 — reference_truth leak guard | A6 test 1 | **MERGED** (p08/leak-guard @ ae68211; CLI-level redaction + regression test @ d269a15): two-layer fix (fallback→INCONCLUSIVE, harness+CLI redaction of reference_truth AND seeded_fault) + 10 tests incl. leaky-vs-clean canary. Gate 202/8 @ d269a15. |
 | H2 — evidence in verdict prompt | A4 | **prompt-evidence (84468580)** running on p08/prompt-evidence @ dc0e78f (all 4 A4 gates as named tests). |
 | Judge sign-off + human two-key | §9 | AFTER H1/H2/H5 merged green + code-judge report + v1.2 sign-off. |
