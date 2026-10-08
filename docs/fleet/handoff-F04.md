@@ -2,7 +2,9 @@
 
 Branch: `w4/F04-need-dispatch` · Worktree: `.worktrees/f04` · Base: `a14fa676`
 Type: DESIGN (no product code touched; `src/repliclaw/` unmodified)
-Final SHA: `b24b07c` (amended to include this stamp — `git log -1` on branch).
+Final SHA: branch HEAD of `w4/F04-need-dispatch` (`git rev-parse HEAD` at
+integration time; the SHA self-references its own amend, so it is read from
+git, not hardcoded here).
 
 ## Files touched (this ticket only)
 - `docs/design/NEED_DISPATCH.md` (new) — full design, sections 1–8
