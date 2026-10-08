@@ -147,3 +147,58 @@ send-view stays ~2.4K tokens vs ~10K+. Predicted arm totals for this case
 class: D-E ≈ 27K, C-EQ ≈ 37K — under the frozen 60K. Regression test:
 `test_session_compaction_bounds_send_view_keeps_full_audit`
 (`tests/experiments/test_v3_telemetry_arms.py`).
+
+### 6.4 Amendment W3h (harness-side, additive — no frozen number touched):
+
+**Defect class: driver stop-rule denominators, not model, not arms.** Live
+pilot #3 (real SimulaChat, Qwen3.8-27B) ran RCA-P-01 (4 runs) and STOPPED
+after case 1 because `evaluate_stop_rules` fired BOTH stop-1 (S-sat) and
+stop-2 (crash) on a **running denominator**:
+
+- `sat_per_arm` divided saturated-cases by **cases recorded so far** (1/1 = 1.0
+  ≥ 0.25 → trip) instead of the spec's `n_pilot = 10`.
+- `crash_rate_per_arm` divided crashes by **ledgered runs so far** (2/2 = 1.0
+  > 0.25 → trip) instead of the spec's fixed per-arm cohort (10 × 2 = 20).
+
+This is a harness defect, not a science result: at case 1, C-EQ saturated
+**1/10 = 0.10** (< 0.25, no trip) and D-E crashed **2/20 = 0.10** (< 0.25, no
+trip). The pilot should have **continued** to case 10 (or the first genuine
+trip). The over-eager trip consumed no re-pilot budget (it is a defect
+amendment, not a §5.1 ladder trip) and is reversible: round 1 is re-run from
+scratch on the fixed driver.
+
+**Real-run evidence (pilot #3, `round1/` before wipe):** C-EQ-TELEM completed
+both seeds (54,717 / 54,721 tokens; W3g compaction held the manager under the
+60K envelope) with `hit = true` both (adservice top-1; ground truth =
+adservice). D-E-TELEM aborted_budget both seeds (62,751 / 60,537): compaction
+reduced inv-a's prompt (43,343 → ~60K over 23 calls) but the decentralized
+arm's genuinely verbose single-investigator sweep (system_context 1× +
+top_anomalies 4× + service_metrics 17–18×) still exceeds the 60K per-run
+envelope; inv-b/inv-c never got a call. That D-E aborted_budget behavior is a
+**legitimate stop-2 input at cohort scale** (it is a real crash), so it must be
+preserved as data — but only evaluated against 20 runs, not 2.
+
+**Fix (`scripts/pilot_run.py`, W3h):**
+- `sat_per_arm`: denominator = `TOTAL_CASES` (10), per spec §5 rule 1 verbatim
+  ("3 of 10 cases saturated for either arm").
+- `crash_rate_per_arm`: denominator = `TOTAL_CASES × len(PILOT_SEEDS)` (20),
+  per spec §5 rule 2 verbatim ("≥ 6 of 20 runs").
+- Regression: `test_stop_denominators_full_cohort_after_case_1`
+  (exact pilot #3 state → no trip) + the existing
+  `test_stop1_ssat_trip_at_3_of_10` / `test_stop2_crash_trip_at_6_of_20` now
+  pin the true trip points. `test_run_fake_artifacts_and_score_schema`
+  updated: a single saturated case no longer trips (driver pauses, exit 0).
+
+**What does NOT change (frozen scientific surfaces intact):**
+- the four stop-rule THRESHOLDS (0.25 / 25% / 2,880,000 / floor 2-of-20 and
+  9-of-10) — only the DENOMINATORS were corrected to match the frozen spec text;
+- the 60,000-token per-run envelope, 900 s wall, 24-call tool budget;
+- the arms, tools, escrow, scoring, and the frozen pilot roster;
+- the D-E aborted_budget runs: they remain crashes in the cohort denominator
+  (no softening of the signal — only the arithmetic was corrected).
+
+**Re-run consequence:** round 1 is discarded (it is a harness-defect artifact,
+recorded as non-pilot evidence, consistent with the launch #1/#2 note). The
+pilot re-runs fresh on the fixed driver. No re-pilot cap is consumed: a
+§5.1 ladder rung is only consumed by a GENUINE trip (s ≥ 0.25 or ≥ 6/20
+crashes at cohort scale) on the corrected checker.

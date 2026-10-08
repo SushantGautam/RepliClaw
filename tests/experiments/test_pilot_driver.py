@@ -133,11 +133,11 @@ def fake_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     code = _run_main(tmp_path, index)
     # Deterministic outcome on the pinned data: the anomaly-suggested
     # ranking lands the true service in top-5, so all 4 runs are
-    # all-seeds successes -> stop1 S-sat trips at 1/1 (1.0 >= 0.25).
-    # If the scripted commit ever misses, the driver pauses (exit 0)
-    # instead. Both are legitimate driver behaviors; artifacts are
-    # identical either way.
-    assert code in (0, pr.EXIT_STOP_TRIP)
+    # all-seeds successes. Under the spec-verbatim denominators (I4.6:
+    # sat over the full 10-case cohort, crash over 20 runs per arm),
+    # 1/10 = 0.10 < 0.25 and 0/20 = 0.0 — NO stop may trip on a
+    # single saturated case; the driver pauses (exit 0) for review.
+    assert code == 0
     return out
 
 
@@ -190,15 +190,18 @@ def test_run_fake_artifacts_and_score_schema(fake_run: Path) -> None:
     for line in ledger_lines:
         assert set(line) >= {"run_path", "case", "seed", "arm", "status", "tokens", "wall_s", "hit"}
     # Case check written with the four stop-rule sections. On the pinned
-    # data all 4 runs hit, so stop1 (S-sat 1/1) trips — the values must
-    # be internally consistent with the ledger.
+    # data all 4 runs hit (1 case saturated) — but the denominators are
+    # the FULL cohort (I4.6): sat = 1/10 = 0.10 < 0.25 and crash = 0/20,
+    # so nothing trips after a single case. This regression pins the
+    # live pilot #3 defect (stop-1/stop-2 firing at 1/1 and 2/2).
     case_check = json.loads((fake_run / "round1" / "RCA-P-01" / "case_check.json").read_text())
     for key in ("stop1_ssat", "stop2_crash", "stop3_tokens", "stop4_floor", "any_tripped"):
         assert key in case_check
-    assert case_check["stop1_ssat"]["sat"]["D-E-TELEM"] == pytest.approx(1.0)
-    assert case_check["stop1_ssat"]["sat"]["C-EQ-TELEM"] == pytest.approx(1.0)
-    assert case_check["stop1_ssat"]["tripped"] is True
-    assert case_check["any_tripped"] is True
+    assert case_check["stop1_ssat"]["sat"]["D-E-TELEM"] == pytest.approx(0.10)
+    assert case_check["stop1_ssat"]["sat"]["C-EQ-TELEM"] == pytest.approx(0.10)
+    assert case_check["stop1_ssat"]["tripped"] is False
+    assert case_check["stop2_crash"]["tripped"] is False
+    assert case_check["any_tripped"] is False
 
 
 def test_scorer_unit_hit_miss_and_boundary() -> None:
@@ -248,6 +251,28 @@ def _rec(case: str, seed: int, arm: str, status: str = "completed",
         run_path=f"round1/{case}/seed{seed}/{arm}", case=case, seed=seed, arm=arm,
         status=status, tokens=tokens, wall_s=1.0, hit=hit,
     )
+
+
+def test_stop_denominators_full_cohort_after_case_1() -> None:
+    """I4.6 regression: after ONLY case 1 completes (all-seeds success on
+    C-EQ; 2 aborted_budget on D-E), the live pilot #3 harness fired
+    stop-1 at 1/1 and stop-2 at 2/2. The spec-verbatim denominators are
+    the full cohort: sat = 1/10 = 0.10 (< 0.25, no trip) and
+    crash = 2/20 = 0.10 (< 0.25, no trip).
+    """
+    runs = [
+        _rec("RCA-P-01", 20261011, "D-E-TELEM", status="aborted_budget"),
+        _rec("RCA-P-01", 20261012, "D-E-TELEM", status="aborted_budget"),
+        _rec("RCA-P-01", 20261011, "C-EQ-TELEM", hit=True),
+        _rec("RCA-P-01", 20261012, "C-EQ-TELEM", hit=True),
+    ]
+    checks = pr.evaluate_stop_rules(runs, cases_completed=1)
+    assert checks["stop1_ssat"]["sat"]["C-EQ-TELEM"] == pytest.approx(0.10)
+    assert checks["stop1_ssat"]["sat"]["D-E-TELEM"] == pytest.approx(0.0)
+    assert checks["stop1_ssat"]["tripped"] is False
+    assert checks["stop2_crash"]["rate"]["D-E-TELEM"] == pytest.approx(0.10)
+    assert checks["stop2_crash"]["tripped"] is False
+    assert checks["any_tripped"] is False
 
 
 def test_stop1_ssat_trip_at_3_of_10() -> None:

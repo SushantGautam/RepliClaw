@@ -14,8 +14,9 @@ upstream-id order — the registry is the single mapping authority), k=2 seeds
 * the four stop rules (g3_pilot_spec_draft.md §5), evaluated after every
   completed case and written to ``{out}/round{R}/{case}/case_check.json``:
   1. S-sat: per-arm sat_A >= 0.25 (saturated = arm succeeded on ALL seeds);
-  2. per-arm crash rate > 25% of that arm's completed runs
-     (``aborted_budget`` counts as crash);
+  2. per-arm crash rate > 25% OF THE FULL PLANNED COHORT (10 x 2 = 20
+     runs per arm, per spec §5 rule 2 verbatim — i.e., ≥ 6 crashes;
+     ``aborted_budget`` counts as crash);
   3. per-round cumulative tokens > 2,880,000 (pre-emptive: a run is refused
      to start when cumulative + 60,000 would breach the ceiling);
   4. floor gate: either arm < 2/20 run-level successes, OR per-case
@@ -154,23 +155,36 @@ def arm_saturated(runs: list[RunRecord], arm: str, case: str) -> bool:
 
 
 def sat_per_arm(runs: list[RunRecord]) -> dict[str, float]:
-    """sat_A = #saturated cases / #cases with >=1 recorded run for the arm."""
+    """sat_A = #saturated cases / TOTAL_CASES.
+
+    Spec §5 rule 1 verbatim: "sat_A = (cases where arm A succeeded on
+    all k=2 seeds) / n_pilot ... (with n=10: 3 of 10 cases saturated for
+    either arm)". The denominator is the FULL planned pilot cohort
+    (10), NOT the cases recorded so far — a running denominator would
+    trip at 1/1 after the first case and is a defect (I4.6, live pilot
+    #3 caught this: stop-1 fired at 1/1 where the spec says 1/10).
+    """
     out: dict[str, float] = {}
     for arm in ARM_ORDER:
-        cases = {r.case for r in runs if r.arm == arm}
-        sat = [c for c in cases if arm_saturated(runs, arm, c)]
-        out[arm] = len(sat) / len(cases) if cases else 0.0
+        sat = [c for c in sorted({r.case for r in runs if r.arm == arm})
+               if arm_saturated(runs, arm, c)]
+        out[arm] = len(sat) / TOTAL_CASES
     return out
 
 
 def crash_rate_per_arm(runs: list[RunRecord]) -> dict[str, float]:
-    """Crash rate over each arm's completed (ledger-recorded) runs;
-    any status other than 'completed' is a crash (incl. aborted_budget)."""
+    """crash_A = crashes for arm A / (10 x 2 = 20 runs).
+
+    Spec §5 rule 2 verbatim: "crash_A = (...runs with status ∉
+    {completed}...) / (10 × 2 = 20 runs). Stop iff crash_A > 25% (i.e.,
+    ≥ 6 of 20 runs) for either arm." The denominator is the full
+    planned per-arm cohort (20), not the ledgered runs so far (I4.6).
+    """
     out: dict[str, float] = {}
     for arm in ARM_ORDER:
         arm_runs = [r for r in runs if r.arm == arm]
         crashes = [r for r in arm_runs if r.status != "completed"]
-        out[arm] = len(crashes) / len(arm_runs) if arm_runs else 0.0
+        out[arm] = len(crashes) / (TOTAL_CASES * len(PILOT_SEEDS))
     return out
 
 
