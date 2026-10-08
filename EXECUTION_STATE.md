@@ -3,7 +3,7 @@ Last updated: 2026-10-08 23:20 (orchestrator, post-runner+leakguard integration)
 status: WORKING
 program: EESS — Evidence-Escrow Scientific Swarm (docs/EVIDENCE_ESCROW_SWARM.md)
 branch: repl-claw-dev (run branch)
-HEAD: acb2ada on repl-claw-dev (leak-guard ff ae68211 + runner merge d269a15 + state acb2ada; push ok)
+HEAD: 226d4b7 on repl-claw-dev (leak-guard ae68211 + runner d269a15 + preflight-5gates 6a9f2b7 + P09 fact-check f968a49/91930b5 + hero-demo merge 226d4b7; push ok)
 current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. **2 of 3 NO-GO code blockers MERGED** (H5 leak-guard @ ae68211/d269a15; H7 RandomPolicy @ dc0e78f). H1 (scorer) + H2 (prompt) fixers in flight; preflight-gate + demo-prep workers in flight. Runner CLI MERGED (25 acceptance tests; 4 dead-WIP defects root-caused+fixed; dead WIP preserved on salvage/runner-wip-1bdc6490-replaced). Preflight 4-gate PASS @ d269a15; gate 202/8 + ruff + mypy clean @ d269a15.
 
 ## Current cursor
@@ -13,7 +13,9 @@ active_workers (actual IDs — post-compaction; list_agents labels are shuffled,
   - H1 (P1 rule + scorer align): **84468580** (scorer-align), worktree .worktrees/p08-scorer-align → p08/scorer-align @ dc0e78f
   - H2 (evidence in verdict prompt): **6079ec46** (prompt-evidence), worktree .worktrees/p08-prompt-ev → p08/prompt-evidence @ dc0e78f
   - preflight gate 5 (runner-CLI smoke): **DONE @ 6a9f2b7** (9270dbfe, NonThinking) — all 5 gates PASS, pushed
-  - P09 hero demo: **cec5d6ea** running, worktree .worktrees/p08-demo → p08/demo-prep @ acb2ada
+  - P09 hero demo: **DONE — MERGED @ 226d4b7** (cec5d6ea, a281006): scripts/demo_hero.py + DEMO_NARRATIVE.md + 3 committed evidence runs; integration-verified (2 runs exit 0, digest 76ce5f35... stable, 8 unmet items honestly listed)
+  - P09 fact-check rerun: **DONE @ f968a49** (871bd3ef, NonThinking): FACT_CHECK_LIST + SUBMISSION_CHECKLIST re-verified @ 617b329 (202/8, 55 files); DRAFT_ANSWERS count fix @ 91930b5 (orchestrator)
+  - code-judge on H1: **ce9d8497** running (read-only, 9-item adversarial checklist on a9779fb)
 merged_this_segment:
   - dc0e78f: stream-preserving RandomPolicy fix (code-judge 2000-seed sweep independently derived the SAME fix as the merged one)
   - ae68211: p08/leak-guard ff-merge (H5: two-layer no-oracle-leak, 9 tests)
