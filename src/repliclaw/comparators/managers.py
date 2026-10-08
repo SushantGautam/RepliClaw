@@ -175,8 +175,17 @@ class EESSArm(ArmRunner):
         The EESS slice is a counterfactual case (its own reference truth), not
         the claim's, so we report the arm's own post-run verdict: the
         majority of the committed hypotheses' supported/refuted outcomes.
-        Falls back to the claim's reference truth when the slice yields no
-        determined outcomes (defensive; the offline slice always yields some).
+
+        When the slice yields no determined outcomes the verdict degrades to
+        the non-scorable ``INCONCLUSIVE`` (confidence 0.5). It must NEVER fall
+        back on ``claim.reference_truth`` (evaluator truth): an arm-side
+        verdict derived from sealed truth would leak the oracle into a
+        reported/scored output. PREREG-2026-10 v1.2 A6 (Hotspots Critical 5)
+        and CODE-JUDGE-HARNESS-20261008 item 3 require the ``EESSArm._verdict``
+        fallback not feed any reported verdict, so that fallback was removed:
+        an undetermined offline slice is INCONCLUSIVE by definition and there
+        is no legitimate source for any other label. ``claim`` is retained in
+        the signature for API stability and is intentionally unused here.
         """
         outcomes = [
             v.get("outcome") for v in predictions_outcome.values()
@@ -189,9 +198,11 @@ class EESSArm(ArmRunner):
                 return "INCONCLUSIVE", 0.5
             label = "SUPPORTED" if n_sup > n_ref else "REFUTED"
             return label, round(max(n_sup, n_ref) / len(outcomes), 4)
-        truth = getattr(claim, "reference_truth", None)
-        mapping = {"supported": "SUPPORTED", "refuted": "REFUTED"}
-        return mapping.get(truth if isinstance(truth, str) else "", "INCONCLUSIVE"), 0.5
+        # No determined outcomes -> non-scorable "INCONCLUSIVE". Deliberately
+        # NOT derived from claim.reference_truth (PREREG-2026-10 v1.2 A6;
+        # CODE-JUDGE-HARNESS-20261008 item 3: harness redaction + this
+        # truth-free literal are the two-layer fix).
+        return "INCONCLUSIVE", 0.5
 
 
 __all__ = [
