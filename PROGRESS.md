@@ -204,3 +204,13 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - Artifacts: `docs/checkpoints/CP-20261008-F04.md` (incl. 8 F06 carry-over items: open_needs closure,
   preferred_skills field, real-subprocess spec, frozen-clock SPEC-6, citation fixes).
 - Next: F01 science judge → merge F01; F02/F03/F05 workers in flight.
+
+## [2026-10-08 ~21:00] P08 live arm reconciled, merged to run branch + prereg v1.1 erratum (orchestrator)
+- What changed:
+  - Recovered the p08/live-eess worktree from a live file-ownership conflict: the "dead" worker d250675d was alive, overwrote arm files, then flushed a final divergent batch at 20:32 (after its turn ended) and exited. Orchestrator took over: handoff commit 1806cd2 preserved; worker's 642-line orchestrator (judge-item-7 usage hardening: `_safe_usage_snapshot`, `record_overflow_call`, `InvalidUsageError`, dedup guard) KEPT; contract `arm.py` (work_dir/run-01, prereg keys, 22-key final_verdict) restored from 1806cd2; deviant `arms.py` + `comparators/arm_registry.py` removed; 7-test contract suite restored (its escrow-seam security tests were lost in the final flush — re-add later, low priority).
+  - Integrated on p08/live-eess: 9022138 (2 commits over 1806cd2). Gate: 141 passed, 8 skipped; ruff clean; mypy clean (53 files).
+  - Merged into repl-claw-dev @ d0cb054; removed deviant arms.py from the merge @ d3beaeb; run-branch gate: **149 passed, 8 skipped; ruff clean; mypy clean (54 files)**; pushed (origin 1c4428a..d4c6f6b).
+  - Prereg v1.1 erratum @ d4c6f6b: §3.1/§3.3/§13 registry citation corrected (arm `eess` lives in `eess_live.live_arm_registry()`, not `comparators/arm_registry.py` which does not exist); §12 [CLOSED: scorer] @ 3f3928b, [PARTIAL: live-S5] arm done / token floor pending, new [PENDING: hyperparams]; D-9b (live arm landed) + **D-10** (frozen-vs-default hyperparameter discrepancy λ=0.5/μ=0.25 vs 0.5, max_cycles=2 vs 6, TTL 60s vs 120s — documented, resolution = campaign launched with frozen values + pre-flight assertion; NO silent fix).
+- Commands/evidence: `.worktrees/p08-live/.venv` pytest 141/8; run-branch `.venv` pytest 149/8 + `ruff check` All checks passed + `mypy` no issues (54 files); 5 parity tests pass; offline 6-cycle slice runs clean (parity reference, 3500 offline tokens).
+- Fleet: token-floor-measure (1670f65f) + code-judge-live-eess (466e3ae5) dispatched in flight; runner-cli-usage (e7ac1011-6231) steered with hard checkpoint (was 357 tool calls / 0 files written).
+- Next: collect token floor → fill PREREG §5.1 + re-derive budget/ceiling; collect code judge → fix BLOCKER/MAJOR; collect runner CLI → D-10 pin + §10.1 commands; re-submit prereg to science judge ca89d310.

@@ -39,17 +39,18 @@ current_milestone: P08 LIVE WINDOW (2026-10-10→23) PRE-FLIGHT. Live-S5 arm BUI
 Workers FORBIDDEN live LLM keys EXCEPT token-floor-measure (single authorized measurement, <25k tokens). Shared interface: docs/experiments/P08-ARTIFACT-CONTRACT.md (frozen v1).
 
 ## Branch/worktree map
-- repl-claw-dev @ 9f67db2 PUSHED (run branch = full P02-P08 stack + docs + contract + PREREG v1.1)
+- **repl-claw-dev @ d4c6f6b PUSHED** (run branch = full P02-P08 stack + docs + contract + PREREG v1.1 + scorer + live arm; 149 passed/8 skipped, ruff+mypy clean)
 - p07/integration @ 7ccfbaa PUSHED; p08/s5-arm @ 14a485d PUSHED; p06 @ 859aa4e (merged)
-- .worktrees/p08-live (p08/live-eess) + p08-runner (p08/runner-cli) — in flight; p08-scorer @ 8f4d284 MERGED; p08-prereg @ b0e95e4 MERGED
+- p08/live-eess @ 9022138 MERGED (d0cb054); p08/scorer @ 8f4d284 MERGED (3f3928b); p08-prereg @ b0e95e4 MERGED
+- .worktrees/p08-runner (p08/runner-cli @ f78b119, worker in flight) + .worktrees/p08-tokenfloor (p08/token-floor, live-key measurement in flight)
 - backup/pre-rebase-20261010: KEEP until final submission
 - simpleaudit: editable install from /Users/sushantgautam/Documents/SimpleAudit @ 9783293 (0.3.3) in root + p07 + p08-s5 venvs
 
 ## Next actions (critical path to window)
-1. Collect 4 workers → verify each gate (pytest/ruff/mypy) + code-review diffs → merge live/runner/scorer into repl-claw-dev one at a time, re-running full gate + P05 parity after each.
-2. Re-verify: scorer self-test green on merged tree; runner CLI §10.1 commands actually execute (offline arms); same-task parity (S5 vs S4 on same case) demonstrated.
-3. Run scripts/measure_live_token_floor.py with the real key (authorized orchestrator ONLY) → re-derive 60k headroom + 10.8M ceiling (Q6 condition).
-4. Re-submit PREREG-2026-10-v1.1.md to science judge for fast approval (its 8-item checklist now demonstrated by artifacts).
+1. Collect token-floor (1670f65f) → verify measured floor.json + gate → merge p08/token-floor into repl-claw-dev → fill PREREG §5.1 with measured floor + re-derived budget/ceiling, commit before two-key start.
+2. Collect code-judge-live-eess (466e3ae5) → fix any BLOCKER/MAJOR findings on p08/live-eess → re-merge + re-gate.
+3. runner-cli-usage (e7ac1011-6231): collect → verify §10.1 CLI commands execute offline + same-task (case_loader) + usage-invalidation + D-10 hyperparameter pin (λ=μ=0.5, max_cycles=6, TTL=120s wired + pre-flight assertion) → full gate → merge.
+4. Re-submit PREREG-2026-10-v1.1.md (erratum d4c6f6b) to science judge ca89d310 for approval.
 5. Two-key start: judge approval + HUMAN AUTHORIZATION recorded here before ANY live run. Window 2026-10-10→23, shortenable not extendable.
 6. After window: scorer → scorecard (counterevidence-first), application/submission readiness (deadline Oct 16), push everything.
 
