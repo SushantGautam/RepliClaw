@@ -123,20 +123,25 @@ class ArmRunner:
         # (evidence-driven re-planning, prereg v1.1 §3.2), which is a property
         # OF the S3 protocol, not an agent-cap overrun.
         n_agents = len({e.agent_id for e in res.evidence}) or 1
-        # Record consumption against the shared envelope. The agent-cap check
-        # is enforced against the arm's DECLARED concurrency (self.n_agents),
-        # because a declared-3 agent cannot be faulted for the envelope's
-        # max_agents being below its own declared size — that is the swarm's
-        # own size, which assert_budget_parity flags separately via
-        # res.n_agents > max_agents. Using the observed count here would make
-        # a 4-distinct-agent S3 run look like an "agent overrun" and abort it
-        # mid-run instead of letting the parity report classify it.
+        # A8.3.4 / RC-3 (honest agent accounting): record the TRUE observed
+        # distinct investigator count, NOT a clamped-to-declared value. The
+        # earlier ``min(self.n_agents, n_agents)`` silently under-counted an
+        # S3 run that deployed a 4th follow-up agent (e.g. the 60k/900s/4
+        # A7 envelope: 4th agent is LEGAL, not an overrun), hiding real
+        # consumption from the ledger. The agent-cap check now uses the true
+        # count: a run that genuinely deploys > max_agents distinct agents
+        # overruns the envelope (the ledger raises), while a legal 4th agent
+        # under a 4-agent cap records honestly and completes. The
+        # declared-vs-observed PARITY classification stays with the parity
+        # report (``assert_budget_parity`` flags ``res.n_agents >
+        # envelope.max_agents``); ArmResult already carries the observed
+        # ``n_agents``.
         ledger.record(
             BudgetRecord(
                 agent_id=f"{self.strategy}-arm",
                 tokens=res.usage.total_tokens,
                 wall_s=wall,
-                n_agents=min(self.n_agents, n_agents),
+                n_agents=n_agents,
             )
         )
         return ArmResult(
