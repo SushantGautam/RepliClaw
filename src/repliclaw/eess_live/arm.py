@@ -73,8 +73,15 @@ class EESSLiveArm:
 
     ``client_factory(agent_id)`` builds the per-agent LLM client — a fresh
     client per agent so snapshot-delta usage accounting is exact. Tests pass
-    a :class:`FakeLLMClient` factory (no network); P08b passes a real
-    ``LLMClient`` factory.
+    a :class:`FakeLLMClient` factory (no network); the runner CLI's live path
+    passes a real ``LLMClient`` factory.
+
+    D-10 frozen pin (prereg v1.1 §3.2): the LIVE campaign path runs
+    ``lam=0.5``, ``mu=0.5``, ``max_cycles=6`` and broker offer
+    ``lease_ttl_s=120``. The constructor keeps ``max_cycles=2`` /
+    ``lease_ttl_s=60`` defaults so the existing unit tests (which assert
+    short-lifecycle behavior) are unchanged; the CLI passes the frozen values
+    and refuses (``--assert-frozen``) if an effective parameter deviates.
     """
 
     arm_label: str = "S5"
@@ -83,6 +90,11 @@ class EESSLiveArm:
     policy_kind: str = "eig"
     n_agents = 3
     harness_seed: int = 20261010
+    # D-10 frozen policy weights (used by LocalEigPolicy via _build_policy).
+    policy_lam: float = 0.5
+    policy_mu: float = 0.5
+    # D-10 frozen offer-lease TTL for the live campaign (broker lease).
+    lease_ttl_s: float = 120.0
 
     def __init__(
         self,
@@ -91,12 +103,22 @@ class EESSLiveArm:
         investigator_factory: Optional[Callable] = None,
         max_cycles: int = 2,
         harness_seed: int = 20261010,
+        lam: Optional[float] = None,
+        mu: Optional[float] = None,
+        lease_ttl_s: Optional[float] = None,
     ) -> None:
         self._client_factory = client_factory
         # Unused (registry signature compatibility), but kept for parity.
         self._investigator_factory = investigator_factory
         self._max_cycles = max_cycles
         self.harness_seed = int(harness_seed)
+        # D-10: None keeps the class-level frozen pin; explicit values are
+        # recorded in run_metadata and checked by the CLI's --assert-frozen.
+        self.policy_lam = self.__class__.policy_lam if lam is None else float(lam)
+        self.policy_mu = self.__class__.policy_mu if mu is None else float(mu)
+        self.lease_ttl_s = (
+            self.__class__.lease_ttl_s if lease_ttl_s is None else float(lease_ttl_s)
+        )
 
     # -- ComparatorArm --------------------------------------------------------
     def name(self) -> str:
@@ -125,6 +147,7 @@ class EESSLiveArm:
             envelope=spec.envelope,
             harness_seed=self.harness_seed,
             max_cycles=self._max_cycles,
+            lease_ttl_s=self.lease_ttl_s,
         )
         t0 = time.monotonic()
         result = orch.run()
@@ -184,7 +207,8 @@ class EESSLiveArm:
 
         if self.policy_kind == "random":
             return RandomPolicy()
-        return LocalEigPolicy({})
+        # D-10: the S5/A1 live arms pin lambda=mu=0.5 (prereg v1.1 §3.2).
+        return LocalEigPolicy({}, lam=self.policy_lam, mu=self.policy_mu)
 
     @staticmethod
     def _write_artifacts(
