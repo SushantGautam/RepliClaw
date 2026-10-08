@@ -1,0 +1,1391 @@
+{
+  "arms": {
+    "I0_baseline": {
+      "arm_id": "I0_baseline",
+      "artifact_hashes": {
+        "config.json": "894bd7e396ad3956a40e0afb13545e1bdbd78894ec2b5bfb34fca891d5714efe",
+        "judgment.json": "7dacda361c687bf40f2586fa41f28d049c0714baec4d5de50573cf4f9e129832",
+        "stdout.log": "9876d9fabb64a0cabec1aefd6401d6705d4f18271ac0292877ae31a5a99334eb",
+        "target_output.json": "8755e08cddc82d841992288db5361970b24dfd422a64040e946ee929870762f1"
+      },
+      "artifacts": {
+        "config.json": "894bd7e396ad3956a40e0afb13545e1bdbd78894ec2b5bfb34fca891d5714efe",
+        "judgment.json": "7dacda361c687bf40f2586fa41f28d049c0714baec4d5de50573cf4f9e129832",
+        "stdout.log": "9876d9fabb64a0cabec1aefd6401d6705d4f18271ac0292877ae31a5a99334eb",
+        "target_output.json": "8755e08cddc82d841992288db5361970b24dfd422a64040e946ee929870762f1"
+      },
+      "case_id": "tox21_ar_agonist_v1",
+      "case_sha256": "19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88",
+      "case_version": "v1",
+      "config_sha256": "894bd7e396ad3956a40e0afb13545e1bdbd78894ec2b5bfb34fca891d5714efe",
+      "engine": {
+        "git_sha": "",
+        "name": "rdkit",
+        "version": "2026.03.6"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-08T14:50:09.711279+00:00",
+      "judgment": {
+        "abs_diff": 0.0,
+        "arm_id": "I0_baseline",
+        "case_sha256": "19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88",
+        "measured_mean_delta_logp": 0.0,
+        "measurement": "rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)",
+        "n_molecules": 48,
+        "severity": "pass",
+        "tolerance_abs_delta_logp": 0.001,
+        "within_tolerance": true
+      },
+      "run_id": "tox21_ar_agonist_v1::I0_baseline::seed0",
+      "seed": 0,
+      "severity": "pass",
+      "started_at": "2026-10-08T14:50:09.297102+00:00",
+      "stdout_log": "offline deterministic run; arm=I0_baseline; no LLM, no network, 0 real tokens\n",
+      "target_output": {
+        "arm_id": "I0_baseline",
+        "functionalization": null,
+        "mean_delta_logp": 0.0,
+        "measurement": "rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)",
+        "n_edited": 48,
+        "n_molecules": 48,
+        "per_molecule": [
+          {
+            "base_logp": 6.1305,
+            "delta_logp": 0.0,
+            "edited_logp": 6.1305,
+            "inchikey": "UOACKFBJUYNSLK-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.1086,
+            "delta_logp": 0.0,
+            "edited_logp": 3.1086,
+            "inchikey": "BELBBZDIHDAJOR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.0128,
+            "delta_logp": 0.0,
+            "edited_logp": 2.0128,
+            "inchikey": "NHZLNPMOSADWGC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.9527,
+            "delta_logp": 0.0,
+            "edited_logp": 3.9527,
+            "inchikey": "AUYYCJSJGJYCDS-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.4663,
+            "delta_logp": 0.0,
+            "edited_logp": 2.4663,
+            "inchikey": "DWSGTFTVBLXELC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.496,
+            "delta_logp": 0.0,
+            "edited_logp": 1.496,
+            "inchikey": "WTGQALLALWYDJH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.5086,
+            "delta_logp": 0.0,
+            "edited_logp": 1.5086,
+            "inchikey": "MGNNYKWRWHQLCR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.9011,
+            "delta_logp": 0.0,
+            "edited_logp": 4.9011,
+            "inchikey": "SLVMESMUVMCQIY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.4292,
+            "delta_logp": 0.0,
+            "edited_logp": 3.4292,
+            "inchikey": "QWGDMFLQWFTERH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.6638,
+            "delta_logp": 0.0,
+            "edited_logp": 0.6638,
+            "inchikey": "NUKYPUAOHBNCPY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.2098,
+            "delta_logp": 0.0,
+            "edited_logp": 2.2098,
+            "inchikey": "VGZSUPCWNCWDAN-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.2441,
+            "delta_logp": 0.0,
+            "edited_logp": 0.2441,
+            "inchikey": "TVZGACDUOSZQKY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.6958,
+            "delta_logp": 0.0,
+            "edited_logp": 2.6958,
+            "inchikey": "YLJREFDVOIBQDA-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.1458,
+            "delta_logp": 0.0,
+            "edited_logp": 1.1458,
+            "inchikey": "LMEKQMALGUDUQG-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.3101,
+            "delta_logp": 0.0,
+            "edited_logp": 1.3101,
+            "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.3538,
+            "delta_logp": 0.0,
+            "edited_logp": -0.3538,
+            "inchikey": "OFCNXPDARWKPPY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.0882,
+            "delta_logp": 0.0,
+            "edited_logp": 2.0882,
+            "inchikey": "QWCRAEMEVRGPNT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.6155,
+            "delta_logp": 0.0,
+            "edited_logp": 1.6155,
+            "inchikey": "WEQAYVWKMWHEJO-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.3779,
+            "delta_logp": 0.0,
+            "edited_logp": 3.3779,
+            "inchikey": "JCKYGMPEJWAADB-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.7379,
+            "delta_logp": 0.0,
+            "edited_logp": 1.7379,
+            "inchikey": "RKWGIWYCVPQPMF-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 5.929,
+            "delta_logp": 0.0,
+            "edited_logp": 5.929,
+            "inchikey": "JWBOIMRXGHLCPP-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.5974,
+            "delta_logp": 0.0,
+            "edited_logp": 0.5974,
+            "inchikey": "AQIXAKUUQRKLND-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.1299,
+            "delta_logp": 0.0,
+            "edited_logp": 0.1299,
+            "inchikey": "JBMKAUGHUNFTOL-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.9534,
+            "delta_logp": 0.0,
+            "edited_logp": 2.9534,
+            "inchikey": "QKICWELGRMTQCR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.0605,
+            "delta_logp": 0.0,
+            "edited_logp": 3.0605,
+            "inchikey": "KNHUKKLJHYUCFP-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.2454,
+            "delta_logp": 0.0,
+            "edited_logp": 2.2454,
+            "inchikey": "FIVHOHCAXWQPGC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.639,
+            "delta_logp": 0.0,
+            "edited_logp": 3.639,
+            "inchikey": "OLBCVFGFOZPWHH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.8828,
+            "delta_logp": 0.0,
+            "edited_logp": 1.8828,
+            "inchikey": "BQJODPIMMWWMFC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.9608,
+            "delta_logp": 0.0,
+            "edited_logp": 0.9608,
+            "inchikey": "WKGXYQFOCVYPAC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.68,
+            "delta_logp": 0.0,
+            "edited_logp": 4.68,
+            "inchikey": "YMTINGFKWWXKFG-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.7977,
+            "delta_logp": 0.0,
+            "edited_logp": -0.7977,
+            "inchikey": "GHASVSINZRGABV-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.768,
+            "delta_logp": 0.0,
+            "edited_logp": -0.768,
+            "inchikey": "XUFQPHANEAPEMJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.2081,
+            "delta_logp": 0.0,
+            "edited_logp": 3.2081,
+            "inchikey": "MKXKFYHWDHIYRV-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.07812,
+            "delta_logp": 0.0,
+            "edited_logp": 2.07812,
+            "inchikey": "ZJJXGWJIGJFDTL-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.4256,
+            "delta_logp": 0.0,
+            "edited_logp": 4.4256,
+            "inchikey": "LNEPOXFFQSENCJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.3372,
+            "delta_logp": 0.0,
+            "edited_logp": 1.3372,
+            "inchikey": "ZUXNZUWOTSUBMN-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.0978,
+            "delta_logp": 0.0,
+            "edited_logp": 1.0978,
+            "inchikey": "QIGBRXMKCJKVMJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.51522,
+            "delta_logp": 0.0,
+            "edited_logp": 3.51522,
+            "inchikey": "MJIHNNLFOKEZEW-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.71412,
+            "delta_logp": 0.0,
+            "edited_logp": 2.71412,
+            "inchikey": "AQCHWTWZEMGIFD-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.8551,
+            "delta_logp": 0.0,
+            "edited_logp": 1.8551,
+            "inchikey": "DRLFMBDRBRZALE-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.7586,
+            "delta_logp": 0.0,
+            "edited_logp": 2.7586,
+            "inchikey": "HYWYRSMBCFDLJT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.1756,
+            "delta_logp": 0.0,
+            "edited_logp": 2.1756,
+            "inchikey": "HYIMSNHJOBLJNT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.4484,
+            "delta_logp": 0.0,
+            "edited_logp": 2.4484,
+            "inchikey": "XWXYUMMDTVBTOU-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.4483,
+            "delta_logp": 0.0,
+            "edited_logp": 1.4483,
+            "inchikey": "KYGZCKSPAKDVKC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.6584,
+            "delta_logp": 0.0,
+            "edited_logp": 2.6584,
+            "inchikey": "YECBIJXISLIIDS-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.581,
+            "delta_logp": 0.0,
+            "edited_logp": 1.581,
+            "inchikey": "QYSPLQLAKJAUJT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.0396,
+            "delta_logp": 0.0,
+            "edited_logp": 0.0396,
+            "inchikey": "RXBKMJIPNDOHFR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.4245,
+            "delta_logp": 0.0,
+            "edited_logp": -0.4245,
+            "inchikey": "IPEHBUMCGVEMRF-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "token_counts": {
+        "real_token_calls": 0
+      }
+    },
+    "I1_OH": {
+      "arm_id": "I1_OH",
+      "artifact_hashes": {
+        "config.json": "473c1d54a1495630f95db7465728b6708c6d5102321a23aeda586fa8b77da2a2",
+        "judgment.json": "7ed381d765e5b25d193edb21c1d878573b7eef9869b693a690a56d4300d16d3a",
+        "stdout.log": "d83a81bd069a1114377b4ac71f4e97a45bad919dd3011604f9406a8c85aae18a",
+        "target_output.json": "75bde8710fedd9e5fb47b14090f94303ec1822a3ea89314202b814fa4c194159"
+      },
+      "artifacts": {
+        "config.json": "473c1d54a1495630f95db7465728b6708c6d5102321a23aeda586fa8b77da2a2",
+        "judgment.json": "7ed381d765e5b25d193edb21c1d878573b7eef9869b693a690a56d4300d16d3a",
+        "stdout.log": "d83a81bd069a1114377b4ac71f4e97a45bad919dd3011604f9406a8c85aae18a",
+        "target_output.json": "75bde8710fedd9e5fb47b14090f94303ec1822a3ea89314202b814fa4c194159"
+      },
+      "case_id": "tox21_ar_agonist_v1",
+      "case_sha256": "19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88",
+      "case_version": "v1",
+      "config_sha256": "473c1d54a1495630f95db7465728b6708c6d5102321a23aeda586fa8b77da2a2",
+      "engine": {
+        "git_sha": "",
+        "name": "rdkit",
+        "version": "2026.03.6"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-08T14:50:09.739050+00:00",
+      "judgment": {
+        "abs_diff": 0.0,
+        "arm_id": "I1_OH",
+        "case_sha256": "19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88",
+        "measured_mean_delta_logp": -0.2944,
+        "measurement": "rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)",
+        "n_molecules": 48,
+        "severity": "pass",
+        "tolerance_abs_delta_logp": 0.001,
+        "within_tolerance": true
+      },
+      "run_id": "tox21_ar_agonist_v1::I1_OH::seed0",
+      "seed": 0,
+      "severity": "pass",
+      "started_at": "2026-10-08T14:50:09.712857+00:00",
+      "stdout_log": "offline deterministic run; arm=I1_OH; no LLM, no network, 0 real tokens\n",
+      "target_output": {
+        "arm_id": "I1_OH",
+        "functionalization": "hydroxylation",
+        "mean_delta_logp": -0.2944,
+        "measurement": "rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)",
+        "n_edited": 48,
+        "n_molecules": 48,
+        "per_molecule": [
+          {
+            "base_logp": 6.1305,
+            "delta_logp": -0.2944,
+            "edited_logp": 5.8361,
+            "inchikey": "UOACKFBJUYNSLK-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.1086,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.8142,
+            "inchikey": "BELBBZDIHDAJOR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.0128,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.7184,
+            "inchikey": "NHZLNPMOSADWGC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.9527,
+            "delta_logp": -0.2944,
+            "edited_logp": 3.6583,
+            "inchikey": "AUYYCJSJGJYCDS-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.4663,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.1719,
+            "inchikey": "DWSGTFTVBLXELC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.496,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.2016,
+            "inchikey": "WTGQALLALWYDJH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.5086,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.2142,
+            "inchikey": "MGNNYKWRWHQLCR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.9011,
+            "delta_logp": -0.2944,
+            "edited_logp": 4.6067,
+            "inchikey": "SLVMESMUVMCQIY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.4292,
+            "delta_logp": -0.2944,
+            "edited_logp": 3.1348,
+            "inchikey": "QWGDMFLQWFTERH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.6638,
+            "delta_logp": -0.2944,
+            "edited_logp": 0.3694,
+            "inchikey": "NUKYPUAOHBNCPY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.2098,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.9154,
+            "inchikey": "VGZSUPCWNCWDAN-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.2441,
+            "delta_logp": -0.2944,
+            "edited_logp": -0.0503,
+            "inchikey": "TVZGACDUOSZQKY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.6958,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.4014,
+            "inchikey": "YLJREFDVOIBQDA-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.1458,
+            "delta_logp": -0.2944,
+            "edited_logp": 0.8514,
+            "inchikey": "LMEKQMALGUDUQG-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.3101,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.0157,
+            "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.3538,
+            "delta_logp": -0.2944,
+            "edited_logp": -0.6482,
+            "inchikey": "OFCNXPDARWKPPY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.0882,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.7938,
+            "inchikey": "QWCRAEMEVRGPNT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.6155,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.3211,
+            "inchikey": "WEQAYVWKMWHEJO-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.3779,
+            "delta_logp": -0.2944,
+            "edited_logp": 3.0835,
+            "inchikey": "JCKYGMPEJWAADB-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.7379,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.4435,
+            "inchikey": "RKWGIWYCVPQPMF-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 5.929,
+            "delta_logp": -0.2944,
+            "edited_logp": 5.6346,
+            "inchikey": "JWBOIMRXGHLCPP-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.5974,
+            "delta_logp": -0.2944,
+            "edited_logp": 0.303,
+            "inchikey": "AQIXAKUUQRKLND-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.1299,
+            "delta_logp": -0.2944,
+            "edited_logp": -0.1645,
+            "inchikey": "JBMKAUGHUNFTOL-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.9534,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.659,
+            "inchikey": "QKICWELGRMTQCR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.0605,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.7661,
+            "inchikey": "KNHUKKLJHYUCFP-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.2454,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.951,
+            "inchikey": "FIVHOHCAXWQPGC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.639,
+            "delta_logp": -0.2944,
+            "edited_logp": 3.3446,
+            "inchikey": "OLBCVFGFOZPWHH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.8828,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.5884,
+            "inchikey": "BQJODPIMMWWMFC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.9608,
+            "delta_logp": -0.2944,
+            "edited_logp": 0.6664,
+            "inchikey": "WKGXYQFOCVYPAC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.68,
+            "delta_logp": -0.2944,
+            "edited_logp": 4.3856,
+            "inchikey": "YMTINGFKWWXKFG-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.7977,
+            "delta_logp": -0.2944,
+            "edited_logp": -1.0921,
+            "inchikey": "GHASVSINZRGABV-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.768,
+            "delta_logp": -0.2944,
+            "edited_logp": -1.0624,
+            "inchikey": "XUFQPHANEAPEMJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.2081,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.9137,
+            "inchikey": "MKXKFYHWDHIYRV-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.07812,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.78372,
+            "inchikey": "ZJJXGWJIGJFDTL-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.4256,
+            "delta_logp": -0.2944,
+            "edited_logp": 4.1312,
+            "inchikey": "LNEPOXFFQSENCJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.3372,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.0428,
+            "inchikey": "ZUXNZUWOTSUBMN-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.0978,
+            "delta_logp": -0.2944,
+            "edited_logp": 0.8034,
+            "inchikey": "QIGBRXMKCJKVMJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.51522,
+            "delta_logp": -0.2944,
+            "edited_logp": 3.22082,
+            "inchikey": "MJIHNNLFOKEZEW-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.71412,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.41972,
+            "inchikey": "AQCHWTWZEMGIFD-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.8551,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.5607,
+            "inchikey": "DRLFMBDRBRZALE-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.7586,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.4642,
+            "inchikey": "HYWYRSMBCFDLJT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.1756,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.8812,
+            "inchikey": "HYIMSNHJOBLJNT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.4484,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.154,
+            "inchikey": "XWXYUMMDTVBTOU-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.4483,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.1539,
+            "inchikey": "KYGZCKSPAKDVKC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.6584,
+            "delta_logp": -0.2944,
+            "edited_logp": 2.364,
+            "inchikey": "YECBIJXISLIIDS-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.581,
+            "delta_logp": -0.2944,
+            "edited_logp": 1.2866,
+            "inchikey": "QYSPLQLAKJAUJT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.0396,
+            "delta_logp": -0.2944,
+            "edited_logp": -0.2548,
+            "inchikey": "RXBKMJIPNDOHFR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.4245,
+            "delta_logp": -0.2944,
+            "edited_logp": -0.7189,
+            "inchikey": "IPEHBUMCGVEMRF-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "token_counts": {
+        "real_token_calls": 0
+      }
+    },
+    "I2_Cl": {
+      "arm_id": "I2_Cl",
+      "artifact_hashes": {
+        "config.json": "e83b1382d52b6cb83146e56e46ae368ce94cde8783a9680b824edaebf9fdd708",
+        "judgment.json": "c0247aba9a7c17d3f0169d5c7621285cfd708ca983eb5a7f9dc41598b2297f81",
+        "stdout.log": "9fea29e664a3da9acf6c43236801bd130ba9f5896b0f8a3874e017f0d1686edb",
+        "target_output.json": "517640606a38dc0c1dcf11baede9dfbf0c2bedc6325bfc9794cc82abfa6bfc69"
+      },
+      "artifacts": {
+        "config.json": "e83b1382d52b6cb83146e56e46ae368ce94cde8783a9680b824edaebf9fdd708",
+        "judgment.json": "c0247aba9a7c17d3f0169d5c7621285cfd708ca983eb5a7f9dc41598b2297f81",
+        "stdout.log": "9fea29e664a3da9acf6c43236801bd130ba9f5896b0f8a3874e017f0d1686edb",
+        "target_output.json": "517640606a38dc0c1dcf11baede9dfbf0c2bedc6325bfc9794cc82abfa6bfc69"
+      },
+      "case_id": "tox21_ar_agonist_v1",
+      "case_sha256": "19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88",
+      "case_version": "v1",
+      "config_sha256": "e83b1382d52b6cb83146e56e46ae368ce94cde8783a9680b824edaebf9fdd708",
+      "engine": {
+        "git_sha": "",
+        "name": "rdkit",
+        "version": "2026.03.6"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-08T14:50:09.765257+00:00",
+      "judgment": {
+        "abs_diff": 0.0,
+        "arm_id": "I2_Cl",
+        "case_sha256": "19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88",
+        "measured_mean_delta_logp": 0.6534,
+        "measurement": "rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)",
+        "n_molecules": 48,
+        "severity": "pass",
+        "tolerance_abs_delta_logp": 0.001,
+        "within_tolerance": true
+      },
+      "run_id": "tox21_ar_agonist_v1::I2_Cl::seed0",
+      "seed": 0,
+      "severity": "pass",
+      "started_at": "2026-10-08T14:50:09.741040+00:00",
+      "stdout_log": "offline deterministic run; arm=I2_Cl; no LLM, no network, 0 real tokens\n",
+      "target_output": {
+        "arm_id": "I2_Cl",
+        "functionalization": "chlorination",
+        "mean_delta_logp": 0.6534,
+        "measurement": "rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)",
+        "n_edited": 48,
+        "n_molecules": 48,
+        "per_molecule": [
+          {
+            "base_logp": 6.1305,
+            "delta_logp": 0.6534,
+            "edited_logp": 6.7839,
+            "inchikey": "UOACKFBJUYNSLK-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.1086,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.762,
+            "inchikey": "BELBBZDIHDAJOR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.0128,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.6662,
+            "inchikey": "NHZLNPMOSADWGC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.9527,
+            "delta_logp": 0.6534,
+            "edited_logp": 4.6061,
+            "inchikey": "AUYYCJSJGJYCDS-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.4663,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.1197,
+            "inchikey": "DWSGTFTVBLXELC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.496,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.1494,
+            "inchikey": "WTGQALLALWYDJH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.5086,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.162,
+            "inchikey": "MGNNYKWRWHQLCR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.9011,
+            "delta_logp": 0.6534,
+            "edited_logp": 5.5545,
+            "inchikey": "SLVMESMUVMCQIY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.4292,
+            "delta_logp": 0.6534,
+            "edited_logp": 4.0826,
+            "inchikey": "QWGDMFLQWFTERH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.6638,
+            "delta_logp": 0.6534,
+            "edited_logp": 1.3172,
+            "inchikey": "NUKYPUAOHBNCPY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.2098,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.8632,
+            "inchikey": "VGZSUPCWNCWDAN-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.2441,
+            "delta_logp": 0.6534,
+            "edited_logp": 0.8975,
+            "inchikey": "TVZGACDUOSZQKY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.6958,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.3492,
+            "inchikey": "YLJREFDVOIBQDA-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.1458,
+            "delta_logp": 0.6534,
+            "edited_logp": 1.7992,
+            "inchikey": "LMEKQMALGUDUQG-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.3101,
+            "delta_logp": 0.6534,
+            "edited_logp": 1.9635,
+            "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.3538,
+            "delta_logp": 0.6534,
+            "edited_logp": 0.2996,
+            "inchikey": "OFCNXPDARWKPPY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.0882,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.7416,
+            "inchikey": "QWCRAEMEVRGPNT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.6155,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.2689,
+            "inchikey": "WEQAYVWKMWHEJO-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.3779,
+            "delta_logp": 0.6534,
+            "edited_logp": 4.0313,
+            "inchikey": "JCKYGMPEJWAADB-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.7379,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.3913,
+            "inchikey": "RKWGIWYCVPQPMF-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 5.929,
+            "delta_logp": 0.6534,
+            "edited_logp": 6.5824,
+            "inchikey": "JWBOIMRXGHLCPP-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.5974,
+            "delta_logp": 0.6534,
+            "edited_logp": 1.2508,
+            "inchikey": "AQIXAKUUQRKLND-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.1299,
+            "delta_logp": 0.6534,
+            "edited_logp": 0.7833,
+            "inchikey": "JBMKAUGHUNFTOL-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.9534,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.6068,
+            "inchikey": "QKICWELGRMTQCR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.0605,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.7139,
+            "inchikey": "KNHUKKLJHYUCFP-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.2454,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.8988,
+            "inchikey": "FIVHOHCAXWQPGC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.639,
+            "delta_logp": 0.6534,
+            "edited_logp": 4.2924,
+            "inchikey": "OLBCVFGFOZPWHH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.8828,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.5362,
+            "inchikey": "BQJODPIMMWWMFC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.9608,
+            "delta_logp": 0.6534,
+            "edited_logp": 1.6142,
+            "inchikey": "WKGXYQFOCVYPAC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.68,
+            "delta_logp": 0.6534,
+            "edited_logp": 5.3334,
+            "inchikey": "YMTINGFKWWXKFG-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.7977,
+            "delta_logp": 0.6534,
+            "edited_logp": -0.1443,
+            "inchikey": "GHASVSINZRGABV-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.768,
+            "delta_logp": 0.6534,
+            "edited_logp": -0.1146,
+            "inchikey": "XUFQPHANEAPEMJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.2081,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.8615,
+            "inchikey": "MKXKFYHWDHIYRV-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.07812,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.73152,
+            "inchikey": "ZJJXGWJIGJFDTL-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.4256,
+            "delta_logp": 0.6534,
+            "edited_logp": 5.079,
+            "inchikey": "LNEPOXFFQSENCJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.3372,
+            "delta_logp": 0.6534,
+            "edited_logp": 1.9906,
+            "inchikey": "ZUXNZUWOTSUBMN-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.0978,
+            "delta_logp": 0.6534,
+            "edited_logp": 1.7512,
+            "inchikey": "QIGBRXMKCJKVMJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.51522,
+            "delta_logp": 0.6534,
+            "edited_logp": 4.16862,
+            "inchikey": "MJIHNNLFOKEZEW-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.71412,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.36752,
+            "inchikey": "AQCHWTWZEMGIFD-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.8551,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.5085,
+            "inchikey": "DRLFMBDRBRZALE-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.7586,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.412,
+            "inchikey": "HYWYRSMBCFDLJT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.1756,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.829,
+            "inchikey": "HYIMSNHJOBLJNT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.4484,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.1018,
+            "inchikey": "XWXYUMMDTVBTOU-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.4483,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.1017,
+            "inchikey": "KYGZCKSPAKDVKC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.6584,
+            "delta_logp": 0.6534,
+            "edited_logp": 3.3118,
+            "inchikey": "YECBIJXISLIIDS-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.581,
+            "delta_logp": 0.6534,
+            "edited_logp": 2.2344,
+            "inchikey": "QYSPLQLAKJAUJT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.0396,
+            "delta_logp": 0.6534,
+            "edited_logp": 0.693,
+            "inchikey": "RXBKMJIPNDOHFR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.4245,
+            "delta_logp": 0.6534,
+            "edited_logp": 0.2289,
+            "inchikey": "IPEHBUMCGVEMRF-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "token_counts": {
+        "real_token_calls": 0
+      }
+    },
+    "I3_Me": {
+      "arm_id": "I3_Me",
+      "artifact_hashes": {
+        "config.json": "deab566f0751f80aba1514b581188fd09815b4429c1746aaff80e8a839d26db4",
+        "judgment.json": "973bd7191da0ce8a79e22a266cf49a5f7fb3118bc6b88e71f4bb8d00442dfb62",
+        "stdout.log": "f8c1cb23778d7385926dcfb48f71fee0d5b0b2429899db4862f035288063f65a",
+        "target_output.json": "3377331f846f717bddb8972e8c106fd0ec1d92e7123964251cc6a6c94e48bfb3"
+      },
+      "artifacts": {
+        "config.json": "deab566f0751f80aba1514b581188fd09815b4429c1746aaff80e8a839d26db4",
+        "judgment.json": "973bd7191da0ce8a79e22a266cf49a5f7fb3118bc6b88e71f4bb8d00442dfb62",
+        "stdout.log": "f8c1cb23778d7385926dcfb48f71fee0d5b0b2429899db4862f035288063f65a",
+        "target_output.json": "3377331f846f717bddb8972e8c106fd0ec1d92e7123964251cc6a6c94e48bfb3"
+      },
+      "case_id": "tox21_ar_agonist_v1",
+      "case_sha256": "19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88",
+      "case_version": "v1",
+      "config_sha256": "deab566f0751f80aba1514b581188fd09815b4429c1746aaff80e8a839d26db4",
+      "engine": {
+        "git_sha": "",
+        "name": "rdkit",
+        "version": "2026.03.6"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-08T14:50:09.792225+00:00",
+      "judgment": {
+        "abs_diff": 0.0,
+        "arm_id": "I3_Me",
+        "case_sha256": "19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88",
+        "measured_mean_delta_logp": 0.30842,
+        "measurement": "rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)",
+        "n_molecules": 48,
+        "severity": "pass",
+        "tolerance_abs_delta_logp": 0.001,
+        "within_tolerance": true
+      },
+      "run_id": "tox21_ar_agonist_v1::I3_Me::seed0",
+      "seed": 0,
+      "severity": "pass",
+      "started_at": "2026-10-08T14:50:09.767427+00:00",
+      "stdout_log": "offline deterministic run; arm=I3_Me; no LLM, no network, 0 real tokens\n",
+      "target_output": {
+        "arm_id": "I3_Me",
+        "functionalization": "methylation",
+        "mean_delta_logp": 0.30842,
+        "measurement": "rdkit_crippen_logp (RDKit Chem.Descriptors.MolLogP)",
+        "n_edited": 48,
+        "n_molecules": 48,
+        "per_molecule": [
+          {
+            "base_logp": 6.1305,
+            "delta_logp": 0.30842,
+            "edited_logp": 6.43892,
+            "inchikey": "UOACKFBJUYNSLK-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.1086,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.41702,
+            "inchikey": "BELBBZDIHDAJOR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.0128,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.32122,
+            "inchikey": "NHZLNPMOSADWGC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.9527,
+            "delta_logp": 0.30842,
+            "edited_logp": 4.26112,
+            "inchikey": "AUYYCJSJGJYCDS-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.4663,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.77472,
+            "inchikey": "DWSGTFTVBLXELC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.496,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.80442,
+            "inchikey": "WTGQALLALWYDJH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.5086,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.81702,
+            "inchikey": "MGNNYKWRWHQLCR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.9011,
+            "delta_logp": 0.30842,
+            "edited_logp": 5.20952,
+            "inchikey": "SLVMESMUVMCQIY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.4292,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.73762,
+            "inchikey": "QWGDMFLQWFTERH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.6638,
+            "delta_logp": 0.30842,
+            "edited_logp": 0.97222,
+            "inchikey": "NUKYPUAOHBNCPY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.2098,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.51822,
+            "inchikey": "VGZSUPCWNCWDAN-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.2441,
+            "delta_logp": 0.30842,
+            "edited_logp": 0.55252,
+            "inchikey": "TVZGACDUOSZQKY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.6958,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.00422,
+            "inchikey": "YLJREFDVOIBQDA-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.1458,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.45422,
+            "inchikey": "LMEKQMALGUDUQG-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.3101,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.61852,
+            "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.3538,
+            "delta_logp": 0.30842,
+            "edited_logp": -0.04538,
+            "inchikey": "OFCNXPDARWKPPY-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.0882,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.39662,
+            "inchikey": "QWCRAEMEVRGPNT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.6155,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.92392,
+            "inchikey": "WEQAYVWKMWHEJO-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.3779,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.68632,
+            "inchikey": "JCKYGMPEJWAADB-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.7379,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.04632,
+            "inchikey": "RKWGIWYCVPQPMF-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 5.929,
+            "delta_logp": 0.30842,
+            "edited_logp": 6.23742,
+            "inchikey": "JWBOIMRXGHLCPP-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.5974,
+            "delta_logp": 0.30842,
+            "edited_logp": 0.90582,
+            "inchikey": "AQIXAKUUQRKLND-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.1299,
+            "delta_logp": 0.30842,
+            "edited_logp": 0.43832,
+            "inchikey": "JBMKAUGHUNFTOL-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.9534,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.26182,
+            "inchikey": "QKICWELGRMTQCR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.0605,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.36892,
+            "inchikey": "KNHUKKLJHYUCFP-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.2454,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.55382,
+            "inchikey": "FIVHOHCAXWQPGC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.639,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.94742,
+            "inchikey": "OLBCVFGFOZPWHH-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.8828,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.19122,
+            "inchikey": "BQJODPIMMWWMFC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.9608,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.26922,
+            "inchikey": "WKGXYQFOCVYPAC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.68,
+            "delta_logp": 0.30842,
+            "edited_logp": 4.98842,
+            "inchikey": "YMTINGFKWWXKFG-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.7977,
+            "delta_logp": 0.30842,
+            "edited_logp": -0.48928,
+            "inchikey": "GHASVSINZRGABV-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.768,
+            "delta_logp": 0.30842,
+            "edited_logp": -0.45958,
+            "inchikey": "XUFQPHANEAPEMJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.2081,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.51652,
+            "inchikey": "MKXKFYHWDHIYRV-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.07812,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.38654,
+            "inchikey": "ZJJXGWJIGJFDTL-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 4.4256,
+            "delta_logp": 0.30842,
+            "edited_logp": 4.73402,
+            "inchikey": "LNEPOXFFQSENCJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.3372,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.64562,
+            "inchikey": "ZUXNZUWOTSUBMN-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.0978,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.40622,
+            "inchikey": "QIGBRXMKCJKVMJ-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 3.51522,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.82364,
+            "inchikey": "MJIHNNLFOKEZEW-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.71412,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.02254,
+            "inchikey": "AQCHWTWZEMGIFD-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.8551,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.16352,
+            "inchikey": "DRLFMBDRBRZALE-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.7586,
+            "delta_logp": 0.30842,
+            "edited_logp": 3.06702,
+            "inchikey": "HYWYRSMBCFDLJT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.1756,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.48402,
+            "inchikey": "HYIMSNHJOBLJNT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.4484,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.75682,
+            "inchikey": "XWXYUMMDTVBTOU-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.4483,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.75672,
+            "inchikey": "KYGZCKSPAKDVKC-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 2.6584,
+            "delta_logp": 0.30842,
+            "edited_logp": 2.96682,
+            "inchikey": "YECBIJXISLIIDS-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 1.581,
+            "delta_logp": 0.30842,
+            "edited_logp": 1.88942,
+            "inchikey": "QYSPLQLAKJAUJT-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": 0.0396,
+            "delta_logp": 0.30842,
+            "edited_logp": 0.34802,
+            "inchikey": "RXBKMJIPNDOHFR-UHFFFAOYSA-N"
+          },
+          {
+            "base_logp": -0.4245,
+            "delta_logp": 0.30842,
+            "edited_logp": -0.11608,
+            "inchikey": "IPEHBUMCGVEMRF-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "token_counts": {
+        "real_token_calls": 0
+      }
+    }
+  },
+  "case": "tox21_ar_agonist_v1",
+  "case_sha256": "19da2bb7303be82b124323f846f6bcbd2ad42e0e2440e8345bf42e8966c75f88",
+  "case_version": "v1",
+  "engine": {
+    "git_sha": "",
+    "name": "rdkit",
+    "version": "2026.03.6"
+  },
+  "reproduce": "replay.sh",
+  "runtime": {
+    "deterministic": true,
+    "offline": true
+  },
+  "schema": "repliclaw.case_manifest/v1",
+  "target_measurement_id": "rdkit_crippen_logp/v1"
+}
