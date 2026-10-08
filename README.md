@@ -1,3 +1,5 @@
+> **ScienceClaw v2 research direction (Oct 8, 2026):** RepliClaw — *Evidence-Escrow Scientific Swarm*. The active goal is credible decentralized **counterfactual AI failure attribution** with independent pre-outcome forecasts and actual SimpleAudit interventions, evaluated against a strong adaptive central manager. The existing codebase below is a valuable prototype, not demonstrated SOTA scientific performance. New agent seed: [SEED_PROMPT.md](SEED_PROMPT.md). Strategy: [EESS](docs/EVIDENCE_ESCROW_SWARM.md) · [novelty gate](docs/PRIOR_ART_NOVELTY_GATE.md) · [migration instructions](docs/AGENT_MIGRATION.md) · [plan](IMPLEMENTATION_PLAN.md) · [application draft](docs/APPLICATION_V2.md). Active local VS Code worktrees must be checkpointed before merging the strategy PR. This strategic pivot is proposed for team alignment, not a claim all collaborators approved it.
+
 # RepliClaw
 
 A decentralized **blind commit / reveal replication & falsification collective**

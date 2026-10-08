@@ -61,3 +61,12 @@ Independent re-review evidence:
 
 ## Gate evidence and accountability
 After each stage, write results to `docs/checkpoints/CP-<id>.md` and append a short entry to `PROGRESS.md`. State must contain links and SHA, not unsupported 'passed' statements. Independent reviewers use read-only worktrees/sessions; integrations require explicit orchestrator sign-off. No false 'judge approval'.
+
+## G-v2 additions — mandatory before declaring a scientific finding
+- Novelty skeptic must read AutoScientists, Co-Scientist, Robin, AgentRx and explain precise non-overlap/limits in a review artifact.
+- Pre-outcome private predictions must be committed before seeing peer unpublished hypotheses, with event chronology verified; hash consistency alone is not true isolation.
+- Real frozen SimpleAudit interventions must be executed, independently replayable and causally discriminative; model's own executable flag is insufficient.
+- Validate independent **local choice changes** under controlled before/after evidence snapshots; server may enforce leases/budget but not choose scientific experiments.
+- Strong central adaptive manager must receive same tools, evidence, worker slots and resources as escrow swarm. Include open-sharing, no-escrow and random policies.
+- Never leak planted causes, hidden rubric or truth into prompts, worktrees or tools. Benchmark labels belong only to evaluator.
+- Review raw actual run traces with every scientific claim. Reject unsupported '100% competition winner' claims; disclose ties, failures and missing final submission instructions.
