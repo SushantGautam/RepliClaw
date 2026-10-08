@@ -34,11 +34,13 @@ trip and round 2 re-verified it).
    at 49,011–55,108 under the same envelope.
 2. **D-E protocol violations are model-specific** (Qwen echo only; round 2:
    zero) — a disclosure-level model-behavior observation, not an arm defect.
-3. **The C-EQ prompt-volume canary interacts structurally with D-E non-
-   completion** (same case RCA-P-03, ratios ≈1.284–1.289 across rounds/seeds):
-   a budget-aborted D-E partner inflates the canary denominator and
-   deterministically crashes the C-EQ run. This is a frozen-instrument
-   interaction, pre-registered in the instrument's known-interactions table.
+3. **The C-EQ prompt-volume canary is case-intrinsically exceeded on
+   RCA-P-03** (ratios 1.2843–1.2895 across rounds/seeds, just over the frozen
+   1.25 ceiling; the band compares C-EQ's own manager vs investigator prompt
+   volumes — D-E is not in the denominator; corrected per D-V3-016 after the
+   amendment draft's initial mechanism claim was found to be wrong). The canary
+   is a legitimate fairness/integrity guard and is NOT weakened by the V3.1
+   amendment (A2 repealed).
 4. **No D-E completing run exists in the frozen instrument**, so no paired
    per-case Δ can be computed on any case; S-sat / floor gate / comparability
    are structurally unreachable for the D-E arm as frozen.
@@ -69,10 +71,12 @@ null.
 
 ## Admissible next actions (human-gated)
 
-- **(b)** Approve `AMEND_V3_1_PILOT_ENVELOPE` (design/amendment_v31_pilot_envelope_DRAFT.md:
-  90K envelope, canary skip on non-completed partner, 4.32M ceiling, backend
-  provenance field) → new freeze → pilot V3.1 on the free endpoint.
-- **(c)** Accept this statement as the G3 deliverable and hold the heldout.
+- **(b)** `AMEND_V3_1_PILOT_ENVELOPE` (design/amendment_v31_pilot_envelope_DRAFT.md:
+  90K shared per-run envelope, 4.32M round ceiling, backend provenance field;
+  canary UNCHANGED — draft A2 repealed at approval) → new freeze → pilot V3.1
+  on the free endpoint. **APPROVED (D-V3-016, 2026-10-10).**
+- **(c)** This statement as the G3 deliverable for the frozen V3 instrument.
+  **APPROVED (D-V3-016, 2026-10-10)** — retained as the record either way.
 - **(d)** New-spec next pilot — only meaningful with a genuinely stronger model
   (requires refreshed GLM-5.2 access) or materially different instrument scope.
 

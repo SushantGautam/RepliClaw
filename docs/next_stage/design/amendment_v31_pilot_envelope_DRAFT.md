@@ -1,8 +1,16 @@
-# AMEND_V3_1_PILOT_ENVELOPE — versioned amendment, DRAFT PENDING HUMAN APPROVAL (2026-10-11)
+# AMEND_V3_1_PILOT_ENVELOPE — versioned amendment, APPROVED (D-V3-016), A2 REPEALED (2026-10-11)
 
-**Status:** DRAFT. This document changes NO frozen value until a human explicitly
-approves it, after which it is versioned `AMEND_V3_1_PILOT_ENVELOPE_20261011`,
-frozen (sha recorded in the V3.1 freeze table), and executed. Under the frozen
+**Status:** APPROVED by human at D-V3-016 (2026-10-10T21:36+02:00), with
+**amendment item A2 REPEALED at approval** (false mechanism claim, see the
+repeal note below A2). Executable set = A1 + A3 + A4 only. This document changes
+no frozen value until the V3.1 freeze (v31_prereg_freeze.md) is stamped at
+launch with pre-freeze SHA + file hashes.
+
+**Model fairness clause (binding, D-V3-016 human-verbatim intent):** C-EQ and
+D-E must use the same model, same tool set, same per-run envelope, same
+budgets; the only intended difference is orchestration. A1 is a SHARED constant
+(change applies identically to both arms). A2 was repealed because weakening
+the volume canary would favor one arm (asymmetry forbidden by this clause). Under the frozen
 "instrument" clause (v3_prereg_final_freeze.md §1.1 After-column), any parameter
 change not in the After-column requires a versioned amendment motivated by a
 pre-registered defect. This document is that vehicle for decision-point option
@@ -33,18 +41,23 @@ gate / any comparability claim are structurally unreachable for this arm.
   (docs/next_stage/data/w3i_caching_investigation_20261011.json); round 2 is
   treated as a same-base-variant instrument re-test. One C-EQ cell
   (R2 RCA-P-01/seed20261011) carries a bounded contamination caveat.
-- Volume-band crash mode is **structural, not stochastic**: it fires on the same
-  case (RCA-P-03) in both rounds with nearly identical ratios (R1: 1.2883/1.2845
-  both seeds; R2: 1.2891 on the one seed whose D-E partner was non-completed)
-  because D-E's burned budget inflates the C-EQ/D-E prompt-volume denominator
-  while C-EQ completes short. See amendment item A2.
+- Volume-band crash mode is **case-intrinsic C-EQ volume** (corrected at
+  D-V3-016, invalidating the draft's original A2 mechanism claim): the pilot's
+  band (telemetry_arms.py:1071-1075) compares C-EQ's OWN manager prompt volume
+  to C-EQ's OWN investigator pool — D-E is NOT in the denominator (verified from
+  audit data: inv pool is case-constant 15,366–17,700 chars; manager volume
+  scales with the manager's exploration, which is a legitimate C-EQ arm
+  property). On RCA-P-03 the ratio is 1.2843–1.2895 (both rounds, both models,
+  both seeds where computed) — just over the 1.25 ceiling. The canary is a
+  legitimate fairness/integrity guard (F5, calibrated against the frozen
+  design); it is NOT weakened by this amendment (A2 repealed).
 
 ## Amendments (exact, minimal set — judge-endorsed Q6 shape)
 
 | # | Frozen value (V3, FROZEN-CONSTANTS) | → Amended value (V3.1) | Justification |
 |---|---|---|---|
 | A1 | `MAX_TOKENS_PER_RUN = 60_000` (telemetry_arms.py:82; status.json envelope field) | **90_000** | Observed near-cap: every D-E budget abort lands at 55.3K–64.1K, i.e., the arm is truncated 15–25% before its evidence-gathering would end. 90K gives ≥40% headroom over the max observed abort (64,089) without an order-of-magnitude scope change. Wall cap 900 s unchanged (observed walls ≪ cap). |
-| A2 | Volume-band canary crash: `assert_volume_band` outside [0.6, 1.25] raises → run status `crashed`, counted in stop-2 denominator | **Frozen baseline definition:** if the D-E arm of the case/seed pair does not `completed` (aborted or crashed), the C-EQ prompt-volume ratio is **not computed** (ratio = null, `canary_status: "skipped_de_noncompleted"`) and the C-EQ run is NOT crashed. If the ratio is computed and out-of-band, the crash behavior is unchanged. | Removes the cross-arm interaction where one arm's *budget outcome* (an honest, pre-registered feasibility signal) deterministically crashes the other arm. The canary still guards actual prompt-volume parity whenever both arms produced a completed prompt record. Ratios stay recorded in the report for disclosure. |
+| A2 | ~~Volume-band canary: skip when D-E partner non-completed~~ | **REPEALED at D-V3-016 — the [0.6, 1.25] band and crash-on-violation behavior are UNCHANGED.** | The draft's justification was factually wrong: the pilot band does not involve D-E's prompts at all (verified from audit data + code), so there is no cross-arm interaction to remove. The canary is a legitimate integrity guard; per the D-V3-016 model-fairness clause it must not be weakened for one arm's benefit. Honest pre-recorded consequence: at the 90K envelope, C-EQ runs that previously budget-aborted *before* the canary check (status `aborted_budget`, crash-free) may now reach the check and crash on it (status `crashed`) — e.g., expected on RCA-P-02 (ratio ~1.33-1.35) and RCA-P-03 (~1.29) when the manager loop completes. These count ITT in stop-2 exactly as the frozen rules say; no special handling, no reclassification. |
 | A3 | `ROUND_TOKEN_CEILING = 2_880_000` (pilot_run.py:87) | **4_320_000** (= 48 runs × 90K, full-cohort arithmetic) | Mechanically follows from A1; per-round ceiling resets per round as before. Campaign worst-case (1 pilot + 2 re-pilots + heldout): 4,320,000 × 4 = 17,280,000 — all on the free SimulaChat endpoint; no paid resource. |
 | A4 | status.json records `model` (requested id) only | + **`backend_model`** field: the gateway-echoed `response.model` of the first LLM call of the run (W3i provenance) | Makes future rounds immune to the W3i residual (requested id ≠ serving backend). Code change in `scripts/pilot_run.py` (one field) + `telemetry_arms.py` (surface first-call echo). |
 
@@ -60,20 +73,23 @@ gate / any comparability claim are structurally unreachable for this arm.
   case-level bootstrap / no confirmatory reuse (rounds 1–2 data may inform
   feasibility ONLY, never estimate/confirm any effect).
 
-## Execution surface (post-approval)
+## Execution surface (approved, D-V3-016)
 
-1. Code: A1 (constant), A2 (canary skip logic in `pilot_run.py` execute path),
-   A3 (constant), A4 (status field). Tests: unit tests for A2 (completed/non-
-   completed D-E → ratio null vs computed), constant-value tests, status-field
-   test. Full gate suite green.
-2. Freeze: V3.1 freeze table = V3 table + this amendment + pre-freeze repo SHA
-   + file hashes of all changed constants. New `docs/next_stage/design/
-   v31_prereg_freeze.md` stamped only at launch.
-3. Pilot V3.1: fresh round, same 10-case roster, same model id `default`
-   (pinned; echoed `backend_model` recorded per run), fresh per-round ceiling
-   4,320,000. This is a **new pilot under the amended instrument**, not a
-   "re-pilot" under the V3 cap (which is consumed); it is authorized only by
-   this amendment + explicit human approval of spend ceiling (free endpoint).
+1. Code: A1 (`MAX_TOKENS_PER_RUN` 60,000→90,000, shared by both arms),
+   A3 (`ROUND_TOKEN_CEILING` 2,880,000→4,320,000), A4 (`backend_model` status
+   field from the first LLM call's gateway echo). NO canary change (A2
+   repealed). Tests: constant-value tests, canary-behavior invariance test
+   (out-of-band still crashes; in-band passes — guards the repeal), A4
+   provenance test, full gate suite green.
+2. Freeze: V3.1 freeze table = V3 table + this amendment (A2 repeal recorded)
+   + pre-freeze repo SHA + file hashes of all changed constants.
+   `docs/next_stage/design/v31_prereg_freeze.md` stamped at launch.
+3. Pilot V3.1: fresh round, same 10-case roster (frozen sha), same model id
+   `default` (pinned per D-V3-016 — no other model ids), k=2 seeds,
+   fresh per-round ceiling 4,320,000, `backend_model` recorded per run.
+   This is a **new pilot under the amended instrument** (authorized by
+   D-V3-016 + this amendment), not a "re-pilot" against the consumed V3
+   D-V3-015 authorization.
 4. Same stop rules apply. A stop-2 trip on V3.1 goes back to the human with the
    full cause-decomposition; it does NOT silently trigger the V3 ladder.
 
