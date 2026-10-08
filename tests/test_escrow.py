@@ -320,3 +320,35 @@ def test_verify_ledger_catches_tampering(tmp_path: Path):
     (tail_root / "events.jsonl").write_text("\n".join(tlines) + "\n")
     v3 = verify_ledger(tail_root)
     assert any("tail anchor" in v for v in v3), f"tail tamper not caught: {v3}"
+
+
+# N3 (code judge): regression guard for the load_private_packet gate (M2).
+# A peer reading another agent's sealed packet pre-reveal defeats the
+# counterfactual-honesty guarantee; the owner reading its own post-reveal is
+# allowed. The M2 fix landed without a shipped test, so pin it here.
+def test_load_private_packet_gate(tmp_path: Path):
+    ledger = fresh_ledger(tmp_path)
+    ledger.commit(AGENT_A, PKT_A)
+    ledger.commit(AGENT_B, PKT_B)
+
+    # Pre-reveal (COMMIT phase): no read is allowed, not even by the owner.
+    with pytest.raises(PhaseViolation):
+        ledger.load_private_packet(AGENT_A, PKT_A.packet_id)
+    # ... and certainly not a foreign read.
+    with pytest.raises(PhaseViolation):
+        ledger.load_private_packet(AGENT_B, PKT_A.packet_id)
+
+    # Post-reveal (REVEAL+): the owner may read its own packet...
+    ledger.open_reveal(CASE_ID)
+    loaded = ledger.load_private_packet(AGENT_A, PKT_A.packet_id)
+    assert loaded is not None and loaded.packet_id == PKT_A.packet_id
+    # ...a nonexistent packet id returns None (no crash)...
+    assert ledger.load_private_packet(AGENT_A, "does-not-exist") is None
+    # ...and the owner-match guard rejects a packet mis-filed under a peer's
+    # dir (defends the counterfactual-honesty invariant even if the store is
+    # corrupted/mis-indexed).
+    foreign_dir = ledger.root / "private" / AGENT_B
+    foreign_dir.mkdir(parents=True, exist_ok=True)
+    (foreign_dir / "misfiled.json").write_bytes(PKT_A.canonical_bytes())
+    with pytest.raises(PhaseViolation):
+        ledger.load_private_packet(AGENT_B, "misfiled")
