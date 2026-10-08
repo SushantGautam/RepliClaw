@@ -255,3 +255,23 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - **Verified:** 207 passed/8 skipped, ruff clean, preflight 5/5 @ eeae6cc (pushed).
 - **Next:** A4 code-judge verdict (running) → merge p08/prompt-evidence → science-judge
   v1.2 sign-off → human two-key.
+
+## Science-judge v1.2 sign-off → NOT-APPROVE; new RC-1 (cross-executor P1) (2026-10-08)
+- **What:** dispatched the v1.2 sign-off review (A1–A7 + 3 code-judge reports). Science judge
+  verdict **NOT-APPROVE**. Confirmed the 3 blocking H1/H2/H5 fixes are genuinely landed+green
+  (not reopened), matched-cap envelope + 10.8M ceiling hold, novelty framing OK.
+- **New BLOCKING RC-1 (S7/S9):** P1 = S5 (live LLM, in LIVE_KEYS) vs S4 (`open_sharing_swarm`,
+  NOT in LIVE_KEYS → `_det_factory`/`DeterministicInvestigator`, 0 live tokens). This is the
+  cross-executor comparison prereg v1.1 §3.1 `[v1.1: B]` calls "invalid regardless of the
+  statistics", yet the §3.1 arm matrix lists S4 as "primary live". Unregistered in v1.2;
+  scorer's parity re-check (score.py:450-455) inspects envelope-hash + overrun only — no model
+  check — so it passes (false green) despite `run_metadata.model`/`offline_arm` being recorded.
+- **Other required changes:** RC-2 (S3 docstring at managers.py:46-58 still claims it "isolates
+  decentralized-vs-central" — contradicts A3), RC-3 (S3 `min(n_agents)` clamp undercounts its 4th
+  distinct follow-up agent at arms.py:121-139 → M5/M6 consumption dishonest; A7's "BudgetOverflow
+  4>3" rationale already nullified by the d54cb71 clamp), RC-4 (score.py:462 "paired-resample"
+  comment → "independent per-arm index resampling").
+- **Report persisted:** docs/fleet/reviews/SCIENCE-JUDGE-V12-SIGNOFF-NOT-APPROVE-20261008.md.
+- **Next:** A8 amendment (live S4/S0/S3 on same LLM + scorer model/executor parity guard + C1
+  model-parity test) → RC-2/3/4 fixes → full gate + code-judge + science-judge RE-sign-off →
+  human two-key. Bulk live run HARD NO-GO until both keys.

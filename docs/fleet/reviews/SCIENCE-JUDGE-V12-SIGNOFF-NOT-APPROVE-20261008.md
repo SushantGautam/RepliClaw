@@ -1,0 +1,62 @@
+
+
+I have completed the adversarial verification. I found a **new primary‑estimand defect** that the prior NO‑GO did not cover and that the amendment does not register. Below is the full rubric with file:line evidence, the verdict, and the signed line. I wrote nothing to the repo (read‑only).
+
+---
+
+## Summary of what is genuinely landed and green
+
+The v1.2 code fixes that were the three *blocking* items from my prior NO‑GO are **verified landed** and the suite is green (`213 passed, 8 skipped`; `p08.score --self-test` PASS; 79 targeted tests PASS):
+
+- **A1/A1.7 (H1)** — P1 rule polarity + comparator fixed; scorer byte‑identical to the canonical string.
+- **A4 (H2)** — verified evidence injected into the post‑evidence RESOLVE prompt, oracle‑free, full‑prompt guard.
+- **A6 (H5)** — two‑layer no‑leak (INCONCLUSIVE fallback + harness‑and‑CLI redaction of `reference_truth`/`seeded_fault`).
+
+**However**, an independent read of the *campaign routing* reveals that the **primary decision (P1 = S5 vs S4) is a live‑LLM‑vs‑deterministic cross‑executor comparison** that the prereg's own §3.1 "B" precondition declares *"invalid regardless of the statistics,"* that the amendment neither registers nor guards, and that the C1 parity check does not catch. That is dispositive for sign‑off.
+
+---
+
+## Rubric table (S1–S10)
+
+| # | Question | Verdict | file:line evidence |
+|---|----------|---------|--------------------|
+| **S1** | A1 P1 rule resolves polarity/estimand defect **without** changing the question? | **PASS** | `score.py:486‑504` rule string is byte‑identical to amendment A1.3 (`len=1224`, `sha256=766f4eb9ac2c…0e0c988`, char‑identical `True`). Estimand Δ=M1(S5)−M1(S4); H0: Δ≤0; favorable Δ>0; strict CI branches; 10k bootstrap seed 20261010; 10‑run = screening only. Comparator corrected S3→S4 (`score.py:467-469` `s4m`); higher‑is‑better M1 preserved. |
+| **S2** | Scorer a faithful implementation of A1? Any branch that could flip the decision? | **PASS** (minor note) | `decision_branch` `score.py:410‑427`: `lo>0`→SUPPORTED, `hi<0`→FALSIFIED, else NOT_SUPPORTED — **strict** inequalities, no `≥`. Degraded path `no_valid_runs` when S5/S4 absent/counts differ (`score.py:505‑508`) — no fake verdict. No leftover "S5 vs S3"/"worsened". **Note:** comment `score.py:462` says "paired‑resample" but code does **independent** per‑arm index resampling (`score.py:470-484`), which matches the rule string — cosmetic misnomer only. |
+| **S3** | A3 S3 relabel + same‑case disclosure make S5‑vs‑S3 honest; S3 still "strong adaptive central manager"? | **WEAK** | Prereg label changed to "incumbent RepliClaw full protocol" and the S5‑vs‑S3 confound is disclosed in the amendment (A3, confounded P2/RQ2, not the P1 estimand). **BUT the mandated source relabel did not land:** `managers.py:46‑58` `AdaptiveCentralManager` docstring still asserts the S5‑vs‑S3 comparison "isolates the decentralized‑vs‑central coordination choice," contradicting the disclosed confound. S3 reuses `RepliClawProtocol` (commit/reveal, investigator‑type routing) — still a legitimate strong baseline, not a strawman; confound is real and disclosed in docs but **not** reconciled in source. |
+| **S4** | A4 preserves pre‑outcome commitment; oracle‑free guard sound; `evidence_cited` auditable w/o changing "supported"? | **PASS** | Phase order COMMIT→REVEAL→EXECUTE→RESOLVE preserves commit‑before‑evidence. `_evidence_block` built **only** from escrow‑ledger verified records; relevance = own‑hypothesis OR I0_baseline. `EVIDENCE_FORBIDDEN_SUBSTRINGS` = 6 sealed field names + `repliclaw.sealed_oracle`; guard runs on the **full prompt string** (the `df31df`/`df311ec` hardening) and raises on leak. `evidence_cited` is advisory/audit‑only — M1 is still scored on `defect_class`/`target_artifact` vs oracle, so it does not change what counts as supported. Test uses the **real** oracle value `retrieval_omission` as a canary. |
+| **S5** | A6/H5 two‑layer no‑leak actually closes the leak; matched prompt budget preserved? | **PASS** | `redact_claim_for_arms` (`runner.py:47‑56`) nulls `reference_truth`+`seeded_fault` at **both** harness (`runner.py:132`) and CLI (`runner.py:451`) level. `EESSArm._verdict` falls back to `("INCONCLUSIVE",0.5)` and never reads `claim.reference_truth` (`managers.py:178‑204`). Redaction leaves `statement`/`data` intact → arm prompt budget **not** shrunk. 8 canary/leak tests incl. leaky‑vs‑clean identical‑verdict (`tests/test_no_oracle_leak.py`). |
+| **S6** | A7 cap=4 defensible (binds no arm); ceilings/master unchanged → matched‑budget parity; no hidden advantage? | **WEAK** | Cap=4 binds **no** arm: `budget.py:100` cumulative; S3 records 3 via `min()` clamp (`arms.py:121‑139`); live arms record 0 to the shared ledger (`eess_live/arm.py`). Token/wall (60k/900s) and the 10.8M master (token‑based) ceilings unchanged → **matched‑cap parity holds; no hidden cap advantage.** **BUT (a)** S3's real 4th distinct follow‑up agent (`inv‑followup‑…`, `protocol.py`) is **undercounted** (observed=4, ledger=3) → consumption accounting is not fully honest (violates the "consumption is an outcome (M5/M6)" spirit). **(b)** A7's rationale ("S3 can't complete under a 3‑agent cap → BudgetOverflow") is **inaccurate**: the `d54cb71` `min()` clamp already let S3 *complete* at cap 3 by undercounting, so the cap‑"fix" rationale is masked by a prior unregistered clamp. |
+| **S7** | All six arms run the identical seeded task under the **same model/settings**? Cite hash‑equality evidence. | **FAIL** | Case+envelope parity **is** verified: `test_c1_all_arms_share_one_envelope_sha` + `test_c1_same_claim_statement_for_every_arm` (`tests/test_p08_runner_cli.py:163‑190`) assert one `envelope_sha256` + identical claim statement. **But that hash is only the `BudgetEnvelope` cap — it does not encode the model.** `LIVE_KEYS={"eess","eess_no_escrow","eess_random_select"}` (`runner.py:178`); `is_live=arm_key in LIVE_KEYS` (`runner.py:429`). **S5→`_run_live`→real `LLMClient`** (`runner.py:503`, `:205`); **S4 (`open_sharing_swarm`) is NOT in LIVE_KEYS → `_run_offline`→`DeterministicInvestigator`** (`runner.py:383‑386`, `:192‑193`; `investigators.py:249‑266`, `model="deterministic"`, 0 live tokens; offline cost `COST_TOKENS_PER_ARM=500`, `orchestrate.py:50`, S4 ≈3,500 nominal tokens per `test_p08_runner_cli.py:161`). `live_arm_registry()` has **no S4** (`eess_live/arm.py:299‑303`). **P1 = S5 vs S4** (`score.py:465‑469`) is therefore a **live‑LLM‑vs‑deterministic** comparison. The scorer's parity re‑check is **envelope‑hash + overrun only, no model check** (`score.py:450‑455`), even though `run_metadata` records `model`/`offline_arm` (`runner.py:554,557`) — so the mismatch data exists but the gate ignores it (false green). |
+| **S8** | Mechanism still demonstrates the AutoScientists/Co‑Scientist/Robin/AgentRx distinctions; overclaim left in amendment/prereg? | **PASS** (residual tracked under S3) | No "first"/firstness claims in the amendment; `EVIDENCE_ESCROW_SWARM.md` disclaims a novel performance result; originality scoped to rigorous combination/evaluation/evaluation. No blocking overclaim in the amendment text. **Residual:** `managers.py:46‑58` docstring overclaim (same as S3) contradicts the A3 disclosure — not an amendment overclaim but a source‑doc inconsistency to fix. |
+| **S9** | Any NEW red flag not covered by the prior NO‑GO? | **YES — the S7 cross‑executor defect** | My prior NO‑GO (H1–H7) did **not** cover it. In particular my H6 note — "arms share one factory so effective treatment is identical by construction" — was scoped to the **offline** `ComparatorHarness` and is **contradicted by the live routing**: S5 uses the LLM `client_factory`, S4 uses `_det_factory`; they do **not** share one factory in the live campaign. Two compounding issues: (1) the prereg §3.1 "B" precondition (`PREREG‑2026‑10‑v1.1.md:50`) explicitly states *"a descriptive comparison of a deterministic‑toy arm against a live‑LLM arm is **invalid regardless of the statistics**, so same‑task parity is a precondition, not a nicety"* — and P1 (S5 live vs S4 deterministic) is exactly that comparison; (2) the prereg is **internally contradictory** — its §3.1 arm table labels S0/S3/S4 **"primary live"** (lines 57‑59) while line 67 calls them "offline arms," and the code resolves it to offline. The C1 "same‑task" precondition the prereg declared necessary is only **half‑enforced** (case+cap, not model), so it certifies a comparison the same document declares invalid. |
+| **S10** | Verdict | **NOT‑APPROVE** | Driven by S7/S9: the **primary estimand (P1/RQ1) is a live‑LLM‑vs‑deterministic cross‑executor comparison** that the campaign's own governing clause calls invalid, which is unregistered, unguarded, and passes the C1 gate by checking only the cap. The live run exists to produce this primary decision; as designed it cannot produce a *valid* answer to RQ1 ("…versus the open‑sharing swarm (S4) at matched budget?"). Required changes below are all **pre‑live‑window** and require no data peeking. |
+
+---
+
+## Required changes (all pre‑live‑window; no data peeking)
+
+**RC‑1 (BLOCKING — S7/S9): Resolve the P1 cross‑executor confound.** Pick one, and register it in a **versioned** prereg amendment (not a silent relabel):
+- **(1a) Preferred — same‑executor baseline:** implement a **live S4** (`OpenSharingSwarm` on the same real LLM/`LLMConfig`/temperature as S5), and, for RQ2 honesty, live S3/S0 too; add them to `LIVE_KEYS` and `live_arm_registry()` under the same `BudgetEnvelope`. Then P1/S5‑vs‑S4 is same‑model.
+- **OR (1b) Formal re‑scope:** if S4 is *intended* as a deterministic structural baseline, **amend RQ1/P1 text** to state the estimand is "live‑LLM escrow swarm vs a **deterministic** open‑sharing baseline at a matched cap," justify it explicitly, and stop framing it as "versus the open‑sharing swarm at matched budget" as a like‑for‑like swarm comparison (the token asymmetry ~3.5k nominal vs up to 60k live makes "matched budget" incoherent unless stated as matched‑**cap**).
+- **Either way:** add a **model/executor parity guard** to the scorer (`score.py:450‑455` currently checks envelope‑hash + overrun only) that reads `run_metadata.model`/`offline_arm` (`runner.py:554,557`) and **refuses** (or loudly flags) a SUPPORTED/FALSIFIED P1 when S5 and S4 were produced by different executors. Add a C1 test asserting model parity for the P1 pair, not just `envelope_sha256`.
+
+**RC‑2 (S3/A3): Land the source relabel.** `managers.py:46‑58` `AdaptiveCentralManager` docstring still claims S5‑vs‑S3 "isolates the decentralized‑vs‑central coordination choice." Align it with the amendment's A3 disclosure (S3 = incumbent RepliClaw full protocol; S5‑vs‑S3 is the *confounded* P2/RQ2, not the P1 estimand).
+
+**RC‑3 (S6/A7): Fix S3 agent accounting + A7 rationale.** The `min(self.n_agents, n_agents)` clamp (`arms.py:121‑139`) lets S3 record 3 while deploying 4 distinct agents; record the true distinct count (or disclose the clamp) so M5/M6 consumption is honest, and correct A7's "BudgetOverflow 4>3" rationale, which the `d54cb71` clamp already nullified (S3 completed at cap 3 by undercounting).
+
+**RC‑4 (S2, cosmetic):** correct the `score.py:462` "paired‑resample" comment to "independent per‑arm index resampling" so the code comment matches the canonical rule string and the implementation.
+
+---
+
+## What I am **not** faulting (to be precise)
+- The three blocking H1/H2/H5 fixes are genuinely landed and green — I am not reopening them.
+- The matched‑**cap** envelope (60k/900s/4) and the 10.8M master ceiling are correctly unchanged; there is **no hidden agent‑cap advantage** to any arm (S6 cap portion holds).
+- The novelty framing in the amendment is not overclaimed (S8 holds).
+
+The single reason for NOT‑APPROVE is that the **primary decision the bulk live run is being unblocked to produce is, in the signed code, a comparison the campaign's own prereg declares invalid**, and the amendment does not address it.
+
+---
+
+SCIENCE JUDGE (vs code + amendment v1.2 A1–A7): **NOT‑APPROVE**, date 2026‑10‑08
+
+*With my key, the bulk live run is NOT eligible. RC‑1 (blocking) plus RC‑2/RC‑3 must land in a versioned amendment and code before re‑sign‑off; my key remains withheld until the P1 primary comparison is same‑executor or formally re‑scoped with a model‑parity guard.*
