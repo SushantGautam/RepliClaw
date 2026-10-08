@@ -17,11 +17,8 @@ Covers the plan's acceptance bar for the live arms:
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 from typing import Any
-
-import pytest
 
 from repliclaw.comparators.arms import ArmSpec
 from repliclaw.comparators.budget import BudgetEnvelope, BudgetLedger
@@ -30,9 +27,9 @@ from repliclaw.eess_live import (
     EESSLiveA3Arm,
     EESSLiveS5Arm,
     EscrowedEscrow,
+    FakeLLMClient,
     LiveEESSOrchestrator,
     PassThroughEscrow,
-    FakeLLMClient,
 )
 from repliclaw.eess_live.orchestrator import AGENT_IDS, CASE_ID
 from repliclaw.models import Claim
@@ -130,7 +127,11 @@ def test_a3_seeded_deterministic(tmp_path: Path):
 
     def shape(traces: list) -> list:
         # ts differs by wall clock; the deterministic content is seq/type/agent/payload.
-        return [(t["seq"], t["type"], t["agent_id"], json.dumps(t["payload"], sort_keys=True, default=str)) for t in traces]
+        return [
+            (t["seq"], t["type"], t["agent_id"],
+             json.dumps(t["payload"], sort_keys=True, default=str))
+            for t in traces
+        ]
 
     assert shape(same_1) == shape(same_2)
     assert shape(same_1) != shape(other)
@@ -258,7 +259,10 @@ def test_artifact_set_matches_contract(tmp_path: Path):
     assert bl["envelope"]["sha256"] == env.sha256()
     assert bl["totals"]["llm_calls"] == len(bl["calls"])
     for c in bl["calls"]:
-        assert set(c) >= {"seq", "agent_id", "prompt_tokens", "completion_tokens", "total_tokens", "wall_s", "usage_present"}
+        assert set(c) >= {
+            "seq", "agent_id", "prompt_tokens", "completion_tokens",
+            "total_tokens", "wall_s", "usage_present",
+        }
 
     for t in _traces(run_dir):
         assert set(t) >= {"seq", "ts", "agent_id", "type", "payload"}
