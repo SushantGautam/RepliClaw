@@ -58,8 +58,7 @@ import json
 import re
 import sys
 import types
-from collections import Counter
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -76,12 +75,13 @@ LEAD_LEDGER = (
 
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-from repliclaw.comparators.arms import ArmSpec  # noqa: E402
-from repliclaw.comparators.budget import BudgetLedger, BudgetEnvelope  # noqa: E402
-from repliclaw.eess_live import CASE_ID, EESSLiveS5Arm  # noqa: E402
-import repliclaw.eess_live.orchestrator as orch  # noqa: E402
-from repliclaw.models import Claim  # noqa: E402
 import openai  # noqa: E402  (module-level attribute of the script's client dep)
+
+import repliclaw.eess_live.orchestrator as orch  # noqa: E402
+from repliclaw.comparators.arms import ArmSpec  # noqa: E402
+from repliclaw.comparators.budget import BudgetLedger  # noqa: E402
+from repliclaw.eess_live import CASE_ID, EESSLiveS5Arm  # noqa: E402
+from repliclaw.models import Claim  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
