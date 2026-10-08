@@ -569,9 +569,15 @@ def test_de_aborts_on_token_budget(fake_registry: PilotCaseRegistry, tmp_path: P
 # ---------------------------------------------------------------------------
 
 
-def test_v31_amended_envelope_constants() -> None:
-    # A1: 60,000 -> 90,000 shared per-run envelope.
-    assert MAX_TOKENS_PER_RUN == 90_000
+def test_v32_amended_envelope_constants() -> None:
+    # V3.2 (AMEND_V3_2, approved D-V3-017): B1 90,000 -> 150,000 shared
+    # per-run envelope; B3 band ceil 1.25 -> 1.40; B2 tool cap 24 -> 48.
+    # (V3.1 A1 value was 90,000 — see v31_prereg_freeze.md for rounds 1-3.)
+    assert MAX_TOKENS_PER_RUN == 150_000
+    assert (PROMPT_VOLUME_FLOOR, PROMPT_VOLUME_CEIL) == (0.6, 1.40)
+    from repliclaw.experiments.v3 import telemetry as tel
+
+    assert tel.MAX_TOOL_CALLS == 48
 
 
 def test_v31_envelope_parity_guard() -> None:
@@ -610,14 +616,22 @@ def test_v31_backend_model_provenance_recorded(fake_registry: PilotCaseRegistry,
     assert result.backend_models  # every session made LLM calls -> non-empty
 
 
-def test_v31_canary_invariance_after_envelope_amendment(fake_registry: PilotCaseRegistry, tmp_path: Path) -> None:
-    # A2 was REPEALED at approval: the band and crash-on-violation behavior
-    # are unchanged by the envelope amendment. Out-of-band still crashes;
-    # in-band still completes.
-    assert (PROMPT_VOLUME_FLOOR, PROMPT_VOLUME_CEIL) == (0.6, 1.25)
+def test_v32_band_recalibration_and_crash_invariance(fake_registry: PilotCaseRegistry, tmp_path: Path) -> None:
+    # V3.2 B3: band ceil recalibrated 1.25 -> 1.40 from the MEASURED
+    # distribution (completed 1.2245-1.2352; P-03 1.2843-1.2895; P-02
+    # 1.3476); crash-on-violation BEHAVIOR unchanged (out-of-band still
+    # crashes, in-band completes). The old V3.1 violations (1.2845-1.3476)
+    # are now IN-band by design — this is the N1 recalibration.
+    assert (PROMPT_VOLUME_FLOOR, PROMPT_VOLUME_CEIL) == (0.6, 1.40)
+    # Observed historical violations now pass (recalibration intent).
+    assert_volume_band(1.2895)  # R1/R2 P-03
+    assert_volume_band(1.3476)  # R3 P-02
+    # Guard still live above the observed deterministic exceedances.
     with pytest.raises(ValueError):
-        assert_volume_band(1.3)
-    assert_volume_band(1.25)
+        assert_volume_band(1.41)
+    with pytest.raises(ValueError):
+        assert_volume_band(0.5)
+    assert_volume_band(1.40)  # upper boundary passes
 
     arm = CEQTelemArm(
         client=FakeLLMClient(_ceq_script()),
@@ -628,7 +642,7 @@ def test_v31_canary_invariance_after_envelope_amendment(fake_registry: PilotCase
     )
     result = arm.run()
     assert result.status == "completed"
-    assert 0.6 <= (result.prompt_volume_ratio or 0.0) <= 1.25
+    assert 0.6 <= (result.prompt_volume_ratio or 0.0) <= PROMPT_VOLUME_CEIL
 
 
 # ---------------------------------------------------------------------------
@@ -712,11 +726,11 @@ def test_ceq_findings_collected_once(fake_registry: PilotCaseRegistry, tmp_path:
 def test_volume_band_function() -> None:
     assert_volume_band(1.0)   # interior: passes
     assert_volume_band(0.6)   # lower boundary: passes
-    assert_volume_band(1.25)  # upper boundary: passes
+    assert_volume_band(1.40)  # upper boundary (V3.2) passes
     with pytest.raises(ValueError):
         assert_volume_band(0.5)
     with pytest.raises(ValueError):
-        assert_volume_band(1.3)
+        assert_volume_band(1.41)
 
 
 def test_prompt_volume_ratio_definition() -> None:
@@ -739,7 +753,7 @@ def test_ceq_volume_band_in_band_on_happy_path(fake_registry: PilotCaseRegistry,
     result = arm.run()
     assert result.status == "completed"
     assert result.prompt_volume_ratio is not None
-    assert 0.6 <= result.prompt_volume_ratio <= 1.25
+    assert 0.6 <= result.prompt_volume_ratio <= PROMPT_VOLUME_CEIL
 
 
 # ---------------------------------------------------------------------------

@@ -365,3 +365,40 @@ def test_smoke_real_currency_case() -> None:
     m = sandbox.service_metrics("currencyservice")
     assert m["rows"], "currencyservice should have metrics"
     assert all(r["metric"].startswith("currencyservice_") for r in m["rows"])
+
+
+# ---------------------------------------------------------------------------
+# AMEND_V3_2 (pre-launch, science-judge C1): concurrent-read safety
+# ---------------------------------------------------------------------------
+@pytest.mark.skipif(not (PILOT / "re2ob_currencyservice_delay_1" / "metrics.parquet").is_file(),
+                    reason="pilot telemetry not downloaded")
+def test_concurrent_sandbox_parquet_reads_safe() -> None:
+    """16 threads x 25 fresh sandboxes hammering the same frozen pilot
+    case's parquets concurrently (the live parallel-round-4 pattern):
+    zero read errors. Guards the frozen per-run path against
+    environment-dependent pyarrow concurrency behavior."""
+    import threading
+
+    registry = _real_registry()
+    opaque = registry.opaque_ids()[5]  # re2ob_currencyservice_delay_1
+    errors: list[tuple[int, str]] = []
+
+    def worker(n: int) -> None:
+        for _ in range(25):
+            try:
+                sb = TelemetrySandbox(registry, opaque)
+                sb.system_context()
+                sb.top_anomalies()
+                sb._load_metrics()
+                sb._load_logs()
+                sb._load_traces()
+            except Exception as exc:  # noqa: BLE001
+                errors.append((n, repr(exc)))
+                return
+
+    ts = [threading.Thread(target=worker, args=(i,)) for i in range(16)]
+    for t in ts:
+        t.start()
+    for t in ts:
+        t.join()
+    assert errors == []

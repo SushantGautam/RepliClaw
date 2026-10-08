@@ -85,9 +85,9 @@ from repliclaw.experiments.v3.telemetry_arms import (  # noqa: E402
 # ---------------------------------------------------------------------------
 PILOT_SEEDS: tuple[int, int] = (20261011, 20261012)
 ARM_ORDER: tuple[str, str] = ("D-E-TELEM", "C-EQ-TELEM")
-# AMEND_V3_1 (approved D-V3-016), item A3: 2,880,000 -> 4,320,000
-# (= 48 runs x 90,000, mechanical follow-on of A1).
-ROUND_TOKEN_CEILING = 4_320_000
+# AMEND_V3_2 (approved D-V3-017), item B4: 4,320,000 -> 7,200,000
+# (= 48 runs x 150,000, mechanical follow-on of B1; V3.1 A3 value was 4,320,000).
+ROUND_TOKEN_CEILING = 7_200_000
 SSAT_THRESHOLD = 0.25
 CRASH_RATIO_MAX = 0.25
 FLOOR_RUN_SUCCESS_MIN = 2  # < 2/20 run-level successes per arm trips the floor
@@ -669,10 +669,16 @@ def perform_case(
     ledger: list[RunRecord],
     max_cases: int,
     autonomous: bool,
+    lock: Any = None,
 ) -> int:
     """Run one (case, seed, arm) and handle scoring/ledger/stop checks after
     the case completes (all 4 runs of the case ledgered). Returns a process
-    exit code: 0 continue/pause, 10 stop tripped, 11 all planned cases done."""
+    exit code: 0 continue/pause, 10 stop tripped, 11 all planned cases done.
+
+    ``lock`` (AMEND_V3_2, pilot_parallel): when a threading.Lock is
+    supplied, ledger mutation (RunRecord append + ledger.jsonl append) is
+    atomic under it, for the concurrent parallel driver. Sequential
+    callers pass nothing (no lock, unchanged behavior)."""
     run_dir = run_dir_for(out_root, round_no, case, seed, arm)
     # run dir layout: {out}/round{R}/{case}/seed{S}/{arm} -> round dir is parents[2].
     round_dir = run_dir.parents[2]
@@ -681,7 +687,10 @@ def perform_case(
     if _run_already_done(run_dir):
         return EXIT_OK_PAUSE
 
-    # Stop-3 pre-emptive ceiling gate: refuse to start the run.
+    # Stop-3 pre-emptive ceiling gate: refuse to start the run. Backstop:
+    # the parallel driver additionally reserves MAX_TOKENS_PER_RUN per
+    # in-flight claim under ledger_lock (TOCTOU-safe), so this per-run
+    # check can never race into a false refusal under parallelism.
     if ceiling_would_breach(ledger):
         print(
             f"REFUSAL: start of {case}/seed{seed}/{arm} would breach the round "
@@ -689,10 +698,19 @@ def perform_case(
             f"{ROUND_TOKEN_CEILING}); stop-3 pre-emptive",
             file=sys.stderr,
         )
-        append_ledger(round_dir, {
-            "run_path": str(run_dir.relative_to(out_root)), "case": case, "seed": seed,
-            "arm": arm, "status": "refused_ceiling", "tokens": 0, "wall_s": 0.0, "hit": None,
-        })
+        if lock is not None:
+            with lock:
+                append_ledger(round_dir, {
+                    "run_path": str(run_dir.relative_to(out_root)), "case": case,
+                    "seed": seed, "arm": arm, "status": "refused_ceiling",
+                    "tokens": 0, "wall_s": 0.0, "hit": None,
+                })
+        else:
+            append_ledger(round_dir, {
+                "run_path": str(run_dir.relative_to(out_root)), "case": case,
+                "seed": seed, "arm": arm, "status": "refused_ceiling",
+                "tokens": 0, "wall_s": 0.0, "hit": None,
+            })
         _write_case_check(case_dir, ledger, case)
         if autonomous:
             _write_stop(round_dir, evaluate_stop_rules(ledger, _cases_completed(ledger)),
@@ -750,12 +768,21 @@ def perform_case(
         status=result.status, tokens=result.tokens_total, wall_s=wall_s,
         hit=score["hit"] if score else None,
     )
-    ledger.append(record)
-    append_ledger(round_dir, {
-        "run_path": record.run_path, "case": case, "seed": seed, "arm": arm,
-        "status": result.status, "tokens": result.tokens_total, "wall_s": wall_s,
-        "hit": record.hit,
-    })
+    if lock is not None:
+        with lock:
+            ledger.append(record)
+            append_ledger(round_dir, {
+                "run_path": record.run_path, "case": case, "seed": seed, "arm": arm,
+                "status": result.status, "tokens": result.tokens_total, "wall_s": wall_s,
+                "hit": record.hit,
+            })
+    else:
+        ledger.append(record)
+        append_ledger(round_dir, {
+            "run_path": record.run_path, "case": case, "seed": seed, "arm": arm,
+            "status": result.status, "tokens": result.tokens_total, "wall_s": wall_s,
+            "hit": record.hit,
+        })
 
     if not _case_complete(ledger, case, max_cases):
         return EXIT_OK_PAUSE

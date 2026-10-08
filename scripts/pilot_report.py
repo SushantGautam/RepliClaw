@@ -40,10 +40,10 @@ ARMS = ("D-E-TELEM", "C-EQ-TELEM")
 N_CASES_SEEDS = 2
 SAT_THRESHOLD = 0.25
 N_CASES = 10
-# V3.1: AMEND_V3_1 item A3 (approved D-V3-016), mechanical follow-on of A1.
-# Rounds 1–2 reports still show the actual per-round spend; the displayed
-# ceiling is the instrument's current frozen value.
-ROUND_TOKEN_CEILING = 4_320_000
+# V3.2: AMEND_V3_2 item B4 (approved D-V3-017), mechanical follow-on of B1.
+# Prior rounds' reports show the actual per-round spend against their own
+# frozen ceilings; the displayed ceiling is the instrument's current value.
+ROUND_TOKEN_CEILING = 7_200_000
 NO_EFFECT_CLAUSE = (
     "No effect estimate, power claim, or superiority statement is reported "
     "from this pilot (frozen spec §6 no-confirmatory-reuse clause). Pilot "
