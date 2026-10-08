@@ -21,7 +21,7 @@ Companion files: `FACT_CHECK_LIST.md` (every claim → file + commit SHA or UNVE
   (`p08.score --self-test` → PASS). We distinguish, and keep distinct, three things:
   (1) *implemented + unit/contract-tested offline* (the live-LLM arm, scorer),
   (2) *runnable deterministic now* (the offline campaign), and
-  (3) *scheduled for the live window, not yet executed* (the live LLM runs). See F20–F28 in
+  (3) *scheduled for the live window, not yet executed* (the live LLM runs). See F20–F29 in
   `FACT_CHECK_LIST.md`.
 
 **Project name / one-line claim** (per `docs/APPLICATION_V2.md` "Naming"):
@@ -190,10 +190,10 @@ which evidence changed your mind* — improves *validated* causal diagnosis of A
 each named prior system's paradigm. This is an honest boundary claim, not a novelty-by-declaration.
 
 <sub>Verified-fact basis (strip before submit): all per-fact source + commit SHA are in
-`FACT_CHECK_LIST.md` F1–F19 (historical modules) and F20–F28 (run-branch live-arm, scorer,
-offline campaign, Tox21, window). Do not submit any number without a matching green entry there.
-"Implemented + tested" and "live runs executed" are distinct claims — only the former is made
-for the live arm.</sub>
+`FACT_CHECK_LIST.md` F1–F19 (historical modules) and F20–F29 (run-branch live-arm, scorer,
+offline campaign, slice, Tox21, live window, novelty positioning). Do not submit any number
+without a matching green entry there. "Implemented + tested" and "live runs executed" are distinct
+claims — only the former is made for the live arm.</sub>
 
 ---
 

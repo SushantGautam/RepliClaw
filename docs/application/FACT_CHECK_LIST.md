@@ -12,6 +12,22 @@ no network access and could not re-verify online.
 **Do not submit any number or claim that does not have a `RE-VERIFIED` or `SOURCE-ONLY` row here.**
 The human may change a claim only if the new source is recorded on the same row.
 
+> **Re-verified to run-branch state (2026-10-08, `repl-claw-dev` @ `1012ff7`).** Rows F1–F19 cover
+> the historical per-module checkpoints (P02/P03/P04 + G0 + prior art + team/rubric). Since the
+> original P09 draft, P05/P06/P07/P08 components have landed on the run branch. **Rows F20–F29
+> (Section A below) cover that run-branch state** — each `RE-VERIFIED` by re-running the command or
+> re-reading the artifact at `1012ff7` on 2026-10-08, or `SOURCE-ONLY` where the source doc is
+> authoritative and re-running would mutate state (e.g. would spend live tokens). The "critical
+> discrepancy" note below still applies to the *historical* module counts (F1–F3).
+>
+> **`1012ff7` is a moving target, not a permanent pin.** The run branch (`repl-claw-dev`) keeps
+> advancing as other workers land in-flight P08 work (runner CLI, `case_loader.py`,
+> usage-invalidation, token floor, D-10 pin). I verified **exactly** `1012ff7` (isolated worktree
+> re-run: `149 passed, 8 skipped`). At rework time the branch had already moved past `1012ff7` and
+> its *working tree* did not reproduce 149/8 (in-flight changes present, uncommitted). **The
+> human must pin the exact run-branch SHA at submit time and re-run the Step-2 gate there before
+> trusting the 149/8 number** (see `SUBMISSION_CHECKLIST.md` Step 2).
+
 ---
 
 ## ⚠️ Critical discrepancy found by P09 — test counts 62/69 vs 78/73 (read first)
@@ -65,6 +81,22 @@ which pair is right — only the numbers change.
 | F15 | G0 baseline: 66 passed @ `a14fa6766aa3af51e92c8272f8a344fab144569a`; confirmed defects G3a (debate context never reaches prompt), G3b (vote runs full verdict engine), G4 (executable = model self-attestation), G5 (6-fixture dev set, no held-out/budgets/CIs), G1 (central dispatch) | `docs/checkpoints/CP-20261008-G0.md` @ `f2372f3` | **SOURCE-ONLY** |
 | F16 | Prior art surveyed 2026-10-08: AutoScientists (arXiv:2605.28655), Co-Scientist (doi:10.1038/s41586-026-10644-y), Robin (doi:10.1038/s41586-026-10652-y), AgentRx (github.com/microsoft/AgentRx), Dubova et al. (doi:10.1177/26339137261421577); therefore **no firstness claimed** | `docs/PRIOR_ART_NOVELTY_GATE.md` @ `d992cd7` | **NO-NETWORK** (P09 did not re-verify DOIs/links online; rely on the gate doc's survey) |
 
+**Run-branch state (P05/P06/P07/P08 components landed since the original draft). All rows
+`repl-claw-dev` @ `1012ff7`, re-verified 2026-10-08.**
+
+| ID | Claim (as used in DRAFT_ANSWERS.md) | Source (file + commit SHA / re-run) | Status |
+|---|---|---|---|
+| F20 | Run-branch **full gate: 149 passed, 8 skipped; ruff clean; mypy clean (54 files)**; `p08.score --self-test` → PASS | re-run in `.` @ `1012ff7`: `.venv/bin/python -m pytest -o addopts="" -q` → `149 passed, 8 skipped in 17.35s`; `.venv/bin/ruff check src tests scripts` → `All checks passed!`; `.venv/bin/python -m mypy src` → `Success: no issues found in 54 source files`; corroborated by `EXECUTION_STATE.md` gate table | **RE-VERIFIED** |
+| F21 | Offline **runnable now** 4-arm deterministic matched-budget campaign: `ComparatorHarness.run(claim, envelope, root)` runs `single_agent` (S0) / `adaptive_central` (S3) / `open_sharing_swarm` (S4) / `eess` (S5 offline parity) under ONE shared `BudgetEnvelope`; re-ran it during this pass: **4 arms, `parity=True`, 0 live tokens** | `src/repliclaw/comparators/runner.py` @ `1012ff7` (`ComparatorHarness`, `arm_registry` = 4 keys); re-ran the harness offline on 2026-10-08 → `arms: [adaptive_central, eess, open_sharing_swarm, single_agent]`, `parity: True`, `n_arms: 4`, `tokens=0` for S0/S3/S4 | **RE-VERIFIED** |
+| F22 | Wired **EESS vertical slice** (alpha/beta/gamma; H_R/H_P/H_J; COMMIT→REVEAL→EXECUTE→RESOLVE; genuine evidence-induced `choice_changed` re-rank); **runnable now** — `scripts/demo_slice.py` → `DEMO OK`, independent re-execution `PASS`; 7 slice tests green | `src/repliclaw/slice/orchestrate.py` @ `1012ff7`; `tests/test_slice.py` (7 tests, all in 149/8 gate); re-ran `scripts/demo_slice.py` on 2026-10-08 → `DEMO OK` + `Independent re-execution verification: PASS` (the untracked run dir produced was removed; the tracked `artifacts/demo-slice/run-20261008-160137` is unchanged) | **RE-VERIFIED** |
+| F23 | Matched-budget **parity machinery** is machine-checked, not claimed: `assert_budget_parity` returns `parity=True` only if every arm consumed the same envelope hash **and** none overran it; over-budget raises `BudgetOverflow` (parity never faked); 25-test P05 parity suite green | `src/repliclaw/comparators/runner.py` @ `1012ff7` (`assert_budget_parity`); `tests/test_comparators.py` (25 tests incl. `test_parity_fails_when_envelopes_differ`, `test_parity_fails_when_an_arm_exceeds_budget`, `test_harness_rejects_oversized_envelope_for_swarm`) | **RE-VERIFIED** |
+| F24 | Secondary independent **Tox21 AR-agonist** deterministic case (different failure family, transfer study) present and tested; oracle sealed | `src/repliclaw/counterfactual/cases/tox21_ar_agonist/` @ `1012ff7` (oracle dir + `data/`); `tests/test_secondary_case.py` (7 tests, green); landed at `859aa4e` (merged into run branch) | **RE-VERIFIED** |
+| F25 | **Oracle-gated scorer** `repliclaw.p08.score`: the only oracle reader, opens the oracle ONLY after every run dir is verified complete (else writes `run_manifest_incomplete.json` + `ScoreError`, no oracle touch); **`--self-test` P02 replay self-test PASSES** (exit 0); 8 tests (exact-number metrics, oracle-gate safety proof, bootstrap determinism, envelope-mismatch flag, voided-run denominator, usage-threshold) | `src/repliclaw/p08/score.py` @ `1012ff7` (merged `3f3928b`); re-ran `.venv/bin/python -m repliclaw.p08.score --self-test` on 2026-10-08 → `SELF-TEST: PASS`, exit 0; `tests/test_p08_score.py` (8 tests, green) | **RE-VERIFIED** |
+| F26 | **Live-LLM arm `repliclaw.eess_live`** implemented + unit/contract-tested **offline under a FakeLLMClient (no network, no key)** — NOT a live-run claim. `EESSLiveS5Arm`/`EESSLiveA1Arm`/`EESSLiveA3Arm` (keys `eess`/`eess_no_escrow`/`eess_random_select`); 7 contract tests green (A1 pass-through never gates, A3 seeded determinism, budget-abort, invalid-usage→`invalid_usage`, S5 canonical run, artifact-set contract, shared-envelope hash); **live LLM runs NOT yet executed** | `src/repliclaw/eess_live/arm.py` @ `1012ff7` (merged `d0cb054`; deviant `arms.py` removed `d3beaeb`); `tests/test_eess_live.py` (7 tests; module docstring: "offline — FakeLLMClient, no network, no key"); re-ran `pytest tests/test_eess_live.py` on 2026-10-08 → 7 passed | **RE-VERIFIED** |
+| F27 | **Live campaign is SCHEDULED, not executed.** Run window **2026-10-10 → 2026-10-23** (shortenable, not extendable); **two-key start**: science-judge approval of prereg **v1.1** + human (project-lead) authorization, both recorded in `EXECUTION_STATE.md`; in-flight before window can open: runner CLI, same-task `case_loader` (absent on run branch — confirmed), usage-invalidation, D-10 hyperparameter pin (λ=μ=0.5, max_cycles=6, offer TTL=120s), measured live token floor | `docs/experiments/PREREG-2026-10-v1.1.md` @ `1012ff7` (§9.2 authorization+window; D-9b live arm landed; D-10 registry + hyperparam discrepancy; §12 `[PARTIAL: live-S5]`); confirmed `src/repliclaw/comparators/case_loader.py` **does not exist** at `1012ff7` (in flight `p08/runner-cli`); `EXECUTION_STATE.md` next-actions 1–5 | **SOURCE-ONLY** (window/authorization per prereg §9.2; absence of `case_loader.py` RE-VERIFIED at `1012ff7`) |
+| F28 | **Prereg status**: v1.0 `PREREG-2026-10.md` was **REJECTED on READINESS (not merit)** by the internal science judge (8 blocking items); **v1.1** (`PREREG-2026-10-v1.1.md`) is the current re-submission **awaiting re-review**; frozen hyperparameters λ=μ=0.5, max_cycles=6, TTL=120s; defaults-discrepancy documented in **D-10** | `docs/experiments/PREREG-2026-10-v1.1.md` @ `1012ff7` (header: "v1.1 RE-SUBMISSION — awaiting science-judge re-review"; §9.2 judge REJECT recorded in `EXECUTION_STATE.md`); `EXECUTION_STATE.md` ("SCIENCE-JUDGE-PREREG-P08: REJECT on readiness (not merit)") | **SOURCE-ONLY** |
+| F29 | Novelty positioning: EESS mechanism = **escrow-gated pre-outcome commitments + provenance + local selection + matched-budget comparison**; **each piece alone is NOT novel**; no firstness; comparison vs AutoScientists / Co-Scientist / Robin / AgentRx + Dubova et al. | `docs/PRIOR_ART_NOVELTY_GATE.md` @ `d992cd7` ("Closest prior work" table + "Candidate defensible contribution (conditional)" + "Prohibited novelty claims"); `docs/EVIDENCE_ESCROW_SWARM.md` @ `0587308` ("Combined novel *candidate*, not novel-by-declaration") | **NO-NETWORK** (relies on gate doc's surveyed sources; not re-checked online) |
+
 ## B. Context / framing claims
 
 | ID | Claim | Source | Status |
@@ -73,22 +105,31 @@ which pair is right — only the numbers change.
 | F19 | Rubric weights 20 / 25 / 20 / 25 / 10 (+10 cross-team reuse) | `docs/EVIDENCE_ESCROW_SWARM.md` @ `0587308` (cites official site, accessed 2026-10-08) | **NO-NETWORK** — P09 could not re-check the official site; weights used only to *organize* answers, not claimed as fact in the body |
 
 > Note: **F18 is intentionally unused** — fact IDs are assigned to claims, not slots; the draft
-> references F1–F17 and F19.
+> now references F1–F17, F19, and F20–F29.
 
 ## C. `[PENDING]` placeholders in the draft (what resolves each)
 
-| Placeholder (location) | Meaning | Resolved by |
-|---|---|---|
-| `[PENDING: P05/P08]` (Fields 2, 3) | matched-budget comparison numbers (escrow swarm vs strong adaptive central manager, + variants) | **P05** fair strong comparators (IN_PROGRESS) + **P08** real baselines/ablations (NOT_STARTED) |
-| `[PENDING: P06]` (Field 2) | secondary held-out case of a different failure family | **P06** (IN_PROGRESS) |
-| `[PENDING: P07]` (Field 2) | wired end-to-end swarm run (escrow -> need market -> P02 executor -> comparators) | **P07** integration (NOT_STARTED) |
-| `[PENDING: P08]` (Field 2) | real token/cost metering + live-model run | **P08** (NOT_STARTED) |
-| `[PENDING: TEAM]` (Fields 2, 4) | exact teammate names, roles, profiles, and which Field-4 boxes to tick | **human team** |
-| `[PENDING: ORGANIZER]` (Field 1) | challenge-area selection | **organizer / official form** |
-| `[PENDING: P11/external-reuse]` (Field 5) | evidence another team actually reused the component | **P11** external-team reuse (NOT_STARTED) |
+State as of this rework (2026-10-08, `repl-claw-dev` @ `1012ff7`). **Resolved / removed** since the
+original P09 draft are shown first — the offline campaign (P05/P07), the Tox21 secondary case (P06),
+the scorer and the live arm are now **built and tested**, so their `[PENDING: …]` tokens were removed
+from `DRAFT_ANSWERS.md`. What remains in the draft is honestly-worded "not yet executed" language.
 
-Ticket status source: `IMPLEMENTATION_PLAN.md` (P05 IN_PROGRESS, P06 IN_PROGRESS, P07 NOT_STARTED,
-P08 NOT_STARTED, P11 NOT_STARTED) — read by P09 2026-10-08.
+| Placeholder (location) | Meaning | Status now |
+|---|---|---|
+| `[PENDING: P05/P08]` (was Fields 2, 3) | matched-budget comparison numbers | **REMOVED.** The **offline** 4-arm parity campaign is built + runnable (F21/F23) and the scorer is built + self-test green (F25). Only the **live** result remains, now expressed as `[PENDING: P08 live]` below — do **not** paste the offline parity numbers as the live matched-budget result. |
+| `[PENDING: P06]` (was Field 2) | secondary held-out case of a different failure family | **REMOVED.** Tox21 AR-agonist deterministic case is built + tested (F24). |
+| `[PENDING: P07]` (was Field 2) | wired end-to-end swarm run | **REMOVED.** The EESS vertical slice is built + runnable (`DEMO OK`, F22). |
+| `[PENDING: P08]` (was Field 2) | token/cost metering + live-model run | **REMOVED / re-scoped.** The live arm is implemented + tested (F26) and the metering/oracle-gate lives in the scorer (F25); **no live run has been executed** — see `[PENDING: P08 live]`. |
+| `[PENDING: P08 live]` (Field 3) | the **live** matched-budget result (escrow swarm vs adaptive central manager + ablations) at a measured token budget | **P08 live runs** — in the run window 2026-10-10→23, gated on judge + human authorization (F27). In-flight before the window can open: runner CLI, same-task `case_loader`, usage-invalidation, D-10 hyperparameter pin, measured token floor (F27/F28). Report only after measured; a null/negative result is equally valid. |
+| `[PENDING: TEAM]` (Fields 2, 4) | exact teammate names, roles, profiles, and which Field-4 boxes to tick | **human team** (unchanged) |
+| `[PENDING: ORGANIZER]` (Field 1) | challenge-area selection | **organizer / official form** (unchanged) |
+| `[PENDING: P11/external-reuse]` (Field 5) | evidence another team actually reused the component | **P11** external-team reuse — no external reuse yet (unchanged) |
+
+Ticket status source: `EXECUTION_STATE.md` (re-verified 2026-10-08, current) — the P02–P08 modules
+are on the run branch; the live window is pre-flight with the runner CLI / `case_loader` /
+usage-invalidation / D-10 pin / token floor still in flight (F27). The older
+`IMPLEMENTATION_PLAN.md` statuses (P05 IN_PROGRESS, P06 IN_PROGRESS, P07/P08 NOT_STARTED) are **stale**
+and are no longer the source of record.
 
 ---
 
@@ -103,12 +144,27 @@ The draft follows the doc's structure **verbatim**; these are recorded here per 
 | A3 | **Challenge area** may not be a form field at all. | Left as `[PENDING: ORGANIZER]`; do not hard-code a choice. |
 | A4 | Official form's exact **field order, character limits, and required media** unknown. `scienceclawhack.ai/apply.html` is authoritative and **P09 had no network access**. | Draft is written to be *paste-able* into any field order; human must confirm limits on the live form. |
 | A5 | Event window **Oct 30-Nov 1**, application **deadline 2026-10-16**, decisions **Oct 19** (per the doc). | Taken at face value from the doc; **human must confirm on the official site** (no network re-verify). |
-| A6 | **Date discrepancy:** P02/P03/P04 checkpoint *headers* are dated **2026-10-10**, but the git commit dates (and P09's re-verification) are **2026-10-08**. | Draft uses "as of **2026-10-08**" consistently (the reproducible, commit-backed date). Human should reconcile the checkpoint header dates. |
+| A6 | **Date discrepancy:** P02/P03/P04 checkpoint *headers* are dated **2026-10-10**, but the git commit dates (and P09's re-verification) are **2026-10-08**. | Draft uses "as of **2026-10-08**" consistently (the reproducible, commit-backed date). Human should reconcile the checkpoint header dates. **Still applies after this rework:** all new run-branch rows (F20–F29) cite the commit-backed date 2026-10-08 and the run-branch SHA `1012ff7`; note the prereg itself names the *live-run* window 2026-10-10→23, which is a *schedule*, not a commit date — do not conflate the two "10-10"s. |
+| A7 | **Offline-arm naming.** The offline S5 comparator is registered under key **`eess`** by `comparators.managers.EESSArm` / `comparators.runner.arm_registry()` on the run branch; prereg v1.1 calls it **`eess_offline`** and assumes a `case_loader.py` that does **not** exist on the run branch yet (in flight, `p08/runner-cli`). | Draft names the offline parity arm by its **actual run-branch registry key `eess`** (F21) and describes it as "the offline parity arm", matching both the code and the prereg's intent. The `eess_offline` label and the `case_loader.py` path are flagged as in-flight (F27) and are **not** asserted as present. Do not paste `eess_offline` as if it is a current, distinct registry key. |
+| A8 | **"Implemented + tested" vs "live runs executed."** A live arm that is unit/contract-tested under a fake client can be (and was, in the stale draft) read as if live runs happened. | Draft **always** qualifies the live arm as "implemented + unit/contract-tested offline under a fake client (no network, no key)" and states "live LLM runs have NOT been executed" (F26). The three states — (a) built+tested, (b) runnable offline, (c) scheduled live — are never merged. |
 
-## E. Things P09 explicitly did **not** do (so no one mistakes a gap for a check)
+## E. Things explicitly **not** done (so no one mistakes a gap for a check)
 
-- Did **not** re-run `replay.sh` (regenerates artifacts outside P09's owned paths) -> F5 is SOURCE-ONLY.
+- Did **not** execute any **live** LLM run — the live arm (F26) is only contract-tested under a
+  fake client; "live runs executed" is **not** claimed and is a `[PENDING: P08 live]` item.
+- Did **not** start the live window — no judge approval / human authorization recorded yet (F27/F28);
+  the run-branch in-flight pieces (`case_loader.py`, runner CLI, usage-invalidation, D-10 pin,
+  measured token floor) are **not** presented as done.
+- Did **not** treat the **offline** 4-arm parity numbers (F21/F23) as the **live** matched-budget
+  result — the offline campaign is feasibility/parity evidence only.
+- Did **not** re-run `replay.sh` (regenerates artifacts outside owned paths) -> F5 is SOURCE-ONLY.
 - Did **not** re-execute the P04 subprocess/SIGKILL experiments -> F11-F14 are SOURCE-ONLY.
-- Did **not** verify any DOI, arXiv ID, or the official site online (no network) -> F16, F19, A5 are NO-NETWORK.
+- Did **not** verify any DOI, arXiv ID, or the official site online (no network) -> F16, F19, F29, A5
+  are NO-NETWORK.
 - Did **not** confirm team member identities/roles -> F17, `[PENDING: TEAM]` are UNVERIFIED.
+- **Did** re-run, on `repl-claw-dev` @ `1012ff7` (2026-10-08): the full gate (149/8), ruff, mypy
+  (54 files), the scorer `--self-test` (PASS), `pytest tests/test_eess_live.py` (7 passed), the
+  offline `ComparatorHarness` 4-arm run (`parity=True`, 0 tokens), and `scripts/demo_slice.py`
+  (`DEMO OK`). The transient untracked run dir that `demo_slice.py` created was removed; only
+  `docs/application/**` was edited.
 - Did **not** edit any path outside `docs/application/**`.
