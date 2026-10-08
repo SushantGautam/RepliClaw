@@ -1,0 +1,62 @@
+{
+  "agent_verdicts": [
+    {
+      "agent_id": "alpha",
+      "confidence": 0.8,
+      "verdict": "supported"
+    },
+    {
+      "agent_id": "beta",
+      "confidence": 0.8,
+      "verdict": "supported"
+    },
+    {
+      "agent_id": "gamma",
+      "confidence": 0.8,
+      "verdict": "supported"
+    }
+  ],
+  "arm": "A3",
+  "case_id": "policy_rag_v1",
+  "confidence": 0.8000000000000002,
+  "counterfactual_slots_executed": 4,
+  "counterfactual_slots_granted": 4,
+  "defect_class": "retrieval_omission",
+  "envelope_sha256": "301fdcf6abaa67975d11a30b37e44d5f05888dd6e961dec419a85a2758776ac4",
+  "harness_seed": 20261010,
+  "hypotheses": [
+    {
+      "attempted_falsification": true,
+      "counterfactual_slot": "I_R_retrieval_fix",
+      "falsifiable": true,
+      "id": "H_R",
+      "outcome": "supported",
+      "statement": "The baseline failure is a hidden retrieval omission."
+    },
+    {
+      "attempted_falsification": true,
+      "counterfactual_slot": "I_P_policy_conflict",
+      "falsifiable": true,
+      "id": "H_P",
+      "outcome": "supported",
+      "statement": "The baseline failure is a hidden retrieval omission."
+    },
+    {
+      "attempted_falsification": true,
+      "counterfactual_slot": "I_J_judge_fix",
+      "falsifiable": true,
+      "id": "H_J",
+      "outcome": "supported",
+      "statement": "The baseline failure is a hidden retrieval omission."
+    }
+  ],
+  "integrity_rejections": 0,
+  "n_agents": 3,
+  "run_id": "A3/run-01",
+  "schema": "p08.final_verdict/1",
+  "status": "completed",
+  "target_artifact": "retrieval",
+  "total_tokens": 312,
+  "verdict": "supported",
+  "wall_s": 0.243181
+}
