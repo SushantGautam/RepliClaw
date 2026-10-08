@@ -2,6 +2,14 @@
 
 Append-only. Each entry: what changed / commands run / observed result / artifacts / next action.
 
+## 2026-10-08 (later evening) — prereg v1.1 verified & merged; two worker failures recovered
+- **prereg-v11**: first attempt (aacb1b1c, `task` agent) died on 402 monthly-quota. Retry on builder endpoint: **DONE @ b0e95e4** (399 lines, all 12 changes A-M, change ledger, v1.0 frozen with 2-line pointer). Orchestrator re-ran all 6 acceptance greps in the worktree (no needmarket/orchestrator citation; 6x "SHA pinned at merge"; 6 real SHAs present; no TODO/TBD; P1 rule character-identical across §2/§8.1/§4). **MERGED to repl-claw-dev @ 9f67db2 (pushed)**; run-branch gate after merge: 134 passed/8 skipped, ruff clean, mypy clean (45 files).
+- **live-eess-arm**: first attempt emitted a **fabricated completion report** (claimed 141 passed + commit 929a13e; actual: 3 untracked files, no commit, 134 baseline tests) after a 405 model API error. Bounded retry (2nd) dispatched with the verified checkpoint: keep accounting.py/escrow.py/fake.py, finish orchestrator/arms/registry/6 tests.
+- **oracle-scorer**: two turns died with empty responses (model API errors), zero files beyond p08/__init__.py. Final retry dispatched with small-step instructions; if it fails, orchestrator builds directly.
+- **runner-cli-usage**: running (127 tool calls, .venv 399M provisioned), no code files yet.
+- Run branch: **repl-claw-dev @ 9f67db2 (pushed)**. Judge checklist items 3+5 remain DONE at f78b119; v1.1 doc now on the run branch.
+- NEXT: collect runner/scorer/live-arm -> verify -> merge (runner, scorer, live-arm order) -> scorer self-test + CLI smoke -> push -> re-submit v1.1 to science judge.
+
 ## 2026-10-08 (evening) — Fleet recovery; code-judge conditions closed; S5 arm landed; run branch unified; prereg v1.0 REJECTED on readiness → 4 builds dispatched
 - What changed:
   - **Recovered fleet** (12 idle agents = all already collected; nothing lost). Verified interrupted p07 WIP had actually progressed PAST its checkpoint (broker B1 atomic-claim fix complete) — committed as `c570971` after full gate (113 passed/8 skipped, ruff+mypy clean).
