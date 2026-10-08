@@ -44,6 +44,8 @@ All 6 prior background agents lost (session compaction cleared them). Recovery a
 | science-judge-prereg-v11 (70515a08) | superseded | NOT re-dispatched — subsumed by redflags2 + the v1.2 amendment doc (1bdc6490) which operationalizes its checklist. |
 | NEW | unblocked by R1 | **prereg-v12-amendment (1bdc6490)** — drafts docs/experiments/PREREG-2026-10-v1.2-AMENDMENT.md (corrected P1 rule, P2 check, S3 relabel, A4 prompt amendment, honesty framing, sign-off block). Docs-only, no commits. |
 | NEW | unblocked by floor merge | **floor-tests-port (ddf44a39)** — ports the 18-test offline suite for scripts/measure_live_token_floor.py from 4af1d0d to the current main-tree script. Single-file commit. |
+| NEW | A6 pre-start fix | **random-policy-fix (ee467dab)** — worktree .worktrees/p08-random-policy (p08/random-policy @ f2657d1): single-RNG-draw fix + selection-order byte-identity proof (amendment A6 test 3). |
+| NEW | A6 pre-start fix | **leak-guard-canary (3c2177bc)** — worktree .worktrees/p08-leak-guard (p08/leak-guard @ f2657d1): canary no-oracle-leak tests + reference_truth fallback removal (amendment A6 test 1). |
 
 Model allocation (actual support): this VS Code task tool exposes NO per-worker thinking-level parameter; model override IS supported (enum incl. `sigma2.no-NonThinking/Qwen3.8-27B`). Recorded as effective config: all 5 recovery workers on default reasoning model (tasks are integration-grade: amendment text, adjudication, recovery build). Non-thinking variant reserved for the next mechanical dispatch (docs/fixtures/lint).
 
@@ -69,8 +71,25 @@ Workers FORBIDDEN live LLM keys EXCEPT token-floor-measure (single authorized me
 - **R7:** RandomPolicy double RNG draw (policy.py:167-168) → trace mislabel; one-line fix, selection-neutral.
 - **NO BULK LIVE RUN** until: R1 amendment approved + R2 fix + R5 guard + independent science approval + human authorization.
 - Adjudication in flight: science-judge-red-flags (6eef2110) + code-judge-harness (17b9f336), reports → docs/fleet/reviews/SCIENCE-JUDGE-HARNESS-RED-FLAGS-20261008.md / CODE-JUDGE-HARNESS-20261008.md.
+- **v1.2 amendment DRAFT committed @ 6eeaaea** (docs/experiments/PREREG-2026-10-v1.2-AMENDMENT.md): corrected P1 string (S5−S4, CI lower bound ≥ 0, 20-run final, 10-run interim = directional-only screen) byte-identical ×3; P2 M11→M6 fix; S3 relabel + confound disclosure; A4 prompt amendment with gates; A5 honesty label; A6 negative-path test list; sign-off block (science judge + human). **Verified: scorer score.py:445-468 still implements the OLD rule — A1.7 scorer alignment is a gated code change, not done.** A5 application-text fixes applied @ f2657d1.
 
-## Model/harness configuration (actual, per docs/FLEET_MODEL_THINKING_AND_REUSE.md)
+## NO-GO BLOCKER TRACKING (science judge SCIENCE-JUDGE-HARNESS-RED-FLAGS-20261008.md, committed @ a30b77d)
+Judge verdict: **NO-GO** for bulk live runs. 7/7 hotspots VERIFIED. Blockers + status:
+| Judge item | Amendment | Status |
+|---|---|---|
+| H1 — P1 rule fix + scorer re-validation | A1 + A1.7 | Amendment: canonical string adopted (judge's verbatim, strict CI_lower>0 / NOT_SUPPORTED / A1.8 non-inferiority scope) @ a30b77d. Scorer: **scorer-align (6079ec46)** running on p08/scorer-align @ dc0e78f. |
+| H5 — reference_truth leak guard | A6 test 1 | **leak-guard-canary (3c2177bc)** running on p08/leak-guard @ f2657d1. |
+| H2 — evidence in verdict prompt | A4 | **prompt-evidence (84468580)** running on p08/prompt-evidence @ dc0e78f (all 4 A4 gates as named tests). |
+| Judge sign-off + human two-key | §9 | AFTER H1/H2/H5 merged green + code-judge report + v1.2 sign-off. |
+Non-blocking (report/audit): H3 autonomy framing (A5 applied @ f2657d1), H4 S3 relabel (A3 in amendment), H6 effective treatment (A4/A6 + runner CLI metadata), H7 RandomPolicy (**DONE @ dc0e78f** — stream-preserving fix merged, order-identity proven, no A3 re-pin needed).
+
+**Code-judge residual resolved (2026-10-08):** item 2's "S3 structural defect_class=None → M1=0" concern does NOT hold: S3 (AdaptiveCentralManager, managers.py:46-57) runs the full RepliClawProtocol investigator pipeline with the same diagnosis output shape (defect_class/target_artifact) as the other arms — no special M1 handling needed; the scorer treats all arms uniformly. The judge's item 2 deliverable (exact relabel string) is already in amendment A3.
+
+## Completed this segment (post-compaction recovery)
+- floor-tests-port (ddf44a39): tests/test_measure_live_token_floor.py 16 tests, commit cd678e2, full suite green (4 failures = dead-worker WIP tests only).
+- random-policy-fix (ee467dab): d38e502 → merged @ dc0e78f (167 passed/8 skipped, ruff+mypy clean on committed tree).
+- science-judge-redflags2 (ddf44a39): report committed @ a30b77d; its P1 string adopted as canonical.
+- prereg-v12-amendment (a90304fb): drafted → reconciled to judge string @ a30b77d.
 - **Effective engineering model:** all 7 active workers run on the orchestrator default (this Copilot SDK session model). No per-worker thinking-level control exists in this VS Code agent interface — the task tool exposes no thinking-effort parameter, so the requested low/medium/high/xhigh split is **NOT claimable**; recorded as unsupported, not faked. (Historical idle workers show `sigma2.no-NonThinking/Qwen3.8-27B` was used when explicitly selected for mechanical tasks.)
 - **Scientific arms (frozen, unchanged):** LLMClient sends model="default", base_url=simulachat.sushant.pp.ua/api/v1, temperature=0.2, max_tokens=4096, NO reasoning_effort (R6). This treatment is frozen for all P08 arms; no thinking claim in the application.
 - **Pi PoC: NOT RUN** — Pi CLI is not installed on this machine (`which pi` empty). Installing an unfamiliar CLI mid-campaign is not a safe reversible default; the optional PoC is skipped and recorded. Python RepliClaw remains the sole scientific execution runtime (per AGENT_HARNESS_DECISION).
