@@ -20,3 +20,7 @@
 
 ## I4.14 — Final disclosures 8–11 (2026-10-11)
 - Recorded disclosures 8–11 (stop-1 defect, STOP.json snapshot gap, D-E phase-2/3 never executed, asymmetric volume gate) as mandatory riders for any report citing round 4. See EXECUTION_STATE.md I4.14.
+
+## I4.15 — Turnkey human-gate deliverables (2026-10-11)
+- Wrote `science/v3_campaign_final_report.md` (path a) and `design/amendment_v33_both_arms_repair_DRAFT.md` (path b, DRAFT, code-level, pending approval).
+- Next: HUMAN GATE choice (a)/(b); (c) not authorized per D-V3-017.
