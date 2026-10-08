@@ -221,3 +221,15 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
 - **Not re-dispatched (subsumed):** code-judge-live-eess, science-judge-prereg-v11.
 - **Gate:** not re-run at tip (main tree dirty by design during runner build); last green gate 149/8 @ f45fe16.
 - **Next:** collect 5 results; integrate runner CLI (worktree branch or main-tree WIP — whichever passes gate); v1.2 amendment → judge sign-off; NO live run until R1 amendment signed + R2/R5 fixes green + human authorization.
+
+## [2026-10-08 ~23:30] NO-GO H5 + runner CLI integrated; preflight 5-gate green (orchestrator)
+- Changed:
+  - **H5 MERGED**: p08/leak-guard ff → ae68211 (two-layer no-oracle-leak: EESSArm._verdict fallback removed → INCONCLUSIVE; redact_claim_for_arms nulls reference_truth AND seeded_fault; 9 tests incl. leaky-vs-clean identical-verdict canary).
+  - **Runner CLI MERGED**: p08/runner-cli-2 → d269a15 (25 acceptance tests; 4 dead-WIP defects root-caused+fixed: tox21 docstring resolution, S3 4th-agent budget contract, C1 shared envelope hash, exit-2 refusal). Merge conflict resolved: kept both __all__ entries + wired redact_claim_for_arms into the CLI path (run_one_arm bypassed the harness) + CLI redaction regression test (judge item-3 post-merge extension).
+  - **Dead WIP preserved**: salvage/runner-wip-1bdc6490-replaced (8610b0e + bd2c4ee), main tree cleaned.
+  - **Preflight gate 5** @ 6a9f2b7 (runner-CLI smoke: contract artifacts, C1 hash, exit-2, --assert-frozen).
+  - S3 M1 residual RESOLVED by inspection @ 8a287a9 (S3 runs full investigator pipeline; scorer-uniform).
+- Commands/evidence: main tree at d269a15: pytest 202 passed/8 skipped; ruff All checks passed; mypy clean (55 files); preflight 5/5 PASS (re-verified @ 6a9f2b7). Worktree gates: leak-guard 176/8 @ c5b87d4, runner 167/9 @ 21b5bec (both re-run by orchestrator before merge).
+- Envelope deviation recorded: default_envelope = 4 agents (S3 follow-up; 4×30×60k = 7.2M ≤ 10.8M ceiling) → prereg v1.3 candidate note.
+- In flight: scorer-align 84468580 (H1), prompt-evidence 6079ec46 (H2), p09-demo-prep cec5d6ea, p09-fact-check-rerun 871bd3ef.
+- Next: collect H1/H2 → code-judge spot review → merge → full gate @ clean tip → science-judge v1.2 sign-off + human two-key.
