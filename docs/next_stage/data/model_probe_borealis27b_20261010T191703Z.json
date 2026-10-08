@@ -1,0 +1,22 @@
+{
+  "probed_at": "20261010T191703Z",
+  "purpose": "catalog candidate not in round-2 shortlist: protocol + identity probe",
+  "results": [
+    {
+      "model": "Borealis-27B",
+      "ok": true,
+      "wall_s": 0.55,
+      "raw": "{\"action\": \"tool_call\", \"tool\": \"service_metrics\", \"args\": {\"service\": \"checkoutservice\"}}",
+      "usage": {
+        "prompt": 196,
+        "completion": 27,
+        "total": 223
+      },
+      "json_valid": true,
+      "action": "tool_call",
+      "protocol_ok": true,
+      "identity_probe": "I am a large language model, specifically the Gemma family, created by the Gemma team at Google DeepMind.",
+      "echoed_model": "Borealis-27B"
+    }
+  ]
+}
