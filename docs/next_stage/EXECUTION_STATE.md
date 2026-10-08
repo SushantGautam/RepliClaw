@@ -314,3 +314,28 @@ Any report or claim citing round 4 must carry these (beyond the 7-item freeze-st
 - **Path (a) close-out deliverable:** `science/v3_campaign_final_report.md` — self-contained feasibility report over rounds 1/2/4, strongest-honest-negative paragraph, MUST-NOT-claim list, all 11 disclosure riders, decision point, evidence pointers.
 - **Path (b) V3.3 amendment deliverable:** `design/amendment_v33_both_arms_repair_DRAFT.md` — DRAFT (NOT authorized/frozen), code-level spec: remove per-tool sub-caps (total-budget-only), add symmetric anti-loop cache to TelemetrySandbox (both arms), demote C-EQ volume canary to logged flag (keep measurement), carry seed-saturation fix; exact code sites (telemetry.py:279-286/:85-86, telemetry_arms.py:1108-1113), test plan, re-freeze plan, non-authorizations.
 - Both are documentation-only (no live code/spend). Next action is HUMAN: choose (a) or (b) [(c) not authorized]. If (b): human approves change set + spend → 2 fresh judges on the applied diff → new v33_prereg_freeze.md → round 5 (feasibility-only).
+
+## I4.16 — V3.3 built, judged, canaried (path b, human-approved 2026-10-11)
+- **Worktree:** `/Users/sushantgautam/Documents/RepliClaw-stg2-v33` (branch `wip/v33-both-arms-repair`, base 57d1e1f). Frozen V3.2 `dev` untouched.
+- **Implemented** (commit 520f6859): (1) symmetric anti-loop cache in `TelemetrySandbox` (repeated identical (tool,args) → cached payload, `repeated_cached=True`, NO budget consumed; all 5 OBS tools, both arms); (2) per-tool sub-caps removed (total 48 only); (3) C-EQ volume canary demoted crash→logged `volume_band_violation` flag (ratio still measured); + judge fixes: flag persisted to `status.json` + report count; dead per-tool constants removed.
+- **Gates:** 472 passed / 11 skipped / 3 xfailed; ruff + mypy clean.
+- **2 fresh judges (PASS):** code-judge PASS-WITH-SHOULD-FIX (5/5 hashes verified, cache symmetric/per-instance/no-aliasing/no-leak, submit_diagnosis uncached, one SHOULD-FIX = flag not persisted → FIXED); science-judge RECOMMEND, no blocker (anti-loop fair-by-symmetry but arm-asymmetric-in-practice; must NOT claim "mechanism validated"; requires a single-agent+cache control in any CONFIRMATORY campaign; band excursions were 0.20–0.40 above ceiling, not 0.05).
+- **Live V3.3 canary (8 runs, model `default`):** C-EQ 4/4 completed (all hits, ratios 1.23/1.35 in-band, no crash). D-E 0/4 (3× budget-abort at 119–151K tok, 1× malformed-output). Anti-loop cache fired (10–19 repeated calls made free) but D-E still exhausts 150K via ~30 DISTINCT tool calls/investigator. **The instrument repair is validated, but D-E's phase-1 non-convergence persists as a distinct-call rate under the substituted model; phases 2–3 still not reached. Round 4's negative is preserved and more precisely characterized.**
+- **Freeze:** `v33_prereg_freeze_DRAFT.md` (commit 9ac14c3b) with hashes @520f6859 + canary findings + disclosure 12.
+
+## HUMAN GATE — decision for full round 5
+The V3.3 instrument is repaired, frozen, and both-judged, BUT the live canary shows
+D-E still does not complete under 150K/envelope on the substituted model (the failure
+is now a distinct-call rate, not repeat-loop waste). Options:
+- **(a) Run full round 5** (10 cases × 2 seeds × 2 arms = 40 runs, ≤7.2M tok, model
+  `default`): a clean feasibility record. Expected: C-EQ largely completes (no more
+  volume crashes); D-E likely still 0-complete → a more precise negative (no
+  decentralization advantage; D-E mechanism still doesn't execute under this model).
+- **(b) Raise the per-run envelope** (e.g. 300K, symmetric, both arms, re-freeze +
+  re-judge) to give the substituted model headroom to reach phases 2–3 — only then
+  does the contrast become *meaningfully* instantiable. Larger instrument change.
+- **(c) Stop the V3 feasibility series** — accept the negative (no demonstrated
+  advantage; mechanism doesn't execute under the substituted model) as the result.
+- **(d) Change model** — NOT authorized per D-V3-017 (would need refreshed access +
+  re-prereg).
+Awaiting explicit human choice. NO full round launched; NO public release; `main` untouched.
