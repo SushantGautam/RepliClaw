@@ -2,6 +2,25 @@
 
 Append-only. Each entry: what changed / commands run / observed result / artifacts / next action.
 
+## 2026-10-10 — P02 COMPLETE: real SimpleAudit counterfactuals, gates green (orchestrator, direct build)
+- What changed (all new files on branch `p02/simpleaudit-counterfactual` @ 3f452b2 in `.worktrees/p02`):
+  - `src/repliclaw/execution.py` (f02 port, verbatim): ExecutionRecord + subprocess runner + clean-dir verifier.
+  - `src/repliclaw/counterfactual/` package: `case.py` (CaseSpec/InterventionSpec, factor set R/P/J, canonical hashes), `frozen_backend.py` (deterministic RAG target + frozen judge), `executor.py` (SimpleAuditExecutor → real `ModelAuditor.run_scenario` (async) with CallableTarget + offline frozen judge; run_case/run_canonical/replay; per-arm artifacts), `__init__.py` (public API per contract §5).
+  - `experiments/policy_rag/`: frozen case (returns-policy RAG, order #1001), 5 interventions, **sealed oracle** (true_cause=retrieval_omission; never on a code path).
+  - `artifacts/science/p02-hero-canonical/`: regenerable canonical run + `replay.sh` (sha256-pinned, byte-identical).
+  - `tests/test_execution.py` (6) + `tests/test_counterfactual.py` (6): red-first per ticket.
+  - `docs/fleet/handoff-P02.md`: commands, observed outputs, decisions, reviewer attack surface.
+- Commands/evidence (run in `.worktrees/p02`):
+  - `.venv/bin/python -m pytest` → **62 passed, 8 skipped** (skips = base-branch held-out/skip-marked).
+  - `.venv/bin/python -m ruff check src tests` → clean (after 1 import-order autofix).
+  - `.venv/bin/python -m mypy src` → clean (21 files).
+  - `bash artifacts/science/p02-hero-canonical/replay.sh` → byte-identical regen + sha256 summary.
+  - Observed arm discrimination: I0 pass(14d) / I_R critical(30d, output changed) / I_P pass(14d, output byte-identical to I0) / I_J critical(14d, output byte-identical, verdict flipped) / I_C pass(30d).
+- Debug notes: `run_scenario` is async in 0.3.3 (must `asyncio.run`); `CallableTarget` is in `simpleaudit.targets.callable`; per-arm files carry no wall-clock so byte-replay is stable; `oracle.json` only referenced in tests/oracle dir, never by target/judge (enforced by test).
+- Result: the "actual SimpleAudit counterfactual interventions" capability exists and is machine-verified; the distinguishing verdict-only arm (I_J) proves per-factor execution.
+- Artifacts: `docs/checkpoints/CP-P02.md`, `docs/fleet/handoff-P02.md`.
+- Next: P03 escrow + P04 need-market (direct build in p03/p04 worktrees), then single integration + merged gate + dual judges.
+
 ## 2026-10-07 — M0 reconnaissance complete
 - What changed: Established durable state (`EXECUTION_STATE.md`), git baseline (branch `repl-claw-dev`), and the reuse matrix + 8 decisions in `DECISIONS.md`.
 - Commands/evidence:

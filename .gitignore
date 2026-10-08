@@ -8,3 +8,4 @@ logs/
 artifacts/verify/
 *.egg-info/
 artifacts/benchmark/_work/
+.worktrees/
