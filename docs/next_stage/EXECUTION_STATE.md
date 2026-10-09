@@ -6,9 +6,9 @@
 **Development branch:** `dev` (created from public `main` at 97a455947895e48fb551503e8fd1158d03a293af).
 **Integration worktree:** `/Users/sushantgautam/Documents/RepliClaw-stg2-dev` (dev @ a8e2b0e725bb6eb1c106d975663c1de0ee188f56).
 **Public-facing branch:** `main`; never update without explicit human release approval.
-**Current milestone:** V3 pilot series rounds 5–8 RUN + adjudicated (see I4.16–I4.27 at bottom). Round 8 CLOSED (I4.27): TIE 6/8 vs 6/8 (ceiling lower bound), H-burn (mechanism-negative), 5/5 residual D-E aborts = phase-2 tool-cap; envelope axis CLOSED. **§7 option (ii) approved by the human → V3.7 round 9 IN PROGRESS (I4.28):** D-E-only phase-2 tool-cap 4→8 ablation; worktree `RepliClaw-stg2-v37` `wip/v37-toolcap` (instrument `da4a142` + freeze DRAFT `3818f3f`); gates green; **2 fresh pre-run judges RUNNING** (V37-PRECODE `4fab502e`, V37-PRESCI `0d4601b8`) — launch gated on their REQUIRED items.
+**Current milestone:** V3 pilot series rounds 5–9 RUN + adjudicated (see I4.16–I4.28 at bottom). Round 8 CLOSED (I4.27): TIE 6/8 vs 6/8 (ceiling lower bound), H-burn (mechanism-negative), 5/5 residual D-E aborts = phase-2 tool-cap; envelope axis CLOSED. **Round 9 (V3.7) CLOSED (I4.28):** D-E-only phase-2 tool-cap 4→8 ablation → **H-nonconv / mechanism-negative** (R5 guard FAILED: 5/5 new completions with ≥5× per-call re-issue loops, concentrated in out-of-scope phase 1); cap-8 never bound (max p2 usage 7 < 8); all 5 round-8 cap-abort slots completed (D-E 14/16, case-hit 8/8; C-EQ 11/16, case-hit 6/8 — both ceiling lower bounds, 7/32 unlaunched); **tool-cap axis CLOSED at cap 8** (frozen R8; cap-16 = predictable null, NOT run). Standing negative REAFFIRMED across 5 envelopes + cap axis. Report §2h/§2i/§4f + rider 16 + §5/§7/§8 updated. NEXT (HUMAN GATE §7): (i) accept refined negative (RECOMMENDED), (ii) NEW prereg for phase-1 non-convergence, (iii) stop, (c) model change [NOT authorized].
 **Experiment authorization:** round-9 scope/spend human-authorized 2026-10-11 (I4.28; standing unlimited SimulaChat `default`); model change (c) NOT authorized. `main` untouched; dev LOCAL-ONLY (never pushed).
-**V3 protocol:** FROZEN per-round (v33/v34/v35/v36 freezes; v37 freeze pending pre-run judges).
+**V3 protocol:** FROZEN per-round (v33/v34/v35/v36/v37 freezes; v37 FINAL compliant @ `af2799a`, tool-cap 4→8 D-E-only).
 
 ## Wave 0 fleet results (2026-10-09, this checkpoint)
 | Lane | Status | Evidence |
@@ -935,7 +935,7 @@ remains until the round's machine-verified result says otherwise.
   authorized). No live runs in flight; no spend without the relevant
   authorization.
 
-## I4.28 (in progress) — HUMAN §7 option (ii) approved: V3.7 round 9 (D-E-only phase-2 tool-cap 4→8) built, freeze DRAFT, 2 fresh pre-run judges dispatched (2026-10-11)
+## I4.28 — HUMAN §7 option (ii) approved: V3.7 round 9 (D-E-only phase-2 tool-cap 4→8) — COMPLETE (CLOSEOUT at bottom)
 
 **Human authorization (verbatim):** "go for option (ii) (new freeze: does relaxing the D-E-only tool cap recover completions?)" — resolves §7 option (ii) of the round-8 decision point; standing unlimited SimulaChat `default` spend continues to apply; model change (c) STILL NOT authorized.
 
@@ -981,11 +981,64 @@ mechanism-negative** despite the observed completion recovery (H-cap's
 completion-recovery leg was plainly satisfied: all 5 former cap-abort slots
 completed). Dual-finding tension to be adjudicated by the outcome judges.
 
-**Fleet:** 2 fresh OUTCOME judges running — V37-OUTCODE `dba1eb1f-8361-4a84-b98d-31c4d4f22855`
+**Fleet:** 2 fresh OUTCOME judges returned — V37-OUTCODE `dba1eb1f-8361-4a84-b98d-31c4d4f22855`
 (integrity 1-13, coverage, quarantine integrity, diff lock, ledger consistency)
 + V37-OUTSCI `6433088d-9e78-47c6-8063-a15482db8540` (hypothesis adjudication,
 R5 reference-cohort oddity, standing-negative assessment, R8 termination,
 process-error taint assessment, report-level REQUIRED items).
-**NEXT on judges:** apply REQUIRED (doc-only) → report §2h/§4f + rider 16 +
-§7/§8 updates → I4.28 closeout → dev commit → checkpoint 022.
-**NO claims may be published before the outcome judges return.**
+
+### I4.28 CLOSEOUT — COMPLETE (2026-10-11, outcome judges + report updates)
+
+**Outcome judges (both fresh, independent; both CONDITIONAL-PASS, 0
+data/instrument defects; all REQUIRED + RECs applied doc-only):**
+- **V37-OUTCODE** (`dba1eb1f…`): CONDITIONAL-PASS. Integrity items 1-13 all
+  verified (incl. item 10 diff lock: exactly the cap constant + record-only
+  `abort_reason`; item 6 token reconciliation EXACT 3,738,102 + 1,079,696
+  = 4,817,798). Report-level REQUIRED: (1) coverage is **D-E 14/16 /
+  C-EQ 11/16** (NOT 14/14; 7 unlaunched: D-E P-07/P-08 s20261012; C-EQ
+  P-05 s20261012, P-07 s11+s12, P-08 s11+s12) — both arms' case-hits are
+  ceiling lower bounds; (2) quarantine = **20** runs / 3,494,442 tokens
+  ("19" in dir name is stale). Both corrections applied to the report +
+  this state.
+- **V37-OUTSCI** (`6433088d…`): CONDITIONAL-PASS. Verified every number
+  independently. KEY independent finding: the ≥5× re-issue loops live
+  **entirely in phase 1 (out of scope)**; **cap-8 never bound** (max
+  phase-2 usage 7 < 8); the 5 recovered slots needed 5-7 phase-2 calls
+  (exactly what cap-4 blocked). Final preregistered verdict: **H-nonconv /
+  mechanism-negative** (cap relaxation bought tokens, not convergence);
+  "consistent with" language only (rounds 8/9 are independent temp-0.2
+  draws, NOT a controlled counterfactual). Methodological notes MF-1..MF-5
+  (rate trigger near-degenerate — reference itself loop-saturated at
+  316.3%; the 76.0% ÷total vs 316.3% ÷unique figures are NOT comparable).
+  Process-error taint assessment: official round's validity PRESERVED
+  (fresh seed draws, stateless backend, negligible wall-time taint).
+  **R8 termination: tool-cap axis CLOSED at cap 8; cap-16 = predictable
+  null, NOT run; H-cap-branch parity freeze NOT triggered.** 9
+  report-level REQUIRED items — all applied in the report (§2h/§4f/rider
+  16/§5).
+
+**Report + state updated (dev, LOCAL-ONLY):** `v3_campaign_final_report.md`
+— §2 table row (round 9), §2h (full: design, exact coverage, headline
+intra-arm, phase-split finding, R5 numbers, final verdict, process-error
+disclosure), §2i (does/does-not-change), §4f (refined negative round 9 —
+the current strongest statement: standing negative UNCHANGED; 3
+strongest-supportable claims: cap-4 consistent-with terminal phase-2
+limit [cap-8 never bound, p2 ≤ 7]; mechanism-negative H-nonconv [phase-1
+re-issuance, out of scope]; standing negative unchanged [inter-arm
+non-parity + ceiling LB, ~5.0× intra-round cost]); §5 anti-claim bullets
+(round 9); rider 16 (16 riders total: one-constant ablation, coverage,
+H-nonconv verdict + R5 numbers, cap-8 never bound, token reconciliation
+exact, cost intra-round-only, PROCESS ERROR disclosure, R8 termination);
+§7 decision point updated (rounds 5-9 run; option (ii) now "NEW prereg
+for phase-1 non-convergence"; cap raise NOT recommended; (i) RECOMMENDED);
+§8 evidence pointers (round-9 run dir, freeze `af2799a`, quarantine,
+adjudicator, scorer hash).
+
+**DECISIONS.md:** D-V3-021 recorded.
+
+**NEXT (HUMAN GATE, §7):** (i) accept the round-9 refined negative as the
+V3 record — RECOMMENDED by the round-9 outcome judges; (ii) a NEW
+preregistration for the phase-1 non-convergence phenomenon (NEW freeze +
+2 fresh pre-run judges + human scope/spend approval); (iii) stop the
+series; (c) model change [NOT authorized]. No cap-16 round without a new
+freeze + 2 fresh judges + human re-confirmation.

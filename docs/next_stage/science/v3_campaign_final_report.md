@@ -45,6 +45,7 @@ pilot.
 | **6** | **V3.4 (300K/run shared envelope, 12M ceiling; otherwise identical to V3.3)** | `default` (Qwen3.8-27B) | **6/12 completed (ALL hit=true, 121K–283K tok); 4× malformed-output (18–27K, envelope-invariant); 2× budget-abort (277K/300K)** | **9/9 completed (all hit=true, 55–79K); 0 crashes** | 2,389,175 / 12,000,000 | **stop-1 (C-EQ sat 3/10 = 0.30 > 0.25)** — pre-empted a D-E stop-2 that the full cohort (6/20 = 0.30) would have tripped |
 | **7** | **V3.5-D (300K/run shared envelope, 12M ceiling; + B forced-JSON, C tolerant discriminant, D unbounded envelope-bounded retry — shared path, both arms)** | `default` (Qwen3.8-27B) | **6/14 completed (ALL hit=true, 232K–295K tok); 0 crash-class crashes; 8× budget-abort (4× token-cap ≥300K + 4× phase-2 tool-cap, D-E-only pre-existing); 2 drift-form terminals RECOVERED by (C)** | **10/10 completed (all hit=true, 49–77K); 0 crashes** | 4,311,893 / 12,000,000 (22-run snapshot at trip; 24 final) | **stop-1 (C-EQ sat) + stop-2 (raw D-E non-compl 6/20 = 0.30 > 0.25)** — the raw stop-2 counts all non-completions; adjudicated crash-class is 0 (see §2d) |
 | **8** | **V3.6 (600K/run shared envelope, 24M ceiling; everything else byte-identical to V3.5-D)** | `default` (Qwen3.8-27B) | **9/14 completed (ALL hit=true, 180K–325K tok); 0 crash-class crashes; 0 drift-emissions; 5× budget-abort — 5/5 phase-2 tool-cap (sub-envelope: 216K–363K tok, 84–133s; 0 true token-cap, 0 wall)** | **9/9 completed (all hit=true, 55–72K); 0 crashes** | 4,084,520 / 24,000,000 (18-run snapshot 2,640,155 at trip; 23 final) | **stop-1 (C-EQ sat 3/10 = 0.30 > 0.25 at 18-run snapshot)** — STOP `per_arm_crashes D-E=2` = 2 `aborted_budget` under the /20 full-cohort denominator, **not 2 crashes** (see §2f) |
+| **9** | **V3.7 (600K/run shared envelope, 24M ceiling; D-E-ONLY `DE_PHASE2_TOOL_CAP` 4→8 + record-only `abort_reason` — the one-constant mechanism ablation)** | `default` (Qwen3.8-27B) | **14/16 completed (ALL hit=true, 188K–410K tok); 0 crashes; 0 aborts — all 5 round-8 cap-abort slots completed; cap-8 never bound (max phase-2 usage 7 < 8); R5 guard FAILS (5/5 new completions with ≥5× re-issue loops, phase-1)** | **11/16 completed (all hit=true, 49K–74K); 0 crashes; 5 slots never launched (ceiling lower bound)** | 4,817,798 / 24,000,000 (22-run snapshot 3,738,102 at trip + 3 in-flight 1,079,696 = exact; 25 final) | **stop-1 (sat D-E 0.50 / C-EQ 0.50 ≥ 0.25 at case 5)** — the designed SSAT efficiency stop; 25/32 run, 7 never launched (see §2h) |
 
 Round 3 (V3.1, `default`) tripped stop-2 earlier (D-E 0/6) and is the trigger
 that produced the V3.2 amendment. All rounds are feasibility-only.
@@ -343,6 +344,118 @@ extension, whether the standing negative finding extends to 600K. Result:
   under the substituted model, D-E's investigators keep re-fetching the same
   evidence instead of converging, at every budget level tested.
 
+### 2h. Round 9 — V3.7 (the D-E-only phase-2 tool-cap ablation 4→8; the mechanism round)
+
+**Design (frozen, compliant SHA `af2799a`, worktree `RepliClaw-stg2-v37`):**
+the ONE behavioral change is `DE_PHASE2_TOOL_CAP` 4 → 8 — a **D-E-ONLY**
+protocol constant (it bounds the per-investigator phase-2 tool budget; it is
+not shared with C-EQ, whose `CEQ_INVESTIGATOR_TOOL_CAP=3` is byte-identical).
+The shared 600K/900s envelope, ceiling 24M, tools, prompts, seeds, cases, and
+stop rules are unchanged (instrument diff lock verified: `git diff
+cff7d748..af2799a -- src/` = exactly the cap constant + a record-only
+`abort_reason` field). Primary estimand: **intra-arm D-E (round 8 → round
+9)**. Inter-arm contrast: **secondary, non-parity (cap 8 ≠ 3 by design), and
+ceiling-truncated** — it may not be reported as "D-E improved relative to
+C-EQ" and does not update the standing negative finding (frozen R3
+presentation contract).
+
+**Coverage (frozen item 13; code-judge REQUIRED — exact):** 25/32 planned
+runs; **7 slots never launched** — D-E: P-07 s20261012, P-08 s20261012;
+C-EQ: P-05 s20261012, P-07 s20261011, P-07 s20261012, P-08 s20261011,
+P-08 s20261012. Per arm: **D-E 14/16, C-EQ 11/16** (NOT "14/14" — D-E was
+also stop-truncated). `stop1_ssat` tripped at case 5 (sat D-E 0.50 / C-EQ
+0.50 ≥ 0.25; `cases_completed: 5`, 22 runs at snapshot) — the designed
+efficiency stop. All 25 runs completed: **0 crashes, 0 aborts, 0
+protocol errors**; every `status.json` carries the new record-only
+`abort_reason` key (null, completed). Final ledger **4,817,798 tokens** =
+STOP snapshot **3,738,102** + 3 in-flight **1,079,696** (338,086 + 344,124
++ 397,486 — exact). Uniformity: `git_rev=af2799a…`, `concurrency=6`,
+`driver_sha256=60dc4f24…`, `model=default`, `envelope=(600000, 900)` on all
+25; `case_sha256` parity vs round 8 8/8; GT isolation: 0 ground-truth
+matches across all agent-facing files.
+
+**Headline (intra-arm, PRIMARY):** D-E completions **9/14 → 14/14 launched
+(14/16 planned)**; **all 5 of round 8's phase-2 tool-cap abort slots
+completed** (P-02 s12, P-05 s12, P-06 s11, P-07 s11, P-08 s11 — every one of
+round 8's `aborted_budget` runs). Case-level hit (frozen R3, FINAL ledger,
+within reached cases): **D-E 8/8** (round 8: 6/8; P-07/P-08 hit via their
+single launched seed each). D-E per-completion tokens 187,834–409,873
+(median 299,373) vs round-8 completed 180,020–324,901 (median 225,913) —
+**cost comparisons are intra-round only** (frozen cost caveat): D-E median
+299,373 vs C-EQ median 59,539 this round = **~5.0×** (round 8's 3.7× figure
+is NOT comparable — different instrument + different draws).
+
+**Decisive independent finding (phase split, outcome science judge):**
+separating each run at the phase-2 consult marker, **the ≥5× re-issue loops
+live entirely in phase 1** (private investigation — unbounded, out of
+scope per the frozen scope line), and **phase-2 tool usage maxed at 7 across
+all 14 D-E runs — cap-8 was never the binding limit anywhere in round 9**.
+The 5 recovered slots completed needing 5–7 phase-2 calls — exactly what
+cap-4 (round 8) blocked.
+
+**R5 confound guard (frozen operational rule — verified by both judges):**
+reference = round-8 **completed-only** D-E cohort repeat rate
+**316.3%** (637 calls / 153 unique, frozen `(total−unique)/unique` formula —
+NOT comparable to the 76.0% all-runs ÷total figure, MF-4); threshold
+321.3%. Round-9 newly-completing cohort (the 5): **318.1%** (439/105) →
+rate trigger NOT met; but **5/5 runs contain a single `(tool,args)` issued
+≥5×** (e.g. P-02 s12: `top_anomalies{k:20}` ×10, `service_metrics{adservice}`
+×9) → **trigger 2 MET → guard FAILS**. Per the frozen rule the mechanism
+verdict is **H-nonconv / mechanism-negative**, NOT H-cap.
+
+**Final preregistered round-9 verdict (outcome science judge):** > Raising
+the D-E-only phase-2 tool cap 4→8 was **consistent with** eliminating the
+phase-2 cap-abort and recovering D-E completions in the five previously-
+aborting slots (D-E 14/14 launched, case-hit 8/8 within reached cases);
+however the cap-8 was never the binding limit (max phase-2 usage 7 < 8) and
+the frozen R5 guard failed (318.1% vs 321.3%; ≥5× re-issue in 5/5,
+concentrated in out-of-scope phase-1). The mechanism verdict is therefore
+**H-nonconv / mechanism-negative**, consistent with "cap relaxation bought
+tokens, not convergence," not H-cap.
+
+**Process-error disclosure (rider 16 carries the full record):** a premature
+launch under a falsely-stamped freeze (`d77c638`, "both judges PASS" when the
+science verdict was CONDITIONAL-PASS with 8 REQUIRED) was **stopped at
+20/32 (no stop trip; nothing adjudicated or used as evidence)**, its state
+quarantined (`artifacts/dev/v37-round9-premature-19runs/`, 20 runs, 3,494,442
+tokens counted as incurred round-9 spend, NOT summed into the official
+ledger), all 8 REQUIRED items applied doc-only, and the round **relaunched
+fresh under the compliant SHA `af2799a`** (~11 min later). Outcome judges:
+**validity of the official round preserved** (fresh independent draw — only 1
+of 20 shared slots has identical tokens; stateless per-run backend; the only
+plausible coupling is ~1–2 min of provider-side load overlap affecting wall
+times, with no throttling signature: 0 wall-cap aborts, max D-E wall
+187.7 s ≪ 900 s). The official round's wall times are not like-for-like
+comparable across the two launches (disclosed caveat; scores unaffected).
+
+### 2i. What round 9 does and does not change
+
+- **Changes (tool-cap axis CLOSED at cap 8):** the round-8 "cap vs
+  non-convergence" question is machine-answered at the scoped axis: cap-4 was
+  consistent with having been the terminal limit on phase 2 (all 5 former
+  abort slots completed; cap-8 never bound, p2 ≤ 7). But the mechanism
+  verdict is **H-nonconv / mechanism-negative** under the frozen guard: the
+  recovered completions are still dominated by identical-`(tool,args)`
+  re-issuance (318.1%; 5/5 with ≥5×) — **in out-of-scope phase 1**, which
+  this round neither tested nor was scoped to fix. Per frozen R8: the
+  tool-cap axis is **CLOSED at cap 8**; a **cap-16 round is a predictable
+  null and is NOT run**; the H-cap-branch follow-on (a new parity-matched
+  D-E-vs-C-EQ freeze) is **NOT triggered** (outcome is H-nonconv, not H-cap);
+  no cap-axis follow-on is authorized without a brand-new freeze + 2 fresh
+  pre-run judges + human re-confirmation.
+- **Does NOT change (the contrast of interest):** the standing negative
+  finding is **UNCHANGED** — no demonstrated advantage of
+  decentralization/escrow. The inter-arm contrast (D-E 8/8 vs C-EQ 6/8
+  ceiling lower bound) is **non-parity and stop-truncated in BOTH arms**
+  (7 unlaunched slots: 2 D-E + 5 C-EQ — both arms' case-hits are ceiling
+  lower bounds); it is the most favorable-to-D-E reading possible from this
+  round, achieved at ~5.0× intra-round per-completion cost. It cannot be
+  read as "D-E improved relative to C-EQ" and does not update the standing
+  finding. The **phase-1 non-convergence** this round surfaced (loop-heavy
+  private investigation under the substituted model) is now a *separately
+  named, separately scoped* phenomenon — studying it would be a NEW
+  preregistration, not a cap ladder.
+
 ## 3. What the rounds DID establish (feasible facts)
 
 1. **The per-run token envelope is the structural binding constraint on D-E-
@@ -530,6 +643,63 @@ extension, whether the standing negative finding extends to 600K. Result:
 > hypothesis would be a different experiment, not a continuation of the
 > envelope axis.
 
+### 4f. Refined negative (round 9 / V3.7, tool-cap 4→8 — the current strongest statement)
+
+> **The tool-cap disambiguation round is machine-answered, and the standing
+> negative is REAFFIRMED with the mechanism verdict closed on the cap axis.**
+> Round 9 (V3.7, D-E-ONLY `DE_PHASE2_TOOL_CAP` 4→8; one-constant ablation;
+> 2 fresh pre-run judges: code PASS / science CONDITIONAL-PASS, all 8
+> REQUIRED applied doc-only; 2 fresh outcome judges: both CONDITIONAL-PASS,
+> all REQUIRED applied doc-only) machine-verified: (i) **all 5 of round 8's
+> phase-2 tool-cap abort slots completed** (D-E 9/14 → 14/14 launched,
+> 14/16 planned; case-hit 6/8 → 8/8 within reached cases); (ii) **the cap-8
+> was never the binding limit** (max phase-2 usage 7 < 8 across all 14 D-E
+> runs); (iii) **the frozen R5 confound guard FAILED** — reference (round-8
+> completed-only D-E cohort, frozen formula) 316.3%, threshold 321.3%, new-5
+> cohort 318.1% (rate trigger NOT met) but **5/5 newly-completing runs carry
+> a single `(tool,args)` issued ≥5×** (re-issue-loop trigger MET) → mechanism
+> verdict **H-nonconv / mechanism-negative**, NOT H-cap. The ≥5× loops are
+> **concentrated in phase 1** (out of scope per the frozen scope line) — this
+> round neither tested nor was scoped to fix phase-1 non-convergence.
+>
+> **Why this is still a negative (not a D-E win), three independent
+> reasons:**
+>
+> 1. **The inter-arm contrast is non-parity and stop-truncated in BOTH arms,
+>    and it is the most favorable-to-D-E reading possible.** D-E 8/8 vs
+>    C-EQ 6/8 (frozen R3, FINAL ledger), with **7 of 32 slots never
+>    launched** (2 D-E + 5 C-EQ): BOTH arms' case-hits are ceiling lower
+>    bounds. C-EQ's 6/8 could only rise to 8/8 on a completed cohort. The
+>    contrast achieved the best-possible-for-D-E score at **~5.0× intra-round
+>    per-completion cost** (median 299,373 vs 59,539). It cannot be reported
+>    as "D-E improved relative to C-EQ" (frozen R3 presentation contract)
+>    and does not update the standing negative finding.
+> 2. **The completion recovery does not establish convergence.** The new
+>    completions re-fetched the same `(tool,args)` observations (318.1%
+>    cohort repeat rate; 5/5 with ≥5× per-call re-issuance) — cap relaxation
+>    bought tokens, not convergence (frozen R5 relabel). What WAS
+>    established, at the scoped phase-2 axis only: **cap-4 was consistent
+>    with being the terminal phase-2 limit** ("consistent with" language
+>    throughout — rounds 8 and 9 are independent temp-0.2 draws, NOT a
+>    controlled counterfactual; no causation attributable solely to the cap).
+> 3. **The tool-cap axis is now CLOSED at cap 8, and spending more on it is
+>    a predictable null** (frozen R8, confirmed by the outcome judges).
+>    Cap-16 / further-raise = new freeze + 2 fresh pre-run judges + human
+>    re-confirmation; "keep raising until D-E completes" is explicitly NOT a
+>    termination criterion. The H-cap-branch follow-on (a new parity-matched
+>    D-E-vs-C-EQ freeze) is NOT triggered — the outcome is H-nonconv, not
+>    H-cap.
+>
+> **Standing finding REAFFIRMED:** no demonstrated advantage of
+> decentralization or escrow beyond access to counterfactual interventions —
+> now across FIVE envelopes (60/90/150/300/600K) AND the cap axis closed.
+> The one named, separately scoped open phenomenon is **phase-1
+> non-convergence** (loop-heavy private investigation under the substituted
+> model) — a NEW preregistration if pursued, not a cap ladder. **This is a
+> single-round, truncated-cohort (25/32), feasibility readout — no
+> superiority/inferiority claim, no statistical test** (no-confirmatory-reuse;
+> case-level paired hit per frozen R3).
+
 ## 5. What MUST NOT be claimed from this series
 
 - No effect size, power, or significance statement (frozen §6 no-confirmatory-reuse).
@@ -596,8 +766,48 @@ extension, whether the standing negative finding extends to 600K. Result:
   (P-04 s11/inv-c, P-06 s12/inv-c) and were **recovered by (C)** — the correct
   statement is **0 crash-class crashes** (`status=crashed`), not 0 drift
   emissions.
+- No "D-E improved relative to C-EQ" or any inter-arm improvement claim from
+  round 9 — **even though D-E 8/8 vs C-EQ 6/8** (round 9, frozen R3): the
+  contrast is non-parity (cap 8 ≠ 3 by design) and stop-truncated in BOTH
+  arms (7/32 slots never launched; both case-hits are ceiling lower bounds).
+  The standing negative finding is NOT updated by this round.
+- No "cap-8 is the optimal/best" cap-value claim (round 9, frozen R6): one
+  value, no dose-response; "8 works" ≠ "8 is right". In fact cap-8 **never
+  bound** (max phase-2 usage 7 < 8) — the round shows cap-4 was consistent
+  with being the terminal phase-2 limit, not that 8 is right.
+- No causal claim from round 9 (frozen R4): rounds 8 and 9 are independent
+  temp-0.2 draws; only "**consistent with** / plausibly contributed to" is
+  licensed — never "the cap caused the recovery".
+- No "protocol overhead resolved" claim beyond the phase-2 cap (round 9,
+  frozen scope line): phase-1 (unbounded) overhead and
+  `DE_COMMITTEE_TOOL_CAP=4` are untouched; the round-9 ≥5× re-issue loops
+  are concentrated in **out-of-scope phase 1** — the broader protocol-
+  overhead class is NOT resolved by this round.
+- No cross-round D-E-vs-C-EQ cost comparison (round 9): D-E median 299,373
+  vs C-EQ median 59,539 = ~5.0× is **intra-round only**; round 8's 3.7× is a
+  different instrument and different draws — the two ratios are not
+  comparable.
+- No "H-cap" verdict for round 9: the frozen R5 guard FAILED (5/5 new
+  completions with ≥5× per-call re-issuance) → the mechanism verdict is
+  **H-nonconv / mechanism-negative**; the completion recovery (5/5 former
+  cap-abort slots) is reported as fact, not as a co-equal verdict.
+- No "convergence is fixed" claim: the new completions' cohort repeat rate
+  (318.1%, frozen formula) is NOT below the frozen threshold and the
+  re-issue-loop trigger fired in 5/5 — "cap relaxation bought tokens, not
+  convergence".
+- No cross-formula repeat-rate comparisons: round 8's 76.0% (÷total, all
+  14 D-E runs) and round-9's 316.3% reference (÷unique, completed-only 9)
+  are **different formulas on different cohorts and not comparable** (MF-4).
+- No "cap-16 / further-raise round" without a new freeze + 2 fresh pre-run
+  judges + human re-confirmation: per frozen R8 the tool-cap axis is CLOSED
+  at cap 8 (outcome H-nonconv); cap-16 is a **predictable null, not run**,
+  and no unrun-cap self-certification is permitted.
+- No "D-E 14/14 complete" coverage claim: the exact per-arm denominators are
+  **D-E 14/16, C-EQ 11/16** (7 unlaunched slots: D-E P-07/P-08 s20261012;
+  C-EQ P-05 s20261012, P-07/P-08 both seeds); "14/14" is only true of
+  launched D-E runs.
 
-## 6. Mandatory disclosure riders (15)
+## 6. Mandatory disclosure riders (16)
 
 Items 1–7 (freeze-stamp list), 8–11 (round-4 outcome-judge list), 12
 (round-5 / V3.3), 13 (round-6 / V3.4), 14 (round-7 / V3.5-D), 15
@@ -737,12 +947,45 @@ Items 1–7 (freeze-stamp list), 8–11 (round-4 outcome-judge list), 12
     re-derivation would not be expected to reverse it, but the pair must not
     be quoted as a controlled comparison.
 
+16. **(round 9 / V3.7)** — (i) **one-constant D-E-only ablation**:
+    `DE_PHASE2_TOOL_CAP` 4→8 plus a record-only `abort_reason` field (item
+    10 diff lock: exactly the cap constant + the record-only field; C-EQ's
+    `CEQ_INVESTIGATOR_TOOL_CAP=3` untouched). (ii) **Coverage**: D-E 14/16,
+    C-EQ 11/16; 7/32 slots never launched (D-E P-07/P-08 s20261012; C-EQ
+    P-05 s20261012, P-07 s11+s12, P-08 s11+s12); BOTH arms' case-hits are
+    ceiling lower bounds. (iii) **Verdict H-nonconv / mechanism-negative**:
+    the frozen R5 guard FAILED — reference 316.3% / threshold 321.3% / new-5
+    cohort 318.1% (rate trigger not met) but **5/5 new completions with a
+    single (tool,args) ≥5×** (re-issue-loop trigger met); the ≥5× loops are
+    concentrated in **out-of-scope phase 1**. (iv) **Cap-8 never bound** —
+    max phase-2 usage 7 < 8 across all 14 D-E runs; the 5 recovered slots
+    needed 5–7 phase-2 calls (exactly what cap-4 blocked); cap-4 is
+    "consistent with" the terminal phase-2 limit (no causation). (v)
+    **Token reconciliation exact**: final ledger 4,817,798 = 3,738,102
+    (completed at snapshot) + 1,079,696 (3 in-flight: 338,086 + 344,124 +
+    397,486). (vi) **Cost**: intra-round per-completion median 299,373 vs
+    59,539 ≈ 5.0× — intra-round only, NOT comparable to round 8's 3.7×
+    (different instrument/draws). (vii) **PROCESS ERROR — premature
+    launch**: the round was first launched under freeze commit `d77c638`
+    ("both PASS" stamp) before the pre-run science judge's full verdict
+    (CONDITIONAL-PASS, 8 REQUIRED) was read; the run was **stopped at ~20/32
+    runs, quarantined** (`artifacts/dev/v37-round9-premature-19runs/` — 20
+    ledger runs, **3,494,442 tokens counted as incurred, NOT summed into
+    the official ledger**), all 8 REQUIRED applied doc-only, freeze
+    re-stamped compliant (`af2799a`), and the round **re-launched fresh**
+    (new seed draws, stateless backend → official round's validity
+    preserved; negligible wall-time taint caveat). The "19" in the quarantine
+    dir name is stale (actually 20 runs). (viii) **Termination (R8)**:
+    tool-cap axis **CLOSED at cap 8**; cap-16 = predictable null, NOT run;
+    H-cap-branch parity freeze NOT triggered (outcome is H-nonconv).
+
 ## 7. Decision point (HUMAN GATE)
 
-**Status: rounds 5, 6, 7, AND 8 have now been IMPLEMENTED and RUN** — round
-5 (V3.3, §2b/§4b), round 6 (V3.4 300K, §2c/§4c), round 7 (V3.5-D 300K crash-
-class repair, §2d/§4d), and **round 8 (V3.6 600K envelope, §2f/§4e)** — the
-judge-mandated budget-need-vs-burn-through disambiguation round, now complete.
+**Status: rounds 5, 6, 7, 8, AND 9 have now been IMPLEMENTED and RUN** —
+round 5 (V3.3, §2b/§4b), round 6 (V3.4 300K, §2c/§4c), round 7 (V3.5-D
+300K crash-class repair, §2d/§4d), round 8 (V3.6 600K envelope, §2f/§4e),
+and **round 9 (V3.7 D-E-only tool-cap 4→8, §2h/§4f)** — the judge-mandated
+tool-cap disambiguation round, now complete.
 Round 8 **machine-answered the open question**: the token-cap abort class is
 GONE at 600K (0 runs > 600K); H-budget is machine-refuted (H-burn on the
 envelope axis, non-convergence persisting — mechanism-negative); the residual
@@ -751,34 +994,45 @@ case-level result is a **6/8 vs 6/8 tie at a ceiling lower bound** (C-EQ 7/16
 slots never launched). The standing negative finding now **extends across
 FIVE envelopes (60/90/150/300/600K)**: no demonstrated advantage of
 decentralization/escrow at any token budget tested. The token-envelope axis
-is **CLOSED**. The current gate is what to do next:
+is **CLOSED**. **Round 9 (V3.7, §2h/§4f) has now also been implemented and
+run — the former option (ii) (relax the D-E-only phase-2 tool cap 4→8,
+new freeze + 2 fresh pre-run judges + human scope/spend approval). Its
+machine verdict closed the cap axis too: H-nonconv / mechanism-negative,
+cap-8 never bound, tool-cap axis CLOSED at cap 8 (frozen R8).** The
+current gate is what to do next:
 
-- **(i) Accept the round-8 refined negative as the V3 record (RECOMMENDED by
-  the round-8 outcome judges)** — the series now has the complete
-  reliability + feasibility + envelope characterization: mechanism proven
+- **(i) Accept the round-9 refined negative as the V3 record (RECOMMENDED by
+  the round-9 outcome judges)** — the series now has the complete
+  reliability + feasibility + envelope + mechanism readout: mechanism proven
   executable + correct; the crash class repaired and verified gone (rounds
-  7/8: 0/14, 0/14); control robust (rounds 5/6/7/8: 7/7, 9/9, 10/10, 9/9,
-  0 crashes); D-E non-completion fully taxonomized (crash class [gone] +
-  token-cap [envelope axis now closed] + D-E-only phase-2 tool-cap [the
-  residual binding constraint]); no advantage demonstrated at any cost level
-  tried. No further live runs on the envelope axis; close out.
-- **(ii) A NEW experiment for the phase-2 tool-cap / protocol-overhead
-  hypothesis (science-judge Q5: the only open, specific, testable mechanism
-  hypothesis left)** — e.g. raising/relaxing `DE_PHASE2_TOOL_CAP` (D-E-only
-  instrument constant) under a NEW prereg freeze + 2 fresh judges + human
-  approval of scope/spend (no-confirmatory-reuse: it cannot confirm round
-  8). It would answer whether D-E's residual non-completion is the cap
-  itself or the deeper non-convergence (repeat rate 76% suggests the latter,
-  but that is not yet controlled). Note it changes the instrument's
-  mechanism-relevant constant, so it is a different experiment, not an
-  envelope continuation.
+  7/8/9: 0/14, 0/14, 0/14); control robust (rounds 5/6/7/8/9: 7/7, 9/9,
+  10/10, 9/9, 11/11, 0 crashes); D-E non-completion fully taxonomized and
+  every axis machine-exhausted (crash class [gone]; token-cap [envelope axis
+  closed]; phase-2 tool-cap [cap axis closed at 8, "consistent with" the
+  terminal phase-2 limit]); no advantage demonstrated at any cost level or
+  cap value tried. No further live runs on either the envelope or the cap
+  axis; close out.
+- **(ii) A NEW experiment for the PHASE-1 non-convergence phenomenon** —
+  the one named open lever: the round-9 R5 guard located the ≥5×
+  re-issuance loops in **out-of-scope phase 1** (repeat-rate reference
+  316.3%, completed-only). This is a genuinely different experiment (phase-1
+  loop behavior under the substituted model) requiring a NEW prereg freeze +
+  2 fresh pre-run judges + human scope/spend approval (no-confirmatory-
+  reuse). Not a cap ladder — cap-16 is a predictable null, NOT run.
 - **(iii) Stop the series.**
 - **(c) Model change** (e.g., the official published baseline) — **not
   authorized**; would additionally void all substitution caveats and require a
   full re-preregistration. Under the substituted model, D-E's investigators
-  re-fetch the same evidence (76% per-run repeat rate) at every envelope —
+  re-fetch the same evidence (round-9 ≥5× per-call re-issuance in 5/5
+  recovered runs, concentrated in phase 1) at every envelope and every cap —
   a model change is the only remaining lever that could plausibly change the
   mechanism readout.
+- **Explicitly NOT recommended (round-9 outcome judges + frozen R8): any
+  further cap raise (e.g., cap-16)** — machine-predicted null: cap-8 never
+  bound (max phase-2 usage 7 < 8), the guard's re-issue-loop trigger fired
+  in 5/5 recovered runs, and the H-cap-branch parity freeze is NOT triggered.
+  Any such round would require a new freeze + 2 fresh pre-run judges +
+  human re-confirmation regardless.
 - **Explicitly NOT recommended (round-8 outcome judges, science Q5): a 1.2M
   round** — machine-predicted null: the binding constraint is the tool-cap /
   protocol overhead, which is orthogonal to token mass; 2 aborts already ran
@@ -803,9 +1057,12 @@ FINAL, code `cff7d748`; in the `RepliClaw-stg2-v36` worktree).**
   **`.artifacts/rcaeval/pilot/run_v35/round7/`** (round 7 / V3.5-D; in the
   `RepliClaw-stg2-v35` worktree) and
   **`.artifacts/rcaeval/pilot/run_v36/round8/`** (round 8 / V3.6; in the
-  `RepliClaw-stg2-v36` worktree) — all gitignored: STOP.json, ledger.jsonl,
+  `RepliClaw-stg2-v36` worktree) and
+  **`.artifacts/rcaeval/pilot/run_v37/round9/`** (round 9 / V3.7; in the
+  `RepliClaw-stg2-v37` worktree) — all gitignored: STOP.json, ledger.jsonl,
   per-run status/escrow/audit_llm/audit_sandboxes/score,
-  `pilot_report_round{4,5,6,7}.json/.md`, `parallel_meta.json`.
+  `pilot_report_round{4,5,6,7}.json/.md`, `parallel_meta.json` (round-9
+  `parallel_meta.json` `git_rev` = `af2799a`).
 - Freeze stamps: `design/v3_prereg_final_freeze.md`, `design/v31_prereg_freeze.md`,
   `design/v32_prereg_freeze.md`, **`design/v33_prereg_freeze_DRAFT.md`**
   (round 5, commit `520f6859`), **`v34_prereg_freeze.md`** (round 6 / V3.4,
@@ -814,17 +1071,35 @@ FINAL, code `cff7d748`; in the `RepliClaw-stg2-v36` worktree).**
   `1b33c002…`; in the `RepliClaw-stg2-v35` worktree) + the 4-point probe
   artifact `design/v35_probe_all4points.json`, and
   **`v36_prereg_freeze.md`** (round 8 / V3.6 600K, FINAL, code `cff7d748`; in
-  the `RepliClaw-stg2-v36` worktree).
-- Round-7 / round-8 adjudication (offline): the dual-count tables in §2d/§2f
-  are reproducible from the run dirs (status.json `status`/`tokens`/`wall_s`
-  + audit_llm.json per-session `role=="response"` payloads); the round-8
-  repeat-rate and case-level paired numbers are reproducible from the round-8
-  audit files + ledger.jsonl as described in §2f/§4e.
+  the `RepliClaw-stg2-v36` worktree) + **`v37_prereg_freeze.md`** (round 9 /
+  V3.7 tool-cap 4→8, FINAL compliant, commit `af2799a`; in the
+  `RepliClaw-stg2-v37` worktree; supersedes the falsely-stamped `d77c638`
+  draft — see rider 16 (vii)).
+- Round-7 / round-8 / round-9 adjudication (offline): the dual-count tables
+  in §2d/§2f/§2h are reproducible from the run dirs (status.json
+  `status`/`tokens`/`wall_s`/`abort_reason` + audit_llm.json per-session
+  `role=="response"` payloads); the round-8 repeat-rate and case-level paired
+  numbers are reproducible from the round-8 audit files + ledger.jsonl as
+  described in §2f/§4e; the round-9 R5 guard numbers, phase-split finding
+  and per-run ≥5× loop check are reproducible via the round-9 adjudicator
+  (`/tmp/adjudicate_round9.py`, usage `adjudicate_round9.py ROUND9_ROOT
+  ROUND8_ROOT`) over `run_v37/round9/` + `run_v36/round8/`.
+- Round-9 quarantined premature launch (not evidence; spend counted):
+  `artifacts/dev/v37-round9-premature-19runs/` (in the `RepliClaw-stg2-v37`
+  worktree, gitignored) — `round9-premature/` (20-run ledger),
+  `quarantine_record.json` (runs_recorded 20, tokens_incurred 3,494,442),
+  `README.md`.
+- Round-9 scorer: `scripts/pilot_run.py` sha256
+  `6956b5e0d668254e54e381e9016814d1c0bf3591ac37900f8e0783757e664fdf`.
 - Judge reports: round-4 outcome (code + science) — I4.13; round-5 pre-run
   (code + science) — I4.16; round-5 outcome (code + science) — I4.19;
   round-6 (V3.4) pre-run (code + science) — I4.21; round-6 outcome (code +
   science) — I4.22; round-7 pre-run + outcome — I4.24/I4.26; **round-8 (V3.6)
   pre-run (code CONDITIONAL-PASS / science CONDITIONAL-PASS) and outcome
   (code CONDITIONAL-PASS → resolved PASS on artifact integrity, science
-  CONDITIONAL-PASS — all REQUIRED + RECOMMENDED applied) — I4.27.**
-- State: `EXECUTION_STATE.md` I4.7–I4.27; `DECISIONS.md` D-V3-013–D-V3-020.
+  CONDITIONAL-PASS — all REQUIRED + RECOMMENDED applied) — I4.27.** **Round-9
+  (V3.7) pre-run (code PASS / science CONDITIONAL-PASS, 8 REQUIRED, all
+  applied doc-only) and outcome (code CONDITIONAL-PASS / science
+  CONDITIONAL-PASS — all REQUIRED applied, 0 data/instrument defects) —
+  I4.28.**
+- State: `EXECUTION_STATE.md` I4.7–I4.28; `DECISIONS.md` D-V3-013–D-V3-021.
