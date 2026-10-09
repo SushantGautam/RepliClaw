@@ -100,3 +100,21 @@ launch pre-cleans its stage, so the harness keeps `staging/` empty in normal ope
 
 Judge environment note: reviewed HEAD `75c1aa7` with the WIP files uncommitted; no files
 modified by the reviewer; scratch probe dirs deleted.
+
+---
+
+## Post-judgment independent re-review (2026-10-09, remediation commit `af3890b`)
+
+Independent read-only re-check (task agent) verified each finding against the
+committed code: **B1, M1, m1, m2, m3, m4, m5 — all FIXED** with file:line
+evidence (B1: `campaign.py:314-321` skip-before-launch, single launch site at
+:329; M1: `_flatten_run` :126-141 + `_run_completed` dual-file invariant;
+m1: exact-count assertions would fail on any B1 regression; m2: :341-355
+exception isolation + `EXIT_RUN_ERROR=5` at :428 pre-scoring; m3:
+:246-248 envelope floor honored at :314; m4: SystemExit intercepted at
+:344-345 into the refusal branch; m5: runbook :53-57 + :59-63).
+Commands re-run on the commit: `pytest tests/test_p08_campaign.py -q` →
+**7 passed**; ruff → **All checks passed!**; mypy → **Success: no issues
+found in 56 source files**. **Final remediation verdict: MERGE-OK.**
+(Review record committed with the remediation batch; this addendum is
+integrated in the state docs.)
