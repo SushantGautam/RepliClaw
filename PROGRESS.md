@@ -351,3 +351,17 @@ Append-only. Each entry: what changed / commands run / observed result / artifac
   live measurement + floor_r2.json → final pin check → live campaign 2026-10-10→23 (window is
   shortenable, not extendable; ~13 days remain as of 2026-10-09 04:40 CET). Human application-form
   submission (deadline Oct 16) is a separate human action.
+
+
+## Application-docs fact-check + repair (2026-10-09)
+
+**What changed.**
+- Independent Verifier (agent `1d4f8939`) fact-checked all 5 `docs/application/` docs claim-by-claim against `945986f` + WIP: no fabricated claims; 29 STALE status/number references (pre-A8/pre-round-3 world: "213/8 @ d5c6701", "A8 PR in flight", "round-2 sign-off pending", "S5/A1/A3 live vs S4/S3/S0 deterministic"). Report: `docs/fleet/reviews/APPLICATION-DOCS-FACT-CHECK-20261009.md`.
+- Worker `34adec68` (NonThinking) repaired SUBMISSION_CHECKLIST/DRAFT_ANSWERS/DEMO_NARRATIVE to the verified state (gate 240/8 @ tip, 235/8 @ A9 tip `3491032`; A8 merged `a708523`, A9 merged `3491032`; round-3 APPROVE-WITH-CONDITIONS @ `c0e92ea` = science key SATISFIED; six live arms; RC-1 RESOLVED by A8; remaining gates = R-2 floors + human two-key). RC-1/M-1 attribution verified against the file by the integrator.
+- Integrator fixed the 12 self-contradictory stale status cells in FACT_CHECK_LIST.md (F26/F27/F28/F31/F32/F33 headings + L40/L116/L120/L149/L155-160 state summary); "in flight" count now 0.
+
+**Commands / evidence.**
+- Residual greps on the three repaired docs: "213 passed" 0 hits; "round-2 sign-off" 0; "in flight" 0; "S4/S3/S0 deterministic" 0; "S5/A1/A3 live" 0; "d5c6701" 2 hits (both explicitly historical pins).
+- FACT_CHECK_LIST.md structure check: 208 lines, every table row pipe-closed, edited F-rows intact.
+
+**Next.** Doc claims are now consistent with the frozen state; re-verify after the campaign-harness commit moves the gate tip SHA (the docs cite "240/8 at the run-branch tip" which stays true).

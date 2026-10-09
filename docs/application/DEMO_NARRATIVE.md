@@ -7,7 +7,8 @@ hero flow end-to-end and prints `DEMO OK`.
 /Users/sushantgautam/Documents/ScienceClawHackathon/.venv/bin/python scripts/demo_hero.py
 ```
 
-Run from the worktree/repo root. It reuses **existing** components only
+Run from the **repo root on the run branch** (`repl-claw-dev`; the committed demo runs from the
+repo root — no worktree involved). It reuses **existing** components only
 (`run_slice`, `demo_slice._reverify`, the `repliclaw.comparators.runner` CLI) — no new
 science, no new claims, no changes to `src/`.
 
@@ -80,7 +81,7 @@ Existing `artifacts/demo/` and `artifacts/demo-llm/` are **left untouched** (not
 ## How to reproduce (exact commands + expected outputs)
 
 ```bash
-cd /Users/sushantgautam/Documents/ScienceClawHackathon/.worktrees/p08-demo
+cd /Users/sushantgautam/Documents/ScienceClawHackathon   # repo root, run branch `repl-claw-dev`
 PY=/Users/sushantgautam/Documents/ScienceClawHackathon/.venv/bin/python
 
 # Baseline slice (should print DEMO OK):
@@ -98,3 +99,5 @@ reproducible metric** (science subtree digest, pinned `hashes.json`, both arms'
 only by the run timestamp dir name and the per-run escrow `snapshot_sha` (by design).
 
 Machine-readable confirmation per run: `artifacts/demo-hero/run-<ts>/demo_report.json`.
+The committed artifacts were regenerated at `945986f` (see
+`artifacts/demo-hero/run-20261009-083159/` and `artifacts/demo-slice/run-20261009-083156/`).
