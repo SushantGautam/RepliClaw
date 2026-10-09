@@ -3,7 +3,7 @@ name: rc-fast
 description: Fast narrow local test, CI/dependency fixes, schema probes, benchmark contract checks with Sigma2 nonthinking Qwen only.
 model: Qwen3.8-27B-NonThinking
 modelPolicy: required
-infer: false
+infer: true
 include-custom-instructions: true
 tools: ["*"]
 ---
