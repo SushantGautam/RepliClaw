@@ -452,6 +452,9 @@ def _pair_executor_mismatch(
     arms' runs carry a SINGLE distinct ``(model, offline_arm)`` signature. More
     than one signature (e.g. S5 live-LLM vs S4 offline/deterministic) means the
     pair is NOT comparable and no decision may be emitted for it.
+
+    Used for the P1 pair (S5/S4) and the RQ2 pair (S5/S3); the S5/S0 RQ3
+    ablation is reported but not a decision veto (A8.2/C4).
     """
     combined = _executor_signatures(clean, arm_a) | _executor_signatures(clean, arm_b)
     return len(combined) > 1
@@ -494,7 +497,15 @@ def score_runs(
         "envelope_hashes": sorted(env_set),
         "overruns": overruns,
         "executor_parity": executor_parity,
-        "ok": len(env_set) <= 1 and not overruns and all(executor_parity.values()),
+        # A8.2/C4: only the P1 (S5/S4) and RQ2 (S5/S3) pairs are decision-veto
+        # comparisons. S5/S0 is the RQ3 single-agent ABLATION — reported for the
+        # record, but a mixed S0/S5 must NOT flip the headline parity.ok.
+        "ok": (
+            len(env_set) <= 1
+            and not overruns
+            and executor_parity["S5_S4"]
+            and executor_parity["S5_S3"]
+        ),
     }
 
     # P1 decision (PREREG v1.2 A1; canonical rule string per A1.3):
