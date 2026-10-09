@@ -30,6 +30,7 @@ from ..canonical import sha256_hex
 from ..comparators.budget import BudgetEnvelope, BudgetOverflow
 from ..counterfactual.executor import load_case, load_interventions, run_case
 from ..counterfactual.frozen_backend import extract_window_days
+from ..defect_adjudication import DEFECT_ADJUDICATION_INSTRUCTION
 from ..escrow import EvidenceObservation, PredictionPacket
 from ..models import Claim
 from ..needmarket import CostEstimate, Need, NeedBroker, NeedWorker, WorkerCapability
@@ -559,6 +560,18 @@ class LiveEESSOrchestrator:
                     f"Respond with JSON containing conclusion (supported|refuted|uncertain), "
                     f"confidence, defect_class, target_artifact, statement, "
                     f"evidence_cited (list of evidence_ids you relied on)."
+                    # A9.2.3 / C2 (M-1 fix): the S5 RESOLVE prompt now embeds
+                    # the SAME shared registered defect-adjudication block
+                    # (byte-identical to the strategy finding prompt) — it
+                    # previously named the fields but lacked the taxonomy.
+                    # Appended AFTER the footer line so the machine-verified
+                    # evidence block (the header->footer span that the tests
+                    # parse) is byte-unchanged; the first-non-null extraction,
+                    # relevance rule, and forbidden-substring guard below are
+                    # all otherwise unchanged. The existing full-prompt guard
+                    # immediately below now also guards this shared block.
+                    + "\n\n# DEFECT DIAGNOSIS (required)\n"
+                    + DEFECT_ADJUDICATION_INSTRUCTION
                 )
                 # A4 hardening (code-judge): guard the FULL assembled prompt
                 # string (per the amendment's "appear in the prompt"), not just

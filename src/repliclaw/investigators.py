@@ -19,6 +19,7 @@ import os
 from dataclasses import dataclass, field
 from typing import Any, Dict, Optional
 
+from .defect_adjudication import DEFECT_ADJUDICATION_INSTRUCTION
 from .models import InvestigatorConfig, ResourceUsage
 
 DEFAULT_BASE_URL = "https://simulachat.sushant.pp.ua/api/v1"
@@ -158,6 +159,16 @@ FINDING_SCHEMA = {
     "evidence": "object of quantitative results (test, effect size, p-value, CI, ...)",
     "confidence": "number 0..1",
     "executable": "true if you ran actual computation, else false",
+    # A9 (PREREG v1.2 A9.2.1 / M-1 fix): the arm-neutral defect-adjudication
+    # fields. The full registered field contract + taxonomy lives in the
+    # shared DEFECT_ADJUDICATION_INSTRUCTION block (defect_adjudication.py),
+    # appended to this schema in the finding prompt; these two schema lines
+    # mirror it so the JSON contract is self-documenting.
+    "defect_class": (
+        "retrieval_omission | policy_conflict | judge_stale | generation_error "
+        "| data_error | none (see the DEFECT DIAGNOSIS section below)"
+    ),
+    "target_artifact": "name of the system component to fix, or null",
 }
 
 # Per-role method so each investigator genuinely applies a DIFFERENT analysis
@@ -228,7 +239,32 @@ class LLMInvestigator(Investigator):
             "computation over the bundled data (not a hunch). If the bundled data is "
             "insufficient or the published figure is inconsistent with the raw data, "
             "say so explicitly."
+            # A9 (PREREG v1.2 A9.2.1 / C6): the SHARED registered
+            # defect-adjudication clause (defect_adjudication.py — byte-
+            # identical to the S5 RESOLVE block). It is appended as its own
+            # clearly marked section AFTER the numeric ROLE METHOD / OUTPUT
+            # content, role-agnostic, so the numeric framing (Cohen's d /
+            # t-test / RR on fields this RAG case lacks) cannot dilute or
+            # suppress the defect answer.
+            + "\n\n# DEFECT DIAGNOSIS (required)\n"
+            + DEFECT_ADJUDICATION_INSTRUCTION
         )
+        # A9.2.1 NEW guard (A4 hardening, extended to the strategy prompt):
+        # the adjudication prompt must never carry sealed-oracle content.
+        # Lazy import: EVIDENCE_FORBIDDEN_SUBSTRINGS is registered in
+        # eess_live/orchestrator.py (the S5 host); importing the package here
+        # at module level would cycle (eess_live/__init__ -> arm -> ... ->
+        # investigators), so the list is resolved at call time, exactly like
+        # fake.py's in-method imports. The registered menu above contains
+        # none of these field names, so the taxonomy cannot trip the guard —
+        # it only ever fires on a genuine oracle leak into claim material.
+        from .eess_live.orchestrator import EVIDENCE_FORBIDDEN_SUBSTRINGS
+        for forbidden in EVIDENCE_FORBIDDEN_SUBSTRINGS:
+            if forbidden in prompt:
+                raise RuntimeError(
+                    f"adjudication prompt for {self.config.agent_id} contains "
+                    f"forbidden oracle substring {forbidden!r} — refusing to leak"
+                )
         finding = self.client.chat_json(prompt)
         # Normalize.
         finding.setdefault("conclusion", "uncertain")
@@ -263,6 +299,18 @@ class DeterministicInvestigator(Investigator):
         finding["role"] = role
         finding["model"] = "deterministic"
         finding["executable"] = True  # performs real computation on bundled data
+        # A9.2.2 (M-1 fix): the arm-neutral defect fields ride on the SAME
+        # existing call — no new LLM call, no oracle access. For the
+        # policy_rag_v1 claim shape the diagnosis is derivable from the
+        # PUBLIC bundled data alone (base_retrieval vs policy_docs): when the
+        # retrieval serves a DIFFERENT (older) return window than the current
+        # governing policy doc, the system's top-1 retrieval omitted the
+        # current policy -> defect_class="retrieval_omission",
+        # target_artifact="retrieval". No mismatch / no retrievable window in
+        # the served snippet -> "none"/null. Other claim shapes (e.g. the
+        # offline tox21 legs) carry no RAG policy data -> null/null (the
+        # strategy arm simply abstains; the scorer's M1 canary reports it).
+        finding["defect_class"], finding["target_artifact"] = _deterministic_defect(data)
         return finding
 
     def _analyze(self, role: str, data: Dict[str, Any], claim) -> Dict[str, Any]:
@@ -394,3 +442,46 @@ def _rr_ci(data: Dict[str, Any]):
     lo = exp(log(rr) - 1.96 * se)
     hi = exp(log(rr) + 1.96 * se)
     return (lo, hi)
+
+
+def _extract_window_days(*texts: str) -> int | None:
+    """The return-window day count a text carries ("...within N days..."),
+    or None when no window is stated. Public-data parsing only."""
+    import re
+
+    for text in texts:
+        m = re.search(r"within\s+(\d+)\s+days", str(text or ""), re.IGNORECASE)
+        if m:
+            return int(m.group(1))
+    return None
+
+
+def _deterministic_defect(data: Dict[str, Any]) -> tuple[str | None, str | None]:
+    """Case-aware deterministic defect diagnosis (A9.2.2), from PUBLIC data only.
+
+    Registered extraction rule for the OFFLINE (deterministic) strategy arms:
+    the policy_rag_v1 claim's diagnosis is derivable from the PUBLIC bundled
+    data alone — when the served top-1 retrieval snippet states a return
+    window that differs from the current governing policy doc's window, the
+    retrieval omitted the current policy -> ("retrieval_omission", "retrieval").
+    No mismatch, or a claim shape without RAG policy data (e.g. the offline
+    tox21 legs) -> ("none", None) / (None, None): the arm abstains and the
+    scorer's M1 canary reports its state. No oracle access, no new LLM call.
+    """
+    if not isinstance(data, dict):
+        return None, None
+    retrieval = data.get("base_retrieval")
+    if not isinstance(retrieval, list) or not retrieval:
+        return None, None  # not a retriever-shaped claim -> abstain (nulls)
+    served_days = _extract_window_days(*retrieval)
+    docs = data.get("policy_docs") or []
+    current_days = None
+    for doc in docs:  # first-match-wins (the case's stated conflict rule)
+        current_days = _extract_window_days(
+            str(doc.get("title", "")), str(doc.get("body", ""))
+        )
+        if current_days is not None:
+            break
+    if served_days is not None and current_days is not None and served_days != current_days:
+        return "retrieval_omission", "retrieval"
+    return "none", None
