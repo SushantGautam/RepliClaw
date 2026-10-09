@@ -102,7 +102,9 @@ def _write_run(root: Path, arm: str, run: str, *, status: str = "completed",
                meta_envelope: str | None = None,
                cf_files: dict[str, dict[str, Any]] | None = None,
                omit: set[str] | None = None,
-               usage_present: bool = True) -> Path:
+               usage_present: bool = True,
+               model: str | None = None,
+               offline_arm: bool | None = None) -> Path:
     d = root / arm / run
     d.mkdir(parents=True, exist_ok=True)
     omit = omit or set()
@@ -127,11 +129,19 @@ def _write_run(root: Path, arm: str, run: str, *, status: str = "completed",
         ]
         (d / "traces.jsonl").write_text("\n".join(json.dumps(ev) for ev in lines) + "\n")
     if "run_metadata.json" not in omit:
-        (d / "run_metadata.json").write_text(json.dumps({
+        meta = {
             "harness_seed": 20261010,
             "envelope_sha256": (meta_envelope or ENV_SHA),
             "tree_sha": "f" * 40,
-        }))
+        }
+        # A8 executor-parity fields: present only when a test records an
+        # executor identity (the scorer guard is absent-tolerant, so pre-A8
+        # fixtures that omit these still pass).
+        if model is not None:
+            meta["model"] = model
+        if offline_arm is not None:
+            meta["offline_arm"] = offline_arm
+        (d / "run_metadata.json").write_text(json.dumps(meta))
     if cf_files:
         cfd = d / "counterfactuals"
         cfd.mkdir(exist_ok=True)
