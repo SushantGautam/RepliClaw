@@ -934,3 +934,19 @@ remains until the round's machine-verified result says otherwise.
   tool-cap hypothesis / (iii) stop the series / (c) model change (NOT
   authorized). No live runs in flight; no spend without the relevant
   authorization.
+
+## I4.28 (in progress) — HUMAN §7 option (ii) approved: V3.7 round 9 (D-E-only phase-2 tool-cap 4→8) built, freeze DRAFT, 2 fresh pre-run judges dispatched (2026-10-11)
+
+**Human authorization (verbatim):** "go for option (ii) (new freeze: does relaxing the D-E-only tool cap recover completions?)" — resolves §7 option (ii) of the round-8 decision point; standing unlimited SimulaChat `default` spend continues to apply; model change (c) STILL NOT authorized.
+
+**V3.7 instrument** (new worktree `/Users/sushantgautam/Documents/RepliClaw-stg2-v37`, branch `wip/v37-toolcap`, parent = frozen V3.6 `cff7d748`):
+- **EXACTLY one behavioral change:** `DE_PHASE2_TOOL_CAP` 4 → 8 (D-E-ONLY phase-2 per-investigator tool cap; the shared 600K envelope, 900s wall, C-EQ reference cap 3, tools/prompts/seeds/cases/stop thresholds all byte-identical).
+- **Record-only** (round-8 code-judge RECOMMENDED, zero behavior/scoring impact): `ArmRunResult.abort_reason` field; both arm `run()` catch blocks persist the `_BudgetAbort` message; `pilot_run.py` writes `abort_reason` into status.json — abort-site attribution becomes self-evident.
+- Gates at `da4a142`: 474 passed / 20 skipped / 3 xfailed; ruff clean on changed files (repo-wide 347 = identical pre-existing baseline); mypy clean; offline `--fake` smoke round 9: 18/18 completed both arms, 0 crashes, stop-1 as designed.
+- Case data: gitignored symlinks to the v35 fixture dirs (same as v36; case identity preserved — round-8 case_sha256 values must match, integrity item 1).
+- Freeze DRAFT `docs/next_stage/design/v37_prereg_freeze.md` committed `3818f3f`: H-cap vs H-nonconv vs C (cap-8-still-binding, defined outcome); repeat-rate confound guard; gray zone (≤+1 completion AND no case-hit change = INCONCLUSIVE); primary estimand = INTRA-ARM D-E recovery round 8→9 (inter-arm secondary, may be truncated); R3 final-ledger rule carried; 7-item integrity checklist; non-results list; non-authorizations (no cap ladder, no model change, no confirmatory claim).
+- **Fleet:** V37-PRECODE (`4fab502e`) + V37-PRESCI (`0d4601b8`) — 2 fresh pre-run judges, background, read-only.
+
+**Launch protocol (gated, in order):** judges' REQUIRED items applied to the freeze → freeze re-stamped with verdicts + commit → launch `pilot_parallel.py run --round 9 --out .artifacts/rcaeval/pilot/run_v37 --concurrency 6 --label v37-round9` in the v37 worktree (32 planned runs) → STOP/adjudication (round-9 adjudicator uses status.json `abort_reason` — self-evident attribution) → 2 fresh OUTCOME judges → campaign report §2h/§4f + rider 16 → I4.28 closeout.
+
+**Standing negative finding: UNCHANGED** (round 9 can refine/strengthen it; cannot be pre-flipped). `main` untouched; dev LOCAL-ONLY (never pushed).
