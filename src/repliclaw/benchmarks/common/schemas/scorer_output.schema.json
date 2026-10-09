@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repliclaw.scorer_output/v1",
+  "title": "RepliClaw benchmark scorer output",
+  "description": "One scored metric. The raw per-case table is the ground truth of the score; value/denominator must be derivable from it. Formula version pins which scorer formula produced the numbers.",
+  "type": "object",
+  "required": [
+    "schema",
+    "metric",
+    "value",
+    "denominator",
+    "formula_version",
+    "per_case"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "repliclaw.scorer_output/v1" },
+    "metric": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)*$",
+      "description": "Dotted lowercase metric name, e.g. 'accuracy' or 'cost.per_correct_case'."
+    },
+    "value": { "type": ["number", "null"] },
+    "denominator": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Number of cases eligible for the metric; null for non-ratio metrics. value is null iff denominator is 0 or null."
+    },
+    "numerator": { "type": ["integer", "number", "null"] },
+    "formula_version": {
+      "type": "string",
+      "pattern": "^[a-z0-9._/-]+$",
+      "minLength": 1,
+      "description": "Versioned formula id, e.g. 'accuracy/v1' (same {name}/{version} shape as the artifact schema strings)."
+    },
+    "per_case": {
+      "type": "array",
+      "description": "Raw per-case rows; the authoritative record. Rows sorted by case_id.",
+      "items": {
+        "type": "object",
+        "required": ["case_id", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "case_id": { "type": "string", "minLength": 1 },
+          "value": { "type": ["number", "boolean", "string", "null"] },
+          "eligible": {
+            "type": ["boolean", "null"],
+            "description": "Whether this case counts toward the denominator; null when eligibility is inapplicable."
+          },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "scored_at": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$" },
+    "run_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "denominator": { "const": null } } },
+      "then": { "properties": { "value": { "type": ["number", "null"] } } }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repliclaw.benchmark_case_manifest/v1",
+  "title": "RepliClaw benchmark case manifest",
+  "description": "Pins one benchmark case: where it comes from, the exact bytes it was run against, and its stratification labels. ground_truth is an EVALUATOR-ONLY pointer (path or URI, never the content itself); lane code must not dereference it outside the scorer.",
+  "type": "object",
+  "required": [
+    "schema",
+    "case_id",
+    "source_benchmark",
+    "pinned_sha",
+    "data_hashes",
+    "strata",
+    "heldout"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "repliclaw.benchmark_case_manifest/v1" },
+    "case_id": { "type": "string", "minLength": 1 },
+    "source_benchmark": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Upstream benchmark name, e.g. 'tox21', 'policy_rag', 'simpleaudit'."
+    },
+    "pinned_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$|^[0-9a-f]{64}$",
+      "description": "Upstream commit SHA (40-hex) or content SHA-256 (64-hex) the case was extracted from."
+    },
+    "data_hashes": {
+      "type": "object",
+      "description": "Relative data-file name -> sha256 hex. Must cover every file the lane reads at runtime.",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+      "propertyNames": { "type": "string", "minLength": 1 }
+    },
+    "strata": {
+      "type": "object",
+      "description": "Stratum label -> value, e.g. {\"toxicity\": \"active\", \"source\": \"reproduced\"}.",
+      "additionalProperties": { "type": "string", "minLength": 1 },
+      "propertyNames": { "type": "string", "minLength": 1 }
+    },
+    "heldout": {
+      "type": "boolean",
+      "description": "True for cases withheld from any design/tuning feedback."
+    },
+    "ground_truth": {
+      "type": ["object", "null"],
+      "description": "EVALUATOR-ONLY: pointer to ground truth. Never embed the ground-truth content here.",
+      "required": ["pointer"],
+      "additionalProperties": false,
+      "properties": {
+        "pointer": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path or URI to the ground-truth file."
+        },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}
