@@ -1,4 +1,4 @@
-# P09 — Hero Demo Narrative (one-page, rubric-aligned)
+# P09 — Hero Demo Narrative (one-page, evaluation-aligned)
 
 **One command, fully OFFLINE** (no live LLM, no network, no API key). It reproduces the
 hero flow end-to-end and prints `DEMO OK`.
@@ -16,14 +16,14 @@ science, no new claims, no changes to `src/`.
 
 ## What the one command does (stage by stage)
 
-| Stage | What happens | Rubric point it proves |
+| Stage | What happens | Evaluation criterion it proves |
 |---|---|---|
 | **0. Pin** | Prints the run-branch SHA + commit SHA; records whether the tree is dirty. The committed SHA is what the generated artifacts pin. | 10 execution — real, reproducible provenance |
 | **1. Vertical slice** | `run_slice` drives one real claim (`policy_rag_v1`) through: **3 independent investigations** (alpha/beta/gamma, distinct hypotheses H_R/H_P/H_J) → **hash-only prediction commitments** (escrow, `commit` before any outcome) → **sealed reveal vs outcome** → **evidence-derived need-market reallocation** → a provenance-linked, uncertainty-aware verdict. | 20 decentralization (private beliefs + local bids/leases) · 25 collective (competing hypotheses) |
 | **2. Re-verification** | Re-executes every persisted arm in a clean temp dir and compares the **pinned** `hashes.json` (same `verify_run` semantics `demo_slice` uses). Prints `PASS`/`FAIL`. Never self-attested. | 10 execution — independently validated, not LLM-reported |
 | **3. Comparator arms (C1)** | Runs **two offline arms** via the runner CLI (`--client-factory fake`): `S0` (single-agent) and `eess_offline` (RepliClaw rooted slice), same case, same envelope. Asserts their `envelope_sha256` are **identical** → matched-budget, same-task comparison structure is available. | 25 collective — matched-budget same-task structure |
 | **4. Determinism** | Digs the seeded **science subtree** (`runs/**`) and shows it is bit-for-bit reproducible and **identical between the slice and the `eess_offline` arm** (same rooted slice → provenance link). | 20 impact — reproducible, reusable artifact |
-| **5. Honest summary** | Prints what is real offline and what is **not** demonstrated. | rubric-honesty; anti-"pretty dashboard" trap |
+| **5. Honest summary** | Prints what is real offline and what is **not** demonstrated. | honesty for the audience; anti-"pretty dashboard" trap |
 
 **Expected headline numbers (stable across runs):**
 - `stop_reason = all_needs_fulfilled`, `revealed_verified = 3/3`, `revealed_mismatch = 0`, `published_evidence = 4`.

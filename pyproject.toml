@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "repliclaw"
 version = "0.1.0"
-description = "Blind commit/reveal decentralized replication & falsification collective built on ScienceClaw primitives"
+description = "RepliClaw: Evidence-Escrow Scientific Swarm — independent agents commit to falsifiable predictions, run counterfactual interventions, and select the next experiment from shared verified evidence (SimuMet AI Safety)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

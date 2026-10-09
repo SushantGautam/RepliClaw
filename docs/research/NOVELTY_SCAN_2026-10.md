@@ -1,4 +1,5 @@
-# Novelty Scan — RepliClaw EESS (ScienceClaw 2026)
+# Novelty Scan — RepliClaw EESS
+Independent research project — SimuMet AI Safety research department (https://www.simulamet.no/research/research-departments/ai-safety)
 
 **Date:** 2026-10-08
 **Scope:** Prior-art survey of autonomous-scientist / LLM-scientist agent systems and the closest threats to our claimed contribution.
@@ -81,7 +82,7 @@
 
 ## Gaps & uncertainties
 
-- **arXiv IDs 2605.10286, 2606.11217, 2607.24167** are 2026-dated (month 05/06/07 of 2026). I verified each resolves to the expected title via the arXiv abstract page, but I could not fetch full abstract bodies (the fetcher returned only titles). The mechanism descriptions for these three come from search-result summaries and the HTML body of 2606.11217 (which I did read in full). **Recommend a human re-verify the exact abstracts of 2606.11217 and 2607.24167 before submission**, since they are the two closest threats.
-- **"Robin" identity:** I assumed FutureHouse Robin (arXiv:2505.13400) is the intended referent. If the competition brief meant a different "Robin," re-run that row.
+- **arXiv IDs 2605.10286, 2606.11217, 2607.24167** are 2026-dated (month 05/06/07 of 2026). I verified each resolves to the expected title via the arXiv abstract page, but I could not fetch full abstract bodies (the fetcher returned only titles). The mechanism descriptions for these three come from search-result summaries and the HTML body of 2606.11217 (which I did read in full). **Recommend a human re-verify the exact abstracts of 2606.11217 and 2607.24167 before publication**, since they are the two closest threats.
+- **"Robin" identity:** I assumed FutureHouse Robin (arXiv:2505.13400) is the intended referent. If a different "Robin" is meant (the original context was the ScienceClaw event brief), re-run that row.
 - **No system was found** that implements *all four* of our elements (escrow + counterfactual + verified-evidence sharing + decentralized need-market) *and* reports a measured difference vs the three baselines. That is the gap our contribution fills. I did not find any 2025–2026 paper that directly measures "escrow vs open-swarm vs central manager" for scientific agents — this appears to be genuinely open.
 - **AgentRx's single-agent-wins finding** is a double-edged prior result: it supports the need for our measured-difference framing but means our decentralized mechanism must demonstrably beat a strong single-agent baseline, or the result is uninteresting. Flag for the experiment design.

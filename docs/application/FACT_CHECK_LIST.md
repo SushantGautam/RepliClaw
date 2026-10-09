@@ -6,10 +6,10 @@ tracked; worktree/branch where the artifact is not git-tracked), and a **status*
 **Statuses.** `RE-VERIFIED` = P09 independently re-ran the command or re-read the artifact on
 **2026-10-08** and it reproduced. `SOURCE-ONLY` = claim taken verbatim from the cited checkpoint
 doc; P09 did not re-run it (would regenerate artifacts outside P09's owned paths).
-`UNVERIFIED` = **human must confirm before submit.** `NO-NETWORK` = originally a web claim; P09 has
+`UNVERIFIED` = **human must confirm before public release.** `NO-NETWORK` = originally a web claim; P09 has
 no network access and could not re-verify online.
 
-**Do not submit any number or claim that does not have a `RE-VERIFIED` or `SOURCE-ONLY` row here.**
+**Do not publish any number or claim that does not have a `RE-VERIFIED` or `SOURCE-ONLY` row here.**
 The human may change a claim only if the new source is recorded on the same row.
 
 > **Re-verified to run-branch state (2026-10-08, `repl-claw-dev` @ `617b329`).** Rows F1–F19 cover
@@ -28,7 +28,7 @@ The human may change a claim only if the new source is recorded on the same row.
 > content-derived broker `claim_token`, 25-test comparator suite), and preflight gate 5
 > (`6a9f2b7`: runner CLI smoke). This second pass re-verified **exactly** `617b329`
 > (full gate re-run: `202 passed, 8 skipped`). **The run branch is a moving target, not a
-> permanent pin — the human must pin the exact run-branch SHA at submit time and re-run the
+> permanent pin — the human must pin the exact run-branch SHA at release time and re-run the
 > Step-2 gate there before trusting the gate number** (see `SUBMISSION_CHECKLIST.md` Step 2).
 > **Third-pass note (2026-10-08, `repl-claw-dev` @ `d5c6701`):** the run branch advanced past
 > `617b329` (A4 merge `80a3f4e`, scorer-alignment `5967f24`, A8 amendment `d5c6701`); the current
@@ -79,7 +79,7 @@ which pair is right — only the numbers change.
 
 ---
 
-## A. Verified-result claims (the backbone of the application)
+## A. Verified-result claims (the backbone of the public presentation)
 
 | ID | Claim (as used in DRAFT_ANSWERS.md) | Source (file + commit SHA / branch @ SHA) | Status |
 |---|---|---|---|
@@ -172,7 +172,7 @@ The draft follows the doc's structure **verbatim**; these are recorded here per 
 | A2 | No explicit **project-title** field in the doc. | Added a short **Naming / title** block with a fallback title so the human can override. |
 | A3 | **Challenge area** may not be a form field at all. | Left as `[PENDING: ORGANIZER]`; do not hard-code a choice. |
 | A4 | Official form's exact **field order, character limits, and required media** unknown. `scienceclawhack.ai/apply.html` is authoritative and **P09 had no network access**. | Draft is written to be *paste-able* into any field order; human must confirm limits on the live form. |
-| A5 | Event window **Oct 30-Nov 1**, application **deadline 2026-10-16**, decisions **Oct 19** (per the doc). | Taken at face value from the doc; **human must confirm on the official site** (no network re-verify). |
+| A5 | Event window **Oct 30-Nov 1**, application **deadline 2026-10-16**, decisions **Oct 19** (per the doc). | Historical competition dates; **superseded by the public-release program** — no external deadline applies to the public release (no network re-verify performed). |
 | A6 | **Date discrepancy:** P02/P03/P04 checkpoint *headers* are dated **2026-10-10**, but the git commit dates (and P09's re-verification) are **2026-10-08**. | Draft uses "as of **2026-10-08**" consistently (the reproducible, commit-backed date). Human should reconcile the checkpoint header dates. **Still applies after this rework:** all new run-branch rows (F20–F29) cite the commit-backed date 2026-10-08 and the run-branch SHA `617b329` (first pass: `1012ff7`); note the prereg itself names the *live-run* window 2026-10-10→23, which is a *schedule*, not a commit date — do not conflate the two "10-10"s. |
 | A7 | **Offline-arm naming.** The offline S5 comparator is registered under key **`eess`** by `comparators.managers.EESSArm` / `comparators.runner.arm_registry()` on the run branch; prereg v1.1 calls it **`eess_offline`**. **Updated at `617b329`:** `case_loader.py` now **exists** (merged `d269a15`), and the runner CLI's `ARM_ALIASES` accepts `eess_offline` as an alias that routes to `EESSArm` (the offline 0-token parity arm, v1.1 §3.3) — but `arm_registry()` itself still exposes only the 4 keys `single_agent` / `adaptive_central` / `open_sharing_swarm` / `eess`. | Draft names the offline parity arm by its **actual run-branch registry key `eess`** (F21) and describes it as "the offline parity arm", matching both the code and the prereg's intent. `eess_offline` is now a valid CLI alias (not a distinct registry key) and `case_loader.py` is present (F27) — but do not paste `eess_offline` as if it is a distinct `arm_registry()` key. |
 | A8 | **"Implemented + tested" vs "live runs executed."** A live arm that is unit/contract-tested under a fake client can be (and was, in the stale draft) read as if live runs happened. | Draft **always** qualifies the live arm as "implemented + unit/contract-tested offline under a fake client (no network, no key)" and states "live LLM runs have NOT been executed" (F26). The three states — (a) built+tested, (b) runnable offline, (c) scheduled live — are never merged. |

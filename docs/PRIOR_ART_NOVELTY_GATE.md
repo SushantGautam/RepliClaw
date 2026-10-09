@@ -1,4 +1,4 @@
-# Competition novelty gate — no wheel reinvented (2026-10-08)
+# Novelty gate — no wheel reinvented (2026-10-08)
 Status: preliminary targeted prior-art review, not proof of an unclaimed invention. Before claiming "first", run a broader paper/code/implementation search and get skeptical independent science review.
 
 ## Closest, most dangerous prior work
@@ -34,7 +34,7 @@ N1 Mechanism check: experiments exhibit at least one genuine non-scripted eviden
 N2 Result check: on blinded held-out controlled cases, measure meaningful effect or honest failure relative to adaptive central manager and independent/open-sharing variants.
 N3 Demo check: show what additional knowledge the system created; a pretty swarm animation alone fails.
 N4 Review check: skeptic must be able to argue this is an AutoScientists clone. Provide a specific mechanism, provenance, measured difference or narrow domain finding that rebuts it.
-If none passes by 2026-10-15, prioritize smaller legitimate science-audit result and application, not unfinished platform.
+If none passes within the campaign window (original gate date 2026-10-15), prioritize a smaller legitimate science-audit result for publication, not an unfinished platform.
 
 ## Primary sources checked 2026-10-08
 - https://arxiv.org/abs/2605.28655
@@ -44,4 +44,3 @@ If none passes by 2026-10-15, prioritize smaller legitimate science-audit result
 - https://www.microsoft.com/en-us/research/blog/systematic-debugging-for-ai-agents-introducing-the-agentrx-framework/
 - https://github.com/microsoft/AgentRx
 - https://journals.sagepub.com/doi/10.1177/26339137261421577
-- https://scienceclawhack.ai/

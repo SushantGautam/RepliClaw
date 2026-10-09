@@ -6,7 +6,7 @@
 - **Development fleet**: continue existing VS Code/Copilot orchestrator + isolated feature worktrees + independent code/science reviewers. **OPTIONALLY ADD Pi** as a parallel, independent engineering-worker process after a one-ticket PoC; no full fleet restart required. The Pi CLI/SDK are for coding, not automatic scientific novelty.
 - **Scientific task execution**: keep current thin OpenAI-compatible LLMClient as the **frozen P08** comparison runtime. For a follow-up research upgrade **SPIKE PydanticAI** (Python structured outputs/tool calling/usage limits and OpenAI-compatible provider) behind a small investigator-runner interface. Do not import it into the current prereg arms without explicit post-hoc amendment, all-arm parity and independent science approval.
 - **Mini-SWE-agent**: a good lightweight Python shell-coding **comparator or one-ticket worker**, not the primary scientific harness for SimpleAudit. Its default shell-only, linear history loop is useful for benchmark transparency and repository repair but poorly matched to role-specific, typed, independently gated interventions.
-- **beita6969/ScienceClaw**: a different project built on OpenClaw with typed workflow and replay-verified Skill–Operator evolution. Potential reuse as a science execution backend, NOT this competition's official framework and not equivalent to decentralized research. Integration must pass cost, API and provenance tests first.
+- **beita6969/ScienceClaw**: a different project built on OpenClaw with typed workflow and replay-verified Skill–Operator evolution. Potential reuse as a science execution backend, NOT this project's execution framework and not equivalent to decentralized research. Integration must pass cost, API and provenance tests first.
 - **Do not fork Pi / mini-SWE / SimpleAudit / ScienceClaw** just to claim framework ownership. RepliClaw's candidate contribution is independently committed predictions + execution-verified counterfactual AI-failure diagnosis + local evidence-driven decisions + controlled empirical evaluation. Harness attribution strengthens the claim.
 
 ## What actually implements an agent right now
@@ -49,11 +49,11 @@ Agent harness should be **replaceable** by adapter; different harness implementa
 - Independent workers in isolated git worktrees, e.g. one Pi process builds a noncritical documentation/fixture task and another reviews changes. Pi does not bundle multiagent fleet scheduling; our VS Code orchestrator remains sole integrator. Benchmark: setup time, actual passing red/green tests, unit task outcome, real token cost, error/recovery rate. Reject if worse than VS Code direct agent for this one task.
 - Never configure \`pi\` or coding tools as the **science result generator** without explicit typed/restricted tool wrapper and source attribution. Shell executing arbitrary code can access oracle paths unless OS/process permissions or tool wrappers actually block it.
 
-## Novelty claim / submission integrity
+## Novelty claim / release integrity
 No component of "LLM plus tools", multi-agent loops, skill execution, clean replay, science tooling, or harness choice is inherently novel in 2026. Reuse frameworks transparently and cite dependency versions. Scientific claim targets **mechanistic effect** of escrow, independent pre-outcome causal prediction, and evidence-driven decentralized experiment selection on real validated AI failure investigations **relative to strong baselines**. If experiments don't demonstrate it, report boundary conditions rather than pretending reuse harms originality.
 
 ## Evidence and source references (reviewed 2026-10-08)
-Own repo: https://github.com/SushantGautam/ScienceClawHackathon/tree/repl-claw-dev
+Own repo: https://github.com/SushantGautam/RepliClaw/tree/repl-claw-dev
 Pi: https://github.com/earendil-works/pi ; https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/cli.md ; https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/sdk.md ; https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/models.md ; https://github.com/earendil-works/pi/blob/main/LICENSE
 Mini: https://github.com/SWE-agent/mini-swe-agent ; https://github.com/SWE-agent/mini-swe-agent/blob/main/src/minisweagent/agents/default.py ; https://github.com/SWE-agent/mini-swe-agent/blob/main/src/minisweagent/models/litellm_model.py
 PydanticAI: https://github.com/pydantic/pydantic-ai/blob/main/docs/models/openai.md ; https://github.com/pydantic/pydantic-ai/blob/main/docs/agent.md

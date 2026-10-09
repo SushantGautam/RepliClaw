@@ -2,7 +2,7 @@
 
 > **STATUS: FOLDED (2026-10-09) — science round 3 = APPROVE-WITH-CONDITIONS cleared
 > MUST-1 (fold before any P1 result is reported).** Folded into:
-> (1) `docs/APPLICATION_V2.md` — "Claim-boundary guardrail" section + submission
+> (1) `docs/APPLICATION_V2.md` — "Claim-boundary guardrail" section + release
 > checklist item; (2) `docs/DEMO_AND_FINAL_HANDIN_V2.md` — "P1 result statement —
 > mandatory disclosures" section (verbatim rule: no P1/P2/P3 result reported without
 > all 7 items). This file remains the canonical full-text source; §5 (S-1) is also

@@ -118,7 +118,7 @@ pre-existing 8 conditional skips from the base branch.)
 - Lease files are per-need; a process crash mid-`_write_lock` (renew) can
   leave a stale-but-parseable file — bounded by TTL expiry.
 - `open_needs` is O(needs × events) (event scan for fulfilled/cancelled);
-  fine for competition scale, would need indexing at 10⁴+ needs.
+  fine for research campaign scale, would need indexing at 10⁴+ needs.
 - `_spend_tokens` re-reads needs.jsonl per event — same scaling caveat.
 - `choice_changed` compares *full ranking* vectors; a utility tie-break
   flip without any evidence change (same snapshot sha) cannot fire because

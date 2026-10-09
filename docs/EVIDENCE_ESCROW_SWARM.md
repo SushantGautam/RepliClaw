@@ -1,4 +1,5 @@
 # RepliClaw: Evidence-Escrow Scientific Swarm (EESS)
+Independent research project — SimuMet AI Safety research department (https://www.simulamet.no/research/research-departments/ai-safety)
 Status: PROPOSED RESEARCH DIRECTION, 2026-10-08. **No novel performance result or scientific advantage is claimed yet.**
 Owners: team to confirm with Hans, Michael, Sushant. Respect Hans's original "Decentralized Hypothesis Swarm" concept and authorship; this is an integration proposal, not an agreed team decision.
 
@@ -37,7 +38,7 @@ Compare this with:
 - an adaptive central manager with exactly the same interventions, evidence and limits.
 Do not call this utility formula novel. The specific scientific contribution must be demonstrated by comparative evidence and credible literature differentiation.
 
-## Scope control: what to build for the event
+## Scope control: what to build for this research campaign
 **Hero vertical slice**: policy/return-advice assistant failure with controlled retrieval and judge interventions, *plus* a second held-out AI-audit case of a different failure family if feasible. A live public-real case (not implanted) is desirable but separate labeled from controlled truth-set. Convert checked findings into repeatable SimpleAudit regression scenarios.
 Must show: different agents, independent predictions/commitments, true verified experiment output, shared evidence, an unscripted subsequent choice, bounded cost, final supported/contradicted/unresolved explanations, and a successful comparison trial.
 Do not scope-creep to general business due diligence, full literature scientist, blockchain, fancy UI, new database, permanent distributed infrastructure, physical wet lab or unvalidated cross-domain claims.
@@ -48,14 +49,14 @@ Do not scope-creep to general business due diligence, full literature scientist,
 - Prequential prediction: record what agent predicted **before** intervention result (pre-reveal); score forecast against actual result.
 - Honest intervention: changing retrieval/policy/judge factor affects observed outcome and competing explanations, with relevant confound controls.
 - Causal role of blind commitments: run *no-escrow* ablation with same compute to detect premature convergence / duplicated experiments, rather than asserting it helps.
-- ScienceClaw native "unmet need" objects/ArtifactReactor can mediate shared tasks, no bespoke coordination platform unless necessary.
+- The ScienceClaw upstream library (lamm-mit/scienceclaw, vendored at `deps/scienceclaw`) has native "unmet need" objects/ArtifactReactor that can mediate shared tasks; no bespoke coordination platform unless necessary.
 - Third-party entrypoint: a tiny independently usable audit/verification API, with usage measured only if an external team really uses it.
 
 ## Failure conditions (equally valuable scientifically)
 If the centrally managed baseline is equally strong at lower cost, report that decentralization offered no observed benefit on the tested workload. If public sharing worsens correlated errors, report and test escrow effect. If agents don't change choices following evidence, the project **has not demonstrated adaptive decentralization**. If experiments cannot distinguish hypotheses, label them unresolved rather than manufacturing a plausible root cause.
 
-## Rubric evidence obligations
-Problem significance 20%: high-impact AI failure diagnosis; Impact 25%: confirmed counterfactual failure finding and executable regression; Decentralized agency 20%: autonomous task choice + verified leases/pivots; Collective capability 25%: budget-matched baseline and ablations; Execution 10%: reproducible audit; +10 possible from actual other-team reuse. Official https://scienceclawhack.ai/ (accessed 2026-10-08).
+## Evidence obligations for external review
+Problem significance: high-impact AI failure diagnosis; scientific/technical impact: confirmed counterfactual failure finding and executable regression; decentralized agency: autonomous task choice + verified leases/pivots; collective capability: budget-matched baseline and ablations; execution/validation: reproducible audit; actual other-team reuse where it occurs. (Weights 20/25/20/25/10/+10 are historical, drawn from the public ScienceClaw 2026 rubric accessed 2026-10-08, and are retained here only as a prioritization guide for the evidence.)
 
 ## Origin
 Hans Christian Ekne, *Suggestion for Hackathon Project: Decentralized hypothesis swarm*, slides 2–8, 10–11 and speaker notes (2026-10-07 HTML shared by team); existing RepliClaw code/prototype reviewed 2026-10-08. Do not treat the slides as implemented or team-approved.

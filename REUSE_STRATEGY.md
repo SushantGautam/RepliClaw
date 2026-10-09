@@ -113,7 +113,7 @@ commit_reveal:
   reject_hash_mismatch: true
 ```
 
-Prefer general names that are useful beyond this hackathon. If extending v2 would create awkward semantics, create a backwards-compatible schema v3 rather than stuffing arbitrary data into `metadata`.
+Prefer general names that are useful beyond this project. If extending v2 would create awkward semantics, create a backwards-compatible schema v3 rather than stuffing arbitrary data into `metadata`.
 
 ## Trace/interchange standards
 
@@ -185,7 +185,7 @@ Keep only the research protocol and benchmark-specific pieces in RepliClaw:
 - blind-replication coordination policy;
 - fault-injection benchmark fixtures;
 - architecture/baseline adapters;
-- competition demo configuration;
+- research campaign demo configuration;
 - ScienceClaw-to-Studio glue that is not yet generic enough upstream.
 
 ## Mandatory reuse reconnaissance gate

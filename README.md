@@ -1,14 +1,60 @@
-> **ScienceClaw v2 research direction (Oct 8, 2026):** RepliClaw — *Evidence-Escrow Scientific Swarm*. The active goal is credible decentralized **counterfactual AI failure attribution** with independent pre-outcome forecasts and actual SimpleAudit interventions, evaluated against a strong adaptive central manager. The existing codebase below is a valuable prototype, not demonstrated SOTA scientific performance. New agent seed: [SEED_PROMPT.md](SEED_PROMPT.md). Strategy: [EESS](docs/EVIDENCE_ESCROW_SWARM.md) · [novelty gate](docs/PRIOR_ART_NOVELTY_GATE.md) · [migration instructions](docs/AGENT_MIGRATION.md) · [plan](IMPLEMENTATION_PLAN.md) · [application draft](docs/APPLICATION_V2.md). Active local VS Code worktrees must be checkpointed before merging the strategy PR. This strategic pivot is proposed for team alignment, not a claim all collaborators approved it.
-
 # RepliClaw
 
-A decentralized **blind commit / reveal replication & falsification collective**
-built on [ScienceClaw](./deps/scienceclaw) primitives. Other ScienceClaw teams
-submit their central claim (plus optional bundled data/artifact references) and
-receive a **provenance-linked verification report** — without adopting this
-codebase.
+**Independent research project — [SimuMet AI Safety](https://www.simulamet.no/research/research-departments/ai-safety) research department.**
+RepliClaw is the *Evidence-Escrow Scientific Swarm* (EESS): independent,
+method-diverse scientific agents commit to **falsifiable predictions before
+seeing each other's results**, execute **real counterfactual interventions**
+through a frozen auditor, share only execution-verified evidence, and
+autonomously select the next experiment as new evidence emerges — evaluated
+against a strong adaptive central manager under a matched budget.
 
-## Scientific hypothesis
+The headline question: do independent agents with **pre-outcome commitment
+(evidence escrow)** + **counterfactual intervention** + **decentralized
+experiment selection** attribute AI-system failure causes more reliably than
+the strongest centralized alternative? The protocol is preregistered
+([experiment protocol v2](docs/EXPERIMENT_PROTOCOL_V2.md)), the novelty
+position is audited against prior art
+([novelty gate](docs/PRIOR_ART_NOVELTY_GATE.md)), and all claims are backed
+by committed, inspectable run evidence.
+
+The system is built on [ScienceClaw](./deps/scienceclaw) primitives
+(vendored, pinned) and SimpleAudit's executable counterfactual engine.
+
+> **Project status (honesty note):** the pipeline, comparators, scorer, and
+> audit machinery are implemented, tested, and independently reviewed; the
+> live experimental campaign is preregistered and launch-ready. Where a
+> result below is from the deterministic offline harness, it is labeled as
+> such. We never present offline runs as live results.
+
+
+## The research program (2026)
+
+RepliClaw studies whether **decentralized scientific collectives** produce more
+*validated* causal diagnoses of AI-system failures than the strongest
+centralized alternative. The core mechanism, the **Evidence-Escrow Scientific
+Swarm (EESS)**, combines: (1) independent agents that make **pre-outcome
+falsifiable commitments** (predictions sealed before any outcome or peer result
+is visible), (2) **frozen SimpleAudit counterfactual interventions** executed
+on a frozen agent artifact through an oracle-gated auditor, (3) a shared
+execution-verified evidence ledger, and (4) **decentralized local experiment
+selection** — each agent re-ranks and atomically claims the next experiment
+from the updated evidence while the broker enforces only leases and budgets.
+The load-bearing result is a **matched-budget comparison** against a **strong
+adaptive central manager**, plus single-agent, open-sharing, no-escrow and
+random-select ablations — with null or negative results reported as equally
+valid answers.
+
+- [Research strategy & evidence obligations](docs/EVIDENCE_ESCROW_SWARM.md)
+- [Preregistered experiment protocol v2](docs/EXPERIMENT_PROTOCOL_V2.md)
+- [Prior-art & novelty gate](docs/PRIOR_ART_NOVELTY_GATE.md)
+
+The sections below, from the historical prototype to the acceptance-criteria
+evidence map, document the **archived six-fixture prototype baseline** on which
+the research program was built — retained in full for provenance.
+
+## Historical prototype (six-fixture benchmark, archived)
+
+### Scientific hypothesis
 
 > Independent, method-diverse investigators who **cannot see each other's
 > conclusions until after committing** to them (blind commit → reveal →
@@ -223,12 +269,12 @@ tests/fixtures/       known-answer benchmark tasks
 artifacts/            demo + benchmark outputs (reproducible)
 deps/scienceclaw/     vendored ScienceClaw primitives (reused, not forked)
 docs/agent/           archived full autonomy policy
-TASK_SPEC.md          acceptance contract (AC01–AC18)
+TASK_SPEC.md          historical acceptance contract of the prototype (AC01–AC18)
 DECISIONS.md / PROGRESS.md / EXECUTION_STATE.md / IMPLEMENTATION_PLAN.md
                       living engineering state
 ```
 
-## Acceptance-criteria evidence map
+## Historical acceptance-criteria evidence map (prototype AC01–AC18)
 
 | AC | evidence |
 |---|---|
@@ -252,16 +298,29 @@ DECISIONS.md / PROGRESS.md / EXECUTION_STATE.md / IMPLEMENTATION_PLAN.md
 | AC18 | all reported numbers computed by the harness at run time; demo shows real model outputs with per-call usage accounting |
 
 
-## Active ScienceClaw 2026 competition program (October 8, 2026)
-**Important:** This README documents the existing prototype and its archived six-fixture benchmark, NOT a proven competition-winning scientific result. The real live-LLM misleading-case comparison in `artifacts/demo-llm/` shows all five strategies succeed; no RepliClaw advantage has yet been demonstrated. The new competition program is **WORKING**.
+## Active RepliClaw research program (October 2026)
+**Important:** This README documents the existing prototype and its archived six-fixture benchmark, NOT a proven scientific result. The real live-LLM misleading-case comparison in `artifacts/demo-llm/` shows all five strategies succeed; no RepliClaw advantage has yet been demonstrated in the preregistered live campaign. The research program is **WORKING**.
 
-- [Competition strategy / rubric](docs/COMPETITION_STRATEGY.md)
-- [Active implementation tickets F00–F10](IMPLEMENTATION_PLAN.md)
+### Status (honest, 2026-10-09)
+Pipeline + comparators + scorer + audit machinery are **implemented, tested
+(248 tests) and independently reviewed**. The **R-2 live pre-flight completed
+2026-10-09** (live token floors measured: S4 = 16,300 / S3 = 15,993 /
+S0 = 8,588; verdict OK). The **preregistered 6-arm × 20-run live campaign is
+launch-ready** (window 2026-10-10 → 2026-10-23). **NO live campaign results
+exist yet** — everything offline is labeled offline; the older 66-test
+prototype suite above is a historical baseline, and the current run-branch
+gate is the 248-test gate.
+
+- [Research strategy & evidence obligations](docs/EVIDENCE_ESCROW_SWARM.md)
+- [Active implementation tickets](IMPLEMENTATION_PLAN.md)
 - [VS Code parallel-agent fleet](docs/FLEET_PLAYBOOK.md)
-- [Quality gates and independent judges](docs/QUALITY_GATES.md)
+- [Quality gates and independent review](docs/QUALITY_GATES.md)
 - [Current execution state](EXECUTION_STATE.md)
 - [Checkpoint history](docs/checkpoints/CP-20261008-PLAN.md)
 - [Agent seed prompt](SEED_PROMPT.md)
-- [Submission checklist](docs/SUBMISSION_CHECKLIST.md)
+- [Release checklist](docs/application/SUBMISSION_CHECKLIST.md)
 
-The immediate next step is G0 (reproduce current tests and scientific evidence), then staged fleet work in isolated worktree sessions. Existing runnable CLI/tests remain unchanged by the planning update.
+The immediate next step is executing the preregistered live campaign under its
+two-key authorization, then reporting the matched-budget result (including
+null or negative outcomes) as the first public scientific result. Existing
+runnable CLI/tests remain unchanged by the planning update.
