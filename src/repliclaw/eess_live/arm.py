@@ -21,7 +21,7 @@ import json
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Dict, Optional, Protocol
 
 from ..comparators.arms import ArmResult, ArmSpec
 from ..comparators.budget import BudgetLedger, BudgetRecord
@@ -30,11 +30,18 @@ from .escrow import EscrowedEscrow, LiveEscrow, PassThroughEscrow
 from .orchestrator import LiveEESSOrchestrator, LiveRunResult
 
 
+class _RunCacheHolder(Protocol):
+    """Duck-typed: anything exposing the verified-run cache (V3 arms reuse
+    this writer without a live orchestrator)."""
+
+    run_cache: Dict[str, Any]
+
+
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def write_counterfactuals(orch: LiveEESSOrchestrator, result: LiveRunResult, run_dir: Path) -> None:
+def write_counterfactuals(orch: _RunCacheHolder, result: LiveRunResult, run_dir: Path) -> None:
     """One file per EXECUTED counterfactual slot (contract §1/§4).
 
     Contents are the verified run's measured effect plus the corresponding
@@ -149,6 +156,7 @@ class EESSLiveArm:
             max_cycles=self._max_cycles,
             lease_ttl_s=self.lease_ttl_s,
         )
+        self._orch = orch
         t0 = time.monotonic()
         result = orch.run()
         wall = max(0.0, time.monotonic() - t0)
