@@ -1,0 +1,4 @@
+{"kind": "context_built", "agent_id": "single-agent", "ts": "2026-10-09T11:01:16.388188+00:00", "phase": "blind", "sources": ["bundled_data"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "committed", "agent_id": "single-agent", "ts": "2026-10-09T11:02:13.758727+00:00", "commitment_id": "cmt-single-agent-3f1c3f", "content_hash": "daa0be93f61c6c0c0c9179665f107bda3a3c6e0a3919dc88f1067fbdaee80578", "seal_hash": "52b7c08df5279f95e731f6b4477366db764170dc4732ec9f45551d3d7b11b7c8", "phase": "committed"}
+{"kind": "verdict", "agent_id": "orchestrator", "ts": "2026-10-09T11:02:13.759784+00:00", "label": "SUPPORTED", "confidence": 0.98}
+{"kind": "evidence_recorded", "agent_id": "single-agent", "ts": "2026-10-09T11:02:13.760191+00:00", "evidence_id": "ev-single-agent-0725bbfb", "relation": "supports"}

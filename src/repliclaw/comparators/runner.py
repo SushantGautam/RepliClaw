@@ -732,6 +732,7 @@ def run_one_arm(args: argparse.Namespace) -> int:
     client_timeout: Optional[float] = None
     client_factory: Optional[Callable[[str], Any]] = None
     t0 = time.monotonic()
+    start_iso = _now_iso()  # actual run start (metadata provenance)
     try:
         if is_live:
             # A8 (executor parity): factor the live-client identity derivation
@@ -854,7 +855,7 @@ def run_one_arm(args: argparse.Namespace) -> int:
         "mu": effective.get("mu"),
         "max_cycles": effective.get("max_cycles"),
         "lease_ttl_s": effective.get("lease_ttl_s"),
-        "start_ts": _now_iso(),
+        "start_ts": start_iso,
         "end_ts": _now_iso(),
         "wall_s": round(time.monotonic() - t0, 6),
     }

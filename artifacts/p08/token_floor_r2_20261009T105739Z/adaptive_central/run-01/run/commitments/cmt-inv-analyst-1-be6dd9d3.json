@@ -1,0 +1,40 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-be6dd9d3",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "1112c8cfed4ce747708196456c0e1b81896e8c04b9bcd4b2a1da50b7f86b377c",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T11:01:13.637974+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports 30-day full refund.",
+    "plan": "Compare current policy doc to order age.",
+    "evidence": {
+      "current_days": 30,
+      "order_days": 10,
+      "eligible": true,
+      "stale_ref_days": 14
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T11:01:13.652632+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports 30-day full refund.",
+    "plan": "Compare current policy doc to order age.",
+    "evidence": {
+      "current_days": 30,
+      "order_days": 10,
+      "eligible": true,
+      "stale_ref_days": 14
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "6fb5fd3dadc4bbed3c2c29d493b649abb05edd1cac9e757c33d554e4073cb89a"
+}

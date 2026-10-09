@@ -1,0 +1,30 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-0a779b",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "b3d4b3cf845fc90b06a8b5179bde32a7f6901b7e754a14c28aefec2910889b8e",
+  "phase": "committed",
+  "timestamp": "2026-10-09T10:58:37.613934+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current standard full-refund window is 30 days.",
+    "plan": "Compare current 30d, stale 14d, order 10d.",
+    "evidence": {
+      "current_days": 30,
+      "stale_days": 14,
+      "order_days": 10,
+      "current_eligible": true,
+      "stale_eligible": true,
+      "delta_days": 16
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "03171a1fe1e0b333c5e98161de27ce8f87a6c3286b9eaf3f1bb2666edb13aa4f"
+}

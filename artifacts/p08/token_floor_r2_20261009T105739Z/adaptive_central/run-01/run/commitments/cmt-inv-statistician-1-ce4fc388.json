@@ -1,0 +1,54 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-ce4fc388",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "975c6e872885d03cade98928273365696bef473005bec77f3791a52e46b02bf9",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T11:01:13.644033+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states a 30-day full-refund window for standard items, so the claim is supported even though the bundled judge reference still contains the stale 14-day value.",
+    "plan": "Parsed the bundled policy documents and base artifacts, extracted numeric return windows (current v2 = 30 days, base retrieval v1 = 14 days, base judge reference = 14 days), compared the current window to the stale references, and checked the test order age (10 days) against the current 30-day window; a two-sample t-test was not applicable because no n/mean/sd fields were provided.",
+    "evidence": {
+      "current_policy_days": 30,
+      "base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "current_window_minus_order_age_days": 20,
+      "current_window_minus_stale_reference_days": 16,
+      "sources_reporting_30_days": 1,
+      "sources_reporting_14_days": 2,
+      "eligibility_under_current_policy": true,
+      "eligibility_under_stale_reference": true,
+      "inferential_test": "not applicable: no two-group n/mean/sd data; deterministic policy arithmetic used instead"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T11:01:13.656426+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states a 30-day full-refund window for standard items, so the claim is supported even though the bundled judge reference still contains the stale 14-day value.",
+    "plan": "Parsed the bundled policy documents and base artifacts, extracted numeric return windows (current v2 = 30 days, base retrieval v1 = 14 days, base judge reference = 14 days), compared the current window to the stale references, and checked the test order age (10 days) against the current 30-day window; a two-sample t-test was not applicable because no n/mean/sd fields were provided.",
+    "evidence": {
+      "current_policy_days": 30,
+      "base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "current_window_minus_order_age_days": 20,
+      "current_window_minus_stale_reference_days": 16,
+      "sources_reporting_30_days": 1,
+      "sources_reporting_14_days": 2,
+      "eligibility_under_current_policy": true,
+      "eligibility_under_stale_reference": true,
+      "inferential_test": "not applicable: no two-group n/mean/sd data; deterministic policy arithmetic used instead"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "7ec6365442e66ded41d3857701f31cf9b0b80d5894d8f1329fad084101588e28"
+}
