@@ -4,7 +4,7 @@ description: Implement one sharply scoped RepliClaw experiment blocker using the
 model: Qwen3.8-27B-Thinking
 modelPolicy: required
 reasoningEffort: medium
-infer: false
+infer: true
 include-custom-instructions: true
 tools: ["*"]
 ---
