@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [{"type":"command","exec":"python3","args":["scripts/copilot_fleet_watch.py","hook","sessionStart"],"timeoutSec":5}],
+    "subagentStart": [{"type":"command","exec":"python3","args":["scripts/copilot_fleet_watch.py","hook","subagentStart"],"timeoutSec":5}],
+    "postToolUse": [{"type":"command","exec":"python3","args":["scripts/copilot_fleet_watch.py","hook","postToolUse"],"timeoutSec":5}],
+    "postToolUseFailure": [{"type":"command","exec":"python3","args":["scripts/copilot_fleet_watch.py","hook","postToolUseFailure"],"timeoutSec":5}],
+    "subagentStop": [{"type":"command","exec":"python3","args":["scripts/copilot_fleet_watch.py","hook","subagentStop"],"timeoutSec":5}],
+    "agentStop": [{"type":"command","exec":"python3","args":["scripts/copilot_fleet_watch.py","hook","agentStop"],"timeoutSec":5}],
+    "errorOccurred": [{"type":"command","exec":"python3","args":["scripts/copilot_fleet_watch.py","hook","errorOccurred"],"timeoutSec":5}],
+    "sessionEnd": [{"type":"command","exec":"python3","args":["scripts/copilot_fleet_watch.py","hook","sessionEnd"],"timeoutSec":5}]
+  }
+}

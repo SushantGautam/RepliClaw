@@ -1,57 +1,39 @@
-# RepliClaw — autonomous fleet instructions (DEVELOPMENT BRANCH ONLY)
+# RepliClaw — focused result sprint (Copilot CLI, `dev` only)
 
-Read this document first. These instructions govern research and coding agents operating on **dev**. This file is an internal development instruction, not public-release documentation. Public `main` is the curated, public-facing research release; **never write, push, cherry-pick, merge, open an auto-merge PR to, or rewrite `main` without explicit human public-release approval.** Do not assume a public GitHub dev branch is private: NEVER commit keys, raw secrets, hidden benchmark labels or restricted data.
+**Target: obtain the shortest defensible multi-case result comparing D-E (decentralized escrow) against C-EQ (adaptive centralized) with identical real counterfactual capabilities, then score and report it, including null findings.** All work must directly unblock that target. Read `docs/next_stage/FAST_FINISH_RUNBOOK.md` for the critical path and current `docs/next_stage/FAST_FINISH_STATUS.md` for truth. Historical P08 (`main` @ `97a4559`) remains immutable. Never edit, push, merge or release to `main` without an explicit human public-release approval.
 
-## Mission
-Deliver Stage 2: literature-standard external evaluation and genuinely intervention-matched decentralized vs adaptive-central research. The next result must answer whether coordination/escrow adds value **after every compared strategy has equal counterfactual diagnostic capabilities**, and must distinguish external observational benchmark performance from controlled interactive causal experiments.
+## Priority and timeboxing: RESULTS > volume of agent work
 
-Canonical instructions and editable tracker:
-- `docs/next_stage/LITERATURE_AND_BENCHMARK_DECISION.md`
-- `docs/next_stage/EXPERIMENT_PROTOCOL_V3_DRAFT.md` (PROPOSED, not approved)
-- `docs/next_stage/FLEET_EXECUTION_PLAN.md`
-- `docs/next_stage/EXECUTION_STATE.md`
-- `docs/next_stage/DECISIONS.md`
-- `docs/next_stage/SEED_PROMPT.md`
+- One active research result, at most **three simultaneously running implementation/review subagents**; coordinator is not a speculative research worker. A fourth task only when a prior one has finished and freed capacity. Max delegation depth **1** by policy, even if CLI supports more.
+- Every agent must own **one task ID, a bounded exact file set, a measurable output, an executable acceptance command and a short timebox**. No task may be "study everything", "improve architecture", "explore unrelated baselines" or "write more strategy docs". If not on the shortest dependency path, explicitly DEFER it.
+- Assign first task within 2 minutes of startup. Send first worker a precise small ticket; start the next independent ticket only when isolation is established. Prefer edits with tests over plans and new files over rewrites. One integrator writes to `dev`; workers use isolated worktrees. Do not overdo branches: one worktree per conflicting edit lane, NOT per brainstorm.
+- When blocked >5 minutes, give a minimal reproducible blocker instead of doing unrelated exploration. Two unsuccessful repair attempts => change tactic or escalate. Do not repeatedly reinstall packages, scan all docs or re-run full tests without a narrow reason.
+- **P08 scientific counterevidence is binding:** S5/A1/A3 M1=1.0 on ONE case; benefit was access to interventions, NOT proven benefits of escrow, decentralized choice or autonomy. No post-hoc rewrite of P08.
 
-## Required start of every agent session
-1. Confirm `git remote -v`, current branch and clean worktree; `git fetch`; branch from current `dev`, not `main`; use **one git worktree/branch per worker**. Check live HEAD before committing.
-2. Read original `docs/experiments/P1_RESULT_STATEMENT_20261009.md`, `docs/reviews/SCIENCE-JUDGE-CAMPAIGN-RESULTS-20261009.md`, and `docs/reviews/CODE-JUDGE-CAMPAIGN-EVIDENCE-20261009.md`. P08: S5/A1/A3 1.00, S4 .20, S3 .05, S0 .15 on **one** case; counterfactual execution not decentralization is supported. Preserve negative evidence.
-3. Read V3 proposed protocol and state ledger. Before coding, output task ID, owned paths, interface contract, acceptance criteria, expected tests and cost class.
-4. Discover and reuse official upstream benchmark implementations; pin versions. No bespoke substitute benchmark without explicit science sign-off.
-5. If live models or external data require credentials, ask only for provider aliases/secret names. NEVER paste tokens, URLs containing tokens, .env, signed URL query strings or benchmark answer keys in commit/log/chat.
+## Only permitted subagent models
 
-## Parallel agents and ownership
-Orchestrator issues independent lanes (ownership in FLEET_EXECUTION_PLAN); science judge and code judge are distinct read-only roles with authority to BLOCK. Prefer high independent parallelism but constrain services with shared state (scorer, fixtures, source index, agent-run namespaces). Every worker uses a branch named `dev/<lane>-<short-scope>`, separate worktree and distinct output path. Workers make no changes outside owned paths without an integration ticket; conflict/rebase process is orchestrator-owned. No coordinator that secretly selects scientific investigations inside the assessed decentralized swarm.
+Main coordinator: Sigma2 thinking Qwen3.8. Subagents: only **sky-sigma2 / sigma2.no** thinking `Qwen3.8-27B-Thinking` or nonthinking `Qwen3.8-27B-NonThinking`. The two local BYOK profiles both route to backend `Qwen3.8-27B`, with different thinking settings. Repository profiles `.github/agents/rc-*.agent.md` set **bare** model IDs with `modelPolicy: required` (fail closed on unresolvable model). Main CLI model is provider-qualified `sigma2.no/Qwen3.8-27B-Thinking`; verify your local provider registry. The bare-ID subagent behavior was previously established on another custom provider, **not yet validated for sigma2.no**: perform actual short dispatch canaries, inspect resolved model and request routing, and stop fleet if it falls back.
 
-## Stage gates
-- **G0** source/version/license/access + benchmark contract audit
-- **G1** unmodified official baseline and scoring reproducibility
-- **G2** same tools/executor, intervention caps, independent environment reset, leakage and replay canary
-- **G3** bounded pilot and two independent judge reviews
-- **G4** frozen preregistration + Science Judge sign-off + explicit human authorization for full experiment/model/maximum cost
-- **G5** sealed heldout run and evaluator-only scoring
-- **G6** independent statistical/integrity review with negative/uncertain findings
-- **G7** public release approval; only then curate a `main` push
+Allowed agents: `rc-orchestrator`, `rc-implement` (thinking), `rc-fast` (nonthinking), `rc-review` (thinking). Use **only these profiles**; the CLI built-in `explore`, `task`, `code-review`, `research`, `rubber-duck`, `general-purpose` and auto-selected agents may use other default models. Do not invoke them. Do not use `/model auto` or cloud `/delegate`; cloud agent may not preserve custom Sigma2 routing. If native `/fleet` ignores the profiles, **do not silently substitute**: pause delegation and use explicit custom-agent `task` dispatch; verify model in `/tasks`/telemetry. No remote provider fallback, except the other specifically authorized Sigma2 Qwen variant.
 
-No human approval => continue **offline documentation, fixtures, infrastructure, read-only baseline work** but **STOP at any paid/live-campaign or cloud-deployment barrier**. Do not turn a user's general request to "spin the fleet" into permission for unknown spending. Do not claim empirical results before evidence exists.
+## Heartbeats, inspection, and active steering
 
-## Orchestrator responsibilities
-- Maintain dependency DAG, worktree/branch registry, a single authoritative STATE and decision log, resource queue and test report; prefer 4–8 agents if capacity exists, with no hard-coded claim that parallelism is free.
-- Pull completed work into `dev` with explicit integration checkpoints. Parallelize research, adapters and protocol reviews; serialize shared scorer contracts, manifest schema and integration commits.
-- Require proof (command, hash, path, independent review) per completed task. A green narrative without machine-verifiable artifact is NOT DONE.
-- Reassign blocked tasks, retry transient failures within limits, quarantine flaky tests; never silently loosen acceptance criteria.
-- Use git checkpoints after each meaningful stage; retain original/scored artifacts, logs, reproducibility data and negative outcomes.
-- Update `EXECUTION_STATE.md` and `DECISIONS.md` on every checkpoint, with completed/blocked/next, actual branch HEAD, and URLs. Note in state when human authorization is needed.
+- Use Copilot `/fleet` for decomposition, `/tasks` and `list_agents` / `read_agent` for worker inspection, `write_agent(agent_id=..., message=...)` for mid-run steering. The repo hook `.github/hooks/repliclaw-fleet.json` records activity and checks whether finished `rc-` subagents report evidence; it is NOT a periodic timer. **A live external watchdog is needed** when an agent or orchestrator is silent.
+- Orchestrator assigns a task with `python scripts/copilot_fleet_watch.py assign TASK --agent rc-fast --deadline-min 20 --progress "exact goal"`. Worker reports at least every 2 minutes **during active progress**: `python scripts/copilot_fleet_watch.py beat TASK --progress "artifact and change" --artifact PATH`. Finish via `done` or `block`. Tool-activity hooks are recorded at **session level**, not evidence of a particular worker's progress.
+- Coordinator checks `python scripts/copilot_fleet_watch.py watch` at least every 2–3 minutes or after subagent events. An external shell can use `watch --loop --every 60`. Missed task heartbeat >4 minutes => inspect `/tasks`, send one precise steering instruction. No measurable progress >8 minutes, missed task deadline, or repeated blocking => cancel/reassign, reduce task, and preserve partially working artifacts. Don't kill long legitimate deterministic tests solely for lack of tool calls; verify actual job process/output before canceling.
+- A check-in must include task ID, stage, what changed since last update, exact file/test evidence, blocker and ETA if blocked. "Working on it", generic research narration, and growing plans without artifacts DO NOT count as progress.
 
-## Code Judge (independent, cannot self-approve)
-Check Ruff/mypy/pytest/CI + integration smoke, exact upstream pin, truthful dataset counts, no secret leaks, scorer/label schema parity, Oracle isolation, action parity, baseline uncrippled, reset/seed provenance, stable resume + idempotency, per-call usage, no benchmark-specific answer hard-coding. Reject broken code or unverifiable claims.
+## Minimum sequence, one primary result
 
-## Science Judge (independent, cannot self-approve)
-Attack estimand, intervention identifiability, variance unit, independence, label leakage, cherry-picking, underpowered comparison, optional stopping, prompt/task parity, benchmark/version mismatch, metric definitions, post-hoc amendments and strength of the adaptive central manager. Require an intervention-matched central comparator, strong published baselines and case-level uncertainty. Record verdict PASS / APPROVE-WITH-CONDITIONS / BLOCK with corrective evidence.
+1. **P0 Clean-install CI:** make tests pass from a fresh clone with SimpleAudit/OTel dependencies declared; enable checks on `dev`; require successful GitHub Actions or, if runner unavailable, exact clean-venv reproduction and mark remote CI blocked. No changing scientific claims.
+2. **P1 Scientific integrity:** contain labels/opaque IDs outside agent file tools; remove truth-derivable service ordinals; ensure independent evaluator-only data; correct the statistical misconception that one-arm forced success with Δ=0 is a null type-I condition. Use existing contracts and reviewers.
+3. **P2 Match interfaces:** run D-E vs C-EQ against exactly the same real executable interventions, action menus, environment snapshots and token/time caps. The existing `ceq.py` + P08 executor are starting points. Test no oracle leak, no fixed scripts, no central starvation, and genuine feedback-adaptivity. Keep original AgentRx/RCAEval adapters frozen unless directly required. For external interactive benchmarks prefer already registered AIOpsLab tasks if the environment can be provisioned with existing resources under approved scope; no 3-day detour. Otherwise run a clearly labeled controlled multi-case internal track, not a falsely external benchmark.
+4. **P3 Small real pilot:** start with a few distinct independently seeded fault cases, two arms (D-E vs C-EQ), paired seeds, official scorer where available. Freeze case selection, record actual caps and spend. Pilot is exploratory: assess feasibility, variance, saturation and cost; no confirmatory P-value.
+5. **P4 Prospective freeze:** science reviewer must approve exact independent-case heldout manifest, sample size, real power under plausible alternatives, labels/metrics, matched tools, caps, baseline prompt, stop rules and explicit authorized resources before any confirmatory holdout campaign. **G4 from the existing V3 protocol remains binding**. If only limited cases available, publish an honest feasibility result rather than a fabricated confirmatory study.
+6. **P5 Execute/score/release to `dev`:** fail-loud resumable checkpointing, raw per-case results, case-cluster uncertainty, null/negative effects, measured cost, independent review, clear scientific result statement. Stop implementing once the critical result is complete.
 
-## Reuse, reproducibility and safety
-- Reuse AgentRx, RCAEval and AIOpsLab evaluation code where licensed. CAR may be a method baseline when replay is compatible; ScienceAgentBench verified is later optional. Pin original SHA and do not redistribute restricted original data.
-- AgentRx HF `microsoft/AgentRx` requires access approval; no bypass. Distinguish source-paper counts from accessible dataset counts and taxonomy versions.
-- **Stored traces are observational**; they are not genuine counterfactual experiments. AIOpsLab fault injection does not by itself prove arbitrary reversible replay: verify reset semantics.
-- Use case-level paired bootstrap, with seeds nested in cases; P08 run-level CI cannot establish generalization.
-- Keep GIT state on `dev` until a human decides what public artifact goes to `main`; public release must contain counterevidence and honest limitations.
+Do not start AgentRx judge benchmarking, a second RCAEval track, ScienceAgentBench or unrelated mechanistic-interpretability tooling on this sprint. Archive existing useful work and keep it accessible for subsequent work, do not delete it.
+
+## Reporting, safety and completion
+
+At task return: `STATUS: DONE|BLOCKED`, `ARTIFACT: paths/hash`, `CHECK: commands/results`, `NEXT: shortest dependency-ready action`. Independent review targets one critical gate at a time. Report test and CI evidence faithfully; do not claim a run happened because scripts exist. For expensive clouds, cluster deployments or unspecified full-run spending, request human approval. The user's chosen Sigma2 BYOK model is authorized for routine code/test work and bounded pilot preparation, subject to existing protocol gates. Never store secrets or evaluator answers in commits, logs, prompts, or agent-visible manifests; `.artifacts/` is ignored. Maintain `FAST_FINISH_STATUS.md` only at checkpoints, not every heartbeat.
