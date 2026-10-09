@@ -16,6 +16,20 @@ Main coordinator: Sigma2 thinking Qwen3.8. Subagents: only **sky-sigma2 / sigma2
 
 Allowed agents: `rc-orchestrator`, `rc-implement` (thinking), `rc-fast` (nonthinking), `rc-review` (thinking). Use **only these profiles**; the CLI built-in `explore`, `task`, `code-review`, `research`, `rubber-duck`, `general-purpose` and auto-selected agents may use other default models. Do not invoke them. Do not use `/model auto` or cloud `/delegate`; cloud agent may not preserve custom Sigma2 routing. If native `/fleet` ignores the profiles, **do not silently substitute**: pause delegation and use explicit custom-agent `task` dispatch; verify model in `/tasks`/telemetry. No remote provider fallback, except the other specifically authorized Sigma2 Qwen variant.
 
+## Subagent discovery preflight — mandatory before parallel dispatch
+
+**Do not treat a profile existing on GitHub as proof it is registered in the CLI.** Copilot loads project `.github/agents/` from the **current local checkout** (or a trusted `--add-dir`), and the CLI must be restarted after changes. The three workers `rc-fast`, `rc-implement`, `rc-review` intentionally set `infer: true` so they are eligible for model-driven `task` delegation. **`rc-orchestrator` keeps `infer: false`** because it is the explicitly selected top-level coordinator and should not be auto-delegated as a child. All retain `modelPolicy: required`; unavailable Sigma2 model IDs must fail closed.
+
+Before first task:
+
+1. On the SAME host/account running Copilot, `cd` to the real RepliClaw checkout and `git switch dev && git pull --ff-only origin dev`; verify `.github/agents/rc-{fast,implement,review}.agent.md` exist locally and print `infer: true`.
+2. **Restart Copilot CLI**, from that checkout. In the fresh interactive CLI, `/agent` must list the four named agents; `/subagents` must show worker profiles and their locked model policies. `/tasks` lists **running tasks**, not the registry of available agent profiles. If `/agent` sees them but `task` does not, inspect the `infer` flags and Copilot version, then restart again.
+3. If the session must start OUTSIDE RepliClaw, add `--add-dir=/absolute/path/to/RepliClaw` so the CLI trusts and discovers this checkout's `.github/agents` (or run from the checkout, preferred). `COPILOT_HOME` changes the configuration/identity/agent home; don't set it to a new empty directory casually. User-level agents in `${COPILOT_HOME:-$HOME/.copilot}/agents` override project agents; remove stale conflicting copies if needed.
+4. Dispatch ONE 30-second no-write `rc-fast` task **explicitly** using the `task` tool, and inspect the resolved model/provider. Then similarly verify `rc-implement` as required. The model must resolve to the authorized sky-sigma2 Qwen variant; if any dispatch fails or silently chooses another provider, **STOP**.
+5. **Do not assume `/fleet` obeys custom-agent routing**: upstream issue https://github.com/github/copilot-cli/issues/2261 reports `fleet.start` spawning built-in `explore` rather than a registered custom agent. Run an isolated fleet canary, inspect every child's agent ID and provider; if any child is not `rc-fast`/`rc-implement`/`rc-review` on the authorized Sigma2 model, **do not use `/fleet`**. Use explicit custom `task` dispatches (parallel when supported) instead. This restriction is stronger than a prose instruction.
+
+Official documentation: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference#custom-agents-reference and https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli . See `docs/next_stage/COPILOT_AGENT_DISCOVERY.md` for exact commands and triage.
+
 ## Heartbeats, inspection, and active steering
 
 - Use Copilot `/fleet` for decomposition, `/tasks` and `list_agents` / `read_agent` for worker inspection, `write_agent(agent_id=..., message=...)` for mid-run steering. The repo hook `.github/hooks/repliclaw-fleet.json` records activity and checks whether finished `rc-` subagents report evidence; it is NOT a periodic timer. **A live external watchdog is needed** when an agent or orchestrator is silent.
