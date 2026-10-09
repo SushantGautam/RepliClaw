@@ -794,3 +794,24 @@ disambiguate the remaining token-cap abort class (genuine budget-need vs
 burn-through) — new freeze + 2 fresh judges + human scope/spend approval; OR
 (iii) stop the series. Model change (c) still NOT authorized. `main`
 untouched; dev LOCAL-ONLY.
+
+---
+
+## I4.26 (2026-10-11) — HUMAN GATE CLEARED: round 8 @600K authorized (option ii); unlimited SimulaChat default spend; fleet dispatched
+
+**Human approval (verbatim substance):** "I give you unlimited authorization power plus spend approval for SimulaChat default model! no need to wait for me! do what you need to! parallelize the things. I need results fast!" — resolves §7 option **(ii)**: round 8 @600K authorized, no further human wait needed for the round-8 cycle (freeze → judges → launch → adjudicate → report). Model change (c) STILL NOT authorized (SimulaChat default / Qwen3.8-27B only). This approval covers provider spend; the round keeps its preregistered 24M stop-3 ceiling as a safety bound, not a spend request.
+
+**V3.6 instrument** (new worktree `/Users/sushantgautam/Documents/RepliClaw-stg2-v36`, branch `wip/v36-600k`, from `4c972e9`): EXACTLY two constant changes + pinned tests + new prereg freeze —
+- `MAX_TOKENS_PER_RUN` 300_000 → 600_000 (shared, both arms; A1 parity guard carries)
+- `ROUND_TOKEN_CEILING` 12_000_000 → 24_000_000 (40×600K; the 12M ceiling would stop-3 preemptively at 20/32 runs with unbalanced arms — a design flaw the disambiguation must avoid)
+- Prereg: `docs/next_stage/design/v36_prereg_freeze.md` — falsifiable H-budget vs H-burn hypotheses, adjudication rule carried from V3.5 rule-3, expected interpretations (primary = case-level paired hit; n=8 feasibility, NOT a demonstrated-advantage claim), non-authorizations.
+- Verified at commit `221b81b`: 474 passed / 20 skipped / 3 xfailed; ruff + mypy clean; offline fake smoke 4/4 completed with per-run envelope 600K; case data identical (symlinked gitignored dirs, round-7 `case_sha256` values recorded in freeze).
+
+**Fleet state (2026-10-11 ~11:15):**
+- R7-STATS (general-purpose, background): round-7 case-level paired analysis + bootstrap CIs + minimum-n computation → deliverable `docs/next_stage/science/round7_statistical_analysis.md` (this worktree, new file).
+- R8-PROV (general-purpose, background): round-8 provenance manifest (v35-vs-v36 blob hashes, round-7 integrity re-verification, stop-3 ceiling analysis) → `docs/next_stage/design/round8_provenance_manifest.json` (v36 worktree, new file).
+- V36-CODE-JUDGE + V36-SCIENCE-JUDGE (fresh pre-run judges on `221b81b`): launched; launch is BLOCKED until both return PASS or all REQUIRED items are applied (prereg/documentation fixes only — the instrument is frozen at judge time).
+
+**Launch protocol (gated, in order):** judges' REQUIRED items applied → freeze re-stamped with verdicts → commit → launch `pilot_parallel.py run --round 8 --out .artifacts/rcaeval/pilot/run_v36 --concurrency 6 --label v36-round8` in the v36 worktree (32 runs, 8 cases × 2 seeds × 2 arms) → STOP/adjudication per V3.6 freeze → outcome judges → campaign report §2f/§4e + dev state I4.27.
+
+**Standing finding: UNCHANGED** (round 8 can refine/strengthen it; cannot be pre-flipped). `main` untouched; dev LOCAL-ONLY (never push).
