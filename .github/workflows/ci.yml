@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, repl-claw-dev]
+    branches: [main]
   pull_request:
-    branches: [main, repl-claw-dev]
+    branches: [main]
 
 jobs:
   gate:

@@ -1,6 +1,6 @@
 # P08 Pre-Registration — Science-Judge Review Questions
 
-Each question below maps to a section of `PREREG-2026-10.md` (cited inline). A **YES** (or the specified selection) is required to approve; any **NO** blocks the live window until the prereg is revised and re-reviewed. Record answers in the judge scorecard per `docs/fleet/JUDGES.md`, then record approval in `EXECUTION_STATE.md`.
+Each question below maps to a section of `PREREG-2026-10.md` (cited inline). A **YES** (or the specified selection) is required to approve; any **NO** blocks the live window until the prereg is revised and re-reviewed. Record answers in the judge scorecard, then record approval in the run-state record.
 
 ---
 
@@ -56,7 +56,7 @@ Confirm the three-layer oracle isolation: (1) P02 `test_oracle_not_leaked` re-ru
 Confirm the harness (not the model) is the enforcement point: `BudgetLedger.record()` raises `BudgetOverflow` and aborts the run at the envelope, with overruns impossible by construction and missing usage fields invalidating a run rather than being estimated.
 
 **Q14 — Authorization and window (prereg §9.2).**
-Confirm: (a) start requires **both** science-judge approval (this sign-off) **and** human operator authorization, both recorded in `EXECUTION_STATE.md`; (b) window 2026-10-10 → 2026-10-23 UTC, shortenable by you but not extendable without re-review; (c) no worker (LLM-API-forbidden role) may trigger live runs.
+Confirm: (a) start requires **both** science-judge approval (this sign-off) **and** human operator authorization, both recorded in the run-state record; (b) window 2026-10-10 → 2026-10-23 UTC, shortenable by you but not extendable without re-review; (c) no worker (LLM-API-forbidden role) may trigger live runs.
 
 ## E. Reproducibility
 
@@ -76,5 +76,5 @@ Acknowledge the three `[PENDING]` markers and their resolution gates: P06 (Tox21
 | Decision | APPROVE / APPROVE-WITH-CONDITIONS / REJECT |
 | Conditions (if any, cite question IDs) | ____________________ |
 | Date | ____________________ |
-| Recorded in | judge scorecard + `EXECUTION_STATE.md` |
+| Recorded in | judge scorecard + run-state record |
 | Prereg hash (post-approval) | ____________________ |

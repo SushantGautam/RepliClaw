@@ -5,7 +5,7 @@ This file is the **single interface contract** between the three P08 builds
 Any deviation requires a version bump here and a prereg v1.1 note.
 
 Status: DRAFT-v1 written by the integration owner 2026-10-08 after the
-science judge REJECT (see `docs/fleet/reviews/SCIENCE-JUDGE-PREREG-P08-2026-10-08.md`).
+science judge REJECT (see `docs/reviews/SCIENCE-JUDGE-PREREG-P08-2026-10-08.md`).
 
 ## 1. One run = one directory
 

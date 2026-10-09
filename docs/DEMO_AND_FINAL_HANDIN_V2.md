@@ -46,7 +46,7 @@ If adaptive central manager wins: show which mechanism fails, the negative resea
 application update, or this handin — until every item below is included verbatim or faithfully paraphrased.**
 Source: `docs/application/P1_RESULT_DISCLOSURES_DRAFT.md` (cleared to fold by the round-3 verdict;
 prereg `PREREG-2026-10-v1.2-AMENDMENT.md` §6b A9.4; round-3 report
-`docs/fleet/reviews/SCIENCE-JUDGE-A1-A9-ROUND3-APPROVE-WITH-CONDITIONS-20261009.md`).
+`docs/reviews/SCIENCE-JUDGE-A1-A9-ROUND3-APPROVE-WITH-CONDITIONS-20261009.md`).
 
 1. **Attribution.** A P1-SUPPORTED outcome (if reached) establishes "running the
    counterfactual interventions improves defect diagnosis **on this single seeded case**

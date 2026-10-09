@@ -1,8 +1,8 @@
 # EESS minimal interface contracts v0.1 (frozen 2026-10-08)
 
 Frozen BEFORE parallel editing (P02/P03/P04 worktrees). Superseded only by a
-numbered revision recorded in DECISIONS.md. Every builder codes to this file;
-deviations require orchestrator sign-off. Source docs:
+numbered revision recorded in this file's revision history. Every builder codes
+to this file; deviations require sign-off. Source docs:
 docs/EVIDENCE_ESCROW_SWARM.md, docs/EXPERIMENT_PROTOCOL_V2.md (artifact
 contract), docs/FLAGSHIP_CASE.md (hero case), docs/design/NEED_DISPATCH.md
 (F04 design, already merged — P04 implements it).

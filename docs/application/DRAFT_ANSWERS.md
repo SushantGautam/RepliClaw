@@ -85,7 +85,7 @@ We treat a negative or null result as an equally valid, publishable answer.
 
 <sub>Verified-fact basis (strip before publishing): evaluation weights 20/25/20/25/10(+10) —
 `docs/EVIDENCE_ESCROW_SWARM.md` "Rubric evidence obligations" [F19]. Mechanism description —
-`docs/EVIDENCE_ESCROW_SWARM.md`, `SEED_PROMPT.md`.</sub>
+`docs/EVIDENCE_ESCROW_SWARM.md`.</sub>
 
 ---
 
@@ -271,8 +271,8 @@ secrecy or epistemic independence; and "causal" here means *distinguished by con
 interventions with documented confound controls*, not "proven" in a philosophical sense.
 
 <sub>Verified-fact basis (strip before publishing): F8–F14 in `FACT_CHECK_LIST.md`. Comparator design
-— `docs/EXPERIMENT_PROTOCOL_V2.md`, `SEED_PROMPT.md` (S0–S5). Escrow guarantees/limits —
-`docs/checkpoints/CP-P03.md`, `docs/fleet/P03.md`.</sub>
+— `docs/EXPERIMENT_PROTOCOL_V2.md` (S0–S5). Escrow guarantees/limits —
+`docs/checkpoints/CP-P03.md` (dev-branch archive).</sub>
 
 ---
 
