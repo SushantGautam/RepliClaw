@@ -960,9 +960,13 @@ remains until the round's machine-verified result says otherwise.
 **Official round 9 (compliant launch, git_rev af2799a) finished in ~7 min:**
 25/32 planned runs — `stop1_ssat` tripped at case 5 (sat D-E 0.50 / C-EQ 0.50
 ≥ 0.25, the designed SSAT efficiency stop); **0 crashes, 0 aborts, 25/25
-completed**; D-E **14/14** (round 8: 9/14 + 5 tool-cap aborts); C-EQ 11/14
-(3 slots never launched = ceiling lower bound); case-level hit (R3 FINAL
-ledger) **D-E 8/8** vs round 8 6/8, C-EQ 6/8 (07-08 never launched).
+completed**; **7 slots never launched** (D-E: P-07/P-08 s20261012; C-EQ:
+P-05/P-07/P-08 s20261012 + P-07/P-08 s20261011); per-arm **D-E 14/16** (NOT
+14/14 — D-E was also stop-truncated; correction per outcome code judge) vs
+round 8 9/14 + 5 tool-cap aborts; C-EQ 11/16; case-level hit (R3 FINAL
+ledger) **D-E 8/8** vs round 8 6/8, C-EQ 6/8 — BOTH arms' case-hits are
+ceiling lower bounds on the unmeasured slots (D-E cases 07/08 hit on the
+single launched seed each).
 Final tokens 4,817,798 (snapshot 3,738,102 + 3 in-flight 1,079,696 = exact).
 Integrity (independent adjudicator `/tmp/adjudicate_round9.py`): items 1,2,4,5,
 8,9,11,12,13 all OK; item 10 diff lock verified by git; item 6 exact
