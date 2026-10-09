@@ -459,14 +459,20 @@ def _extract_window_days(*texts: str) -> int | None:
 def _deterministic_defect(data: Dict[str, Any]) -> tuple[str | None, str | None]:
     """Case-aware deterministic defect diagnosis (A9.2.2), from PUBLIC data only.
 
-    Registered extraction rule for the OFFLINE (deterministic) strategy arms:
-    the policy_rag_v1 claim's diagnosis is derivable from the PUBLIC bundled
-    data alone — when the served top-1 retrieval snippet states a return
-    window that differs from the current governing policy doc's window, the
-    retrieval omitted the current policy -> ("retrieval_omission", "retrieval").
-    No mismatch, or a claim shape without RAG policy data (e.g. the offline
-    tox21 legs) -> ("none", None) / (None, None): the arm abstains and the
-    scorer's M1 canary reports its state. No oracle access, no new LLM call.
+    Fixture stand-in for the OFFLINE (deterministic) strategy arms, per A9.2.2:
+    it returns a registered non-null pair so the offline parity fixture stays
+    executable and scoreable. It is NOT a causally justified diagnosis: on base
+    data alone, `retrieval_omission` and `judge_stale` are causally
+    non-identifiable (the base retrieval AND the base judge both point at the
+    14-day staleness) — only the counterfactual interventions S5 runs
+    (I_R / I_J / I_P) disambiguate (A9.4 item 2). Extraction here: the
+    policy_rag_v1 claim's served top-1 retrieval snippet states a return window
+    that differs from the current governing policy doc's window ->
+    ("retrieval_omission", "retrieval"); no mismatch, or a claim shape without
+    RAG policy data (e.g. the offline tox21 legs) -> ("none", None) /
+    (None, None): the arm abstains and the scorer's M1 canary reports its
+    state. This path is never exercised in the primary LIVE P1 (A8 runs
+    S0/S3/S4 on live-LLM there). No oracle access, no new LLM call.
     """
     if not isinstance(data, dict):
         return None, None

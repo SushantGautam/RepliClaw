@@ -31,4 +31,12 @@ A collaborator with experimental-design/causal-inference expertise, red-team eva
 - [ ] Check exact official application form and submit via browser with human confirmation BEFORE Oct 16.
 - [ ] Preserve confirmation/receipt in private record (without personal data in public repo).
 - [ ] Luma event registration may be a distinct process; confirm official organizer instructions.
+- [ ] Before ANY result is reported: fold the P1 attribution disclosures (A9.4 / S-1 / N-2 / R-2 — `docs/application/P1_RESULT_DISCLOSURES_DRAFT.md`, science-round-3 MUST-1) into the result statement per `docs/DEMO_AND_FINAL_HANDIN_V2.md` § "P1 result statement — mandatory disclosures".
 Do not assert an application was submitted until the form confirms it.
+
+## Claim-boundary guardrail (mandatory per science round 3, A9.4/C7 — 2026-10-09)
+Any result statement (application update, demo, or final handin) MUST:
+1. Attribute a P1-SUPPORTED outcome (if reached) to the **counterfactual-intervention identifiability mechanism** on the **single seeded case** `policy_rag_v1` — **not** to "decentralized autonomy" or "decentralization" in the abstract.
+2. Disclose the base-case **retrieval-vs-judge confound** (base data alone cannot distinguish `retrieval_omission` from `judge_stale` — both point at 14 days; only the S5 interventions I_R/I_J/I_P disambiguate), so a comparator scoring M1 ≈ 0 is a valid scientific result, not "starvation".
+3. Disclose that M1 is a **5-way exact-match classification** with the shared defect taxonomy given to ALL arms equally (a menu, not the answer), and that this is a **single seeded case — no generalization**, no "autonomy beats central workflows" claim.
+Full text: `docs/application/P1_RESULT_DISCLOSURES_DRAFT.md` (S-1 deterministic-arm fixture stand-in; N-2 strategy budget-ledger granularity; R-2 token floors).

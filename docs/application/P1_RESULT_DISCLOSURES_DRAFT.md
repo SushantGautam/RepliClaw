@@ -1,11 +1,17 @@
 # DRAFT — P1 result attribution disclosures (A9.4 / C7 + S-1 + N-2)
 
-> **STATUS: DRAFT — NOT yet folded into `docs/APPLICATION_V2.md`.**
-> Do **not** paste into the live application until **science round 3 on A1–A9 returns
-> APPROVE** AND the human two-key authorization is recorded. If round 3 flags any
-> wording below, revise here first, re-verify, then fold in. Owned by the integration
-> lead. These disclosures are **mandatory** per PREREG §6b **A9.4** (from the A9 design
-> review Q2) plus the A9 code-judge non-blocking items **S-1** and **N-2**.
+> **STATUS: FOLDED (2026-10-09) — science round 3 = APPROVE-WITH-CONDITIONS cleared
+> MUST-1 (fold before any P1 result is reported).** Folded into:
+> (1) `docs/APPLICATION_V2.md` — "Claim-boundary guardrail" section + submission
+> checklist item; (2) `docs/DEMO_AND_FINAL_HANDIN_V2.md` — "P1 result statement —
+> mandatory disclosures" section (verbatim rule: no P1/P2/P3 result reported without
+> all 7 items). This file remains the canonical full-text source; §5 (S-1) is also
+> covered by a code comment at `src/repliclaw/investigators.py`
+> (`_deterministic_defect`, applied per round-3 SHOULD). The human two-key
+> authorization is still required before any LIVE RUN (separate gate). Owned by the
+> integration lead. These disclosures are **mandatory** per PREREG §6b **A9.4**
+> (from the A9 design review Q2) plus the A9 code-judge non-blocking items **S-1**
+> and **N-2**.
 
 Provenance pin: A9 merged @ `3491032` (milestone `915968c`), run branch `repl-claw-dev`.
 Shared defect-instruction sha256 `5c7192eb…65996e7` (1201 chars). Sealed oracle
@@ -89,7 +95,6 @@ cost as final until the pre-flight floor is recorded.
 
 ---
 
-**Fold-in plan (post round-3 APPROVE + two-key):** add §1–§4 to the P1/result section of
-`docs/APPLICATION_V2.md`; add §5–§6 to the limitations/methods section; add §7 to the
-budget/accounting note. Then update `docs/application/FACT_CHECK_LIST.md` with a
-fact-check row citing this doc + the round-3 report.
+**Fold-in plan — DONE (2026-10-09):** §1–§4 → APPLICATION_V2.md claim-boundary guardrail;
+§1–§7 → DEMO_AND_FINAL_HANDIN_V2.md "P1 result statement" section; §5 S-1 → code comment;
+FACT_CHECK_LIST F33c row cites this doc + the round-3 report.
