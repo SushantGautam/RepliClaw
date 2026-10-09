@@ -460,6 +460,52 @@ def _pair_executor_mismatch(
     return len(combined) > 1
 
 
+# A9.2.4 (M-1 fix, C3/C4) — the M1 interface canary.
+#
+# The registered defect fields (defect_class / target_artifact) only EXIST on a
+# comparator arm's final_verdict once the shared defect-adjudication block is
+# in that arm's finding prompt (A9). Before A9 the comparators (S0/S3/S4)
+# structurally had null defect fields, so M1 (correct root-cause diagnosis)
+# could never score them and P1 (S5 vs S4) was an interface artifact, not a
+# reasoning comparison (the round-2 M-1 defect). The canary detects the
+# degenerate state — "no comparator run can ever score M1" — instead of
+# silently emitting a bogus P1 on top of structurally-null diagnoses.
+#
+# Per-arm state (C3 — VETO fires on S4 SPECIFICALLY, the arm in the P1
+# estimand; S0/S3 are REPORTED but never veto):
+#   "ok"        — >=1 run for the arm has a non-null defect_class OR
+#                 target_artifact;
+#   "degenerate"— the arm has >=1 run and EVERY run has BOTH fields null;
+#   "absent"    — the arm has no completed runs (nothing to canary on).
+# VETO: iff S4 has runs AND S4 == "degenerate" -> P1.decision =
+# "m1_interface_degenerate" (non-SUPPORTED, non-FALSIFIED). An all-null S4
+# with a non-null S3 MUST veto (the original any-of{S0,S3,S4} scoping was
+# wrong — it would have let an all-null S4 pass on a non-null S3).
+#
+# Veto, NEVER a filter (C4): the canary never drops null comparator runs from
+# s4m/s5m nor recomputes means/CI on survivors — the s5m/s4m means are computed
+# over ALL runs before the guard chain and are unaffected by the veto.
+def _m1_canary(clean: dict[str, list[RunArtifacts]]) -> dict[str, str]:
+    """Per-arm M1 interface state over the primary run-set (C3/C4)."""
+    def _state(arm: str) -> str:
+        arts = [a for a in clean.get(arm, []) if a.final_verdict.get("status") == "completed"]
+        if not arts:
+            return "absent"
+        non_null = any(
+            (a.final_verdict.get("defect_class") is not None)
+            or (a.final_verdict.get("target_artifact") is not None)
+            for a in arts
+        )
+        return "ok" if non_null else "degenerate"
+
+    return {"S4": _state("S4"), "S3": _state("S3"), "S0": _state("S0")}
+
+
+def _m1_canary_veto(canary: dict[str, str]) -> bool:
+    """True iff the S4 (P1 estimand arm) interface is degenerate (C3)."""
+    return canary.get("S4") == "degenerate"
+
+
 def score_runs(
     runs_dir: Path,
     case: str,
@@ -520,6 +566,13 @@ def score_runs(
         "s5_m1_mean": statistics.fmean(s5m) if s5m else None,
         "s4_m1_mean": statistics.fmean(s4m) if s4m else None,
     }
+    # A9.2.4 (M-1 fix, C3/C4): the M1 interface canary. Computed over the
+    # primary run-set and recorded for EVERY arm; the VETO fires on S4
+    # specifically (the arm in the P1 estimand). Recorded in the P1 diff
+    # regardless of whether it fires so the run tree always documents the
+    # comparator interface state.
+    m1_canary = _m1_canary(clean)
+    diff["m1_canary"] = m1_canary
     # A8.3.1 / RC-1 (executor-parity guard): run BEFORE the bootstrap. The P1
     # estimand (S5 vs S4) and the RQ2 pairs (S5 vs S3, S5 vs S0) are only valid
     # if both members used the SAME live executor (same model + same
@@ -527,6 +580,11 @@ def score_runs(
     # recorded (model, offline_arm) signatures differ, DO NOT emit a decision —
     # emit the degraded-output shape with a distinct reason, exactly as
     # ``no_valid_runs`` does (no ci95, no rule, no branch label).
+    #
+    # The A8 executor-parity guard takes PRECEDENCE over the canary: a
+    # mixed-executor pair is not like-for-like at all, so we never even reach
+    # the (S4-specific) interface canary. The canary only fires on a
+    # like-for-like S5/S4 pair whose S4 diagnoses are structurally null.
     if _pair_executor_mismatch(clean, "S5", "S4"):
         diff["decision"] = "executor_parity_violation"
         diff["note"] = (
@@ -534,6 +592,22 @@ def score_runs(
             "run_metadata (model / offline_arm) differ, so the comparison is "
             "not like-for-like. No SUPPORTED/FALSIFIED/NOT_SUPPORTED decision "
             "is emitted (PREREG v1.2 A8.3.1 / RC-1); see parity.executor_parity."
+        )
+    elif _m1_canary_veto(m1_canary):
+        # A9.2.4 (M-1 fix, C3): the P1 estimand arm (S4) has runs but EVERY one
+        # has null defect_class AND target_artifact — no S4 run can score M1,
+        # so P1 would be an interface artifact, not a reasoning comparison.
+        # Veto (C4: NOT a filter) — the s5_m1_mean / s4_m1_mean above are
+        # already computed over ALL runs and are left untouched; only the
+        # decision is withheld, with a distinct reason.
+        diff["decision"] = "m1_interface_degenerate"
+        diff["note"] = (
+            "S4 (the P1 estimator arm) has no run with a non-null "
+            "defect_class / target_artifact: M1 cannot be scored on S4, so P1 "
+            "(S5 vs S4 correct-diagnosis) is interface-degenerate, not a "
+            "reasoning result. No SUPPORTED/FALSIFIED/NOT_SUPPORTED decision "
+            "is emitted (PREREG v1.2 A9.2.4 / M-1). Per-arm canary: "
+            f"{m1_canary}."
         )
     elif s5m and s4m and len(s5m) == len(s4m):
         rng = lcg_f64(seed)

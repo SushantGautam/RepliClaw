@@ -24,6 +24,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
+from ..defect_adjudication import defect_instruction_sha256
 from ..investigators import (
     BudgetExceeded,
     DeterministicInvestigator,
@@ -373,8 +374,11 @@ def _write_offline_artifacts(
                 "wall_s": round(wall, 6),
                 "status": status,
                 "verdict": (str(result.verdict_label).lower() if completed else None),
-                "defect_class": None,
-                "target_artifact": None,
+                # A9.2.2 (M-1 fix): the arm's REAL defect adjudication, carried
+                # on the ArmResult (from the strategy verdict). Null when the
+                # run aborted or the arm abstained (non-policy-rag legs).
+                "defect_class": (result.defect_class if completed else None),
+                "target_artifact": (result.target_artifact if completed else None),
                 "confidence": (
                     float(result.detail.get("confidence") or 0.0) if completed else None
                 ),
@@ -444,15 +448,29 @@ def _run_live(
     return arm.run(claim, BudgetLedger(envelope), spec_arm, work_dir)
 
 
-def _live_client_identity(client_factory: Callable[[str], Any]) -> tuple[str, str, float]:
-    """(model, endpoint, temperature) of ONE representative live client.
+def _live_client_identity(
+    client_factory: Callable[[str], Any],
+) -> tuple[str, str, float, int, int, float]:
+    """Full LLMConfig identity of ONE representative live client.
+
+    Returns ``(model, endpoint, temperature, max_tokens, max_calls, timeout)``.
 
     A8: the derivation is factored out of the EESS-only branch so the SAME
     live-client identity (same LLMConfig) is recorded for all six live arms —
-    S5/A1/A3 and the newly-live S0/S3/S4 — in ``run_metadata.json``.
+    S5/A1/A3 and the newly-live S0/S3/S4 — in ``run_metadata.json``. A9.2.6
+    widens the recorded identity to the full LLMConfig fields (model,
+    max_tokens, max_calls, timeout, temperature) so a signed run tree pins the
+    exact executor configuration that was executed.
     """
     probe = client_factory("identity-probe")
-    return str(probe.cfg.model), str(probe.cfg.base_url), float(probe.cfg.temperature)
+    return (
+        str(probe.cfg.model),
+        str(probe.cfg.base_url),
+        float(probe.cfg.temperature),
+        int(probe.cfg.max_tokens),
+        int(probe.cfg.max_calls),
+        float(probe.cfg.timeout),
+    )
 
 
 def _llm_investigator_factory(
@@ -585,8 +603,11 @@ def _write_live_strategy_artifacts(
                 "wall_s": round(wall, 6),
                 "status": status,
                 "verdict": (str(result.verdict_label).lower() if completed else None),
-                "defect_class": None,
-                "target_artifact": None,
+                # A9.2.2 (M-1 fix): the arm's REAL defect adjudication, carried
+                # on the ArmResult (from the strategy verdict). Null when the
+                # run aborted or the arm abstained (non-policy-rag legs).
+                "defect_class": (result.defect_class if completed else None),
+                "target_artifact": (result.target_artifact if completed else None),
                 "confidence": (
                     float(result.detail.get("confidence") or 0.0) if completed else None
                 ),
@@ -706,6 +727,9 @@ def run_one_arm(args: argparse.Namespace) -> int:
     client_model: Optional[str] = None
     client_endpoint: Optional[str] = None
     client_temperature: Optional[float] = None
+    client_max_tokens: Optional[int] = None
+    client_max_calls: Optional[int] = None
+    client_timeout: Optional[float] = None
     client_factory: Optional[Callable[[str], Any]] = None
     t0 = time.monotonic()
     try:
@@ -722,6 +746,9 @@ def run_one_arm(args: argparse.Namespace) -> int:
                     client_model,
                     client_endpoint,
                     client_temperature,
+                    client_max_tokens,
+                    client_max_calls,
+                    client_timeout,
                 ) = _live_client_identity(client_factory)
             else:  # "live"
                 if not os.environ.get("REPLICLAW_LLM_ALLOW_LIVE", ""):
@@ -737,6 +764,9 @@ def run_one_arm(args: argparse.Namespace) -> int:
                     client_model,
                     client_endpoint,
                     client_temperature,
+                    client_max_tokens,
+                    client_max_calls,
+                    client_timeout,
                 ) = _live_client_identity(client_factory)
             if arm_key in _LIVE_STRATEGY_KEYS:
                 result = _run_live_strategy(
@@ -803,7 +833,20 @@ def run_one_arm(args: argparse.Namespace) -> int:
         "tree_sha": _tree_sha(root),
         "model": client_model if is_live else "deterministic",
         "endpoint": client_endpoint if is_live else "offline",
+        # A9.2.6 (N-1 fold-in): the full live LLMConfig identity, so a signed
+        # run tree pins the exact executor configuration that was executed.
+        # Live arms record the real values; offline (deterministic) arms
+        # record null for every config knob (they made no LLM call).
         "temperature": client_temperature,  # live client only; null otherwise
+        "max_tokens": client_max_tokens if is_live else None,
+        "max_calls": client_max_calls if is_live else None,
+        "timeout": client_timeout if is_live else None,
+        # A9.2.6 / N-1: the sha256 of the shared registered defect-adjudication
+        # instruction block that BOTH arms executed under (byte-identical).
+        # Recorded for every arm (live + offline) — the offline arms route
+        # their defect fields through DeterministicInvestigator, which mirrors
+        # the same registered contract.
+        "a9_defect_instruction_sha256": defect_instruction_sha256(),
         "offline_arm": not is_live,
         "client_factory": "none" if not is_live else args.client_factory,
         # D-10 frozen pin (live path only).

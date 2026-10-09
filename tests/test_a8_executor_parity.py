@@ -392,15 +392,24 @@ def test_a8_scorer_refuses_mixed_executor_p1(tmp_path: Path) -> None:
     # --- control: the SAME arms but BOTH live (matched) -> proceeds to the
     # normal branch (guard is specific to a real executor mismatch). S5 all
     # correct (M1 1.0) vs S4 all wrong (M1 0.0) -> Δ = +1.0 -> SUPPORTED. ---
+    # A9 re-pin (M-1 fix): the control arm's S4 now carries a NON-NULL (but
+    # incorrect) defect so the A9 M1-interface canary reports S4="ok" and the
+    # pair proceeds to the NORMAL branch. (Before A9 an all-null S4 let the
+    # control through silently; now an all-null S4 is the degenerate state the
+    # canary vetoes.) Using a non-null-but-WRONG class ("policy_conflict")
+    # keeps S5's M1 at 1.0 (correct) vs S4's M1 at 0.0 (wrong) -> Δ = +1.0
+    # -> SUPPORTED, exactly as the pre-A9 control intended.
     root2 = tmp_path / "matched"
     for i in range(1, 4):
         _a8_run(root2, "S5", f"run-{i:02d}", model="fake-v1", offline_arm=False,
                 defect="retrieval_omission", target="returns-policy")
         _a8_run(root2, "S4", f"run-{i:02d}", model="fake-v1", offline_arm=False,
-                defect=None, target=None)
+                defect="policy_conflict", target="returns-policy")
     res2 = sc.score_runs(root2, "policy_rag_v1")
     p1b = res2["p1_decision"]
     assert p1b["decision"] != "executor_parity_violation"
+    # Canary is ok (S4 non-null) -> normal branch, not the degenerate veto.
+    assert p1b["m1_canary"]["S4"] == "ok"
     assert p1b["decision"] == sc.decision_branch(tuple(p1b["ci95"]))
     assert res2["parity"]["executor_parity"]["S5_S4"] is True
     assert "rule" in p1b
@@ -591,6 +600,27 @@ def test_a8_six_arm_primary_runset_is_scoreable(tmp_path: Path, monkeypatch) -> 
     # The P1 decision is a normal branch (not the degraded parity violation).
     assert res["p1_decision"]["decision"] != "executor_parity_violation"
 
+    # A9.3b (M-1 fix): the strategy-arm (S0/S3/S4) and escrow-arm (S5) final
+    # verdicts now carry NON-NULL defect_class / target_artifact (the shared
+    # defect-adjudication block lets every arm emit the diagnosis), and the
+    # M1-interface canary reports "ok" for the P1 arm (S4) — the regression
+    # that, before A9, the comparators' M1 could never score.
+    for arm in ("S0", "S3", "S4", "S5"):
+        fv = json.loads((root / arm / "run-01" / "final_verdict.json").read_text())
+        assert fv.get("defect_class") is not None, (
+            f"{arm}: final_verdict.defect_class must be non-null (A9.2.2/M-1); "
+            f"got {fv.get('defect_class')!r}"
+        )
+        assert fv.get("target_artifact") is not None, (
+            f"{arm}: final_verdict.target_artifact must be non-null (A9.2.2/M-1); "
+            f"got {fv.get('target_artifact')!r}"
+        )
+    canary = res["p1_decision"]["m1_canary"]
+    assert canary["S4"] == "ok", f"P1 arm S4 canary must be ok; got {canary!r}"
+    assert canary["S3"] == "ok", f"RQ2 arm S3 canary must be ok; got {canary!r}"
+    assert canary["S0"] == "ok", f"RQ3 arm S0 canary must be ok; got {canary!r}"
+    assert res["p1_decision"]["decision"] != "m1_interface_degenerate"
+
 
 # ---------------------------------------------------------------------------
 # 6. S5/S0 (RQ3 ablation) is reported but does NOT flip parity.ok (A8.2 / C4).
@@ -605,10 +635,15 @@ def test_a8_s5_s0_mixed_does_not_flip_parity_ok(tmp_path: Path) -> None:
     root = tmp_path / "s0_mixed"
     for i in range(1, 4):
         # P1 pair S5/S4: BOTH live (matched) -> parity holds.
+        # A9 re-pin: S4 carries a NON-NULL defect so the A9 M1-interface
+        # canary reports S4="ok" and P1 proceeds to the normal branch. (This
+        # test is about the S5/S0 RQ3 ablation reporting, NOT the P1 canary;
+        # an all-null S4 would now trigger the separate canary veto and mask
+        # the RQ3 assertion.)
         _a8_run(root, "S5", f"run-{i:02d}", model="fake-v1", offline_arm=False,
                 defect="retrieval_omission", target="returns-policy")
         _a8_run(root, "S4", f"run-{i:02d}", model="fake-v1", offline_arm=False,
-                defect=None, target=None)
+                defect="retrieval_omission", target="returns-policy")
         # RQ3 ablation S0: MIXED (offline/deterministic) -> reported, non-vetoing.
         _a8_run(root, "S0", f"run-{i:02d}", model="deterministic", offline_arm=True,
                 defect=None, target=None)
@@ -618,6 +653,9 @@ def test_a8_s5_s0_mixed_does_not_flip_parity_ok(tmp_path: Path) -> None:
     assert res["parity"]["executor_parity"]["S5_S0"] is False
     # ... but does NOT flip the headline parity.ok (P1 S5/S4 + RQ2 S5/S3 clean).
     assert res["parity"]["ok"] is True, res["parity"]
-    # And the P1 decision still proceeds (not the degraded parity violation).
+    # And the P1 decision still proceeds (not the degraded parity violation,
+    # not the A9 canary veto — S4 is non-null so the canary is "ok").
     assert p1["decision"] != "executor_parity_violation"
+    assert p1["decision"] != "m1_interface_degenerate"
+    assert p1["m1_canary"]["S4"] == "ok"
     assert "ci95" in p1

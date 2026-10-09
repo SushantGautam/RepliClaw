@@ -81,6 +81,12 @@ class ProtocolResult:
     run_dir: str
     usage: ResourceUsage
     errors: List[str] = field(default_factory=list)
+    # A9.2.2 (C8): the protocol's FULL committed finding dicts, keyed by
+    # agent_id. These carry the arm-neutral defect fields that the REVEALED
+    # commitment payload (evidence.finding) does not, so the strategy layer can
+    # aggregate the repl_claw arm's own diagnosis. Additive/optional: existing
+    # consumers that construct ProtocolResult without it are unaffected.
+    findings: Dict[str, Dict[str, Any]] = field(default_factory=dict)
 
     def report_dir(self) -> Path:
         return Path(self.run_dir)
@@ -341,6 +347,7 @@ class RepliClawProtocol:
             run_dir=str(self.run_root),
             usage=self._usage,
             errors=errors,
+            findings=dict(findings),  # A9.2.2/C8: full finding dicts (defect fields)
         )
 
     # ------------------------------------------------------------------

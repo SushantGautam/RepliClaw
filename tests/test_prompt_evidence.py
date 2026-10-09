@@ -50,6 +50,7 @@ import pytest
 
 from repliclaw.comparators.arms import ArmSpec
 from repliclaw.comparators.budget import BudgetEnvelope, BudgetLedger
+from repliclaw.defect_adjudication import DEFECT_TAXONOMY
 from repliclaw.eess_live import (
     EESSLiveA1Arm,
     EESSLiveA3Arm,
@@ -237,6 +238,14 @@ def _public_identifiers() -> set:
     # Per-arm outcome labels of the verified records in a canonical S5 run
     # (the critical/pass vocabulary of the case's severities).
     pub |= {"critical", "pass", "no_defect"}
+    # A9 (M-1 fix): the registered defect taxonomy is PUBLIC adjudication
+    # vocabulary — the shared defect-instruction block (defect_adjudication.py)
+    # lists these labels as a menu for BOTH arms, so their presence in a
+    # prompt is not a sealed-oracle leak. (The oracle's true_cause value
+    # happens to equal one of the six labels; the menu is a registered
+    # interface, not the answer — the oracle file itself is still never read
+    # by arm code.)
+    pub |= DEFECT_TAXONOMY
     return pub
 
 
@@ -303,8 +312,16 @@ def test_verdict_prompt_injects_verified_evidence_and_no_oracle_content(tmp_path
     prompts = _verdict_prompts(clients)
     evidence = orch.escrow.evidence()
     forbidden = _forbidden_substrings()
-    # The amendment names the value canary explicitly; make sure it is covered.
-    assert "retrieval_omission" in forbidden
+    # A9 re-pin (M-1 fix): the oracle's true_cause VALUE ("retrieval_omission")
+    # is no longer a value canary — it is one of the six labels of the
+    # REGISTERED public defect taxonomy (defect_adjudication.DEFECT_TAXONOMY),
+    # which the shared defect-instruction block legitimately names in BOTH
+    # arms' prompts. Use the fault_marker value canary instead to pin the
+    # value-level leak coverage (it is not taxonomy vocabulary).
+    assert "14-day-stale-top1" in forbidden
+    # The taxonomy menu itself must NOT be in the forbidden list: it is the
+    # registered public adjudication vocabulary (C1), not sealed content.
+    assert not (set(DEFECT_TAXONOMY) & set(forbidden))
 
     for agent in AGENT_IDS:
         p = prompts[agent]
