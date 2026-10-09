@@ -1,14 +1,14 @@
 # Stage 2 — authoritative execution state (dev only)
 
-**Timestamp:** 2026-10-10T10:10+02:00 (Wave 2 integrated; I2 checkpoint; see bottom section for authoritative current state).
+**Timestamp:** 2026-10-12 (Round 8 closeout: I4.27 CLOSED; see bottom section for authoritative current state).
 **I1 summary:** dev now contains merged W1 branches: C-EQ arm (`src/repliclaw/experiments/v3/ceq.py` 1113 LOC + 23 offline parity/canary tests, J-SCI A4 closed: bounded logged consultation, two-sided token canary band [0.6,1.25] + anti-starve, explicit D-E round budget; ceq.py-only equivalents of four P08-side behaviors added, each test-pinned — the C-EQ commit touched shared `arm.py`/`runner.py` in a **behavior-neutral** way for P08, token-diff verified, so NO P08 artifact correction is required (J-SCI W1 S6)). AgentRx read-only adapter (73-case hash-pinned loader, verbatim normalize_category, label-free manifest, baseline-agnostic scorer, F8 provenance), RCAEval heldout candidate (42 cases spanning RE1/RE2/RE3, label-mask invariance tested; BARO RE2-OB cpu smoke Avg@5 0.66 vs RE1 1.00 — A6 confirmed: RE2 not saturated), MC power (254 cells × 10k reps: N=24×k=4, MDE 0.20 recommended; S-sat stop rule mandatory; D-V3-008). Integrator mypy sweep fixed 6 type errors in L6 common package (baseline mypy was clean pre-I0; post-I1: 72 files clean). Branch naming convention: `dev-<lane>` or `w1/<lane>` (git ref namespace forbids `dev/` prefix).
 **I0 checkpoint:** dev @ 5a7833f756119042bbb37bd7479be69a0bd5ea3c (24 files; 301 passed/8 skipped; ruff clean; P08 artifacts untouched). J-CODE conditions all closed in I0 (6 citation fixes, schema hardening F4/F5 with documented dataclass-subset relationship, F6-F8 low fixes, 3 regression tests). J-SCI conditions recorded as D-V3-007 A1-A6 (A2/A5/A6 are freeze-time requirements; A4 goes into C-EQ implementation; A1/A3 go into protocol amendment).
 **Development branch:** `dev` (created from public `main` at 97a455947895e48fb551503e8fd1158d03a293af).
 **Integration worktree:** `/Users/sushantgautam/Documents/RepliClaw-stg2-dev` (dev @ a8e2b0e725bb6eb1c106d975663c1de0ee188f56).
 **Public-facing branch:** `main`; never update without explicit human release approval.
-**Current milestone:** C00 DONE (doc QA pending judge reports). **C01 UPSTREAM-PINS DONE pending judge review** (all three tracks pinned + hash-verified). C02 PARTIAL (RCAEval/BARO reproduced; AgentRx judge stage BLOCKED on LLM provider). C03 design drafted (ceq_arm_design.md, not yet implemented). G0 baseline test suite GREEN (296 passed/8 skipped on clean dev; +48 new L6 tests → 306/8 after lane work, ruff clean).
-**Experiment authorization:** NOT GRANTED for stage-2 live campaign; G4 cannot pass until specific human approval. No paid/live runs have been launched by any lane.
-**V3 protocol:** DRAFT, not preregistered, not approved.
+**Current milestone:** V3 pilot series rounds 5–8 RUN + adjudicated (see I4.16–I4.27 at bottom). **Round 8 (V3.6, 600K) is CLOSED** (I4.27): TIE 6/8 vs 6/8 (ceiling lower bound), H-burn (mechanism-negative), 5/5 residual D-E aborts = phase-2 tool-cap; standing negative finding extended across five envelopes; token-envelope axis CLOSED. **Current state: HUMAN DECISION POINT (report §7)** — (i) accept the round-8 refined negative as the V3 record [judge-recommended] / (ii) new freeze for the phase-2 tool-cap hypothesis / (iii) stop the series / (c) model change [NOT authorized]. No live runs in flight.
+**Experiment authorization:** historical record — round-8 scope/spend was explicitly human-authorized 2026-10-11 (I4.26, unlimited SimulaChat `default`); nothing further is authorized without a new decision per §7. `main` untouched; dev LOCAL-ONLY (never pushed).
+**V3 protocol:** FROZEN per-round (v33/v34/v35/v36 freezes); no further envelope experiments without a new freeze.
 
 ## Wave 0 fleet results (2026-10-09, this checkpoint)
 | Lane | Status | Evidence |
@@ -857,39 +857,80 @@ untouched; dev LOCAL-ONLY.
 judges → campaign report §2f/§4e + rider → I4.27. Standing negative finding
 remains until the round's machine-verified result says otherwise.
 
-## I4.27 (in progress) — Round 8 (V3.6, 600K) EARLY-STOPPED: machine-verified ledger, outcome judges dispatched
+## I4.27 (CLOSED) — Round 8 (V3.6, 600K) adjudicated: 5/5 tool-cap, TIE 6/8 vs 6/8 (ceiling lower bound), H-burn (mechanism-negative); envelope axis CLOSED (2026-10-12)
 
-- **Stop:** STOP1_SSAT tripped at the 18-run snapshot (sat_D-E 0.2, sat_C-EQ 0.3 ≥ 0.25;
-  per_arm_crashes D-E = 2 is the STOP rule's `status!="completed"` counting,
-  pilot_run.py:202-214 — **NOT 2 `status=crashed`**; final ledger has 0 crashed).
-  Driver finished 5 in-flight runs → **final 23-run ledger** (14 D-E / 9 C-EQ, 8 cases
-  driven; P-09/P-10 + 7 C-EQ slots never launched). Token delta reconciles:
-  STOP snapshot 2,640,155 + 5 post-snapshot runs = 4,084,520 (verify residual = 1,444,365).
-  Relaunch refused by guard (closed round).
-- **Adjudication (`/tmp/adjudicate_round8.py`, regression-verified on round 7 @300K):**
-  0 crash-class (`status=crashed`), 0 drift-recovered, D-E 9 completed (180,020–324,901 tok)
-  + 5 aborted_budget (3 classify phase-2 tool-cap: 215,927/65tc, 258,083/82tc, 270,226/82tc;
-  2 at 328,161/94tc, 362,587/105tc — sub-600K, wall 83–133s, **abort-site attribution
-  unresolved**: crash_error=None, no per-inv phase-2 loop exhaustion evident in audit —
-  HYPOTHESIS: envelope `_tokens_total()` sums 3 investigator sessions so a burst crossed
-  600K transiently? NO — final totals <600K; alternative: aborted at an intermediate gate.
-  Code judge (R8-OUTCOME-CODE, 41324f73) is attributing this from source + audit.),
-  C-EQ 9 completed (54,759–71,865 tok).
-- **Case-level paired hit (frozen full-cohort rule, FINAL LEDGER per R3):**
-  D-E 6/8 vs C-EQ 6/8 (hit: P-01..P-06 both arms; P-07/P-08 non-hit both arms).
-  **TIE.** Completing-run support: D-E 6/6, C-EQ 6/6.
-- **H-budget/H-burn:** all 9 D-E completions ≤324,901 tok (< 400K gray-zone floor) → H-burn
-  on mass; repeat-rate guard: D-E completion repeat rate 76.0% (637 calls/153 unique) vs
-  48.1% round-4 baseline — HIGHER, so a clean H-burn label is NOT yet defensible;
-  science judge (R8-OUTCOME-SCI, 999d61cb) adjudicating the R2 guard's direction.
-  Note 2 D-E aborts (328K, 362K) are the first runs EVER above 300K and neither completed
-  despite 600K headroom — key H-budget evidence.
-- **Standing negative finding:** EXTENDED to 600K (5th envelope). No advantage of D-E over
-  same-tools C-EQ; cost ~4× per completion (231K median vs 62K median).
-- **Integrity:** JSON-mode parity 0 plain drops both arms (D-E 1186, C-EQ 156 responses);
-  case_sha256 all 8 match round 7; 14 D-E escrow ledgers; envelope 600000 + git_rev cff7d748
-  uniform; scorer_sha multi-value = per-case scorer content hash, round-7 had the same
-  4-way split (66648f3b×2, a8c545f2×7, 0f68edd6×1, e9ceced8×6) — code judge confirming.
-- **R7-STATS committed on dev** (`30e7bfd`).
-- **Next:** R8-OUTCOME-CODE + R8-OUTCOME-SCI verdicts → apply REQUIRED → abort-site
-  resolution in report → report §2f + §4e + rider 15 → commit dev → checkpoint 020.
+- **Stop:** STOP1_SSAT tripped at the 18-run snapshot (sat_C-EQ 3/10 = 0.30 ≥ 0.25;
+  STOP.json `per_arm_crashes D-E = 2` = the STOP rule's `status != "completed"`
+  counting over the /20 full-cohort denominator (`pilot_run.py:202-214`) — i.e.
+  **2 non-completions (both `aborted_budget`), NOT 2 crashes**; final ledger has
+  0 `status=crashed`; `cases_completed: 3` is snapshot-time, final = 6 full
+  cases). 5 in-flight D-E runs finished post-snapshot → **final 23-run ledger**
+  (14 D-E / 9 C-EQ; 9 of 32 planned slots never launched, all 5 post-snapshot
+  runs were D-E — dispatch-halt artifact). Token delta reconciles EXACTLY:
+  2,640,155 + 1,444,365 = 4,084,520 (unique subset: P-03 s12 260,734 + P-05 s12
+  258,083 + P-06 s12 292,735 + P-08 s11 270,226 + P-07 s11 362,587). Relaunch
+  refused by closed-round guard (and scientifically invalid for a frozen round).
+- **Adjudication (machine-verified; both judges concur) — CORRECTED from the
+  earlier 3+2 split, which is SUPERSEDED:** 0 crash-class, 0 raw drift-form
+  emissions (drift-recovery events NOT instrumented — flag f1), D-E 9 completed
+  (180,020–324,901 tok, median 225,913) + **5 aborted_budget, 5/5 phase-2
+  tool-cap / protocol-overhead** (215,927 / 258,083 / 270,226 / 328,161 /
+  362,587 tok; 83.8–132.7s). Proof chain: status.json `tokens` ≡ `_tokens_total()`
+  (`telemetry_arms.py:936`) = the EXACT quantity compared to the 600K gate at
+  `:893`, and audit token sums reconcile exactly → a true token-cap abort MUST
+  record > 600K (none do); wall all ≪ 899; frozen R4 exhaustive enumeration
+  (D-E ∧ tokens < 600K ∧ wall < 899 → phase-2 tool-cap). Transcript/escrow
+  evidence corroborates (each aborting inv shows 5 phase-2 tool calls with no
+  commit; `tools_left=4` decrements before execution, the 6th tool_call
+  response raises `_BudgetAbort` at `:1052`, aborting the whole arm run at the
+  first investigator to cross; escrow `phase2-final` sets incomplete in all 5;
+  P-02 s12: inv-a+inv-b committed, inv-c cut off). **The entire round-7
+  token-cap class is GONE at 600K; 2 of the 5 (328,161 / 362,587) ran PAST 300K
+  and still aborted on the tool-cap — the strongest H-burn evidence.**
+  C-EQ 9 completed (54,759–71,865 tok, median 62K), all hit, 0 crashes.
+- **Case-level paired hit (frozen R3, FINAL LEDGER):** **D-E 6/8 vs C-EQ 6/8 —
+  TIE** (P-01..P-06 both arms; P-07/P-08 non-hit both; completing-run support
+  6/6 / 6/6). **The tie is the MOST FAVORABLE-TO-D-E reading:** C-EQ's 6/8 is a
+  ceiling lower bound (7/16 slots never launched); compatible outcomes are
+  tie-or-D-E-inferior.
+- **H-budget vs H-burn (frozen rule + R2):** ALL 9 completions ≤ 324,901
+  (< 400K gray-zone floor) → **H-burn on the mass criterion**; labeled per R2
+  as "**with non-convergence persisting at higher budget (mechanism-negative)**"
+  (NOT clean/efficient). Repeat-rate guard recomputed this closeout: 76.0%
+  per-run repeats (637 calls / 153 per-run-unique; 39 globally distinct pairs,
+  93.9% global) vs 48.1% round-4 (same within-run definition, different
+  cohorts — corroborating only, flag f2). P-05/P-06 cross-seed mass pattern =
+  case-difficulty confound, weakens any residual H-budget reading.
+- **Standing negative finding: EXTENDED to 600K — FIVE envelopes (60/90/150/
+  300/600K), no demonstrated D-E/escrow/decentralization advantage.** Cost ~3.7×
+  per completion (225.9K vs 59.6K median). **Token-envelope axis CLOSED**; a 1.2M
+  round is a predictable null (science judge Q5: do NOT run it).
+- **Integrity (all machine-verified):** JSON-mode parity 0 plain drops both
+  arms (D-E 1,186 / C-EQ 156); case_sha256 all 8 match round 7; 14 D-E escrow
+  ledgers; envelope 600000 + git_rev `cff7d748` + concurrency 6 uniform; GT
+  isolation scan 0 leaks (161 file opens, 0 `root_cause` opens); scorer_sha
+  4-way split = per-true_service content hash by design (identical to round 7).
+- **Outcome judges (2 fresh, independent):** R8-OUTCOME-CODE `41324f73` —
+  CONDITIONAL-PASS → resolved PASS on artifact integrity (REQUIRED-1: 5/5 tool-
+  cap wording + adjudicator threshold bug `tokens>=300000` → `>=TOKEN_CAP`,
+  fixed and re-run; REQUIRED-2: STOP "2 non-completions, /20 denominator"
+  wording; RECOMMENDED: dispatch-halt + snapshot-time cases_completed notes;
+  future-freeze note: persist `_BudgetAbort` reason into status.json).
+  R8-OUTCOME-SCI `999d61cb` — CONDITIONAL-PASS, all REQUIRED applied (tie =
+  most favorable-to-D-E + ceiling lower bound; H-burn R2 label; 2 >300K aborts
+  as strongest H-burn evidence; R4 enumeration carries the classification,
+  transcripts corroborate only). Q5 decision recorded: (a) close the envelope
+  axis + (c) optionally a SEPARATE new freeze for the phase-2 tool-cap /
+  protocol-overhead hypothesis; NOT the 1.2M round. Both UNVERIFIABLE flags
+  (f1 drift-recovery not instrumented; f2 repeat-rate pair not a controlled
+  comparison) carried into rider 15.
+- **Report:** `v3_campaign_final_report.md` — §2 table row 8, §2f, §2g, §4e,
+  §5 +5 bullets, rider 15, §7 rewritten (round 8 complete; options i/ii/iii/c;
+  1.2M explicitly not recommended), §8 evidence pointers.
+- **R7-STATS committed on dev** (`30e7bfd`); I4.27 record committed (`963f677`,
+  contained the superseded 3+2 split — corrected here).
+- **NEXT (HUMAN DECISION POINT, §7):** (i) accept the round-8 refined negative
+  as the V3 record (judge-recommended) / (ii) new freeze for the phase-2
+  tool-cap hypothesis / (iii) stop the series / (c) model change (NOT
+  authorized). No live runs in flight; no spend without the relevant
+  authorization.
