@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-0a623f",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "a5eb25d3725c575d0316287ff00210c3f58570aa227b56c199ffb053d9ec130c",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:23:11.389358+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns_policy_v2 explicitly specifies a 30-day full-refund window for standard items, while the 14-day value is a stale v1/judge reference.",
+    "plan": "Extracted numeric return windows from policy_docs and base_retrieval, attempted the raw-event RR computation but found no events_treat/events_ctrl/tot_treat/tot_ctrl fields, then computed deterministic policy arithmetic: current window 30 days, stale reference 14 days, delta 16 days, and order age 10 days is within both windows.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "stale_reference_days": 14,
+      "delta_days": 16,
+      "order_age_days": 10,
+      "order_within_current_30d": true,
+      "order_within_stale_14d": true,
+      "raw_rr": null,
+      "raw_rr_ci": null,
+      "raw_rr_note": "No events_treat, events_ctrl, tot_treat, or tot_ctrl fields were provided, so the raw relative-risk endpoint could not be computed."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "577346fdcdd9c4ca6d49f9b07ee44fa0d468dd979be044cfb1f33ce2012ec5a9"
+}

@@ -1,0 +1,60 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-9bfb2536",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "57aca20044d3e383ad8793c74f853ce7308205e5db43e475b8611bf1c43169a0",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T12:48:08.529094+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states a 30-day full-refund window for standard items, so the claim is supported, while the base judge reference remains stale at 14 days.",
+    "plan": "Extracted numeric return windows from the bundled policy and base artifacts, compared the claimed 30 days to the current policy, computed the order's eligibility and the discrepancy between the current policy and the stale judge reference; a two-sample t-test was not applicable because no group means, sample sizes, or standard deviations were provided.",
+    "evidence": {
+      "test_type": "deterministic policy-consistency and arithmetic check; two-sample t-test not applicable due to missing n/mean/sd",
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "current_policy_id": "returns_policy_v2",
+      "base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "claimed_vs_current_policy_difference_days": 0,
+      "current_policy_vs_judge_reference_difference_days": 16,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "relevant_current_policy_support": "1/1",
+      "p_value": null,
+      "confidence_interval": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T12:48:08.535634+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states a 30-day full-refund window for standard items, so the claim is supported, while the base judge reference remains stale at 14 days.",
+    "plan": "Extracted numeric return windows from the bundled policy and base artifacts, compared the claimed 30 days to the current policy, computed the order's eligibility and the discrepancy between the current policy and the stale judge reference; a two-sample t-test was not applicable because no group means, sample sizes, or standard deviations were provided.",
+    "evidence": {
+      "test_type": "deterministic policy-consistency and arithmetic check; two-sample t-test not applicable due to missing n/mean/sd",
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "current_policy_id": "returns_policy_v2",
+      "base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "claimed_vs_current_policy_difference_days": 0,
+      "current_policy_vs_judge_reference_difference_days": 16,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "relevant_current_policy_support": "1/1",
+      "p_value": null,
+      "confidence_interval": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "5b0fb427fd0abba5ab6fce06e75a0a01ab8506d9d18de29181f47d46c4434bd5"
+}

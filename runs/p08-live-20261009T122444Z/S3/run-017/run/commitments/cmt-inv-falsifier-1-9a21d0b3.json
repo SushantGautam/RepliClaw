@@ -1,0 +1,46 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-9a21d0b3",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "93eeab85e774bc20615962ad7e4dbfd9ccf7e1b53eac69e6c537745ddca37b90",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:17:41.203646+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Current v2 policy states 30-day full refund.",
+    "plan": "Compare current policy doc days to claim.",
+    "evidence": {
+      "current_policy_days": 30,
+      "base_judge_days": 14,
+      "order_days": 10,
+      "eligible": true,
+      "raw_rr": null,
+      "ci": null,
+      "note": "No events; policy text is direct."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:17:41.206687+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current v2 policy states 30-day full refund.",
+    "plan": "Compare current policy doc days to claim.",
+    "evidence": {
+      "current_policy_days": 30,
+      "base_judge_days": 14,
+      "order_days": 10,
+      "eligible": true,
+      "raw_rr": null,
+      "ci": null,
+      "note": "No events; policy text is direct."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "e363217a4592eae8e3830f6a0078e85f971ee7feb1df477a12a36809a64bcc63"
+}

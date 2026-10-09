@@ -1,0 +1,33 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-2a533b",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "8abde85a8ceb88615646cd057f8c32ccf4cfd1c011962c6a63b8992727c5387c",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:36:43.002431+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly sets a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Parsed policy_docs and base_retrieval, identified the current v2 30-day rule versus the stale v1 14-day rule, compared base_judge_reference_days to the current policy, and computed order eligibility using the order age of 10 days.",
+    "evidence": {
+      "current_policy_window_days": 30,
+      "stale_retrieval_window_days": 14,
+      "base_judge_reference_days": 14,
+      "order_age_days": 10,
+      "order_eligible_under_current": true,
+      "order_eligible_under_stale": true,
+      "window_difference_days": 16,
+      "cohen_d": null,
+      "cohen_d_note": "No mean_treat, mean_ctrl, or sd fields are present, so Cohen's d is not computable; direct policy-day comparison was used instead."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "77ab9c7da9fe37981f6e5040d647b23e19646ef246bfada8001ea03e4785ab23"
+}

@@ -291,7 +291,14 @@ def _per_run_metrics(art: RunArtifacts, oracle: dict[str, Any]) -> dict[str, flo
                     d = json.loads(f.read_text(encoding="utf-8"))
                 except json.JSONDecodeError:
                     continue
-                if d.get("verdict_changed") or d.get("hypothesis_falsified"):
+                # The p08.counterfactual/1 schema (written by eess_live/arm.py)
+                # carries the auditor's verdict as `severity` (pass|critical):
+                # "critical" means the intervention surfaced the defect, i.e. a
+                # verdict change / falsified hypothesis per the prereg M3 intent.
+                # The scorer previously read `verdict_changed`/`hypothesis_falsified`
+                # fields the writer never emitted, which made M3 structurally 0.0
+                # (writer/scorer schema mismatch). See SCIENCE-JUDGE-CAMPAIGN-RESULTS-20261009.md B2.
+                if d.get("severity") == "critical":
                     effective += 1
         m["M3"] = (effective / executed) if executed else 0.0
 

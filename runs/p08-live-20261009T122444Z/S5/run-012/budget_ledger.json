@@ -1,0 +1,73 @@
+{
+  "calls": [
+    {
+      "agent_id": "alpha",
+      "completion_tokens": 968,
+      "prompt_tokens": 158,
+      "seq": 1,
+      "total_tokens": 1126,
+      "usage_present": true,
+      "wall_s": 7.333937
+    },
+    {
+      "agent_id": "beta",
+      "completion_tokens": 565,
+      "prompt_tokens": 158,
+      "seq": 2,
+      "total_tokens": 723,
+      "usage_present": true,
+      "wall_s": 4.350939
+    },
+    {
+      "agent_id": "gamma",
+      "completion_tokens": 1637,
+      "prompt_tokens": 158,
+      "seq": 3,
+      "total_tokens": 1795,
+      "usage_present": true,
+      "wall_s": 12.302624
+    },
+    {
+      "agent_id": "alpha",
+      "completion_tokens": 1837,
+      "prompt_tokens": 641,
+      "seq": 4,
+      "total_tokens": 2478,
+      "usage_present": true,
+      "wall_s": 13.982154
+    },
+    {
+      "agent_id": "beta",
+      "completion_tokens": 7429,
+      "prompt_tokens": 1324,
+      "seq": 5,
+      "total_tokens": 8753,
+      "usage_present": true,
+      "wall_s": 55.673116
+    },
+    {
+      "agent_id": "gamma",
+      "completion_tokens": 1517,
+      "prompt_tokens": 643,
+      "seq": 6,
+      "total_tokens": 2160,
+      "usage_present": true,
+      "wall_s": 11.44886
+    }
+  ],
+  "envelope": {
+    "max_agents": 4,
+    "max_tokens": 60000,
+    "max_wall_s": 900.0,
+    "sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c"
+  },
+  "overflow_events": [],
+  "schema": "p08.budget_ledger/1",
+  "totals": {
+    "completion_tokens": 13953,
+    "llm_calls": 6,
+    "prompt_tokens": 3082,
+    "total_tokens": 17035,
+    "wall_s": 105.091631
+  }
+}

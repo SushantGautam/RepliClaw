@@ -1,0 +1,52 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-88a0748a",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "681ffbca9b19533e4a8cc834d6e8a4aa12d0b9999ea30d2313a95eeb56a3f335",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T12:50:29.898964+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns policy v2 explicitly states a 30-day full-refund window for standard items, and the 10-day-old standard order is within that window.",
+    "plan": "No events_treat/events_ctrl/tot_treat/tot_ctrl fields are present, so the raw relative-risk computation is not applicable. I extracted the current policy window from returns_policy_v2 (30 days), compared it to the claimed 30-day window, compared the order age (10 days) to the current window, and checked the superseded v1 policy and stale judge reference (14 days) as conflicting but non-current sources.",
+    "evidence": {
+      "claimed_window_days": 30,
+      "current_policy_window_days": 30,
+      "superseded_policy_window_days": 14,
+      "order_age_days": 10,
+      "within_current_window": true,
+      "days_remaining_in_window": 20,
+      "raw_event_counts_available": false,
+      "rr": null,
+      "ci95": null,
+      "statistical_test": "not_applicable_no_event_counts"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T12:50:29.904541+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns policy v2 explicitly states a 30-day full-refund window for standard items, and the 10-day-old standard order is within that window.",
+    "plan": "No events_treat/events_ctrl/tot_treat/tot_ctrl fields are present, so the raw relative-risk computation is not applicable. I extracted the current policy window from returns_policy_v2 (30 days), compared it to the claimed 30-day window, compared the order age (10 days) to the current window, and checked the superseded v1 policy and stale judge reference (14 days) as conflicting but non-current sources.",
+    "evidence": {
+      "claimed_window_days": 30,
+      "current_policy_window_days": 30,
+      "superseded_policy_window_days": 14,
+      "order_age_days": 10,
+      "within_current_window": true,
+      "days_remaining_in_window": 20,
+      "raw_event_counts_available": false,
+      "rr": null,
+      "ci95": null,
+      "statistical_test": "not_applicable_no_event_counts"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "a1c39d98c56f189557f2cc4aba25fe2bfb811267abd66946e41e9e1336e56dc1"
+}

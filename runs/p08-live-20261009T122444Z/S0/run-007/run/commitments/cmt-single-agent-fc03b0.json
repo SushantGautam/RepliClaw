@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-single-agent-fc03b0",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "e266c9dfcaec0096914dc10d0349f42e816fcc6a849baad5599bfdeb90b0c7e6",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:20:38.109052+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly sets a 30-day full-refund window for standard items, so the claimed current window is correct.",
+    "plan": "Parsed bundled policy_docs and order data; extracted current_window_days=30 from returns_policy_v2, stale_reference_days=14 from base_retrieval/base_judge_reference_days, computed delta=16 and eligibility for the 10-day-old standard order; Cohen's d was not computable because no mean_treat/mean_ctrl/sd fields were provided.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "delta_days": 16,
+      "relative_delta_vs_stale": 1.142857,
+      "order_age_days": 10,
+      "eligible_under_current_30_day_window": true,
+      "eligible_under_stale_14_day_reference": true,
+      "cohen_d": null,
+      "p_value": null,
+      "note": "No treatment/control means or SDs were present, so the prescribed Cohen's d calculation was not applicable; direct policy-day comparison was used."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "fae6d7564520ebaf8c727a1629739b4bd23c1d6d05550bd6ba9f126d37045fa9"
+}

@@ -1,0 +1,52 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-61ecafcc",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "883f3b8a3b00ce9a03e68057c8dca902a1ba3647f99d50fe741ba3a4db92e43e",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T12:43:32.098774+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current v2 returns policy supports a 30-day full-refund window for standard items, while the bundled judge reference is stale at 14 days.",
+    "plan": "Extracted the current policy value (30 days) from returns_policy_v2, compared it with base_judge_reference_days (14) and the order age (10 days), and attempted the raw RR computation but found no event counts.",
+    "evidence": {
+      "raw_rr": null,
+      "raw_rr_ci": null,
+      "rr_note": "No events_treat/events_ctrl/tot_treat/tot_ctrl fields are present, so the raw RR endpoint is not computable.",
+      "current_policy_days": 30,
+      "stale_base_judge_days": 14,
+      "order_age_days": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "window_discrepancy_days": 16,
+      "policy_source": "returns_policy_v2"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T12:43:32.103304+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current v2 returns policy supports a 30-day full-refund window for standard items, while the bundled judge reference is stale at 14 days.",
+    "plan": "Extracted the current policy value (30 days) from returns_policy_v2, compared it with base_judge_reference_days (14) and the order age (10 days), and attempted the raw RR computation but found no event counts.",
+    "evidence": {
+      "raw_rr": null,
+      "raw_rr_ci": null,
+      "rr_note": "No events_treat/events_ctrl/tot_treat/tot_ctrl fields are present, so the raw RR endpoint is not computable.",
+      "current_policy_days": 30,
+      "stale_base_judge_days": 14,
+      "order_age_days": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "window_discrepancy_days": 16,
+      "policy_source": "returns_policy_v2"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "f247f7c08a90175e6efeb25d77f3e808b490bb2ffec278d64b719b0730bc3d14"
+}

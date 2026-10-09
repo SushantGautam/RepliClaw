@@ -1,0 +1,19 @@
+{
+  "claim_id": "claim-policy_rag_v1",
+  "label": "SUPPORTED",
+  "confidence": 0.98,
+  "n_support": 1,
+  "n_contradict": 0,
+  "n_replicate": 0,
+  "n_fail_replicate": 0,
+  "independent_evidence_count": 1,
+  "unresolved_conflicts": [],
+  "evidence_refs": [
+    "ev-single-agent-380d2c4c"
+  ],
+  "reasoning": "Weighted evidence score +1.91 in favor; 1 support / 0 contradict; 0 replication(s). No unresolved independent conflict.",
+  "error_correlation": null,
+  "timestamp": "2026-10-09T12:26:18.719659+00:00",
+  "defect_class": "judge_stale",
+  "target_artifact": "judge"
+}

@@ -1,0 +1,56 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-0ed8adc6",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "c6facc8cee583ca59f08aa37577a78ddc0ed5caa49f5ce57e8d398b358f2c09c",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:23:57.120450+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current v2 returns policy explicitly states a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Parsed the current policy document returns_policy_v2, extracted the numeric 30-day full-refund window for standard items, compared it with the claimed 30-day window, compared it with the stale base retrieval/judge reference of 14 days, and checked the 10-day-old standard order against both windows.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "claim_window_days": 30,
+      "claim_matches_current_policy": true,
+      "stale_base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "current_minus_stale_days": 16,
+      "order_purchased_days_ago": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "cohens_d": null,
+      "cohens_d_note": "No mean_treat/mean_ctrl or sd_* fields are present, so Cohen's d is not computable."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:23:57.125171+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current v2 returns policy explicitly states a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Parsed the current policy document returns_policy_v2, extracted the numeric 30-day full-refund window for standard items, compared it with the claimed 30-day window, compared it with the stale base retrieval/judge reference of 14 days, and checked the 10-day-old standard order against both windows.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "claim_window_days": 30,
+      "claim_matches_current_policy": true,
+      "stale_base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "current_minus_stale_days": 16,
+      "order_purchased_days_ago": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "cohens_d": null,
+      "cohens_d_note": "No mean_treat/mean_ctrl or sd_* fields are present, so Cohen's d is not computable."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "3eace26aa19b32a6820be2a8e38b33d53ed08f771ecfbe7c29e4af23d4156d03"
+}

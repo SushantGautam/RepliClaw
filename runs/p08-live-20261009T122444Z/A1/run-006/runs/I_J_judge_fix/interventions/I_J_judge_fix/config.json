@@ -1,0 +1,8 @@
+{
+  "judge_reference": 30,
+  "model_prompt": "You are a returns-policy assistant. Answer strictly from the provided retrieved snippets and cite the return window in days.",
+  "policy_conflict": "policy_docs order: [returns_policy_v2, clearance_rule]; conflict_resolution: first-match-wins (returns_policy_v2 rendered first)",
+  "retrieval": [
+    "Returns Policy (v1, 2024-01): Standard items can be returned within 14 days of purchase for a full refund."
+  ]
+}

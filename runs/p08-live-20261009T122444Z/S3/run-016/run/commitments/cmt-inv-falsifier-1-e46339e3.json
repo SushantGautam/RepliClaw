@@ -1,0 +1,40 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-e46339e3",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "8766953c2bae5050bd15a57337907be96dc0ff23ba06b0ff1f56a590aef138cf",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:15:42.635100+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Current v2 policy sets 30-day full-refund window.",
+    "plan": "Checked current policy doc and order age 10 days.",
+    "evidence": {
+      "current_window_days": 30,
+      "order_age_days": 10,
+      "eligible": true,
+      "stale_reference_days": 14
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:15:42.637758+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current v2 policy sets 30-day full-refund window.",
+    "plan": "Checked current policy doc and order age 10 days.",
+    "evidence": {
+      "current_window_days": 30,
+      "order_age_days": 10,
+      "eligible": true,
+      "stale_reference_days": 14
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "1119df918f044799f16b8e3fc44fb4070f2125fd4bd134584d6d69200114543a"
+}

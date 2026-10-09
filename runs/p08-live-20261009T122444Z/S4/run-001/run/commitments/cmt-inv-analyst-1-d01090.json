@@ -1,0 +1,35 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-d01090",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "64915c057bb311b3dd04d7574194a6e8bf0727931639424b2ed1faee963731d8",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:24:21.360691+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current v2 policy explicitly states a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Parsed policy_docs for the current returns policy, extracted the stated 30-day window, compared it to the claimed 30-day window and the stale 14-day reference, and checked the 10-day order against both windows.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_days": 10,
+      "claim_minus_current_policy_days": 0,
+      "current_policy_minus_stale_reference_days": 16,
+      "relative_difference_current_vs_stale": 1.142857,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "cohen_d": null,
+      "note": "No mean_treat/mean_ctrl/sd fields were present, so direct policy-day comparison was used instead of Cohen's d."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "057387f8ab579fc1d592531657659e0960841db1c8beb08df7ead11dcf1d1e68"
+}

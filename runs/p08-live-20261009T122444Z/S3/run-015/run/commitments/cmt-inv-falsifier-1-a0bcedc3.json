@@ -1,0 +1,54 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-a0bcedc3",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "45aa3dbbfd561944c577b15d715a277ec7ac5152a326310f580332e435ca882b",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:13:08.355231+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly states a 30-day full-refund window for standard items, so the claim is supported, although the base judge reference is stale at 14 days.",
+    "plan": "Extract the numeric return window from the current policy document, compare it to the claimed 30-day window, and compare it against the stale base retrieval/judge reference values; also check the order age against both windows.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "claim_window_days": 30,
+      "claim_matches_current_policy": true,
+      "base_retrieval_window_days": 14,
+      "base_judge_reference_days": 14,
+      "stale_reference_difference_days": 16,
+      "order_purchased_days_ago": 10,
+      "eligible_under_current_30_day_window": true,
+      "eligible_under_stale_14_day_window": true,
+      "statistical_test": "not_applicable_no_event_counts"
+    },
+    "confidence": 0.97,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:13:08.359858+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly states a 30-day full-refund window for standard items, so the claim is supported, although the base judge reference is stale at 14 days.",
+    "plan": "Extract the numeric return window from the current policy document, compare it to the claimed 30-day window, and compare it against the stale base retrieval/judge reference values; also check the order age against both windows.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "claim_window_days": 30,
+      "claim_matches_current_policy": true,
+      "base_retrieval_window_days": 14,
+      "base_judge_reference_days": 14,
+      "stale_reference_difference_days": 16,
+      "order_purchased_days_ago": 10,
+      "eligible_under_current_30_day_window": true,
+      "eligible_under_stale_14_day_window": true,
+      "statistical_test": "not_applicable_no_event_counts"
+    },
+    "confidence": 0.97,
+    "executable": true
+  },
+  "seal_hash": "1019bb393b03d8b929a79e8fcbe08a7617fc041b6e47857cbfee93c0ce49f87b"
+}

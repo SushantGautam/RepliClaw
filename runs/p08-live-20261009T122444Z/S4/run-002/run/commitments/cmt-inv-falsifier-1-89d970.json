@@ -1,0 +1,42 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-89d970",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "99c27f5f09340124aeaee756cdeaacf8de0883022bef0f75a3847271123a1b57",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:26:05.158618+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns_policy_v2 explicitly states a 30-day full-refund window for standard items, so the claimed current 30-day window is correct; the 14-day values are stale base artifacts.",
+    "plan": "Extracted the current policy value from returns_policy_v2 (30 days), compared it to the claimed value (30 days) and to stale base artifacts (base_retrieval v1 and base_judge_reference_days = 14), computed deltas and relative errors, checked the 10-day standard order against both windows, and noted that no events_treat/events_ctrl/tot_treat/tot_ctrl fields exist for an RR computation.",
+    "evidence": {
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "current_policy_id": "returns_policy_v2",
+      "current_minus_claimed_days": 0,
+      "relative_error_claimed_vs_current": 0.0,
+      "stale_base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "current_minus_stale_days": 16,
+      "relative_error_stale_vs_current": 0.5333,
+      "order_purchased_days_ago": 10,
+      "order_eligible_under_current_30": true,
+      "order_eligible_under_stale_14": true,
+      "clearance_rule_applicable_to_standard_item": false,
+      "first_match_wins_policy": "returns_policy_v2",
+      "raw_event_counts_present": false,
+      "RR": null,
+      "CI95": null,
+      "p_value": null
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "158c4d5fea2f6fe51719eaf7afaec59e8e61f48b7b2ce6acdfb3ba681b048c17"
+}

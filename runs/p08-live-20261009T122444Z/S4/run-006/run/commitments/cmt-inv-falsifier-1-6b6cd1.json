@@ -1,0 +1,32 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-6b6cd1",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "9d57d393f2452d685ba9a43b3ec1862182d37c5b38ea88ff17f6ea51476f6765",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:31:04.309862+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current policy gives 30-day full refund for standard.",
+    "plan": "Compare current policy days to claimed 30.",
+    "evidence": {
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "delta_days": 0,
+      "exact_match": true,
+      "stale_reference_days": 14,
+      "order_age_days": 10,
+      "eligible_current": true,
+      "raw_rr": "not_applicable"
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "3e8c2689245b4b7b1e9dd610bdf490f050d36c787d1502fef6b29d471a203b3f"
+}

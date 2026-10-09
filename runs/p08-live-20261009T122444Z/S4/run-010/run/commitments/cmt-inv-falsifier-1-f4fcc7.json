@@ -1,0 +1,39 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-f4fcc7",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "7b91834c0ae70c044752bf7ff42ce5b7d77abd981d7dcd16e645cd7cc60c9628",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:35:19.722588+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns_policy_v2 explicitly sets a 30-day full-refund window for standard items, so the claimed current 30-day window is supported.",
+    "plan": "Parsed policy_docs for the current standard-item return window, compared it with the stale base_retrieval v1 and base_judge_reference_days values, checked the 10-day-old standard order against both windows, and computed the numeric delta; raw event-count RR was not computable because no events_treat/events_ctrl/tot_treat/tot_ctrl fields exist.",
+    "evidence": {
+      "claim_value_days": 30,
+      "current_policy_days": 30,
+      "current_policy_source": "returns_policy_v2",
+      "stale_reference_days": 14,
+      "stale_source": "base_retrieval v1 / base_judge_reference_days",
+      "order_age_days": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "delta_days": 16,
+      "relative_delta_vs_stale": 1.142857,
+      "raw_event_counts_present": false,
+      "rr": null,
+      "ci95": null,
+      "p_value": null,
+      "note": "No raw event counts are present, so the RR endpoint is not applicable; the direct policy numeric comparison supports the 30-day current window."
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "d91c9193351da09426a26d9335e34841b52ad79feae69c5450ac37733e8f4a55"
+}

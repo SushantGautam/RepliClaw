@@ -1,0 +1,37 @@
+{"agent_id": null, "payload": {"phase": "COMMIT"}, "seq": 1, "ts": "2026-10-09T16:47:37.539973+00:00", "type": "phase"}
+{"agent_id": "alpha", "payload": {"agent_id": "alpha", "hypothesis": "H_R", "packet_id": "516ab93c0d1a4bf294677659e1c304b2"}, "seq": 2, "ts": "2026-10-09T16:47:44.958276+00:00", "type": "commitment"}
+{"agent_id": "beta", "payload": {"agent_id": "beta", "hypothesis": "H_P", "packet_id": "1e6c24f9888749fb87be94952d660986"}, "seq": 3, "ts": "2026-10-09T16:47:52.436071+00:00", "type": "commitment"}
+{"agent_id": "gamma", "payload": {"agent_id": "gamma", "hypothesis": "H_J", "packet_id": "4d4284764de246baacfd87aeaa88be93"}, "seq": 4, "ts": "2026-10-09T16:48:02.483810+00:00", "type": "commitment"}
+{"agent_id": null, "payload": {"total_needs": 4}, "seq": 5, "ts": "2026-10-09T16:48:02.490365+00:00", "type": "needs_published"}
+{"agent_id": null, "payload": {"phase": "REVEAL"}, "seq": 6, "ts": "2026-10-09T16:48:02.490372+00:00", "type": "phase"}
+{"agent_id": "alpha", "payload": {"agent_id": "alpha", "integrity_rejected": false, "packet_id": "516ab93c0d1a4bf294677659e1c304b2", "status": "verified"}, "seq": 7, "ts": "2026-10-09T16:48:02.495907+00:00", "type": "reveal"}
+{"agent_id": "beta", "payload": {"agent_id": "beta", "integrity_rejected": false, "packet_id": "1e6c24f9888749fb87be94952d660986", "status": "verified"}, "seq": 8, "ts": "2026-10-09T16:48:02.498501+00:00", "type": "reveal"}
+{"agent_id": "gamma", "payload": {"agent_id": "gamma", "integrity_rejected": false, "packet_id": "4d4284764de246baacfd87aeaa88be93", "status": "verified"}, "seq": 9, "ts": "2026-10-09T16:48:02.500357+00:00", "type": "reveal"}
+{"agent_id": null, "payload": {"max_cycles": 6, "phase": "EXECUTE"}, "seq": 10, "ts": "2026-10-09T16:48:02.502738+00:00", "type": "phase"}
+{"agent_id": "gamma", "payload": {"arm": "I_J_judge_fix", "observation_id": "obs_4f464e409d4ef61e", "run_id": "policy_rag_v1::I_J_judge_fix::seed0"}, "seq": 11, "ts": "2026-10-09T16:48:02.565593+00:00", "type": "evidence_published"}
+{"agent_id": "alpha", "payload": {"abstained": false, "claimed": true, "claimed_need_id": "need_I_J_judge_fix_gamma", "cycle": 1, "ranked": ["need_I_J_judge_fix_gamma", "need_I_P_policy_conflict_beta"]}, "seq": 12, "ts": "2026-10-09T16:48:02.566118+00:00", "type": "choice"}
+{"agent_id": "alpha", "payload": {"arm": "I_R_retrieval_fix", "observation_id": "obs_35edd39e132bd266", "run_id": "policy_rag_v1::I_R_retrieval_fix::seed0"}, "seq": 13, "ts": "2026-10-09T16:48:02.607289+00:00", "type": "evidence_published"}
+{"agent_id": "beta", "payload": {"abstained": false, "claimed": true, "claimed_need_id": "need_I_R_retrieval_fix_alpha", "cycle": 1, "ranked": ["need_I_R_retrieval_fix_alpha", "need_I0_baseline_alpha"]}, "seq": 14, "ts": "2026-10-09T16:48:02.607718+00:00", "type": "choice"}
+{"agent_id": "beta", "payload": {"arm": "I_P_policy_conflict", "observation_id": "obs_013a48b0978ef536", "run_id": "policy_rag_v1::I_P_policy_conflict::seed0"}, "seq": 15, "ts": "2026-10-09T16:48:02.644371+00:00", "type": "evidence_published"}
+{"agent_id": "gamma", "payload": {"abstained": false, "claimed": true, "claimed_need_id": "need_I_P_policy_conflict_beta", "cycle": 1, "ranked": ["need_I_P_policy_conflict_beta", "need_I0_baseline_alpha"]}, "seq": 16, "ts": "2026-10-09T16:48:02.646558+00:00", "type": "choice"}
+{"agent_id": "alpha", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 2, "ranked": []}, "seq": 17, "ts": "2026-10-09T16:48:02.647342+00:00", "type": "choice"}
+{"agent_id": "alpha", "payload": {"arm": "I0_baseline", "observation_id": "obs_0d66f6b3dc38cb5a", "run_id": "policy_rag_v1::I0_baseline::seed0"}, "seq": 18, "ts": "2026-10-09T16:48:02.682023+00:00", "type": "evidence_published"}
+{"agent_id": "beta", "payload": {"abstained": false, "claimed": true, "claimed_need_id": "need_I0_baseline_alpha", "cycle": 2, "ranked": ["need_I0_baseline_alpha"]}, "seq": 19, "ts": "2026-10-09T16:48:02.682617+00:00", "type": "choice"}
+{"agent_id": "beta", "payload": {"agent_id": "beta", "new_top": "need_I0_baseline_alpha", "prev_top": "need_I_R_retrieval_fix_alpha"}, "seq": 20, "ts": "2026-10-09T16:48:02.682623+00:00", "type": "choice_changed"}
+{"agent_id": "gamma", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 2, "ranked": []}, "seq": 21, "ts": "2026-10-09T16:48:02.683368+00:00", "type": "choice"}
+{"agent_id": "alpha", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 3, "ranked": []}, "seq": 22, "ts": "2026-10-09T16:48:02.684324+00:00", "type": "choice"}
+{"agent_id": "beta", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 3, "ranked": []}, "seq": 23, "ts": "2026-10-09T16:48:02.685156+00:00", "type": "choice"}
+{"agent_id": "gamma", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 3, "ranked": []}, "seq": 24, "ts": "2026-10-09T16:48:02.685871+00:00", "type": "choice"}
+{"agent_id": "alpha", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 4, "ranked": []}, "seq": 25, "ts": "2026-10-09T16:48:02.686575+00:00", "type": "choice"}
+{"agent_id": "beta", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 4, "ranked": []}, "seq": 26, "ts": "2026-10-09T16:48:02.687240+00:00", "type": "choice"}
+{"agent_id": "gamma", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 4, "ranked": []}, "seq": 27, "ts": "2026-10-09T16:48:02.687940+00:00", "type": "choice"}
+{"agent_id": "alpha", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 5, "ranked": []}, "seq": 28, "ts": "2026-10-09T16:48:02.688677+00:00", "type": "choice"}
+{"agent_id": "beta", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 5, "ranked": []}, "seq": 29, "ts": "2026-10-09T16:48:02.689318+00:00", "type": "choice"}
+{"agent_id": "gamma", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 5, "ranked": []}, "seq": 30, "ts": "2026-10-09T16:48:02.690033+00:00", "type": "choice"}
+{"agent_id": "alpha", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 6, "ranked": []}, "seq": 31, "ts": "2026-10-09T16:48:02.690867+00:00", "type": "choice"}
+{"agent_id": "beta", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 6, "ranked": []}, "seq": 32, "ts": "2026-10-09T16:48:02.691532+00:00", "type": "choice"}
+{"agent_id": "gamma", "payload": {"abstained": true, "claimed": false, "claimed_need_id": null, "cycle": 6, "ranked": []}, "seq": 33, "ts": "2026-10-09T16:48:02.692382+00:00", "type": "choice"}
+{"agent_id": null, "payload": {"phase": "RESOLVE"}, "seq": 34, "ts": "2026-10-09T16:48:02.692387+00:00", "type": "phase"}
+{"agent_id": "alpha", "payload": {"agent_id": "alpha", "conclusion": "refuted"}, "seq": 35, "ts": "2026-10-09T16:48:15.984241+00:00", "type": "verdict"}
+{"agent_id": "beta", "payload": {"agent_id": "beta", "conclusion": "uncertain"}, "seq": 36, "ts": "2026-10-09T16:49:03.292230+00:00", "type": "verdict"}
+{"agent_id": "gamma", "payload": {"agent_id": "gamma", "conclusion": "refuted"}, "seq": 37, "ts": "2026-10-09T16:49:18.615190+00:00", "type": "verdict"}

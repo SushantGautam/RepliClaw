@@ -1,0 +1,38 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-677848",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "fd704a575b45d6b80d9a9cfad16b193d9e492d6f50029e35766531920d4bd085",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:37:11.015135+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns_policy_v2 explicitly states a 30-day full-refund window for standard items, matching the claimed 30-day window.",
+    "plan": "Extracted the current policy window from policy_docs (returns_policy_v2: 30 days), compared it with the claimed 30 days and the stale base_retrieval/base_judge_reference value (14 days), computed the 16-day difference and order eligibility at 10 days; a two-sample t-test was not computable because no n/mean/sd fields were provided.",
+    "evidence": {
+      "test": "deterministic policy-window comparison; two-sample t-test not computable",
+      "claimed_window_days": 30,
+      "current_policy_window_days": 30,
+      "stale_retrieval_window_days": 14,
+      "base_judge_reference_days": 14,
+      "window_difference_days": 16,
+      "order_age_days": 10,
+      "order_eligible_under_current": true,
+      "order_eligible_under_stale": true,
+      "t": null,
+      "df": null,
+      "p_value": null,
+      "ci": null,
+      "note": "No two-group mean/sd data are present, so inferential significance testing is not applicable; direct policy comparison supports the claim."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "209d677304ba7ecec9bcef245ca41efa9e7ae2dd541a62d99f406196de5e20e5"
+}

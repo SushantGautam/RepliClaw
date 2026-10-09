@@ -1,0 +1,22 @@
+{"kind": "claim_ingested", "agent_id": "orchestrator", "ts": "2026-10-09T13:13:08.402098+00:00", "claim_id": "claim-policy_rag_v1", "statement": "State the correct CURRENT 30-day full-refund return window for standard items."}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:13:08.402680+00:00", "phase": "blind", "n_investigators": 3}
+{"kind": "context_built", "agent_id": "inv-analyst-1", "ts": "2026-10-09T13:13:08.402921+00:00", "phase": "blind", "sources": ["bundled_data"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "investigator_error", "agent_id": "inv-analyst-1", "ts": "2026-10-09T13:14:09.736392+00:00", "error": "no JSON object in model output: ''"}
+{"kind": "context_built", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:14:09.740663+00:00", "phase": "blind", "sources": ["bundled_data"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "context_built", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:14:49.796665+00:00", "phase": "blind", "sources": ["bundled_data", "published_figures"], "public_materials": [], "includes_peer_materials": false}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:15:42.630481+00:00", "phase": "committed"}
+{"kind": "committed", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:15:42.634573+00:00", "commitment_id": "cmt-inv-statistician-1-b65172d4", "content_hash": "5315ff94e173db2f8c84aacc5800d00205709f05efbe712f88fed3295e19c2eb", "seal_hash": "2394e2463ec56274fc41a21e6e91d65e4eecc62d8c7c13c497e8280a71613a21", "phase": "committed"}
+{"kind": "committed", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:15:42.635408+00:00", "commitment_id": "cmt-inv-falsifier-1-e46339e3", "content_hash": "8766953c2bae5050bd15a57337907be96dc0ff23ba06b0ff1f56a590aef138cf", "seal_hash": "a94a61da9a16cd984e5094eb95a4a7e844debfec26925bb92387017a28f8ba13", "phase": "committed"}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:15:42.635787+00:00", "phase": "revealing"}
+{"kind": "revealed", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:15:42.636885+00:00", "commitment_id": "cmt-inv-statistician-1-b65172d4", "content_hash": "5315ff94e173db2f8c84aacc5800d00205709f05efbe712f88fed3295e19c2eb", "verified": true}
+{"kind": "reveal_ok", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:15:42.637229+00:00", "commitment_id": "cmt-inv-statistician-1-b65172d4"}
+{"kind": "revealed", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:15:42.638099+00:00", "commitment_id": "cmt-inv-falsifier-1-e46339e3", "content_hash": "8766953c2bae5050bd15a57337907be96dc0ff23ba06b0ff1f56a590aef138cf", "verified": true}
+{"kind": "reveal_ok", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:15:42.638365+00:00", "commitment_id": "cmt-inv-falsifier-1-e46339e3"}
+{"kind": "evidence_recorded", "agent_id": "inv-statistician-1", "ts": "2026-10-09T13:15:42.638952+00:00", "evidence_id": "ev-inv-statistician-1-d57f801a", "relation": "supports"}
+{"kind": "evidence_recorded", "agent_id": "inv-falsifier-1", "ts": "2026-10-09T13:15:42.639671+00:00", "evidence_id": "ev-inv-falsifier-1-f067590e", "relation": "supports"}
+{"kind": "agreement_computed", "agent_id": "orchestrator", "ts": "2026-10-09T13:15:42.640036+00:00", "agreement": {"label": "agreement", "majority": 1.0, "unresolved": false}, "n_conflicts": 0, "label": "agreement"}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:15:42.640874+00:00", "phase": "followup"}
+{"kind": "no_followup_needed", "agent_id": "orchestrator", "ts": "2026-10-09T13:15:42.641318+00:00", "agreement": {"label": "agreement", "majority": 1.0, "unresolved": false}}
+{"kind": "phase", "agent_id": "orchestrator", "ts": "2026-10-09T13:15:42.641686+00:00", "phase": "verdict"}
+{"kind": "verdict", "agent_id": "orchestrator", "ts": "2026-10-09T13:15:42.642710+00:00", "label": "SUPPORTED", "confidence": 0.98}
+{"kind": "artifacts_saved", "agent_id": "orchestrator", "ts": "2026-10-09T13:15:42.645585+00:00", "count": 2, "base": "runs/p08-live-20261009T122444Z/staging/S3/run-016/run-01/run/artifacts"}

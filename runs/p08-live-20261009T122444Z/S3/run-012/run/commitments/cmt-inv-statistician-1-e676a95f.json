@@ -1,0 +1,46 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-e676a95f",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "473325725073ae7a84f6e0b8f9c24aee5133cb5c04f406ca20a3e8ed32fe1123",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:06:47.533451+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Current policy states 30-day full refund.",
+    "plan": "Compare current policy days to base and order.",
+    "evidence": {
+      "current_days": 30,
+      "base_days": 14,
+      "delta_days": 16,
+      "order_days": 10,
+      "eligible": true,
+      "current_doc": "returns_policy_v2",
+      "stale_doc": "v1 2024-01"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:06:47.540108+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current policy states 30-day full refund.",
+    "plan": "Compare current policy days to base and order.",
+    "evidence": {
+      "current_days": 30,
+      "base_days": 14,
+      "delta_days": 16,
+      "order_days": 10,
+      "eligible": true,
+      "current_doc": "returns_policy_v2",
+      "stale_doc": "v1 2024-01"
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "5e3bce4ee51226eefab129e8d0be7c80af8ddbe1b8c15648aa8d25b0a83725aa"
+}

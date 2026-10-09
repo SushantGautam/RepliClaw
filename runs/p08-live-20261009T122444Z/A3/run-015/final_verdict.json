@@ -1,0 +1,74 @@
+{
+  "agent_verdicts": [
+    {
+      "agent_id": "alpha",
+      "confidence": 0.75,
+      "evidence_cited": [
+        "obs_0d66f6b3dc38cb5a",
+        "obs_35edd39e132bd266"
+      ],
+      "verdict": "refuted"
+    },
+    {
+      "agent_id": "beta",
+      "confidence": 0.8,
+      "evidence_cited": [
+        "obs_013a48b0978ef536",
+        "obs_0d66f6b3dc38cb5a"
+      ],
+      "verdict": "refuted"
+    },
+    {
+      "agent_id": "gamma",
+      "confidence": 0.75,
+      "evidence_cited": [
+        "obs_0d66f6b3dc38cb5a",
+        "obs_4f464e409d4ef61e"
+      ],
+      "verdict": "refuted"
+    }
+  ],
+  "arm": "eess_random_select",
+  "case_id": "policy_rag_v1",
+  "confidence": 0.7666666666666666,
+  "counterfactual_slots_executed": 4,
+  "counterfactual_slots_granted": 4,
+  "defect_class": "retrieval_omission",
+  "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+  "harness_seed": 20261010,
+  "hypotheses": [
+    {
+      "attempted_falsification": true,
+      "counterfactual_slot": "I_R_retrieval_fix",
+      "falsifiable": true,
+      "id": "H_R",
+      "outcome": "supported",
+      "statement": "The current full-refund return window for standard items is 30 days from delivery."
+    },
+    {
+      "attempted_falsification": true,
+      "counterfactual_slot": "I_P_policy_conflict",
+      "falsifiable": true,
+      "id": "H_P",
+      "outcome": "supported",
+      "statement": "The current policy provides a 30-day full-refund return window for standard items, measured from delivery or receipt."
+    },
+    {
+      "attempted_falsification": true,
+      "counterfactual_slot": "I_J_judge_fix",
+      "falsifiable": true,
+      "id": "H_J",
+      "outcome": "supported",
+      "statement": "H_J: The current full-refund return window for standard items is 30 days from delivery or receipt."
+    }
+  ],
+  "integrity_rejections": 0,
+  "n_agents": 3,
+  "run_id": "eess_random_select/run-01",
+  "schema": "p08.final_verdict/1",
+  "status": "completed",
+  "target_artifact": "retrieval",
+  "total_tokens": 15092,
+  "verdict": "refuted",
+  "wall_s": 90.792443
+}

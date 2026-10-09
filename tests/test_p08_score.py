@@ -168,7 +168,7 @@ def test_exact_metric_values(tmp_path: Path) -> None:
     # S5: 3 runs. M1 = [1, 1, 0]; tokens 100/200/300; wall 1.0/2.0/4.0.
     _write_run(root, "S5", "run-01", defect="retrieval_omission", target="returns-policy",
                tokens=100, hyps=_hyps("H_R", "H_P"), slots_granted=1, slots_executed=1,
-               cf_files={"I_R": {"verdict_changed": True, "hypothesis_falsified": False}})
+               cf_files={"I_R": {"severity": "critical"}})
     _write_run(root, "S5", "run-02", defect="retrieval_omission", target="returns-policy",
                tokens=200, hyps=_hyps("H_R", "H_P"))
     _write_run(root, "S5", "run-03", defect="policy_conflict", target="returns-policy",
@@ -250,6 +250,25 @@ def test_exact_metric_values(tmp_path: Path) -> None:
     assert manifest["arms"]["S5"][0]["usage_present_ratio"] == 1.0
     scorecard = (out / "scorecard.md").read_text()
     assert "counterevidence-first" in scorecard
+
+
+def test_m3_counterfactual_yield_uses_severity_schema(tmp_path: Path) -> None:
+    # Regression guard for the M3 writer/scorer schema fix. The p08.counterfactual/1
+    # schema emits `severity` (pass|critical); the scorer must NOT read the never-emitted
+    # `verdict_changed`/`hypothesis_falsified` fields (which made M3 structurally 0.0).
+    root = tmp_path / "runs"
+    # One S5 run, 2 slots executed. One intervention surfaced the defect
+    # (severity=critical), the other did not (severity=pass) -> M3 = 1/2 = 0.5.
+    _write_run(root, "S5", "run-01", defect="retrieval_omission", target="returns-policy",
+               tokens=100, hyps=_hyps("H_R"), slots_granted=2, slots_executed=2,
+               cf_files={
+                   "I_R": {"severity": "critical"},
+                   "I_P": {"severity": "pass"},
+               })
+    res = sc.score_runs(root, "policy_rag_v1")
+    assert res["arms"]["S5"]["M3"]["value"] == pytest.approx(0.5)
+    # A `pass`-severity counterfactual must NOT be counted as effective.
+    assert res["arms"]["S5"]["M3"]["value"] != pytest.approx(1.0)
 
 
 # ---------------------------------------------------------------------------

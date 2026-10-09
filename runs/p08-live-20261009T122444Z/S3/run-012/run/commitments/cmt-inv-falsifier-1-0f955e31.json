@@ -1,0 +1,44 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-0f955e31",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "68351e4419b147dfe126ec1e556a69b94ccb23947a5501b0f9de42dc4dce0f0b",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:06:47.534593+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Claim supported; current policy is 30 days.",
+    "plan": "Check v2 policy and compare base 14-day ref.",
+    "evidence": {
+      "current_days": 30,
+      "base_days": 14,
+      "order_age": 10,
+      "within_current": true,
+      "within_base": true,
+      "raw_events": "none"
+    },
+    "confidence": 0.9,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:06:47.541547+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Claim supported; current policy is 30 days.",
+    "plan": "Check v2 policy and compare base 14-day ref.",
+    "evidence": {
+      "current_days": 30,
+      "base_days": 14,
+      "order_age": 10,
+      "within_current": true,
+      "within_base": true,
+      "raw_events": "none"
+    },
+    "confidence": 0.9,
+    "executable": true
+  },
+  "seal_hash": "32bbd43ea559e6b8ed87cb11356e25246e66c365d1045b7d66014484f207e7d3"
+}

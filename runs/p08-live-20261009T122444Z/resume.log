@@ -1,0 +1,133 @@
+{"resumed_tokens": 664021, "resumed_runs": {"S0": 17, "S3": 20, "S4": 14}}
+{"arm": "single_agent", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S0/run-007/run-01", "status": "completed", "wall_s": 31.132}
+{"arm": "S0", "run": "run-007", "status": "completed", "tokens": 5024, "note": null, "cumulative_tokens": 669045}
+{"arm": "single_agent", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S0/run-010/run-01", "status": "completed", "wall_s": 40.48}
+{"arm": "S0", "run": "run-010", "status": "completed", "tokens": 7561, "note": null, "cumulative_tokens": 676606}
+{"arm": "single_agent", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S0/run-015/run-01", "status": "completed", "wall_s": 54.825}
+{"arm": "S0", "run": "run-015", "status": "completed", "tokens": 9474, "note": null, "cumulative_tokens": 686080}
+{"arm": "open_sharing_swarm", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S4/run-005/run-01", "status": "completed", "wall_s": 57.979}
+{"arm": "S4", "run": "run-005", "status": "completed", "tokens": 11979, "note": null, "cumulative_tokens": 698059}
+{"arm": "open_sharing_swarm", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S4/run-016/run-01", "status": "completed", "wall_s": 68.885}
+{"arm": "S4", "run": "run-016", "status": "completed", "tokens": 13640, "note": null, "cumulative_tokens": 711699}
+{"arm": "open_sharing_swarm", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S4/run-017/run-01", "status": "completed", "wall_s": 69.77}
+{"arm": "S4", "run": "run-017", "status": "completed", "tokens": 14469, "note": null, "cumulative_tokens": 726168}
+{"arm": "open_sharing_swarm", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S4/run-018/run-01", "status": "completed", "wall_s": 79.92}
+{"arm": "S4", "run": "run-018", "status": "completed", "tokens": 15826, "note": null, "cumulative_tokens": 741994}
+{"arm": "open_sharing_swarm", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S4/run-019/run-01", "status": "completed", "wall_s": 67.108}
+{"arm": "S4", "run": "run-019", "status": "completed", "tokens": 13546, "note": null, "cumulative_tokens": 755540}
+{"arm": "open_sharing_swarm", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S4/run-020/run-01", "status": "completed", "wall_s": 108.054}
+{"arm": "S4", "run": "run-020", "status": "completed", "tokens": 20828, "note": null, "cumulative_tokens": 776368}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-001/run-01", "status": "completed", "wall_s": 97.844}
+{"arm": "S5", "run": "run-001", "status": "completed", "tokens": 16030, "note": null, "cumulative_tokens": 792398}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-002/run-01", "status": "completed", "wall_s": 69.161}
+{"arm": "S5", "run": "run-002", "status": "completed", "tokens": 11528, "note": null, "cumulative_tokens": 803926}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-003/run-01", "status": "completed", "wall_s": 59.549}
+{"arm": "S5", "run": "run-003", "status": "completed", "tokens": 10258, "note": null, "cumulative_tokens": 814184}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-004/run-01", "status": "completed", "wall_s": 94.762}
+{"arm": "S5", "run": "run-004", "status": "completed", "tokens": 14966, "note": null, "cumulative_tokens": 829150}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-005/run-01", "status": "completed", "wall_s": 114.596}
+{"arm": "S5", "run": "run-005", "status": "completed", "tokens": 18261, "note": null, "cumulative_tokens": 847411}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-006/run-01", "status": "completed", "wall_s": 94.45}
+{"arm": "S5", "run": "run-006", "status": "completed", "tokens": 15585, "note": null, "cumulative_tokens": 862996}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-007/run-01", "status": "completed", "wall_s": 117.451}
+{"arm": "S5", "run": "run-007", "status": "completed", "tokens": 17427, "note": null, "cumulative_tokens": 880423}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-008/run-01", "status": "completed", "wall_s": 98.302}
+{"arm": "S5", "run": "run-008", "status": "completed", "tokens": 15429, "note": null, "cumulative_tokens": 895852}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-009/run-01", "status": "completed", "wall_s": 79.224}
+{"arm": "S5", "run": "run-009", "status": "completed", "tokens": 12890, "note": null, "cumulative_tokens": 908742}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-010/run-01", "status": "completed", "wall_s": 137.789}
+{"arm": "S5", "run": "run-010", "status": "completed", "tokens": 22050, "note": null, "cumulative_tokens": 930792}
+S5/run-011: ERROR ValueError
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-012/run-01", "status": "completed", "wall_s": 105.351}
+{"arm": "S5", "run": "run-012", "status": "completed", "tokens": 17035, "note": null, "cumulative_tokens": 947827}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-013/run-01", "status": "completed", "wall_s": 71.581}
+{"arm": "S5", "run": "run-013", "status": "completed", "tokens": 11821, "note": null, "cumulative_tokens": 959648}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-014/run-01", "status": "completed", "wall_s": 101.776}
+{"arm": "S5", "run": "run-014", "status": "completed", "tokens": 16538, "note": null, "cumulative_tokens": 976186}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-015/run-01", "status": "completed", "wall_s": 73.921}
+{"arm": "S5", "run": "run-015", "status": "completed", "tokens": 12198, "note": null, "cumulative_tokens": 988384}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-016/run-01", "status": "completed", "wall_s": 92.952}
+{"arm": "S5", "run": "run-016", "status": "completed", "tokens": 14708, "note": null, "cumulative_tokens": 1003092}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-017/run-01", "status": "completed", "wall_s": 122.483}
+{"arm": "S5", "run": "run-017", "status": "completed", "tokens": 20001, "note": null, "cumulative_tokens": 1023093}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-018/run-01", "status": "completed", "wall_s": 68.93}
+{"arm": "S5", "run": "run-018", "status": "completed", "tokens": 11504, "note": null, "cumulative_tokens": 1034597}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-019/run-01", "status": "completed", "wall_s": 85.903}
+{"arm": "S5", "run": "run-019", "status": "completed", "tokens": 14451, "note": null, "cumulative_tokens": 1049048}
+{"arm": "eess", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/S5/run-020/run-01", "status": "completed", "wall_s": 73.695}
+{"arm": "S5", "run": "run-020", "status": "completed", "tokens": 12138, "note": null, "cumulative_tokens": 1061186}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-001/run-01", "status": "completed", "wall_s": 132.437}
+{"arm": "A1", "run": "run-001", "status": "completed", "tokens": 21268, "note": null, "cumulative_tokens": 1082454}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-002/run-01", "status": "completed", "wall_s": 156.351}
+{"arm": "A1", "run": "run-002", "status": "completed", "tokens": 24574, "note": null, "cumulative_tokens": 1107028}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-003/run-01", "status": "completed", "wall_s": 100.467}
+{"arm": "A1", "run": "run-003", "status": "completed", "tokens": 16374, "note": null, "cumulative_tokens": 1123402}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-004/run-01", "status": "completed", "wall_s": 104.124}
+{"arm": "A1", "run": "run-004", "status": "completed", "tokens": 16867, "note": null, "cumulative_tokens": 1140269}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-005/run-01", "status": "completed", "wall_s": 94.94}
+{"arm": "A1", "run": "run-005", "status": "completed", "tokens": 13691, "note": null, "cumulative_tokens": 1153960}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-006/run-01", "status": "completed", "wall_s": 113.445}
+{"arm": "A1", "run": "run-006", "status": "completed", "tokens": 18145, "note": null, "cumulative_tokens": 1172105}
+A1/run-007: ERROR ValueError
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-008/run-01", "status": "completed", "wall_s": 113.511}
+{"arm": "A1", "run": "run-008", "status": "completed", "tokens": 18123, "note": null, "cumulative_tokens": 1190228}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-009/run-01", "status": "completed", "wall_s": 73.878}
+{"arm": "A1", "run": "run-009", "status": "completed", "tokens": 12148, "note": null, "cumulative_tokens": 1202376}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-010/run-01", "status": "completed", "wall_s": 113.729}
+{"arm": "A1", "run": "run-010", "status": "completed", "tokens": 18193, "note": null, "cumulative_tokens": 1220569}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-011/run-01", "status": "completed", "wall_s": 108.232}
+{"arm": "A1", "run": "run-011", "status": "completed", "tokens": 17473, "note": null, "cumulative_tokens": 1238042}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-012/run-01", "status": "completed", "wall_s": 104.208}
+{"arm": "A1", "run": "run-012", "status": "completed", "tokens": 16926, "note": null, "cumulative_tokens": 1254968}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-013/run-01", "status": "completed", "wall_s": 125.774}
+{"arm": "A1", "run": "run-013", "status": "completed", "tokens": 19823, "note": null, "cumulative_tokens": 1274791}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-014/run-01", "status": "completed", "wall_s": 101.766}
+{"arm": "A1", "run": "run-014", "status": "completed", "tokens": 16599, "note": null, "cumulative_tokens": 1291390}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-015/run-01", "status": "completed", "wall_s": 79.818}
+{"arm": "A1", "run": "run-015", "status": "completed", "tokens": 12668, "note": null, "cumulative_tokens": 1304058}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-016/run-01", "status": "completed", "wall_s": 112.768}
+{"arm": "A1", "run": "run-016", "status": "completed", "tokens": 18020, "note": null, "cumulative_tokens": 1322078}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-017/run-01", "status": "completed", "wall_s": 121.291}
+{"arm": "A1", "run": "run-017", "status": "completed", "tokens": 19158, "note": null, "cumulative_tokens": 1341236}
+{"arm": "eess_no_escrow", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A1/run-018/run-01", "status": "completed", "wall_s": 112.89}
+{"arm": "A1", "run": "run-018", "status": "completed", "tokens": 18115, "note": null, "cumulative_tokens": 1359351}
+A1/run-019: ERROR ValueError
+A1/run-020: ERROR ValueError
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-001/run-01", "status": "completed", "wall_s": 84.539}
+{"arm": "A3", "run": "run-001", "status": "completed", "tokens": 13579, "note": null, "cumulative_tokens": 1372930}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-002/run-01", "status": "completed", "wall_s": 132.776}
+{"arm": "A3", "run": "run-002", "status": "completed", "tokens": 20072, "note": null, "cumulative_tokens": 1393002}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-003/run-01", "status": "completed", "wall_s": 84.744}
+{"arm": "A3", "run": "run-003", "status": "completed", "tokens": 13593, "note": null, "cumulative_tokens": 1406595}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-004/run-01", "status": "completed", "wall_s": 105.079}
+{"arm": "A3", "run": "run-004", "status": "completed", "tokens": 16992, "note": null, "cumulative_tokens": 1423587}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-005/run-01", "status": "completed", "wall_s": 84.368}
+{"arm": "A3", "run": "run-005", "status": "completed", "tokens": 13558, "note": null, "cumulative_tokens": 1437145}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-006/run-01", "status": "completed", "wall_s": 111.8}
+{"arm": "A3", "run": "run-006", "status": "completed", "tokens": 17878, "note": null, "cumulative_tokens": 1455023}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-007/run-01", "status": "completed", "wall_s": 101.109}
+{"arm": "A3", "run": "run-007", "status": "completed", "tokens": 16518, "note": null, "cumulative_tokens": 1471541}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-008/run-01", "status": "completed", "wall_s": 103.167}
+{"arm": "A3", "run": "run-008", "status": "completed", "tokens": 16731, "note": null, "cumulative_tokens": 1488272}
+A3/run-009: ERROR ValueError
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-010/run-01", "status": "completed", "wall_s": 81.111}
+{"arm": "A3", "run": "run-010", "status": "completed", "tokens": 13138, "note": null, "cumulative_tokens": 1501410}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-011/run-01", "status": "completed", "wall_s": 61.981}
+{"arm": "A3", "run": "run-011", "status": "completed", "tokens": 10570, "note": null, "cumulative_tokens": 1511980}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-012/run-01", "status": "completed", "wall_s": 78.074}
+{"arm": "A3", "run": "run-012", "status": "completed", "tokens": 12702, "note": null, "cumulative_tokens": 1524682}
+A3/run-013: ERROR ValueError
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-014/run-01", "status": "completed", "wall_s": 100.466}
+{"arm": "A3", "run": "run-014", "status": "completed", "tokens": 16346, "note": null, "cumulative_tokens": 1541028}
+A3/run-015: ERROR ValueError
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-016/run-01", "status": "completed", "wall_s": 68.633}
+{"arm": "A3", "run": "run-016", "status": "completed", "tokens": 11436, "note": null, "cumulative_tokens": 1552464}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-017/run-01", "status": "completed", "wall_s": 92.242}
+{"arm": "A3", "run": "run-017", "status": "completed", "tokens": 15283, "note": null, "cumulative_tokens": 1567747}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-018/run-01", "status": "completed", "wall_s": 89.837}
+{"arm": "A3", "run": "run-018", "status": "completed", "tokens": 14952, "note": null, "cumulative_tokens": 1582699}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-019/run-01", "status": "completed", "wall_s": 59.412}
+{"arm": "A3", "run": "run-019", "status": "completed", "tokens": 10136, "note": null, "cumulative_tokens": 1592835}
+{"arm": "eess_random_select", "case": "policy_rag_v1", "run_dir": "runs/p08-live-20261009T122444Z/staging/A3/run-020/run-01", "status": "completed", "wall_s": 67.058}
+{"arm": "A3", "run": "run-020", "status": "completed", "tokens": 11228, "note": null, "cumulative_tokens": 1604063}
+{"summary": {"schema": "p08.campaign_summary/1", "case_id": "policy_rag_v1", "pin": "1df4c7164eb85a098385e90ae5c583e13b156dd7", "total_runs": 120, "completed_or_recorded": 113, "aborted_or_invalid": 0, "refused": 0, "errored": 7, "missing_or_skipped": 7, "cumulative_tokens": 1604063, "master_token_ceiling": 10800000, "stopped_master_ceiling": false}}

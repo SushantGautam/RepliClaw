@@ -1,0 +1,29 @@
+{
+  "commitment_id": "cmt-single-agent-de557a",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "152e31cb9c486f804c15ce761f5c5ffa8ffa2eb9a03f194b086d890b4fc35a43",
+  "phase": "committed",
+  "timestamp": "2026-10-09T12:37:18.667651+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports 30-day full refund.",
+    "plan": "Compare current policy days to judge days.",
+    "evidence": {
+      "current_days": 30,
+      "stale_days": 14,
+      "delta": 16,
+      "order_days": 10,
+      "eligible": true
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "16bf6e126128da4b36ca054713a5ab3d95a045f718148a628d7c0339b9295c78"
+}

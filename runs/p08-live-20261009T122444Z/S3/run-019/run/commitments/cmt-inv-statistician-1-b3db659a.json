@@ -1,0 +1,56 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-b3db659a",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "afd43b715761e9629f1eb124c51b96be1269204ed22b171747417ccab4c5daaf",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:22:11.806917+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns policy explicitly states a 30-day full-refund window for standard items, and the 10-day-old order is within that window.",
+    "plan": "Extract the current policy document, compare its 30-day window with the stale 14-day base retrieval/judge reference, compute eligibility for the 10-day-old standard order, and note that a two-sample t-test is not applicable because the bundled data contains no n/mean/sd fields.",
+    "evidence": {
+      "two_sample_t_test": "not applicable: no n, mean, or sd fields provided",
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_age_days": 10,
+      "eligible_under_current_30": true,
+      "eligible_under_stale_14": true,
+      "remaining_days_under_current": 20,
+      "remaining_days_under_stale": 4,
+      "discrepancy_days": 16,
+      "current_policy_id": "returns_policy_v2",
+      "current_policy_title": "Returns Policy (current, v2 2025-01)",
+      "conflict_resolution": "first-match-wins selects returns_policy_v2"
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:22:11.809253+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns policy explicitly states a 30-day full-refund window for standard items, and the 10-day-old order is within that window.",
+    "plan": "Extract the current policy document, compare its 30-day window with the stale 14-day base retrieval/judge reference, compute eligibility for the 10-day-old standard order, and note that a two-sample t-test is not applicable because the bundled data contains no n/mean/sd fields.",
+    "evidence": {
+      "two_sample_t_test": "not applicable: no n, mean, or sd fields provided",
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_age_days": 10,
+      "eligible_under_current_30": true,
+      "eligible_under_stale_14": true,
+      "remaining_days_under_current": 20,
+      "remaining_days_under_stale": 4,
+      "discrepancy_days": 16,
+      "current_policy_id": "returns_policy_v2",
+      "current_policy_title": "Returns Policy (current, v2 2025-01)",
+      "conflict_resolution": "first-match-wins selects returns_policy_v2"
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "0c3763052118ed3b51e9f457ea174011e39521d6d003ccf0461b17263970b545"
+}

@@ -1,0 +1,38 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-085b70",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "8746bb2ae5d7d9f08c50bde293f0a37b9401a01a1294d04c7f618345d1d79944",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:25:37.296263+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly sets a 30-day full-refund window for standard items, matching the claimed current window.",
+    "plan": "Extracted numeric return windows from the bundled policy artifacts, compared the current returns_policy_v2 value (30 days) to the claimed value (30 days) and to the stale base artifacts (14 days), computed the delta and relative error, and checked the 10-day standard order against both windows; no n/mean/sd fields were present, so a two-sample t-test was not computable.",
+    "evidence": {
+      "claimed_days": 30,
+      "current_policy_days": 30,
+      "current_policy_id": "returns_policy_v2",
+      "stale_base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "current_minus_claimed_days": 0,
+      "current_minus_stale_days": 16,
+      "relative_error_stale_vs_current": 0.5333,
+      "order_purchased_days_ago": 10,
+      "order_eligible_under_current_30": true,
+      "order_eligible_under_stale_14": true,
+      "two_sample_t_test": "not_computable_no_n_mean_sd",
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "82f3977dd5f57941d04138688074a713fc181ca1d62d9921e5188f496c448b0d"
+}

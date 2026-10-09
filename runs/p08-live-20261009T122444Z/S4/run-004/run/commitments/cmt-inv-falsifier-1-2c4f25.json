@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-2c4f25",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "239cb717e03a728b478d2c22ddd41b6981d0c9e4683f2b2416bf3f163969fbe4",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:28:12.734281+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly specifies a 30-day full-refund window for standard items, so the 30-day claim is supported while the 14-day judge reference is stale.",
+    "plan": "Extract the current policy from policy_docs, compare it with the stale base_retrieval and base_judge_reference_days, compute the 10-day standard order's eligibility under the 30-day and 14-day windows, and note that no raw event counts exist for an RR computation.",
+    "evidence": {
+      "statistical_test": "not applicable: no events_treat, events_ctrl, tot_treat, tot_ctrl, or baseline_rr fields",
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_days": 10,
+      "current_eligible": true,
+      "stale_eligible": true,
+      "delta_days": 16,
+      "judge_matches_current_policy": false,
+      "policy_conflict": false,
+      "clearance_applicable": false
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "20fdc570c76e9245c6127e0fdcbf493189e5390acdabde971bdc98666eb995f7"
+}

@@ -1,0 +1,21 @@
+{
+  "agent_verdicts": [],
+  "arm": "single_agent",
+  "case_id": "policy_rag_v1",
+  "confidence": 0.98,
+  "counterfactual_slots_executed": 0,
+  "counterfactual_slots_granted": 0,
+  "defect_class": "judge_stale",
+  "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+  "harness_seed": 20261010,
+  "hypotheses": [],
+  "integrity_rejections": 0,
+  "n_agents": 1,
+  "run_id": "single_agent/run-01",
+  "schema": "p08.final_verdict/1",
+  "status": "completed",
+  "target_artifact": "judge",
+  "total_tokens": 10026,
+  "verdict": "supported",
+  "wall_s": 69.449529
+}

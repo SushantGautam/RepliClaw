@@ -1,0 +1,33 @@
+{
+  "a9_defect_instruction_sha256": "5c7192eb7f8d770a038dfe361a039402d7068dc879d21a6e2ff1ca55465996e7",
+  "arm": "adaptive_central",
+  "arm_key": "adaptive_central",
+  "case_id": "policy_rag_v1",
+  "client_factory": "live",
+  "end_ts": "2026-10-09T12:43:32.136199+00:00",
+  "endpoint": "https://ai-gateway.sigma2.no/v1",
+  "envelope": {
+    "max_agents": 4,
+    "max_tokens": 60000,
+    "max_wall_s": 900.0,
+    "sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c"
+  },
+  "envelope_sha256": "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c",
+  "harness_seed": 20261010,
+  "lam": 0.5,
+  "lease_ttl_s": 120.0,
+  "max_calls": 64,
+  "max_cycles": 6,
+  "max_tokens": 4096,
+  "model": "Qwen3.8-27B",
+  "mu": 0.5,
+  "offline_arm": false,
+  "run_id": "adaptive_central/run-01",
+  "schema": "p08.run_metadata/1",
+  "start_ts": "2026-10-09T12:41:53.910302+00:00",
+  "status": "completed",
+  "temperature": 0.2,
+  "timeout": 120.0,
+  "tree_sha": "484dc66dfef4d4850554d77556d04b4a50b12a9f",
+  "wall_s": 98.225602
+}

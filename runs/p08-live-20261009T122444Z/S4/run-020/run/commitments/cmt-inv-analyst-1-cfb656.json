@@ -1,0 +1,31 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-cfb656",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "873c31e24b3adb34d6185dafed603a3a9eb7fb5dc5b5c17944a179666624334d",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:28:44.157641+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current policy supports 30-day full refund.",
+    "plan": "Compare current policy, retrieval, judge days.",
+    "evidence": {
+      "current_policy_days": 30,
+      "base_retrieval_days": 14,
+      "judge_reference_days": 14,
+      "order_days": 10,
+      "delta_days": 16,
+      "eligible_under_current": true,
+      "cohen_d": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "5ceff874fe67ef53c68a3b9a9c0ce4e63ae64c7da21c18e0d7f06f2f16d405d1"
+}

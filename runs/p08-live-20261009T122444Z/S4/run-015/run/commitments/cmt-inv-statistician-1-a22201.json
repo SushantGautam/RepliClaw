@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-a22201",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "ae0f3f5da60b6798f22ef5994c9be33c0f62aea2f058d12e220d90dd80e6d5fc",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:41:11.447180+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly sets a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Extract the numeric return window from the current policy document, compare it with the stale base retrieval and the base judge reference, and check order-age eligibility; no two-group means were provided, so a t-test was not applicable and a deterministic policy-consistency computation was used.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "delta_days": 16,
+      "order_days": 10,
+      "eligible_under_current_policy": true,
+      "eligible_under_stale_reference": true,
+      "inferential_test": "not applicable: no n, mean, or sd fields were provided for a two-sample t-test",
+      "p_value": null,
+      "confidence_interval": null
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "d258aca22116fa810139115ea81b256df49bfeba51477105fdecc10a07eee1c3"
+}

@@ -1,0 +1,56 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-934421ae",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "3a9781c9b50c3fe080b6e4043aa5ae0e09acfd3f5875de97b4a1e4d174cdf846",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:17:41.201958+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns policy explicitly states a 30-day full-refund window for standard items.",
+    "plan": "Parsed the bundled policy documents, identified returns_policy_v2 as the current policy, extracted its 30-day standard-item full-refund window, compared it against the stale 14-day base retrieval and base judge reference, and computed the discrepancy; Cohen's d was not computable because no mean_treat/mean_ctrl/sd fields were provided.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "stale_retrieval_window_days": 14,
+      "base_judge_reference_days": 14,
+      "discrepancy_days": 16,
+      "relative_discrepancy_vs_stale": 1.142857,
+      "order_purchased_days_ago": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "policy_conflict_resolution": "first-match-wins selects returns_policy_v2",
+      "cohen_d": null,
+      "cohen_d_note": "No mean_treat, mean_ctrl, sd_treat, or sd_ctrl fields are present, so the prescribed Cohen's d computation is not applicable."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:17:41.204847+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns policy explicitly states a 30-day full-refund window for standard items.",
+    "plan": "Parsed the bundled policy documents, identified returns_policy_v2 as the current policy, extracted its 30-day standard-item full-refund window, compared it against the stale 14-day base retrieval and base judge reference, and computed the discrepancy; Cohen's d was not computable because no mean_treat/mean_ctrl/sd fields were provided.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_window_days": 30,
+      "stale_retrieval_window_days": 14,
+      "base_judge_reference_days": 14,
+      "discrepancy_days": 16,
+      "relative_discrepancy_vs_stale": 1.142857,
+      "order_purchased_days_ago": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "policy_conflict_resolution": "first-match-wins selects returns_policy_v2",
+      "cohen_d": null,
+      "cohen_d_note": "No mean_treat, mean_ctrl, sd_treat, or sd_ctrl fields are present, so the prescribed Cohen's d computation is not applicable."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "f87f2225bef020bb9ccb64f9f7db34877efef1e17fb79d8a10b1196850abdc81"
+}

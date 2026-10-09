@@ -1,0 +1,38 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-af1e69",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "9a1c5b61a43fb2fa4240a18e056ebe15366a378d010353db2f65db96e1f8bc2b",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:24:49.791880+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns_policy_v2 document explicitly sets the standard-item full-refund window at 30 days, matching the claimed 30-day window.",
+    "plan": "Parsed the bundled policy_docs, selected the current returns_policy_v2 document, extracted its numeric 30-day window, compared it to the claimed 30-day value and the stale 14-day base reference, checked the 10-day standard order against both windows, and attempted the raw RR computation but found no events_treat/events_ctrl/tot_treat/tot_ctrl fields.",
+    "evidence": {
+      "test": "exact numeric policy-window comparison; no events_treat/events_ctrl/tot_treat/tot_ctrl fields present, so raw RR and 95% CI are not computable",
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_days": 10,
+      "claim_minus_current_policy_days": 0,
+      "current_policy_minus_stale_reference_days": 16,
+      "relative_difference_current_vs_stale": 1.142857,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "rr": null,
+      "ci": null,
+      "p_value": null,
+      "note": "returns_policy_v2 states 30 days for standard items; clearance_rule does not apply to a standard item; base_judge_reference_days=14 is stale relative to the current policy."
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "2ab8d9ecc23097c74ba23757a52f57c2a8290ed87971a319acca9d36ac8505da"
+}

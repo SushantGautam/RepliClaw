@@ -1,0 +1,35 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-269c0b",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "48b7463f0b5552a1cdb7fb89a6fed56ea5b20119ded71cbba941e97fdfd4efcd",
+  "phase": "committed",
+  "timestamp": "2026-10-09T13:34:09.295295+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current v2 policy explicitly sets a 30-day full-refund window for standard items, so the claim is supported.",
+    "plan": "Extracted the current policy day count, base judge reference day count, and order age from the bundled data; computed the difference and eligibility; no two-sample t-test was possible because no n, mean, or sd fields were provided.",
+    "evidence": {
+      "test": "deterministic policy consistency check",
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "base_judge_reference_days": 14,
+      "delta_days": 16,
+      "order_days": 10,
+      "order_eligible": true,
+      "current_policy_matches_claim": true,
+      "base_judge_matches_claim": false,
+      "p_value": null,
+      "ci": null
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "4cfc9d9fa4e1974ef4f4d739d12fa85ed5608dd6c7ff836e2d8f12dc2a294303"
+}

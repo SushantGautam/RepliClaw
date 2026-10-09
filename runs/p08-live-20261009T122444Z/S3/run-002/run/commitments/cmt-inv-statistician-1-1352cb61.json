@@ -1,0 +1,54 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-1352cb61",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "35a246d338549c9a4ea1b15e44a3d52505638ed05cd4ac8e67872aeb8ad79a0f",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T12:43:32.097722+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states that standard items can be returned within 30 days of purchase for a full refund, matching the claimed 30-day window.",
+    "plan": "Extracted the numeric return windows from the bundled artifacts, compared the claimed 30 days to the current policy value, and checked the stale base retrieval/judge reference; a two-sample t-test was not applicable because the data contain no n, mean, or sd fields.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "current_policy_source": "returns_policy_v2",
+      "current_policy_difference_days": 0,
+      "base_retrieval_days": 14,
+      "base_retrieval_difference_days": -16,
+      "base_judge_reference_days": 14,
+      "base_judge_reference_difference_days": -16,
+      "current_policy_agreement": 1.0,
+      "t_test": "not applicable: no n/mean/sd fields",
+      "alpha": 0.05
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T12:43:32.102150+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy explicitly states that standard items can be returned within 30 days of purchase for a full refund, matching the claimed 30-day window.",
+    "plan": "Extracted the numeric return windows from the bundled artifacts, compared the claimed 30 days to the current policy value, and checked the stale base retrieval/judge reference; a two-sample t-test was not applicable because the data contain no n, mean, or sd fields.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "current_policy_source": "returns_policy_v2",
+      "current_policy_difference_days": 0,
+      "base_retrieval_days": 14,
+      "base_retrieval_difference_days": -16,
+      "base_judge_reference_days": 14,
+      "base_judge_reference_difference_days": -16,
+      "current_policy_agreement": 1.0,
+      "t_test": "not applicable: no n/mean/sd fields",
+      "alpha": 0.05
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "39205d6d414b8c00e5a929886925744de44a0f0db9e345814262bae8602352a5"
+}

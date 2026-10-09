@@ -1,0 +1,44 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-c7dccac8",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "a572bdb3e693f7486f156f54fbf0fc71604c73f5f08cd772d9f97642fffc4cfc",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T13:04:32.082780+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "Current v2 policy sets a 30-day full-refund window.",
+    "plan": "Parsed policy_docs and compared current v2 to stale v1.",
+    "evidence": {
+      "current_window_days": 30,
+      "stale_window_days": 14,
+      "order_days": 10,
+      "eligible": true,
+      "raw_rr": null,
+      "ci": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T13:04:32.088365+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "Current v2 policy sets a 30-day full-refund window.",
+    "plan": "Parsed policy_docs and compared current v2 to stale v1.",
+    "evidence": {
+      "current_window_days": 30,
+      "stale_window_days": 14,
+      "order_days": 10,
+      "eligible": true,
+      "raw_rr": null,
+      "ci": null
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "0f813d3af5b1a5f1ce90d411948af3face5688ec1c863c3ed65498eb9d81028e"
+}

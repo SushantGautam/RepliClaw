@@ -1,0 +1,7 @@
+{
+  "issues_found": [
+    "Assistant's stated return window does not match the rubric reference (14 days)"
+  ],
+  "severity": "critical",
+  "summary": "Rubric reference 14 days; stated window mismatches."
+}

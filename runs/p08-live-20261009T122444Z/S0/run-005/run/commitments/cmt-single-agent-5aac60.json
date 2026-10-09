@@ -1,0 +1,33 @@
+{
+  "commitment_id": "cmt-single-agent-5aac60",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "feccfadb229ace837adef8ce90cada698b969591b37e22b6fb9974f280386c7a",
+  "phase": "committed",
+  "timestamp": "2026-10-09T12:27:42.163725+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly states a 30-day full-refund window for standard items, so the claimed current window is 30 days.",
+    "plan": "Parsed the bundled policy_docs and order fields, extracted the current standard-item return window from returns_policy_v2, compared it with the stale base_retrieval and base_judge_reference_days values, and checked the 10-day order against the 30-day window.",
+    "evidence": {
+      "current_policy_days": 30,
+      "base_retrieval_days": 14,
+      "base_judge_reference_days": 14,
+      "order_purchased_days_ago": 10,
+      "order_within_current_window": true,
+      "current_minus_base_days": 16,
+      "current_window_margin_days": 20,
+      "cohen_d": null,
+      "cohen_d_note": "No mean_treat/mean_ctrl or sd fields are present, so Cohen's d is not computable; the verdict uses direct policy-day arithmetic."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "11940e1742489e4d181ace060b3c7ecb1ef6c10c8b234aaaf0a0199333ef8b69"
+}

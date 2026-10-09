@@ -1,0 +1,34 @@
+{
+  "commitment_id": "cmt-single-agent-9c80b6",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "single-agent",
+  "role": "analyst",
+  "content_hash": "93b951d8be1ccf07859c954770656ee99cc57d1daeefdad06eb200e26880e6a9",
+  "phase": "committed",
+  "timestamp": "2026-10-09T12:27:12.247239+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current returns policy v2 explicitly sets a 30-day full-refund window for standard items, so the claimed current window is correct.",
+    "plan": "Extracted the current policy from policy_docs, identified returns_policy_v2 as the current v2 2025-01 policy, parsed its 30-day standard-item full-refund window, compared it with the order age of 10 days and with the stale base reference of 14 days, and noted that no mean/sd fields exist for Cohen's d.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_policy_days": 30,
+      "claimed_days": 30,
+      "base_judge_reference_days": 14,
+      "delta_current_minus_base_days": 16,
+      "order_age_days": 10,
+      "eligible_under_current": true,
+      "eligible_under_stale_reference": true,
+      "cohen_d": null,
+      "cohen_d_note": "No mean_treat/mean_ctrl or sd_* fields are present, so Cohen's d is not computable."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "ea9fd2bf2a09ac41c0d048cdca312eb08c4f77701076a799c205f1ee2a35b9f1"
+}

@@ -1,0 +1,50 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-7299a601",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "68e306887afeaed9641974de869fad086bf39eaf14f574fb18d0de871c449c18",
+  "phase": "revealed",
+  "timestamp": "2026-10-09T12:52:40.852862+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns policy explicitly states that standard items can be returned within 30 days of purchase for a full refund.",
+    "plan": "Parsed the bundled policy documents and order data, extracted the current standard-item return window, compared it against the stale base judge reference, and checked the 10-day-old order against both windows.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_age_days": 10,
+      "eligible_under_current_30d": true,
+      "eligible_under_stale_14d": true,
+      "current_minus_stale_days": 16,
+      "absolute_stale_error_fraction": 0.533333,
+      "cohen_d": null,
+      "cohen_d_note": "No mean_treat, mean_ctrl, or sd fields are present, so Cohen's d is not computable from the bundled data."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-09T12:52:40.854187+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The claim is supported because the current returns policy explicitly states that standard items can be returned within 30 days of purchase for a full refund.",
+    "plan": "Parsed the bundled policy documents and order data, extracted the current standard-item return window, compared it against the stale base judge reference, and checked the 10-day-old order against both windows.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_reference_days": 14,
+      "order_age_days": 10,
+      "eligible_under_current_30d": true,
+      "eligible_under_stale_14d": true,
+      "current_minus_stale_days": 16,
+      "absolute_stale_error_fraction": 0.533333,
+      "cohen_d": null,
+      "cohen_d_note": "No mean_treat, mean_ctrl, or sd fields are present, so Cohen's d is not computable from the bundled data."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "82b81ceb98c565482f56937d8565ee26b0cadcedcfd8c70c6a02aa7db9bf6490"
+}

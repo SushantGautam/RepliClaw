@@ -1,0 +1,40 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-b7d92b",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "8e1f146d4096bca96385e4d196bab3b1900356f0ef0af10a666ba424d0a74647",
+  "phase": "committed",
+  "timestamp": "2026-10-09T15:24:20.280334+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current policy document explicitly sets a 30-day full-refund window for standard items, matching the claimed 30 days, although the base retrieval and judge reference are stale at 14 days.",
+    "plan": "Parsed the bundled policy_docs for the current standard-item return window, extracted 30 days from returns_policy_v2, compared it to the claimed 30 days and to the stale base reference of 14 days, checked the 10-day-old standard order against the current window, and attempted the falsifier RR computation but found no raw event counts.",
+    "evidence": {
+      "claim_days": 30,
+      "current_policy_days": 30,
+      "stale_base_reference_days": 14,
+      "difference_claim_vs_current_days": 0,
+      "difference_current_vs_stale_days": 16,
+      "relative_difference_current_vs_stale_vs_stale": 1.1428571428571428,
+      "relative_difference_current_vs_stale_vs_claim": 0.5333333333333333,
+      "order_age_days": 10,
+      "order_within_current_window": true,
+      "order_within_stale_window": true,
+      "base_retrieval_contains_current_policy": false,
+      "raw_event_counts_present": false,
+      "rr": null,
+      "ci": null,
+      "p_value": null,
+      "note": "No events_treat, events_ctrl, tot_treat, or tot_ctrl fields are present, so the specified raw RR/CI computation is not computable; the available raw policy evidence directly supports the 30-day claim."
+    },
+    "confidence": 0.99,
+    "executable": true
+  },
+  "seal_hash": "fdf47d1fdf293615242a2b35b8c72996a161ac231b041ac6e0b71662c90b5368"
+}
