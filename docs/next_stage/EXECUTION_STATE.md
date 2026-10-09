@@ -815,3 +815,44 @@ untouched; dev LOCAL-ONLY.
 **Launch protocol (gated, in order):** judges' REQUIRED items applied → freeze re-stamped with verdicts → commit → launch `pilot_parallel.py run --round 8 --out .artifacts/rcaeval/pilot/run_v36 --concurrency 6 --label v36-round8` in the v36 worktree (32 runs, 8 cases × 2 seeds × 2 arms) → STOP/adjudication per V3.6 freeze → outcome judges → campaign report §2f/§4e + dev state I4.27.
 
 **Standing finding: UNCHANGED** (round 8 can refine/strengthen it; cannot be pre-flipped). `main` untouched; dev LOCAL-ONLY (never push).
+
+## I4.26b (2026-10-11, ~11:45) — ROUND 8 LAUNCHED (V3.6, 600K envelope)
+
+**Launch record:**
+- Frozen HEAD: v36 worktree `cff7d748` (branch `wip/v36-600k`); instrument
+  constants: `MAX_TOKENS_PER_RUN = 600_000`, `ROUND_TOKEN_CEILING = 24_000_000`;
+  wall cap 900s; concurrency 6; 32 planned runs (8 cases × 2 seeds × 2 arms);
+  label `v36-round8`; model SimulaChat default (Qwen3.8-27B, model id
+  "default") — MODEL-SUBSTITUTION label applies.
+- Both fresh pre-run judges returned CONDITIONAL-PASS; ALL REQUIRED items
+  applied to the freeze before launch (doc-only; instrument diff unchanged
+  from `221b81b` except one non-behavioral comment). Judge cycle committed at
+  `cff7d748`.
+- Gate at frozen HEAD: 483 passed / 11 skipped / 3 xfailed; ruff + mypy clean;
+  offline fake smoke 4/4 @600K.
+- Process: PID 64862, `pilot_parallel.py run --round 8 --out
+  .artifacts/rcaeval/pilot/run_v36 --concurrency 6 --label v36-round8` in the
+  v36 worktree; provider env passed explicitly:
+  `SIMULACHAT_BASE_URL=https://simulachat.sushant.pp.ua/api/v1` (the
+  OpenAI-compatible Open WebUI endpoint, model "default" fronting Qwen3.8-27B —
+  same provider/model as round 7; the `ai-gateway.sigma2.no` probe returned
+  401 for the current token, the `sushant.pp.ua` endpoint authenticated and
+  returned `model: Qwen3.8-27B` on the launch probe), key from
+  `CUSTOM_SIMULACHAT_KEY` (env, not committed).
+- parallel_meta.json verified at launch: git_rev `cff7d748`,
+  `max_tokens_per_run: 600000`, concurrency 6.
+- Expected runtime: D-E runs ~100–300s wall (round-7 analog), C-EQ ~25–30s;
+  round total projected ~30–60 min at concurrency 6.
+- R7-STATS deliverable integrated: `docs/next_stage/science/round7_statistical_analysis.md`
+  (+ `round7_stats.py` + output): case-level D-E 4/8 vs C-EQ 6/8 (full-cohort,
+  no-completion = non-hit), McNemar p=0.5 (n=2 discordant), bootstrap CIs,
+  cost 4.08×/hit and 7.48×/case incl. sunk, minimum-n: n=30 for +25pp at
+  power 0.8 (n=8 power ≈ 0.10).
+- R8-PROV deliverable integrated: v36 `docs/next_stage/design/round8_provenance_manifest.json`
+  (34 verifications; 32 pass, 2 expected-fail worktree-equality entries —
+  corrected to point at the committed blobs).
+
+**Next:** monitor to STOP/completion → adjudicate with
+`/tmp/adjudicate_round8.py` (600K token-cap threshold) → 2 fresh OUTCOME
+judges → campaign report §2f/§4e + rider → I4.27. Standing negative finding
+remains until the round's machine-verified result says otherwise.
