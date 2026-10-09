@@ -954,3 +954,34 @@ remains until the round's machine-verified result says otherwise.
 **RELAUNCHED COMPLIANT (2026-10-11 10:49 UTC):** `pilot_parallel.py run --round 9 --out .artifacts/rcaeval/pilot/run_v37 --concurrency 6 --label v37-round9` in the v37 worktree, provider env explicit, key from `CUSTOM_SIMULACHAT_KEY` (env, never committed). `parallel_meta.json` verified live: **git_rev `af2799a5684f…`** (compliant HEAD), model `default`, concurrency 6, envelope 600000/900, ceiling 24M. **IN FLIGHT** — 32 planned runs. On completion/STOP: round-9 adjudicator (must implement R1 discriminator, R5 completed-only reference, R7 items 9–12 cross-checks) → 2 fresh OUTCOME judges → report §2h/§4f + rider 16 → I4.28 closeout.
 
 **Standing negative finding: UNCHANGED** (round 9 can refine/strengthen it; cannot be pre-flipped). `main` untouched; dev LOCAL-ONLY (never pushed).
+
+### I4.28 update — round 9 COMPLETE (2026-10-11 10:56 UTC), outcome judges dispatched
+
+**Official round 9 (compliant launch, git_rev af2799a) finished in ~7 min:**
+25/32 planned runs — `stop1_ssat` tripped at case 5 (sat D-E 0.50 / C-EQ 0.50
+≥ 0.25, the designed SSAT efficiency stop); **0 crashes, 0 aborts, 25/25
+completed**; D-E **14/14** (round 8: 9/14 + 5 tool-cap aborts); C-EQ 11/14
+(3 slots never launched = ceiling lower bound); case-level hit (R3 FINAL
+ledger) **D-E 8/8** vs round 8 6/8, C-EQ 6/8 (07-08 never launched).
+Final tokens 4,817,798 (snapshot 3,738,102 + 3 in-flight 1,079,696 = exact).
+Integrity (independent adjudicator `/tmp/adjudicate_round9.py`): items 1,2,4,5,
+8,9,11,12,13 all OK; item 10 diff lock verified by git; item 6 exact
+reconciliation verified. Round-8 data untouched.
+
+**R5 guard outcome (per frozen rule):** reference = round-8 completed-only
+D-E cohort rate 316.3% (637/153); round-9 newly-completing cohort (5 runs)
+rate 318.1% (< 321.3% threshold) **but 5/5 show the ≥5× re-issue-loop
+signature** (e.g. `top_anomalies(k=20)` ×10 in RCA-P-02 s1012) → guard FAILS
+→ per the freeze the mechanism verdict is re-labeled **H-nonconv /
+mechanism-negative** despite the observed completion recovery (H-cap's
+completion-recovery leg was plainly satisfied: all 5 former cap-abort slots
+completed). Dual-finding tension to be adjudicated by the outcome judges.
+
+**Fleet:** 2 fresh OUTCOME judges running — V37-OUTCODE `dba1eb1f-8361-4a84-b98d-31c4d4f22855`
+(integrity 1-13, coverage, quarantine integrity, diff lock, ledger consistency)
++ V37-OUTSCI `6433088d-9e78-47c6-8063-a15482db8540` (hypothesis adjudication,
+R5 reference-cohort oddity, standing-negative assessment, R8 termination,
+process-error taint assessment, report-level REQUIRED items).
+**NEXT on judges:** apply REQUIRED (doc-only) → report §2h/§4f + rider 16 +
+§7/§8 updates → I4.28 closeout → dev commit → checkpoint 022.
+**NO claims may be published before the outcome judges return.**
