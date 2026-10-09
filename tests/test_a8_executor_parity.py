@@ -101,11 +101,22 @@ def _strip(o: Any) -> Any:
 
 
 def _normalized_tree(root: Path) -> dict:
-    """All JSON/JSONL artifacts under root, normalized for determinism diffs."""
+    """All JSON/JSONL artifacts under root, normalized for determinism diffs.
+
+    The arm's internal RunStore (``run/``) is deliberately SKIPPED: it holds
+    ``uuid4``-generated ids (commitments/evidence/needs) that are non-
+    deterministic by design. The P08 CONTRACT surface the scorer reads
+    (final_verdict / budget_ledger / traces / run_metadata) is deterministic.
+    (A8: for the strategy arms S0/S3/S4 the RunStore now nests at
+    ``<run-01>/run/`` — inside the dir this helper walks — so the skip is what
+    keeps this parity test contract-only.)
+    """
     out: dict[str, Any] = {}
     for p in sorted(Path(root).rglob("*")):
         if not p.is_file() or p.suffix not in (".json", ".jsonl"):
             continue
+        if "run" in p.relative_to(root).parts[:-1]:
+            continue  # skip the RunStore (uuid4 ids)
         text = p.read_text(encoding="utf-8")
         if p.suffix == ".jsonl":
             content = [_strip(json.loads(line)) for line in text.splitlines() if line.strip()]
@@ -537,3 +548,76 @@ def test_a8_fake_llmclient_parity_all_six_arms(tmp_path: Path, monkeypatch) -> N
     for other in ("S3", "S0"):
         assert metas["S5"]["model"] == metas[other]["model"]
         assert metas["S5"]["offline_arm"] == metas[other]["offline_arm"] is False
+
+
+# ---------------------------------------------------------------------------
+# 5. BLOCKER regression: a full six-arm primary run-set is SCOREABLE.
+# ---------------------------------------------------------------------------
+def test_a8_six_arm_primary_runset_is_scoreable(tmp_path: Path, monkeypatch) -> None:
+    """CODE-JUDGE BLOCKER #1: a live strategy arm (S0/S3/S4) previously wrote a
+    stray top-level ``<out>/run`` RunStore dir. ``score.discover_runs`` treats
+    EVERY subdirectory of an arm dir as a run dir, so the stray ``run/`` was
+    discovered as a second, contract-less run dir and failed the completeness
+    gate — making the whole run-set unscoreable (defeating A8's purpose).
+
+    Fix: the strategy arms' RunStore nests INSIDE the contract dir
+    (``<out>/run-01/run``), so ``discover_runs`` sees exactly ``run-01`` per arm.
+    This regression runs all six arms through the CLI into ONE run-set and
+    asserts the scorer scores it (no ``ScoreError``) with one run dir per arm.
+    """
+    root = tmp_path / "runset"
+    for arm in SIX_ARMS:
+        out = root / arm
+        code = _run_cli(arm, "policy_rag", "--client-factory", "fake",
+                        monkeypatch=monkeypatch, out=out)
+        assert code == 0, f"{arm} must complete on the primary case (exit {code})"
+        # Sharp regression check: exactly ONE run dir per arm, and no stray
+        # top-level ``run/`` that the scorer would mis-discover.
+        subdirs = {p.name for p in out.iterdir() if p.is_dir()}
+        assert subdirs == {"run-01"}, (
+            f"{arm} must write exactly one run dir (run-01); found {subdirs}"
+        )
+        assert not (out / "run").exists(), (
+            f"{arm} leaked a top-level run/ RunStore dir (scorer would treat it "
+            f"as a second, contract-less run)"
+        )
+    # The scorer must score the full six-arm run-set without raising.
+    res = sc.score_runs(root, "policy_rag_v1")
+    # All six are live (fake) => the P1 (S5/S4) and RQ2 (S5/S3) pairs are
+    # like-for-like, so parity is clean.
+    assert res["parity"]["ok"] is True, res["parity"]
+    assert res["parity"]["executor_parity"]["S5_S4"] is True
+    assert res["parity"]["executor_parity"]["S5_S3"] is True
+    # The P1 decision is a normal branch (not the degraded parity violation).
+    assert res["p1_decision"]["decision"] != "executor_parity_violation"
+
+
+# ---------------------------------------------------------------------------
+# 6. S5/S0 (RQ3 ablation) is reported but does NOT flip parity.ok (A8.2 / C4).
+# ---------------------------------------------------------------------------
+def test_a8_s5_s0_mixed_does_not_flip_parity_ok(tmp_path: Path) -> None:
+    """C4 coverage (code-judge MINOR #2): S0 is the RQ3 single-agent ablation,
+    NOT a P1/P2 arm. A mixed S5/S0 executor must be REPORTED in
+    ``parity.executor_parity['S5_S0']`` but must NOT flip the headline
+    ``parity.ok`` (which covers only the P1 S5/S4 and RQ2 S5/S3 pairs) and must
+    NOT veto the P1 decision.
+    """
+    root = tmp_path / "s0_mixed"
+    for i in range(1, 4):
+        # P1 pair S5/S4: BOTH live (matched) -> parity holds.
+        _a8_run(root, "S5", f"run-{i:02d}", model="fake-v1", offline_arm=False,
+                defect="retrieval_omission", target="returns-policy")
+        _a8_run(root, "S4", f"run-{i:02d}", model="fake-v1", offline_arm=False,
+                defect=None, target=None)
+        # RQ3 ablation S0: MIXED (offline/deterministic) -> reported, non-vetoing.
+        _a8_run(root, "S0", f"run-{i:02d}", model="deterministic", offline_arm=True,
+                defect=None, target=None)
+    res = sc.score_runs(root, "policy_rag_v1")
+    p1 = res["p1_decision"]
+    # S0's mismatch is surfaced ...
+    assert res["parity"]["executor_parity"]["S5_S0"] is False
+    # ... but does NOT flip the headline parity.ok (P1 S5/S4 + RQ2 S5/S3 clean).
+    assert res["parity"]["ok"] is True, res["parity"]
+    # And the P1 decision still proceeds (not the degraded parity violation).
+    assert p1["decision"] != "executor_parity_violation"
+    assert "ci95" in p1
