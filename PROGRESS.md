@@ -2,6 +2,14 @@
 
 Append-only. Each entry: what changed / commands run / observed result / artifacts / next action.
 
+## 2026-10-09 — Strategic rebrand: RepliClaw as independent research project (SimuMet AI Safety) — DONE @ c08438a
+- HUMAN DIRECTION: rename repo to RepliClaw (GitHub: SushantGautam/RepliClaw, gh api 200, old URL redirects); remove all hackathon-submission framing; position as independent public research of the SimuMet AI Safety research department (https://www.simulamet.no/research/research-departments/ai-safety); make it read as a genuine high-quality lab contribution.
+- Executed: global name sweep (ScienceClawHackathon -> RepliClaw; committed run-evidence JSON restored, NOT rewritten — provenance integrity); README fully rewritten (independent-research header, "The research program (2026)" section, honest status — 248-test gate, R-2 live pre-flight closed 2026-10-09, live campaign launch-ready, NO live results yet — six-fixture content marked HISTORICAL, nothing deleted); APPLICATION_V2 -> public project description & FAQ; SUBMISSION_CHECKLIST -> release readiness checklist; COMPETITION_STRATEGY -> research strategy & positioning; IMPLEMENTATION_PLAN deadlines -> release milestones (live window 2026-10-10->23 preserved); TASK_SPEC/pyproject/.github/SEED_PROMPT rebranded; local on-disk command paths corrected back (directory keeps its name).
+- Workers (disjoint ownership, all DONE): research/strategy docs 9 files (aadc4fc3); fleet/agent docs 15 files (86fa091c); application docs + README body 6 files (c9a5f304). Integration sweep fixed 3 residual spots (TASK_SPEC collab-bonus line, PRIOR_ART gate event URL, NEED_DISPATCH "judges" line).
+- Protected from rebrand: lamm-mit/scienceclaw vendor references, SimpleAudit, all historical review/checkpoint records, all run evidence.
+- Gate re-verified after rebrand: **248 passed, 8 skipped** (authoritative pytest summary), ruff clean, mypy 56 clean; commit c08438a (33 files, +358/-292, docs-only) PUSHED; state @ 8b8091c/0efaf5e; public repo description set.
+- Unchanged: launch readiness (R-2 CLOSED @ 79c8f7a, preflight 5/5, campaign staged) and authorization scope — the 120-run live campaign still awaits explicit full-experiment authorization.
+
 ## 2026-10-08 (night) — scorer built by orchestrator, merged, run branch @ 3f3928b
 - Subagent oracle-scorer died 3 turns running (model API errors; the 721-line file it left behind was a half-merged hybrid — deleted and rebuilt cleanly by the integration owner).
 - **scorer DONE @ 8f4d284** (p08/scorer): src/repliclaw/p08/score.py + tests/test_p08_score.py (8 tests).
