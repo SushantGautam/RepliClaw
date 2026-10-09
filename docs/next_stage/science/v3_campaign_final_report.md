@@ -43,6 +43,7 @@ pilot.
 | 4 | **V3.2 (150K/run, 48 tools, band 1.40)** | `default` (Qwen3.8-27B) | **0/12: 8× aborted_budget, 2× malformed-output, 2× per-tool sub-budget** | **3/8 completed (all hit=true); 5× crashed by the volume canary** | 1,744,526 / 7,200,000 (1,132,481 at stop time) | stop-2 (D-E) [+ stop-1, a defect — see §6] |
 | **5** | **V3.3 (150K/run, 48 tools, anti-loop cache, no sub-caps, volume demoted)** | `default` (Qwen3.8-27B) | **1/9 completed (hit=true; full mechanism executed); 4× budget-abort, 4× malformed-output** | **7/7 completed (all hit=true); 0 crashes (2 out-of-band → logged flag)** | 1,264,453 / 7,200,000 (at trip) | stop-2 (D-E 8/20 = 0.40 > 0.25) |
 | **6** | **V3.4 (300K/run shared envelope, 12M ceiling; otherwise identical to V3.3)** | `default` (Qwen3.8-27B) | **6/12 completed (ALL hit=true, 121K–283K tok); 4× malformed-output (18–27K, envelope-invariant); 2× budget-abort (277K/300K)** | **9/9 completed (all hit=true, 55–79K); 0 crashes** | 2,389,175 / 12,000,000 | **stop-1 (C-EQ sat 3/10 = 0.30 > 0.25)** — pre-empted a D-E stop-2 that the full cohort (6/20 = 0.30) would have tripped |
+| **7** | **V3.5-D (300K/run shared envelope, 12M ceiling; + B forced-JSON, C tolerant discriminant, D unbounded envelope-bounded retry — shared path, both arms)** | `default` (Qwen3.8-27B) | **6/14 completed (ALL hit=true, 232K–295K tok); 0 crash-class crashes; 8× budget-abort (4× token-cap ≥300K + 4× phase-2 tool-cap, D-E-only pre-existing); 2 drift-form terminals RECOVERED by (C)** | **10/10 completed (all hit=true, 49–77K); 0 crashes** | 4,311,893 / 12,000,000 (22-run snapshot at trip; 24 final) | **stop-1 (C-EQ sat) + stop-2 (raw D-E non-compl 6/20 = 0.30 > 0.25)** — the raw stop-2 counts all non-completions; adjudicated crash-class is 0 (see §2d) |
 
 Round 3 (V3.1, `default`) tripped stop-2 earlier (D-E 0/6) and is the trigger
 that produced the V3.2 amendment. All rounds are feasibility-only.
@@ -138,6 +139,94 @@ single "envelope-bound" story. Disambiguation of genuine budget-need vs
 burn-through for the abort class requires a 600K round (not yet authorized).
 See §4c and disclosure 13.
 
+### 2d. Round 7 — V3.5-D (the crash-class-targeted instrument repair; instrument-reliability round)
+
+Round 7 ran the V3.5-D instrument (freeze `v35_prereg_freeze.md` amendment v3
+@ `9369b5b8` + R2 tool-cap completion @ `8b8bda5`; code `11e7e63a`, instrument
+blob `telemetry_arms.py = 1b33c002…`; 2 fresh pre-run judges: code **PASS**,
+science **CONDITIONAL PASS** with all R1–R3 + A1–A5 applied). The three coupled
+fixes are on the **shared** action-protocol path, **both arms** (A1 parity):
+**(B)** forced-JSON `response_format` (secondary output-discipline hardening),
+**(C)** tolerant `_OBS_TOOLS`-validated discriminant + mode-aware correction
+prompt (the transcript-backed primary fix), **(D)** unbounded
+envelope-bounded retry-until-valid so a never-valid model terminates as an
+honest `aborted_budget`, **never `crashed`**. Preregistered purpose: measure
+whether the repaired instrument lets D-E complete at 300K **without the
+round-6 parse-drift crash class**. It is an **instrument-reliability**
+measurement, **not** a mechanism experiment (§4d). Result:
+
+- **D-E-TELEM: 6/14 ledgered runs COMPLETED, ALL 6 hit=true** (232,273–295,234
+  tok). **0 crash-class crashes** (`status=="crashed"` = 0 across all 24 runs,
+  vs 4/12 in round 6). The 8 non-completions are **all `aborted_budget`**,
+  splitting into two **orthogonal, pre-existing** classes (neither the crash
+  class): **4× token-cap abort** (≥300,000 tok: P-05 s11/s12, P-06 s11, P-07
+  s11) + **4× phase-2 tool-cap abort** (sub-envelope 178–275K tok / 57–86
+  tool_calls, `DE_PHASE2_TOOL_CAP=4`, `telemetry_arms.py:1041`, **D-E-only,
+  pre-existing in V3.4** — P-02 s12, P-04 s11, P-06 s12, P-08 s11).
+- **CRITICAL (science-judge round-7 REQUIRED, machine-verified): the
+  round-6 crash class is 0, but "0 parse-drift" would be a false statement.**
+  Two D-E runs (P-04 s11 / inv-c, P-06 s12 / inv-c) **did emit the
+  canonical crash-class drift form as their terminal action**
+  (`{"action":"service_metrics", ...}` — the tool name in the `action` field).
+  Under **(C)** the tolerant discriminant **recovers** these into a valid
+  `tool_call` without raising, so parse_action does not raise, **(D) retry
+  never fires**, the run **continues**, and only later aborts on the orthogonal
+  phase-2 tool cap. These are therefore **drift-form *emissions recovered by
+  (C)* — direct live evidence that (C) works — NOT crashes and NOT fix
+  failures.** The defensible, machine-verified headline is **"0 crash-class
+  crashes"** (`status=crashed`), **not** "0 parse-drift emissions" (2 were
+  emitted, 2 were recovered).
+- **C-EQ-TELEM: 10/10 completed, ALL 10 hit=true, 0 crashes** (49,030–77,228
+  tok). Under the repaired instrument this is a **same-instrument
+  reproducibility check**, not a new reference (round-6 C-EQ 9/9, round-5 7/7
+  remain the references).
+- **JSON-mode parity (science-judge #5, machine-checkable): SYMMETRIC.** Every
+  prompt in every session ran in JSON mode — C-EQ 176/176, D-E 1210/1210,
+  **0 plain-mode drops in either arm**. The (B) permissive-fallback parity risk
+  never materialized on live `default`.
+- **Stop: stop-1 (C-EQ seed-saturation) + stop-2 (raw D-E non-completion) at
+  the 22-run snapshot** (4 completed cases). **Snapshot gap:** STOP.json
+  records 12 D-E / 10 C-EQ (`runs_recorded=22`); **2 D-E aborts (P-07 s11,
+  P-08 s11) landed post-trip under concurrency 6**, giving the final 24-run
+  ledger (14 D-E / 10 C-EQ). Token delta reconciles exactly: STOP cumulative
+  3,734,441 + (302,152 + 275,300) = **4,311,893** = final 24-run total. 16 of 40
+  planned runs (P-08 s12 … P-10) never launched.
+
+**The freeze-mandated dual-count (raw stop-2 vs adjudicated crash-class):**
+
+| Quantity | D-E (of 24-run ledger) | C-EQ | Note |
+|---|---|---|---|
+| **Raw non-completion (stop-2)** | **8/14 = 0.57** (full-cohort 8/20 = 0.40; snapshot 6/12 = 0.50) | 0/10 | STOP.json `rate 0.3` is the full-cohort /20 at snapshot; STOP does NOT distinguish crash class |
+| **Adjudicated crash-class (`status=crashed`)** | **0/14 = 0.00** | 0/10 | **the round-6 class; vs 4/12 = 0.33 in round 6** |
+| **… of which assert-commit (pre-existing)** | 0 | 0 | R1 branch; none observed |
+| **Drift-form EMISSIONS recovered by (C)** | 2 (P-04 s11/inv-c, P-06 s12/inv-c) | 0 | NOT crashes — recovered, run continued to orthogonal abort |
+| **Orthogonal aborts (token + tool-cap)** | 8 (4 token + 4 tool-cap) | 0 | pre-existing classes, NOT the crash class |
+
+**Reading the dual count:** the raw stop-2 number (8 D-E non-completions)
+looks like a crash-rate, but adjudication shows **0 are the crash class** —
+all 8 are orthogonal budget/tool-cap aborts, and 2 of those additionally
+showed a recovered drift emission. The crash class (round-6's 4/12) is
+**machine-verified gone (0/14)**. This is a **valid, honest
+instrument-reliability result**: the repaired action protocol eliminated the
+crash class. It is **NOT** a mechanism benefit for decentralization, and it
+does **not** change the standing negative finding (§4d).
+
+### 2e. What round 7 does and does not change
+
+- **Changes (reliability):** the round-6 D-E parse-drift crash class (4/12) is
+  **0/14 in round 7** — the instrument repair worked as designed, machine-
+  verified, with (C) recovering 2 live drift emissions.
+- **Does NOT change (mechanism):** the contrast of interest is unchanged. D-E
+  still completes only **6/14** (43%) at **~5× C-EQ's token cost** (241–295K
+  vs 49–77K per completion) with **case-level 2/8** (only P-01 and P-03 had
+  both seeds complete; P-02 s12 and P-04 s11 aborted), while C-EQ completes
+  **10/10** at **case-level 6/6**. The residual D-E
+  non-completions are now **orthogonal budget/tool-cap** (envelope-bound and
+  D-E-mechanism-bound respectively), **not** the crash class. **No advantage of
+  decentralization/escrow is demonstrated**; the finding is refined again (from
+  "mechanism executes but is model-limited" to "crash class eliminated, but D-E
+  remains completion-limited and ~5× costlier than the same-tools control").
+
 ## 3. What the rounds DID establish (feasible facts)
 
 1. **The per-run token envelope is the structural binding constraint on D-E-
@@ -223,6 +312,49 @@ See §4c and disclosure 13.
 > in-flight-inclusive), **not** a rate comparison or statistical test
 > (no-confirmatory-reuse).
 
+### 4d. Refined negative (round 7 / V3.5-D — the current strongest statement)
+
+> **The crash class is eliminated; the mechanism question is unchanged and the
+> standing negative stands.** Round 7 (V3.5-D, 300K envelope, 24-run ledger,
+> single-arm D-E feasibility + C-EQ reproducibility) machine-verified the
+> **0/14 crash-class crashes** (vs 4/12 in round 6): the round-6
+> parse-drift `AgentProtocolError` class no longer occurs, and the two live
+> drift-form emissions (P-04 s11/inv-c, P-06 s12/inv-c) were **recovered by (C)**
+> into valid tool_calls rather than crashing — direct evidence the repair works.
+> **This is an instrument-reliability result, not a mechanism result.** It does
+> **not** demonstrate any advantage of decentralization/escrow over the
+> same-tools control, for three independent reasons:
+>
+> 1. **Completion is still D-E-limited and ~5× costlier.** D-E completed 6/14
+>    (43%) at 241–295K tok per completion vs C-EQ 10/10 at 49–77K. The residual
+>    8 D-E non-completions are now **orthogonal** classes — 4 token-cap (the
+>    envelope-bound class) + 4 phase-2 tool-cap (**D-E-only, pre-existing**
+>    mechanism property) — **not** the crash class. Removing the crash class
+>    did not make D-E complete as well as the control; it made D-E fail in a
+>    *different, more instrument-defined* way.
+> 2. **The fix is arm-asymmetric in effect** (applies to the shared path, but
+>    D-E issues ~4× the `ask()` calls), so a D-E crash-rate drop is
+>    structurally reliability-only for D-E and **no same-instrument D-E-vs-C-EQ
+>    crash-rate comparison is valid** this round.
+> 3. **Accuracy is cross-instrument** (V3.5 changed the instrument for both
+>    arms); no round-7 accuracy number is causally comparable to rounds 5/6,
+>    and the D-E "100% of completions" is on a denominator truncated by 8
+>    aborts.
+>
+> **Standing finding UNCHANGED:** no demonstrated advantage of decentralization
+> or escrow beyond access to counterfactual interventions, at any envelope
+> (60/90/150/300K). Round 7 refines the *reliability* story (crash class gone)
+> while leaving the *mechanism* question unresolved. The §4c "600K
+> disambiguation round" (genuine budget-need vs burn-through for the token-cap
+> class) is **still open and NOT what round 7 was** — round 7 was the 300K
+> crash-class repair. Whether D-E's remaining non-completions reflect a true
+> need for more than 300K, or burn-through under the substituted model,
+> remains unanswered; a higher-envelope round (600K, not yet authorized) or a
+> model change (not authorized) would be required. **This is a single-round,
+> truncated-cohort (24/40), instrument-reliability readout, not a rate
+> comparison, superiority/inferiority claim, or statistical test**
+> (no-confirmatory-reuse).
+
 ## 5. What MUST NOT be claimed from this series
 
 - No effect size, power, or significance statement (frozen §6 no-confirmatory-reuse).
@@ -253,8 +385,22 @@ See §4c and disclosure 13.
   envelope to let D-E complete is a **resource subsidy**, and "same budget"
   holds at the per-run cap only — D-E completions cost 3.2× (up to 3.8×) the
   control's realized spend.
+- No "the crash class is fixed therefore decentralization is now viable /
+  comparable" reading of round 7: the crash-class elimination is an
+  **instrument-reliability** result. D-E still completes only 6/14 at ~5× C-EQ
+  cost with case-level 2/8; the residual non-completions are orthogonal
+  (token-cap + D-E-only phase-2 tool-cap). **No superiority, no
+  comparability, and no "0 crash = 0 disadvantage" inference.**
+- No reading of the round-7 raw stop-2 (8 D-E non-completions; full-cohort
+  8/20 = 0.40) as a crash-rate: adjudication shows **0 are the crash class**;
+  the raw and adjudicated numbers are different quantities and both are stated
+  (§2d dual-count).
+- No "0 parse-drift" claim for round 7: **2 drift-form emissions occurred**
+  (P-04 s11/inv-c, P-06 s12/inv-c) and were **recovered by (C)** — the correct
+  statement is **0 crash-class crashes** (`status=crashed`), not 0 drift
+  emissions.
 
-## 6. Mandatory disclosure riders (13)
+## 6. Mandatory disclosure riders (14)
 
 Items 1–7 (freeze-stamp list), 8–11 (round-4 outcome-judge list), 12
 (round-5 / V3.3), 13 (round-6 / V3.4). Any report or claim citing any V3
@@ -319,37 +465,73 @@ round must carry these.
     `prompt_volume_ratio` is **not measured** by the D-E arm (status.json
     hardcodes null — code-judge round-6 SHOULD-FIX, recorded as a known
     instrument gap; the A1 volume-parity metric is C-EQ-observed only).
+14. **Round 7 / V3.5-D — crash-class repair; reliability-only; raw-vs-adjudicated**
+    — round 7 ran the B+C+D instrument (freeze `v35_prereg_freeze.md` @
+    `9369b5b8`/`8b8bda5`, code `11e7e63a`, blob `1b33c002…`, 2 fresh pre-run
+    judges: code PASS / science CONDITIONAL-PASS with all items applied). (i)
+    **The crash-class elimination is machine-verified and reliability-only:**
+    0/14 `status=crashed` (vs 4/12 round 6); **2 live drift-form emissions
+    (P-04 s11/inv-c, P-06 s12/inv-c) were RECOVERED by (C)** into valid
+    tool_calls — NOT crashes, and evidence (C) works. The correct statement is
+    **0 crash-class crashes**, **not "0 parse-drift"** (2 were emitted). (ii)
+    **The 8 D-E non-completions are orthogonal, NOT the crash class:** 4
+    token-cap (≥300K) + 4 phase-2 tool-cap (`DE_PHASE2_TOOL_CAP=4`, D-E-ONLY,
+    pre-existing V3.4, sub-envelope). The tool-cap is a D-E mechanism property
+    that HINDERS D-E completeness and is disclosed as such; it is NOT
+    attributed to the crash fix. (iii) **Raw-vs-adjudicated dual count is
+    mandatory:** raw stop-2 = 8/14 (0.57; full-cohort 8/20 = 0.40; STOP
+    `rate 0.3` is full-cohort /20 at the 22-run snapshot); adjudicated
+    crash-class = 0/14. Both are stated side by side (§2d). (iv) **Snapshot
+    gap (class of riders 9/13):** STOP.json = 22 runs / 3,734,441 tok; 2
+    post-trip D-E aborts (P-07 s11, P-08 s11) → final 24-run ledger /
+    4,311,893 tok (delta reconciles exactly); 16 of 40 planned runs never
+    launched. (v) **The fix is arm-asymmetric in effect** (D-E ~4× the
+    `ask()` calls), so round 7 is structurally reliability-only for D-E and
+    **no same-instrument D-E-vs-C-EQ crash-rate comparison is valid**;
+    accuracy is cross-instrument for both arms. (vi) **JSON-mode parity held:**
+    0 plain-mode drops in either arm (C-EQ 176/176, D-E 1210/1210). (vii)
+    **The §4c 600K budget-need-vs-burn-through disambiguation is STILL OPEN** —
+    round 7 was the 300K crash-class repair, not the 600K round.
 
 ## 7. Decision point (HUMAN GATE)
 
-**Status: (i)→(ii) has now been IMPLEMENTED and RUN twice** — round 5 (V3.3,
-§2b/§4b), then the human-authorized **(ii) symmetric 300K raise** = **round 6
-(V3.4, §2c/§4c)**. The current gate is what to do with the round-6 result:
+**Status: rounds 5, 6, and 7 have now been IMPLEMENTED and RUN** — round 5
+(V3.3, §2b/§4b), round 6 (V3.4 300K, §2c/§4c), and **round 7 (V3.5-D 300K
+crash-class repair, §2d/§4d)**. Round 7 **machine-verified the crash class is
+eliminated** (0/14 vs 4/12) with 2 live drift emissions recovered by (C) — an
+**instrument-reliability** result that does **not** change the standing negative
+finding (no demonstrated advantage of decentralization/escrow; D-E still 6/14
+at ~5× C-EQ cost). The current gate is what to do next:
 
-- **(i) Accept the round-6 refined negative as the V3 record** — the series now
-  has the cleanest-possible feasibility characterization: mechanism proven
-  executable + correct at both 150K (1/9) and 300K (6/12 all-hit), control
-  robust (7/7 then 9/9, 0 crashes), non-completion taxonomized into
-  envelope-bound (abort) vs mechanism/model-bound (crash) classes, no
-  advantage demonstrated at any cost level tried. No further live runs; close
-  out.
-- **(ii) Round 7 at 600K** — the judge-mandated disambiguation for the abort
-  class (genuine budget-need vs burn-through; P-05/P-08-style runs). This is a
-  **new instrument configuration** → new prereg freeze + 2 fresh judges + human
-  approval of scope/spend (no-confirmatory-reuse: round 7 cannot confirm
-  round 6). Note the crash class (33%, envelope-invariant) will NOT respond to
-  any envelope raise — only the abort class can be disambiguated.
+- **(i) Accept the round-7 refined negative as the V3 record** — the series now
+  has the complete reliability + feasibility characterization: mechanism proven
+  executable + correct; the round-6 crash class **repaired and verified gone
+  (0/14)**; control robust (rounds 5/6/7: 7/7, 9/9, 10/10, 0 crashes); D-E
+  non-completion fully taxonomized (crash class [now gone] + envelope-bound
+  token-cap + D-E-only phase-2 tool-cap); no advantage demonstrated at any
+  cost level tried. No further live runs; close out.
+- **(ii) Round 8 at 600K** — the judge-mandated disambiguation for the
+  **token-cap/abort class** (genuine budget-need vs burn-through; P-05/P-06-
+  style runs that now abort at 300K). This is a **new instrument
+  configuration** → new prereg freeze + 2 fresh judges + human approval of
+  scope/spend (no-confirmatory-reuse: round 8 cannot confirm round 7). Note:
+  with the crash class already gone (round 7), a 600K round would disambiguate
+  ONLY the remaining token-cap aborts; it will not change the standing finding
+  unless D-E completions demonstrably improve at higher cost **and** that
+  improvement is not explained by the ~5× cost.
 - **(iii) Stop the series.**
 - **(c) Model change** (e.g., the official published baseline) — **not
-  authorized** per D-V3-017; would additionally void all substitution caveats
-  and require a full re-preregistration. Also note: the crash class is
-  mechanism/model-bound, so only a model/protocol change (not an envelope
-  change) can address it.
+  authorized**; would additionally void all substitution caveats and require a
+  full re-preregistration. The token-cap abort class is the only remaining
+  D-E failure mode that a model/protocol change could plausibly affect (the
+  crash class is already repaired).
 
 The turnkey specs that were implemented:
 `design/amendment_v33_both_arms_repair_DRAFT.md` (V3.3); V3.4 freeze:
 `v34_prereg_freeze.md` (in the `RepliClaw-stg2-v34` worktree, FINAL,
-code `6e32153`).
+code `6e32153`); **V3.5 freeze: `v35_prereg_freeze.md` (round 7 / V3.5-D,
+FINAL, code `11e7e63a` blob `1b33c002…`; in the `RepliClaw-stg2-v35`
+worktree).**
 
 ## 8. Evidence pointers
 
@@ -358,13 +540,22 @@ code `6e32153`).
   **`.artifacts/rcaeval/pilot/run_v33/round5/`** (round 5 / V3.3; in the
   `RepliClaw-stg2-v33` worktree), and
   **`.artifacts/rcaeval/pilot/run_v34/round6/`** (round 6 / V3.4; in the
-  `RepliClaw-stg2-v34` worktree) — all gitignored: STOP.json, ledger.jsonl,
+  `RepliClaw-stg2-v34` worktree) and
+  **`.artifacts/rcaeval/pilot/run_v35/round7/`** (round 7 / V3.5-D; in the
+  `RepliClaw-stg2-v35` worktree) — all gitignored: STOP.json, ledger.jsonl,
   per-run status/escrow/audit_llm/audit_sandboxes/score,
-  `pilot_report_round{4,5,6}.json/.md`, `parallel_meta.json`.
+  `pilot_report_round{4,5,6,7}.json/.md`, `parallel_meta.json`.
 - Freeze stamps: `design/v3_prereg_final_freeze.md`, `design/v31_prereg_freeze.md`,
   `design/v32_prereg_freeze.md`, **`design/v33_prereg_freeze_DRAFT.md`**
   (round 5, commit `520f6859`), and **`v34_prereg_freeze.md`** (round 6 /
-  V3.4, FINAL, code `6e32153`; in the `RepliClaw-stg2-v34` worktree).
+  V3.4, FINAL, code `6e32153`; in the `RepliClaw-stg2-v34` worktree), and
+  **`v35_prereg_freeze.md`** (round 7 / V3.5-D, FINAL, code `11e7e63a` blob
+  `1b33c002…`; in the `RepliClaw-stg2-v35` worktree) + the 4-point probe
+  artifact `design/v35_probe_all4points.json`.
+- Round-7 adjudication (offline, imports the real `parse_action`): the dual-
+  count table in §2d is reproducible from the run dirs (status.json
+  `status`/`tokens`/`wall_s`/`crash_error` + audit_llm.json per-session
+  terminal `role=="response"` payloads).
 - Judge reports: round-4 outcome (code + science) — I4.13; round-5 pre-run
   (code + science) — I4.16; round-5 outcome (code + science) — I4.19;
   round-6 (V3.4) pre-run (code + science) — I4.21; round-6 outcome (code +
