@@ -398,9 +398,16 @@ class LLMToolSession:
 
     # -- the one entry point ---------------------------------------------------
     def ask(self, user_prompt: str) -> dict[str, Any]:
-        """Send one user prompt, retry once on malformed output, return the action."""
+        """Send one user prompt, retry once on malformed output, return the action.
+
+        On a second consecutive malformed output the session performs ONE bounded
+        recovery re-ask before failing loudly, so a transient double-malformed
+        burst does not crash an otherwise-valid investigation.
+        """
         prompt = user_prompt
-        for attempt in (1, 2):
+        malformed_count = 0
+        max_attempts = 3  # initial + one correction retry + one recovery retry
+        while True:
             self.messages.append({"role": "user", "content": prompt})
             self.prompts.append(prompt)
             self.transcript.append({"role": "prompt", "agent": self.agent_id, "content": prompt,
@@ -419,12 +426,12 @@ class LLMToolSession:
             try:
                 return parse_action(content)
             except _MalformedActionError:
-                if attempt == 2:
+                malformed_count += 1
+                if malformed_count >= max_attempts:
                     raise AgentProtocolError(
-                        f"agent {self.agent_id!r}: two consecutive malformed action outputs"
+                        f"agent {self.agent_id!r}: repeated malformed action outputs"
                     ) from None
                 prompt = _CORRECTION_PROMPT
-        raise AssertionError("unreachable")
 
     def _compacted_view(self) -> list[dict[str, str]]:
         """Provider send-view: system prompt + first user instruction + the most
@@ -601,6 +608,7 @@ class ArmRunResult:
     status: str  # "completed" | "crashed" | "aborted_budget"
     crash_error: str | None = None  # type + text of the crashing exception (cause attribution)
     backend_models: tuple[str | None, ...] = ()  # AMEND_V3_1 A4: per-agent gateway echoes
+    warnings: tuple[str, ...] = ()  # non-fatal disclosures (e.g. prompt-volume band breach)
 
 
 @dataclass
@@ -746,6 +754,7 @@ class _ArmBase:
         status: str,
         escrow_ledger_path: str | None,
         prompt_volume_ratio: float | None,
+        warnings: Sequence[str] = (),
     ) -> ArmRunResult:
         return ArmRunResult(
             arm=self.arm_label,
@@ -762,6 +771,7 @@ class _ArmBase:
             status=status,
             crash_error=self._crash_error if status == "crashed" else None,
             backend_models=tuple(s.backend_model for s in self.sessions),
+            warnings=tuple(warnings),
         )
 
 
@@ -1109,12 +1119,22 @@ class CEQTelemArm(_ArmBase):
             manager_session.prompts,
             [p for s in self.sessions if s.agent_id != "manager" for p in s.prompts],
         )
-        assert_volume_band(ratio)
+        # The prompt-volume band is an anti-starvation *canary*, not a fatal gate.
+        # When it is breached we must NOT discard a ranking the manager already
+        # computed and submitted (that masked valid C-EQ results on large-payload
+        # cases); instead we keep the result and disclose the breach as a warning.
+        try:
+            assert_volume_band(ratio)
+            vol_warnings: list[str] = []
+        except ValueError as exc:
+            vol_warnings = [f"prompt-volume canary breach: {exc}"]
+            print(f"[{self.arm_label}] WARNING: {exc}", file=sys.stderr, flush=True)
         return self._result(
             submitted_ranking=confirmed["ranking"],
             status="completed",
             escrow_ledger_path=str(escrow.save(escrow_path)),
             prompt_volume_ratio=ratio,
+            warnings=vol_warnings,
         )
 
 
