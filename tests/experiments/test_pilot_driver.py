@@ -308,25 +308,32 @@ def test_stop4_floor_trip_at_9_allzero_cases() -> None:
     assert short_checks["stop4_floor"]["tripped"] is False
 
 
-def test_stop3_ceiling_preemptive_at_2820000() -> None:
-    # 46 runs x 60,000 = 2,760,000: next run still fits.
+def test_v31_amended_constants() -> None:
+    # AMEND_V3_1 (approved D-V3-016): A1 90K shared envelope, A3 4.32M ceiling.
+    assert pr.ROUND_TOKEN_CEILING == 4_320_000
+    assert pr.MAX_TOKENS_PER_RUN == 90_000
+
+
+def test_stop3_ceiling_preemptive() -> None:
+    # V3.1: 90,000/run envelope, 4,320,000 round ceiling.
+    # 46 runs x 90,000 = 4,140,000: next run still fits.
     def state(n: int) -> list[pr.RunRecord]:
         return [
             _rec(f"RCA-P-{(i % 10) + 1:02d}",
                  20261011 if i % 2 == 0 else 20261012,
-                 "D-E-TELEM" if i % 2 == 0 else "C-EQ-TELEM", tokens=60_000)
+                 "D-E-TELEM" if i % 2 == 0 else "C-EQ-TELEM", tokens=90_000)
             for i in range(n)
         ]
 
     runs = state(46)
-    assert pr.cumulative_tokens(runs) == 2_760_000
-    assert pr.ceiling_would_breach(runs) is False  # 2,760,000 + 60,000 <= 2,880,000
+    assert pr.cumulative_tokens(runs) == 4_140_000
+    assert pr.ceiling_would_breach(runs) is False  # 4,140,000 + 90,000 <= 4,320,000
     runs = state(47)
-    assert pr.cumulative_tokens(runs) == 2_820_000
-    assert pr.ceiling_would_breach(runs) is False  # 2,820,000 + 60,000 == ceiling: not strictly over
+    assert pr.cumulative_tokens(runs) == 4_230_000
+    assert pr.ceiling_would_breach(runs) is False  # 4,230,000 + 90,000 == ceiling: not strictly over
     runs = state(48)
-    assert pr.cumulative_tokens(runs) == 2_880_000
-    assert pr.ceiling_would_breach(runs) is True  # 2,880,000 + 60,000 > 2,880,000
+    assert pr.cumulative_tokens(runs) == 4_320_000
+    assert pr.ceiling_would_breach(runs) is True  # 4,320,000 + 90,000 > 4,320,000
     checks = pr.evaluate_stop_rules(runs, cases_completed=0)
     assert checks["stop3_tokens"]["next_run_would_breach"] is True
     assert checks["stop3_tokens"]["tripped"] is False  # cumulative itself is under

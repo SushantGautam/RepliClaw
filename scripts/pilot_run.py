@@ -17,8 +17,9 @@ upstream-id order — the registry is the single mapping authority), k=2 seeds
   2. per-arm crash rate > 25% OF THE FULL PLANNED COHORT (10 x 2 = 20
      runs per arm, per spec §5 rule 2 verbatim — i.e., ≥ 6 crashes;
      ``aborted_budget`` counts as crash);
-  3. per-round cumulative tokens > 2,880,000 (pre-emptive: a run is refused
-     to start when cumulative + 60,000 would breach the ceiling);
+  3. per-round cumulative tokens > 4,320,000 (V3.1 AMEND_V3_1 item A3;
+     pre-emptive: a run is refused to start when cumulative + 90,000 would
+     breach the ceiling);
   4. floor gate: either arm < 2/20 run-level successes, OR per-case
      all-seeds success = 0 on >= 9/10 cases (the second conjunct is
      evaluable from case 9 onward; the first only at case 10).
@@ -84,7 +85,9 @@ from repliclaw.experiments.v3.telemetry_arms import (  # noqa: E402
 # ---------------------------------------------------------------------------
 PILOT_SEEDS: tuple[int, int] = (20261011, 20261012)
 ARM_ORDER: tuple[str, str] = ("D-E-TELEM", "C-EQ-TELEM")
-ROUND_TOKEN_CEILING = 2_880_000
+# AMEND_V3_1 (approved D-V3-016), item A3: 2,880,000 -> 4,320,000
+# (= 48 runs x 90,000, mechanical follow-on of A1).
+ROUND_TOKEN_CEILING = 4_320_000
 SSAT_THRESHOLD = 0.25
 CRASH_RATIO_MAX = 0.25
 FLOOR_RUN_SUCCESS_MIN = 2  # < 2/20 run-level successes per arm trips the floor
@@ -728,6 +731,10 @@ def perform_case(
         "crash_error": result.crash_error,
         "prompt_volume_ratio": result.prompt_volume_ratio,
         "escrow_ledger_path": result.escrow_ledger_path,
+        # AMEND_V3_1 A4: gateway-echoed backend model id per agent (W3i
+        # provenance; None when the client did not echo one).
+        "backend_model": (list(result.backend_models)
+                          if any(m is not None for m in result.backend_models) else None),
     }
     _write_json(run_dir / "status.json", status_obj)
 

@@ -20,6 +20,9 @@ import pytest
 from repliclaw.experiments.v3.telemetry import FROZEN_PILOT_IDS as FROZEN
 from repliclaw.experiments.v3.telemetry import PilotCaseRegistry
 from repliclaw.experiments.v3.telemetry_arms import (
+    MAX_TOKENS_PER_RUN,
+    PROMPT_VOLUME_CEIL,
+    PROMPT_VOLUME_FLOOR,
     AgentProtocolError,
     ArmEscrow,
     CEQTelemArm,
@@ -543,9 +546,9 @@ def test_de_no_ground_truth_import(fake_registry: PilotCaseRegistry, tmp_path: P
 
 def test_de_aborts_on_token_budget(fake_registry: PilotCaseRegistry, tmp_path: Path) -> None:
     def script(prompt: str, call_index: int) -> str | tuple[str, dict]:
-        # One valid tool call whose reported usage blows the 60,000-token
+        # One valid tool call whose reported usage blows the V3.1 90,000-token
         # envelope; the next per-round gate must abort before further work.
-        return _tool("system_context"), {"prompt_tokens": 60_001, "completion_tokens": 1}
+        return _tool("system_context"), {"prompt_tokens": MAX_TOKENS_PER_RUN + 1, "completion_tokens": 1}
 
     arm = DetelemArm(
         client=FakeLLMClient(script),
@@ -557,7 +560,75 @@ def test_de_aborts_on_token_budget(fake_registry: PilotCaseRegistry, tmp_path: P
     result = arm.run()
     assert result.status == "aborted_budget"
     assert result.submitted_ranking is None
-    assert result.tokens_total > 60_000
+    assert result.tokens_total > MAX_TOKENS_PER_RUN
+
+
+# ---------------------------------------------------------------------------
+# V3.1 (AMEND_V3_1, approved D-V3-016): A1 amended envelope, A2-repealed
+# canary invariance, A4 backend provenance
+# ---------------------------------------------------------------------------
+
+
+def test_v31_amended_envelope_constants() -> None:
+    # A1: 60,000 -> 90,000 shared per-run envelope.
+    assert MAX_TOKENS_PER_RUN == 90_000
+
+
+def test_v31_envelope_parity_guard() -> None:
+    # A1 applies IDENTICALLY to both arms via the shared constant; an
+    # explicit envelope above the shared value must be rejected.
+    from repliclaw.experiments.v3.telemetry_arms import _Envelope
+
+    env = _Envelope()
+    assert env.max_tokens_per_run == MAX_TOKENS_PER_RUN
+    with pytest.raises(ValueError, match="A1 parity guard"):
+        _Envelope(max_tokens_per_run=MAX_TOKENS_PER_RUN + 1)
+
+
+def test_v31_backend_model_provenance_recorded(fake_registry: PilotCaseRegistry, tmp_path: Path) -> None:
+    # A4: the gateway-echoed model id is captured per agent and surfaced on
+    # ArmRunResult. We wrap a FakeLLMClient so each response echoes a model.
+    base = FakeLLMClient(_ceq_script())
+
+    class _EchoCompletions:
+        def __init__(self, inner: Any, echoed: str) -> None:
+            self._inner = inner
+            self._echoed = echoed
+
+        def create(self, *args: Any, **kwargs: Any) -> Any:
+            resp = self._inner.create(*args, **kwargs)
+            resp.model = self._echoed  # SimpleNamespace: attr settable
+            return resp
+
+    base.chat = _EchoCompletions(base.chat, "echoed-backend-xyz")
+    arm = CEQTelemArm(
+        client=base, registry=fake_registry, opaque_id="RCA-P-01", out_dir=tmp_path, seed=5,
+    )
+    result = arm.run()
+    assert result.status == "completed"
+    assert all(m == "echoed-backend-xyz" for m in result.backend_models)
+    assert result.backend_models  # every session made LLM calls -> non-empty
+
+
+def test_v31_canary_invariance_after_envelope_amendment(fake_registry: PilotCaseRegistry, tmp_path: Path) -> None:
+    # A2 was REPEALED at approval: the band and crash-on-violation behavior
+    # are unchanged by the envelope amendment. Out-of-band still crashes;
+    # in-band still completes.
+    assert (PROMPT_VOLUME_FLOOR, PROMPT_VOLUME_CEIL) == (0.6, 1.25)
+    with pytest.raises(ValueError):
+        assert_volume_band(1.3)
+    assert_volume_band(1.25)
+
+    arm = CEQTelemArm(
+        client=FakeLLMClient(_ceq_script()),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=5,
+    )
+    result = arm.run()
+    assert result.status == "completed"
+    assert 0.6 <= (result.prompt_volume_ratio or 0.0) <= 1.25
 
 
 # ---------------------------------------------------------------------------

@@ -78,8 +78,12 @@ from repliclaw.experiments.v3.telemetry import PilotCaseRegistry, TelemetrySandb
 #: Mandatory scientific label for any run through these arms (J-SCI rule).
 MODEL_SUBSTITUTION_LABEL = "MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B)"
 
-#: Per-run token envelope (addendum §6.2: unchanged from frozen spec §4).
-MAX_TOKENS_PER_RUN = 60_000
+#: Per-run token envelope (V3.1: AMEND_V3_1 item A1, approved D-V3-016 —
+#: 60,000 -> 90,000, applied IDENTICALLY to BOTH arms via this shared
+#: constant; evidence: every D-E budget abort landed at 55,271–64,089,
+#: truncated 15–25% pre-cap). The prompt-volume canary is UNCHANGED (A2
+#: repealed at approval).
+MAX_TOKENS_PER_RUN = 90_000
 #: Per-run wall cap in seconds (addendum §6.2).
 WALL_CAP_S = 900.0
 #: Prompt-volume band (copied from experiments/v3/ceq.py: PROMPT_VOLUME_FLOOR/CEIL).
@@ -350,6 +354,15 @@ class LLMToolSession:
         self.prompts: list[str] = []  # every user prompt sent (for the volume canary)
         self._tokens: list[_TokenRecord] = []
         self._prev_sent_prompt_chars = 0  # chars of the SENT (compacted) view at the previous call
+        self.backend_model: str | None = None  # AMEND_V3_1 A4: first-call gateway echo
+
+    def record_backend_model(self, response: Any) -> None:
+        """AMEND_V3_1 A4: capture the gateway-echoed model id on the first LLM
+        response (pure provenance — no behavioral effect)."""
+        if self.backend_model is None:
+            echoed = getattr(response, "model", None)
+            if isinstance(echoed, str) and echoed:
+                self.backend_model = echoed
 
     # -- accounting ----------------------------------------------------------
     @property
@@ -394,6 +407,7 @@ class LLMToolSession:
             content: str = response.choices[0].message.content
             self.transcript.append({"role": "response", "agent": self.agent_id, "content": content,
                                     "model_label": self.model_label, "ts": time.time()})
+            self.record_backend_model(response)
             self._tokens.append(self._usage_tokens(response))
             try:
                 return parse_action(content)
@@ -579,12 +593,26 @@ class ArmRunResult:
     protocol_errors: int
     status: str  # "completed" | "crashed" | "aborted_budget"
     crash_error: str | None = None  # type + text of the crashing exception (cause attribution)
+    backend_models: tuple[str | None, ...] = ()  # AMEND_V3_1 A4: per-agent gateway echoes
 
 
 @dataclass
 class _Envelope:
-    max_tokens_per_run: int = MAX_TOKENS_PER_RUN
+    max_tokens_per_run: int | None = None
     wall_cap_s: float = WALL_CAP_S
+
+    def __post_init__(self) -> None:
+        # Default lazily from the shared module constant (V3.1, AMEND_V3_1 A1):
+        # the per-run envelope must apply IDENTICALLY to both arms, so the
+        # default is read at construction time, and any explicit value above
+        # the shared constant is rejected (asymmetry guard, D-V3-016).
+        if self.max_tokens_per_run is None:
+            self.max_tokens_per_run = MAX_TOKENS_PER_RUN
+        if self.max_tokens_per_run > MAX_TOKENS_PER_RUN:
+            raise ValueError(
+                f"envelope max_tokens_per_run {self.max_tokens_per_run} exceeds "
+                f"the shared envelope {MAX_TOKENS_PER_RUN} (A1 parity guard)"
+            )
 
 
 _OBS_TOOLS = ("system_context", "top_anomalies", "service_metrics", "service_logs", "service_traces")
@@ -674,6 +702,7 @@ class _ArmBase:
         """Per-round envelope gate: wall cap + token budget (abort, no submit)."""
         if self._clock() - self._start > self.envelope.wall_cap_s:
             raise _BudgetAbort(f"wall cap {self.envelope.wall_cap_s}s exceeded")
+        assert self.envelope.max_tokens_per_run is not None  # normalized in __post_init__
         if self._tokens_total() > self.envelope.max_tokens_per_run:
             raise _BudgetAbort(
                 f"token budget {self.envelope.max_tokens_per_run} exceeded "
@@ -725,6 +754,7 @@ class _ArmBase:
             protocol_errors=self.protocol_errors,
             status=status,
             crash_error=self._crash_error if status == "crashed" else None,
+            backend_models=tuple(s.backend_model for s in self.sessions),
         )
 
 
