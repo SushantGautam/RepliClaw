@@ -156,15 +156,15 @@ def test_scoring_context_without_ledger_keeps_local_audit_only() -> None:
 def test_canary_raises_on_leak_and_passes_when_absent(tmp_path: Path) -> None:
     clean = tmp_path / "agent_report.txt"
     clean.write_text("diagnosis: the incident looks like a cache storm\n", encoding="utf-8")
-    assert_no_agent_access([clean], expected_labels=SYN_LABELS.values())
+    assert_no_agent_access([clean], expected_labels=list(SYN_LABELS.values()))
 
     leaked = tmp_path / "agent_notes.txt"
     leaked.write_text("hypothesis: svc_alpha is the root cause\n", encoding="utf-8")
     with pytest.raises(GroundTruthLeakError, match="svc_alpha"):
-        assert_no_agent_access([clean, leaked], expected_labels=SYN_LABELS.values())
+        assert_no_agent_access([clean, leaked], expected_labels=list(SYN_LABELS.values()))
 
     # Missing artifact files are skipped, not errors; empty label set is a no-op.
-    assert_no_agent_access([tmp_path / "missing.txt"], expected_labels=SYN_LABELS.values())
+    assert_no_agent_access([tmp_path / "missing.txt"], expected_labels=list(SYN_LABELS.values()))
     assert_no_agent_access([clean], expected_labels=())
 
 
@@ -226,5 +226,6 @@ def test_case_manifest_roundtrip_contains_pointer_only() -> None:
     restored = CaseManifest.from_dict(wire)
     assert restored == manifest
     assert isinstance(restored.ground_truth, GroundTruthPointer)
+    assert restored.ground_truth is not None and manifest.ground_truth is not None
     assert restored.ground_truth.pointer == manifest.ground_truth.pointer
     assert restored.validate().ok
