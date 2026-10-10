@@ -36,7 +36,7 @@ Live model: SimulaChat gateway `default` (gateway-echoes `Qwen3.8-27B`; 12/12 ag
 ## Launch protocol (round 4)
 
 - Driver: `scripts/pilot_parallel.py run` (concurrency 6, default `default` model — do **not** set `SIMULACHAT_MODEL`; verify every agent's model field echoes the gateway model; concurrency and retry-once documented in `parallel_meta.json`).
-- 10 pilot cases × 2 seeds × 2 arms = 20 runs; fresh 7.2M cumulative ceiling; pre-claim ceiling gate refuses runs that would breach.
+- 10 pilot cases × 2 seeds × 2 arms = **40 runs (20 per arm)**; fresh 7.2M cumulative ceiling; pre-claim ceiling gate refuses runs that would breach (worst case 40 × 150K = 6.0M < 7.2M, so the ceiling only binds pre-emptively if stop-2 fails to trip first). Stop-2 crash denominator is 20 per arm (spec §5 rule 2 verbatim).
 - Evidence: per-run status/manifest/agent-model/ledger; `parallel_meta.json`; STOP.json if a rule trips; T0+4 independent report.
 - The prior round-0 V3.2 canary (case RCA-P-01) is a SEPARATE canary run (run_v32_canary/), excluded from round 4 evidence; round 4 starts from a clean state.
 - If any stop rule trips: pause, write cause decomposition (agent-level attribution, budget vs tool-loop vs label-gate), do **not** proceed; return to human gate.
