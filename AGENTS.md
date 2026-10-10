@@ -30,6 +30,14 @@ Before first task:
 
 Official documentation: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference#custom-agents-reference and https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli . See `docs/next_stage/COPILOT_AGENT_DISCOVERY.md` for exact commands and triage.
 
+## BYOK subagent model-resolution failure: STOP retries, run parallel CLI sessions
+
+If native `task` says **`Model 'sigma2.no/Qwen3.8-27B-NonThinking' is not available` while listing the same name under `Available models`**, stop debugging after ONE retry. Registration already works; this is a known class of Copilot BYOK *child-dispatch model-catalog bug*, not reason to change Sigma2 backends, weaken `modelPolicy: required`, or fall back to GitHub/CAPI models. **Do not consume the next research hour inspecting `providers.json`.**
+
+Switch to **two independent top-level Copilot CLI processes** with explicit `--agent rc-implement` / `--model sigma2.no/Qwen3.8-27B-Thinking`, each on a separate Git worktree. This bypasses the subagent resolver; confirm wire/provider in the top-level session before accepting results. The direct child `rc-fast` need not be used until native model routing is fixed. Existing CI work on `dev` is FF-01: do NOT duplicate. Run FF-02 (label isolation) and FF-03 (null-model correction) in parallel, then FF-04 (real D-E/C-EQ intervention parity). Consult `docs/next_stage/COPILOT_PARALLEL_BYOK_FALLBACK.md` for exact two-terminal commands and shared heartbeat ledger. These standalone processes are not `/tasks` children; inspect process logs and commits, then the coordinator integrates reviewed patches. If neither top-level Sigma2 model is selectable, report BLOCKED, don't use other models.
+
+**Preserve the existing working `COPILOT_HOME`**. Never point it to a newly created empty home merely to start parallel sessions—this changes the provider registry and credentials.
+
 ## Heartbeats, inspection, and active steering
 
 - Use Copilot `/fleet` for decomposition, `/tasks` and `list_agents` / `read_agent` for worker inspection, `write_agent(agent_id=..., message=...)` for mid-run steering. The repo hook `.github/hooks/repliclaw-fleet.json` records activity and checks whether finished `rc-` subagents report evidence; it is NOT a periodic timer. **A live external watchdog is needed** when an agent or orchestrator is silent.
