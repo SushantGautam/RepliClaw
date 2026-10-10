@@ -8,8 +8,9 @@ LLM-driven via one shared JSON action protocol and one shared
 
 * identical tool set, identical per-query payloads (pure function of
   case + args — the sandbox guarantees byte-identity), identical
-  per-sandbox tool budget (24), identical token envelope (60,000 per
-  run), identical wall cap (900 s), identical opaque case id, identical
+  per-sandbox tool budget (24), identical token envelope (90,000 per
+  run, V3.1 AMEND_V3_1 A1 — shared constant for both arms), identical
+  wall cap (900 s), identical opaque case id, identical
   model label (MODEL-SUBSTITUTION, SimulaChat default, Qwen3.8-27B).
 * The ONE designed difference (disclosed per protocol S5): the
   coordination regime, plus the C-EQ volume-bounded union evidence view.
@@ -105,7 +106,7 @@ DE_PHASE2_TOOL_CAP = 4
 #: (tool observations, which are idempotent and re-fetchable) are replaced by a
 #: short stub. Model responses are NEVER compacted. This does not change information
 #: access (any compacted observation can be re-requested as a tool call) and does not
-#: touch the audit transcript, the prompt-volume canary, or the frozen 60,000 envelope.
+#: touch the audit transcript, the prompt-volume canary, or the 90,000 envelope.
 _COMPACTION_RECENT_KEEP = 6
 _COMPACTION_STUB_CHARS = 120
 #: D-E committee (fresh sandbox) tool-call cap before unconditional submit.

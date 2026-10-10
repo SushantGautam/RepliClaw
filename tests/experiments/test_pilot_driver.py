@@ -385,6 +385,51 @@ def test_run_refuses_without_fake_and_env(monkeypatch: pytest.MonkeyPatch, capsy
     assert "provider env incomplete" in err
 
 
+def test_report_backend_echo_provenance(tmp_path, monkeypatch, capsys):
+    """Science-judge N3: the report must surface per-run backend_model echoes
+    with a within-run cross-agent consistency check."""
+    from scripts import pilot_report
+
+    round_dir = tmp_path / "round3"
+    round_dir.mkdir()
+    # Minimal ledger so load_runs() is non-empty.
+    record = {
+        "run_path": "round3/RCA-P-01/seed20261011/D-E-TELEM", "case": "RCA-P-01",
+        "seed": 20261011, "arm": "D-E-TELEM", "status": "completed",
+        "tokens": 100, "wall_s": 1.0, "hit": None,
+    }
+    (round_dir / "ledger.jsonl").write_text(json.dumps(record) + "\n")
+    (round_dir / "case_check.json").write_text("{}")
+
+    def _status(case, seed, arm, echoes):
+        d = round_dir / case / f"seed{seed}" / arm
+        d.mkdir(parents=True)
+        (d / "status.json").write_text(json.dumps({
+            "status": "completed", "tokens": 100, "model": "default",
+            "label": "L", "arm": arm, "case_id": case, "seed": seed,
+            "backend_model": echoes,
+        }))
+
+    # Consistent echoes (incl. a None for a never-scheduled agent).
+    _status("RCA-P-01", 20261011, "D-E-TELEM", ["Qwen3.8-27B", "Qwen3.8-27B", None])
+    # Inconsistent echoes across agents -> must be flagged.
+    _status("RCA-P-01", 20261012, "C-EQ-TELEM", ["Qwen3.8-27B", "OtherModel", None])
+
+    monkeypatch.setattr(
+        "sys.argv", ["pilot_report.py", "--round-dir", str(round_dir),
+                     "--out", str(tmp_path / "rep.json")]
+    )
+    pilot_report.main()
+    rep = json.loads((tmp_path / "rep.json").read_text())
+    assert rep["backend_echo_inconsistent_runs"] == [
+        "C-EQ-TELEM/seed20261012/RCA-P-01"
+    ]
+    de = rep["backend_model_echoes"]["D-E-TELEM/seed20261011/RCA-P-01"]
+    assert de["echo_consistent"] is True
+    assert de["n_agents_echoed"] == 2
+    assert de["n_agents_total"] == 3
+
+
 def test_simula_client_adapter_chat_create_surface(monkeypatch):
     """build_simula_client must expose client.chat.create (session surface)."""
     import sys

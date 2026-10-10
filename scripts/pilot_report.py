@@ -12,7 +12,8 @@ spec §5/T0+4 requires:
   disclosure: both arms saturating, recorded separately);
 * feasibility: per-arm run-level success, crash count by status
   (``aborted_budget`` counted as crash per spec §5 rule 2), cumulative
-  round tokens vs the 2,880,000 ceiling, wall time;
+  round tokens vs the 4,320,000 ceiling (V3.1 AMEND_V3_1 A3; rounds 1-2
+  ran under the V3 2,880,000 ceiling — per-round reports show actual spend), wall time;
 * ledger snapshot (every run row, verbatim);
 * stop-rule outcomes (last case_check.json + STOP.json if present);
 * the MODEL-SUBSTITUTION label; and an explicit "NO effect estimate /
@@ -205,7 +206,11 @@ def main() -> int:
 
     # Derive the model label from the actual per-run status.json (model +
     # label fields the driver wrote), falling back to the round-1 label.
+    # Science-judge N3: also capture the per-run backend_model echoes
+    # (AMEND_V3_1 A4) with a within-run cross-agent consistency check.
     model_ids: dict[str, str] = {}
+    backend_echoes: dict[str, Any] = {}
+    # Run dirs are {case}/seed{S}/{arm}/status.json (three levels deep).
     for status_file in sorted(round_dir.glob("*/*/*/status.json")):
         try:
             d = json.loads(status_file.read_text())
@@ -215,6 +220,20 @@ def main() -> int:
         lbl = d.get("label")
         if mid:
             model_ids.setdefault(str(mid), str(lbl or ""))
+        echoes = d.get("backend_model")
+        if echoes is not None:
+            non_null = [e for e in echoes if e is not None]
+            rel = (f"{status_file.parent.name}/{status_file.parent.parent.name}/"
+                   f"{status_file.parent.parent.parent.name}")
+            backend_echoes[rel] = {
+                "backend_model": echoes,
+                "echo_consistent": (len(set(non_null)) <= 1),
+                "n_agents_echoed": len(non_null),
+                "n_agents_total": len(echoes),
+            }
+    backend_inconsistent = sorted(
+        k for k, v in backend_echoes.items() if not v["echo_consistent"]
+    )
     if len(model_ids) == 1:
         mid, lbl = next(iter(model_ids.items()))
         model_label = (f"MODEL-SUBSTITUTION (SimulaChat {mid}) — "
@@ -252,6 +271,16 @@ def main() -> int:
             stats[a]["cumulative_tokens"] for a in ARMS
         ),
         "round_token_ceiling": ROUND_TOKEN_CEILING,
+        # Science-judge N3: mandatory backend echo provenance for heldout.
+        "backend_model_echoes": backend_echoes,
+        "backend_echo_inconsistent_runs": backend_inconsistent,
+        "backend_echo_note": (
+            "Per-run gateway-echoed backend model (AMEND_V3_1 A4). Within-run "
+            "cross-agent echo consistency checked; inconsistent runs are "
+            "listed above and must be disclosed in any heldout decision. "
+            "W3i E6 residual (bounded silent same-family fallback) remains "
+            "unresolved and is carried as a note, not a clean bill."
+        ),
         "stop_outcomes": stop_outcomes,
         "ledger_snapshot": runs,
     }
