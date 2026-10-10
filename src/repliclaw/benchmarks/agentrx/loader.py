@@ -14,14 +14,17 @@ import hashlib
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 from .taxonomy import category_code
 
 #: Pinned upstream commit (contract §1) and pinned HF dataset file hashes (§4).
 PINNED_REPO_SHA = "7a18c79708e7671be15124460f4f7296107c2a55"
 
-DEFAULT_DATA_DIR = Path("/Users/sushantgautam/Documents/stg2-worktrees/agentrx-data")
+#: J-CODE W1 F7: no machine-specific default data dir. Callers (tests, the
+#: fetch script, CI) must pass the pinned-files location explicitly so the
+#: loader is reproducible on any host. The gated HF files must be fetched to
+#: this location first (see README.md in this package).
 
 #: filename -> (sha256, role)
 PINNED_FILES: Dict[str, Tuple[str, str]] = {
@@ -210,16 +213,17 @@ def _build_case(raw_id: str, raw: Dict[str, Any], ann: Dict[str, Any], domain: s
     )
 
 
-def load_agentrx_eval_set(data_dir: Optional[Path] = None) -> AgentRxEvalSet:
+def load_agentrx_eval_set(data_dir: Path) -> AgentRxEvalSet:
     """Load and join the 4 pinned files into the 73-case eval set.
 
     Join rules (contract §4): tau annotated ids are unprefixed strings; raw
     tau ids are ``tau_retail_<n>`` — strip the prefix to match. Magentic ids
     are UUID strings matching directly. Raw magentic trajectories with no
     annotation are excluded and counted.
+
+    ``data_dir`` is required (J-CODE W1 F7): no implicit machine path.
     """
-    data_dir = Path(data_dir) if data_dir is not None else DEFAULT_DATA_DIR
-    records = _read_pinned(data_dir)
+    records = _read_pinned(Path(data_dir))
 
     tau_ann = {str(d["trajectory_id"]): d for d in records["tau_retail.jsonl"]}
     mag_ann = {str(d["trajectory_id"]): d for d in records["magentic_one.jsonl"]}
@@ -277,7 +281,6 @@ __all__ = [
     "AgentRxCASE",
     "AgentRxEvalSet",
     "AnnotatedFailure",
-    "DEFAULT_DATA_DIR",
     "DatasetHashMismatchError",
     "DatasetLoadError",
     "DOMAIN_MAGENTIC",

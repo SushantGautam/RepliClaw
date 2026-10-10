@@ -16,7 +16,11 @@
   "additionalProperties": false,
   "properties": {
     "schema": { "const": "repliclaw.benchmark_case_manifest/v1" },
-    "case_id": { "type": "string", "minLength": 1 },
+    "case_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "OBSERVATION (J-CODE W1 F1 / J-SCI W1 S1): upstream RCAEval case identifiers embed the root-cause service (e.g. re1ob_adservice_mem_1) and data files are named by case id. The V3 agent runtime must therefore assign its own opaque random case ids to agents and keep this upstream id evaluator-side only."
+    },
     "source_benchmark": {
       "type": "string",
       "minLength": 1,

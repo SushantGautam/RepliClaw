@@ -139,11 +139,40 @@ def test_manifest_records_roundtrip(index: pd.DataFrame) -> None:
         assert m.heldout is True
         assert m.source_benchmark == "rcaeval"
         assert m.ground_truth is not None, "evaluator-only ground-truth pointer required"
-        assert set(m.strata) == {"suite", "system", "fault_type", "root_cause_service", "repetition"}
+        assert set(m.strata) == {"suite", "system", "fault_type", "quota_service_order", "repetition"}
         result = m.validate()
         assert not result.errors, [str(e) for e in result.errors]
         # wire round-trip preserves identity
         assert type(m).from_dict(m.to_dict()) == m
+
+
+def test_manifest_strata_leak_free(index: pd.DataFrame) -> None:
+    """J-CODE W1 F1 (HIGH): agent-visible manifest fields must carry NO ground truth.
+
+    root_cause_service names and fault_description text are answers; they may
+    be used to DEFINE the quota (pre-experiment) but must never appear in
+    strata or evaluation_scope.
+
+    Documented upstream fact (not fixable here): the official RCAEval case
+    identifiers embed the affected service (``re1ob_adservice_mem_1``) and
+    data files are named by case id. The V3 agent runtime must therefore
+    present cases by opaque random id — see case_manifest.schema.json notes.
+    This test asserts the structured fields, which are under our control.
+    """
+    cases = select_heldout_cases(index)
+    data_hashes = {c: {"metrics.parquet": "0" * 64} for c in cases}
+    manifests = build_heldout_manifest(index, data_hashes)
+    service_names = set(index["root_cause_service"].astype(str))
+    for m in manifests:
+        for field in (m.strata, m.source_benchmark):
+            assert "root_cause_service" not in str(field)
+            serialized = str(field)
+            for svc in service_names:
+                if svc:
+                    assert svc not in serialized, (
+                        f"ground-truth service {svc!r} leaked into {field!r}"
+                    )
+        assert m.ground_truth.pointer == f"hf://phamquiluan/RCAEval/cases.parquet#case={m.case_id}"
 
 
 def test_manifest_rejects_missing_data_hashes(index: pd.DataFrame) -> None:

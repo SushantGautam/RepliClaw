@@ -36,6 +36,14 @@ Decision (Monte-Carlo re-derivation of power from the FROZEN percentile bootstra
 - A1 (J-SCI): the pending minimum-effect floor Δ_min should be set at freeze to a value justified by this MC grid (candidate: 0.15 — below it, the S-sat rule, not the CI, is the operative guard).
 Next verification: J-SCI to re-check S-sat rule wording at G4 freeze. Human decision: N=24×k=4 budget authorization.
 
+## D-V3-009 (2026-10-10T02:35+02:00, Wave-1 judge condition triage — orchestrator)
+Wave-1 reviews (CODE_JUDGE_WAVE1 + SCIENCE_JUDGE_WAVE1) both APPROVE-WITH-CONDITIONS. Triage:
+- **CLOSED in I1.1 (this checkpoint):** F1/S1 (ground-truth service out of agent-visible strata; opaque-id requirement documented in schema + leak test), F3/S3 (template static parts sha-pinned; band [0.6,1.25] calibrated against pin; docstring 0.8→0.6), F2 (forbidden-literal set derived from shared sources), F7 (AgentRx `data_dir` required), S6 (I1 wording corrected), S8 (bit-exact wording scoped), S2 (L5 sha256s + env recorded in MC doc; repo pin deferred to G3 as C-SCI-2).
+- **HONEST CAVEAT (S1, G2/G4 gate):** upstream RCAEval case IDs embed the root-cause service (`re1ob_adservice_mem_1`) and data files are named by case id. We cannot fix this; the V3 runtime MUST present opaque random case ids to agents and keep upstream ids evaluator-side only. A2 (live action-set manifest, J-SCI) is still open — Track-I and the RCAEval side of G2 remain blocked until both land.
+- **ACCEPTED AS LOW (F4–F6):** timing-vs-content parity nuance and C-EQ/D-E capability deltas (no intervention retry, no per-agent deadline) are disclosed in `design/ceq_arm_design.md`; they do not change the matched-tools claim. F5 helper/test ratio drift folded into the F3 pin.
+- **Still open for freeze (G4):** A1 (Δ_min floor from MC grid), A2 (live action-set manifest), A5 (no access-claim drift), C-SCI-1 (scorer-only ground-truth gate), C-SCI-2 (L5 repo pin at G3).
+Next verification: G2 offline canaries (Track-II only) on I1.1; independent re-review at G4 freeze.
+
 ## Pending decisions
 - exact dataset versions, access permissions, stratified splits, license constraints
 - AIOpsLab cluster deployment/cost authorization and safe reset support

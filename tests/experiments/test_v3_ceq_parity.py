@@ -456,6 +456,23 @@ def test_write_counterfactuals_ducktyping(tmp_path: Path):
     assert doc["hypothesis_id"] == ref_doc["hypothesis_id"] == hyp_id
 
 
+def test_canary_templates_pinned():
+    """J-SCI W1 S3: the prompt-volume band [0.6, 1.25] was calibrated
+    against the frozen C-EQ planner/final-diagnosis templates. These static
+    pieces are sha-pinned here; if a template changes, the band must be
+    recalibrated and the preregistration updated BEFORE any run."""
+    pins = {
+        ceq.PLANNER_PROMPT_STATIC_TAIL: "4df178e5124b8660033769aceb158c065151ebae2a8cacf20f209500821513dc",
+        ceq.FINAL_DIAGNOSIS_STATIC_HEAD: "11150fa2b11206143ab1eee5b1d54efc28ae685e27f354ef733d3bb8984d0bcf",
+        ceq.FINAL_DIAGNOSIS_STATIC_TAIL: "45e7ab3c2111395d9522e14da6855e9cf0171f4a391ac176ffa246bd88c9aa85",
+    }
+    for template, expected in pins.items():
+        assert sha256_hex(template) == expected, (
+            f"template changed (was {sha256_hex(template)[:12]}…): recalibrate "
+            "PROMPT_VOLUME_FLOOR/CEIL and update the V3 preregistration"
+        )
+
+
 def test_final_verdict_key_parity(tmp_path: Path):
     """R10: final_verdict.json keys identical between D-E and C-EQ."""
     env = _env()
