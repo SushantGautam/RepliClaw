@@ -28,6 +28,14 @@ Amendment to EXPERIMENT_PROTOCOL_V3_DRAFT (draft remains unfrozen; this records 
 - **A6 (was F7, MED):** RCAEval heldout must include RE2/RE3 strata; BARO's 1.0 on the cheapest RE1-CPU stratum is recorded as an easy-stratum smoke, non-generalizable.
 Next verification: J-CODE verdict (in progress); both A1–A6 to be folded into the frozen prereg at G4 — no amendments after freeze without versioned record.
 
+## D-V3-008 (2026-10-10T01:35+02:00, power + saturation gate — closes J-SCI A3/F3)
+Decision (Monte-Carlo re-derivation of power from the FROZEN percentile bootstrap; 254 cells × 10,000 reps; doc: science/monte_carlo_power_v3.md, SIMULATION-ONLY):
+- **Recommended heldout design: N = 24 cases, k = 4 seeds/case, MDE = 0.20** (~84% power). k=2 reaches only 0.555 power; MDE 0.15 is NOT achievable at N=24, k≤4 (needs N≈55) — if the human-approved budget cannot cover k=4, MDE must be re-scoped to 0.20, not silently kept at 0.15.
+- **Mandatory S-sat stop rule (supersedes protocol §4.3 judgment trigger):** if at either-arm saturation ≥ 25% of PILOT cases, STOP and re-stratify before any heldout (one-arm saturation at true Δ=0 fires MEANINGFUL_POSITIVE ~83% of the time — the rule cannot separate capability from difficulty exhaustion); joint two-arm saturation erases the contrast (power Δ=0.15: 0.35 → 0.10 as s 0→0.75). Saturation fraction must be disclosed in every result report.
+- **Protocol §4.2 two-sided normal-approximation formula is RETIRED** (wrong by ~3.4× in the 0.15–0.20 region; measured effective σ_d ≈ 0.44 vs 0.18 between-case σ). MC simulation of the frozen rule is now the sole power authority. Type-I at Δ=0 measured 0.026 (≤0.05, conservative).
+- A1 (J-SCI): the pending minimum-effect floor Δ_min should be set at freeze to a value justified by this MC grid (candidate: 0.15 — below it, the S-sat rule, not the CI, is the operative guard).
+Next verification: J-SCI to re-check S-sat rule wording at G4 freeze. Human decision: N=24×k=4 budget authorization.
+
 ## Pending decisions
 - exact dataset versions, access permissions, stratified splits, license constraints
 - AIOpsLab cluster deployment/cost authorization and safe reset support

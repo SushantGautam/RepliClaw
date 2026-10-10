@@ -25,7 +25,7 @@ import json
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, List
+from typing import Any, Dict, List
 
 from repliclaw.canonical import canonical_json, sha256_hex
 
@@ -39,7 +39,7 @@ SCHEMA_FILES = {
     "scorer_output": ("scorer_output.schema.json", "repliclaw.scorer_output/v1"),
 }
 
-_TYPE_MAP = {
+_TYPE_MAP: Dict[str, Any] = {
     "object": dict,
     "array": list,
     "string": str,

@@ -88,7 +88,9 @@ def package_pins(names: Optional[List[str]] = None) -> Dict[str, str]:
     from importlib import metadata
 
     try:
-        dists = sorted(set(d.metadata["Name"] for d in metadata.distributions() if d.metadata.get("Name")))
+        dists = sorted(
+            {d.metadata["Name"] for d in metadata.distributions() if d.metadata["Name"] is not None}
+        )
     except Exception:  # pragma: no cover - metadata enumeration is best-effort
         dists = []
     if names is not None:

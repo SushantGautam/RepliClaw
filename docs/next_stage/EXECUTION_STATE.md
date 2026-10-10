@@ -1,6 +1,7 @@
 # Stage 2 — authoritative execution state (dev only)
 
-**Timestamp:** 2026-10-09T22:50+02:00 (Wave 0 fleet integration checkpoint).
+**Timestamp:** 2026-10-09T23:45+02:00 (I0 checkpoint committed; Wave 1 launching).
+**I0 checkpoint:** dev @ 5a7833f756119042bbb37bd7479be69a0bd5ea3c (24 files; 301 passed/8 skipped; ruff clean; P08 artifacts untouched). J-CODE conditions all closed in I0 (6 citation fixes, schema hardening F4/F5 with documented dataclass-subset relationship, F6-F8 low fixes, 3 regression tests). J-SCI conditions recorded as D-V3-007 A1-A6 (A2/A5/A6 are freeze-time requirements; A4 goes into C-EQ implementation; A1/A3 go into protocol amendment).
 **Development branch:** `dev` (created from public `main` at 97a455947895e48fb551503e8fd1158d03a293af).
 **Integration worktree:** `/Users/sushantgautam/Documents/RepliClaw-stg2-dev` (dev @ a8e2b0e725bb6eb1c106d975663c1de0ee188f56).
 **Public-facing branch:** `main`; never update without explicit human release approval.
