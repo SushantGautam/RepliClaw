@@ -125,3 +125,14 @@
 **D-V3-010 (human, chat):** SimulaChat default (Qwen3.8-27B) authorized for AgentRx G1 (model-substitution label mandatory) and V3 live arms (arm-identical).
 **Still open (human):** (a) AIOpsLab VM/deploy + budget ceiling; (b) N=24×k=4 heldout budget; (c) G3 pilot authorization. **No paid/live work beyond the authorized free SimulaChat smoke.**
 **Next:** J-CODE W2 verdict → remediate if conditions → W2d novelty commit → then G3 pilot prep (pilot spec doc, cost estimate at SimulaChat rates, prereg §pilot) — pilot LAUNCH waits on (a)/(b)/(c).
+
+## I2.3 — J-CODE W2 conditions closure (2026-10-10T10:50+02:00)
+All J-CODE W2 conditions closed:
+- F-W2-1 (CRITICAL→resolved, D-V3-011): pre-existing public URL, zero keys in any branch; G7 re-examination noted.
+- F-W2-2 (undo fail-loud/idempotent): FIXED in W2i (826b248), 6 tests.
+- F-W2-3 (audit persistence): FIXED in W2j (0fea410), 5 tests + 4 pre-existing mypy errors in gate test also fixed (mypy now clean 78 files).
+- F-W2-10 (mechanical label): FIXED in W2i — SimulaChatNotStampedError, env-keyed stamped run dirs, tests-only override.
+- F-W2-11 (execution-scope overclaim): FIXED in W2i — contract line struck-through + SUPERSEDED correction (judge + LLM-free IR executed; static/dynamic/check UNEXECUTED).
+- F-W2-4 (commit a9f353d says "8 tests", actual 6): commit message cannot be rewritten (history); recorded here as the correction of record.
+- F-W2-12 (summary.json zeroes tokens): DEFERRED to G4 doc pass (state.json simula_run_extra is record of truth; note to be added to contract then).
+Gate at 826b248: 390 passed/8 skipped/3 xfailed, mypy clean (77 src), ruff clean.
