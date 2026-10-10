@@ -1,6 +1,8 @@
 # G3 PILOT SPEC (DRAFT) — Wave-2 bounded exploratory pilot, V3 track-O-R (RCAEval)
 
-**Status: DRAFT-PENDING-HUMAN-APPROVAL.** Worker W2h (G3 pilot prep), 2026-10-10.
+**Status: DRAFT-PENDING-HUMAN-APPROVAL.** Worker W2h (G3 pilot prep), 2026-10-10; W2l
+pilot-spec fix round 2026-10-10 (J-SCI W2 findings S-W2-2/3/4/5/6/10 — each fix marked in
+place with `~~superseded~~` and a finding-id citation).
 This is a **draft for G3/G4 review**, not an approved protocol. Nothing here authorizes any
 live or LLM call. Every number below is traceable to a file listed in §9 or to a computation
 shown inline. Numbers that could not be traced are marked **MISSING-WITH-REASON**, never invented.
@@ -75,9 +77,9 @@ Sources read (all in `/Users/sushantgautam/Documents/RepliClaw-stg2-dev` unless 
 2. **Tuple exclusion (the operative anti-leak rule):** a pilot case must not share the
    **(system, fault_type, root_cause_service)** tuple with any of the 42. Rationale: within an
    RCAEval dataset a `(system, fault, service)` stratum is the same incident scenario replayed
-   across repetitions; the 42 use reps 1–2, so only reps 3+ of those tuples differ, and the
-   dataset has **zero** `root_cause.txt` files for reps ≥ 3 (measured: `has_root_cause_file`
-   sum = 0 for reps 3–6 out of 443 rows). Tuple-exclusion is the rule that guarantees the
+   across repetitions; the 42 use reps 1–2, so only reps 3+ of those tuples differ
+   (measured: reps 3–6 = 192+192+82+76+1 = 351 rows, reps 1–2 = 384). Tuple-exclusion is
+   the rule that guarantees the
    pilot cannot share a ground-truth scenario (and its telemetry generation parameters) with
    the frozen heldout.
 3. **Smoke-id exclusion:** also exclude the 10 BARO smoke case ids — verified to be exactly
@@ -89,9 +91,18 @@ whose `(system, fault, root_cause_service)` is one of the 42 heldout tuples (18 
 tuples; 693 − 48 = 645). **Eligible = 645 rows / 645 distinct case ids**
 (computed inline by this worker on the pinned parquet; shown at the §9 computation log).
 
-**Additional feasibility filter (documented, not a hidden rule):** only reps 1–2 carry
-`root_cause.txt` at all (measured), so the scoreable pool is reps 1–2 of the 645 →
+**Additional feasibility filter (documented, not a hidden rule):** the scoreable pool is
+reps 1–2 of the 645 — a **deterministic ordering convention and data-availability
+conservatism** (the same reps-1–2 convention `manifest.py` uses for the heldout), **a
+choice, not a ground-truth-availability constraint** — yielding
 **168 distinct eligible (suite, system, fault, service) strata**, reps 1–2.
+**Factual disclosure:** the scorer's ground-truth label is the index column
+`root_cause_service` in `cases.parquet` (populated in **all 735 rows**, 0 nulls; the only
+resolve path is `manifest.py` `heldout_ground_truth` via `ScorerContext`); the 8
+`root_cause.txt` prose files (re3ss_carts f1/f3 and re3ss_front-end f1/f2, reps 1–2) are
+a layout quirk of RE3-SS and are **NOT** the scoring label; reps 3–6 index rows carry
+full telemetry metadata (n_metrics > 0 in all 351) and could be scored if a future
+amendment ever widened the pool — no number in this spec depends on that.
 
 **Proposed pilot set (n = 10, one case per stratum, lowest repetition, case-name tiebreak —
 same deterministic ordering as `manifest.py::_select_stratum`):**
@@ -182,8 +193,10 @@ k-dependence (already in the grid: k ∈ {2,3,4}).
 envelope_sha256 parity holds") and byte-confirmed in
 `runs/p08-live-20261009T122444Z/S5/run-001/run_metadata.json` (`max_tokens: 60000,
 max_wall_s: 900.0, max_agents: 4`). Planner rounds: max 4 (`ceq_arm_design.md` §3, "proposed 4");
-consultation cap 1/investigator/case; C-EQ token canary [0.6, 1.25] of D-E volume
-(S3 reconciliation pending — see §6).
+consultation cap 1/investigator/case; C-EQ prompt-volume canary band **frozen value
+[0.6, 1.25]** of D-E volume (frozen value as of a716a85, per J-SCI W2 **S-W2-6** —
+FROZEN-CONSTANTS appendix; the 0.8-docstring note is amendments conflict #3; see §6).
+`~~(S3 reconciliation pending)~~`
 
 **Per-case token cost model (real measured anchors, shown):**
 - Hard ceiling per arm per case: **60,000 tokens** (envelope; `test_v3_ceq_budget.py` pins
@@ -217,8 +230,10 @@ consultation cap 1/investigator/case; C-EQ token canary [0.6, 1.25] of D-E volum
 
 **TOTAL PILOT TOKEN CEILING: 2,880,000 tokens.** SimulaChat is the authorized **free tier**
 (D-V3-010), so expected monetary cost = $0; the token ceiling is the spend/rate-limit cap and
-is enforced as a hard stop (§5 rule 3). **Wall-time ceiling (sequential): (10×2 + 10×2 + 8) ×
-900 s = 44,100 s ≈ 12.25 h; with 2-case parallelism ≈ 6.1 h** (parallelism plan: run two
+is enforced as a hard stop (§5 rule 3). **Wall-time ceiling (sequential): (10×2 + 10×2 + 8) =
+44 runs × 900 s = 43,200 s = 12.0 h; with 2-way case parallelism ≈ 6.0 h**
+(`~~(44,100 s ≈ 12.25 h; ≈ 6.1 h)~~` — arithmetic corrected per J-SCI W2 **S-W2-2**:
+44 runs, not 48; the token ceiling 2,880,000 was already correct). (Parallelism plan: run two
 cases concurrently in isolated workspaces per protocol isolation rules; concurrency is
 recorded per run, per ceq design R9). If a rate-limit wall appears, the pilot pauses —
 pausing is not a stop rule.
@@ -233,11 +248,21 @@ integrator performs each check before the next case is dispatched.
 1. **S-sat (mandatory).** Metric: `sat_A` = (cases where arm A succeeded on **all k=2
    seeds**) / n_pilot, evaluated per arm after each case completes. **Stop iff
    `sat_D-E ≥ 0.25` OR `sat_C-EQ ≥ 0.25`** (with n=10: 3 of 10 cases saturated for either
-   arm). Action: STOP pilot, re-stratify (harder fault families / other systems), re-pilot
-   before any heldout. Source: D-V3-008 + `monte_carlo_power_v3.md` §4 (one-arm s=0.25
+   arm). Action: STOP pilot, execute the **pre-registered difficulty ladder** (§5.1, added
+   per J-SCI W2 **S-W2-10**) and re-pilot on the next ladder rung before any heldout —
+   max 2 re-pilots total. Source: D-V3-008 + `monte_carlo_power_v3.md` §4 (one-arm s=0.25
    already gives ~30–40% false-fire at Δ=0, N=12–24). Also record the two-arm dead-contrast
    figure (cases where **both** arms saturate) in every report — it is a disclosure, not a
    separate stop at pilot scale.
+   **(a) Required pilot-report disclosure (S-W2-4):** the pilot report must print, **per arm
+   with the observed s**: `s = k/10` together with the binomial trip probability at the
+   observed s (trip defined as s ≥ 3/10 = 0.25; binomial n=10, p = observed s — e.g., at
+   observed s = 0.20, P(trip) = P(Bin(10, 0.20) ≥ 3) = 0.32). These figures are also
+   tabulated in the traceability log (§9).
+   **(b) Coarse-screen status (S-W2-4, verbatim to carry into the prereg):** "pilot S-sat
+   is a coarse screen; the heldout running canary (first 25% of heldout = 6 cases,
+   granularity 1/6) is the operative check. The 0.25 threshold is NOT lowered for the
+   pilot (threshold parity; at n=10 a finer threshold adds no information)."
 2. **Per-arm crash rate.** Metric: crash_A = (case+seed+arm runs with `status` ∉
    {completed} and no partial diagnostic — i.e., harness error, abort, or timeout at the 900 s
    cap — for arm A) / (10 × 2 = 20 runs). **Stop iff crash_A > 25% (i.e., ≥ 6 of 20 runs)
@@ -256,6 +281,59 @@ integrator performs each check before the next case is dispatched.
 Each stop produces a versioned pilot report with the ledger snapshot (this is evidence for
 the prereg amendment trail, not a result).
 
+### 5.1 Pre-registered difficulty ladder + capped re-pilots (added per J-SCI W2 **S-W2-10**)
+
+The unbounded "re-stratify (harder fault families / other systems), re-pilot" loop is
+**superseded** (`~~re-stratify + re-pilot, no cap~~`). On an S-sat trip, re-stratification
+is NOT a free choice after seeing saturation — it executes this frozen ladder, a pre-declared
+order of the eligible pool by difficulty proxy (BARO-smoke evidence + suite strata; the
+quota table in `manifest.py` fixes the suite/system/fault strata). A trip therefore runs a
+**frozen branch**, not an outcome-informed selection (the selection is made before any pilot
+outcome beyond the trip metric itself is seen).
+
+**Ladder (easiest → hardest rung), each rung = the 10-case set built by the §2 ordering
+rule (one case per (system, fault, service) stratum, lowest repetition, case-name tiebreak),
+with per-rung pool size on the pinned parquet (735 rows, sha `c49a2889…`), after the §2
+exclusion rules:**
+
+| Rung | Definition (suite, system, fault) | Eligible reps-1–2 rows (computed, §9) |
+|------|-----------------------------------|---------------------------------------:|
+| (run 0) | the §2 pilot set (10 ids, sha `955a4621…`) | 10 |
+| L1 | RE1-OB mem | **0 — EMPTY** (25 raw rows, all reps 1–2 excluded by §2 rule 2: heldout tuple) |
+| L2 | RE2-OB cpu | **0 — EMPTY** (15 raw rows; reps 1–2 = the 10 BARO-smoke ids, excluded by §2 rules 1/3) |
+| L3 | RE2-OB mem / RE3-SS f1 / RE3-SS f3 | **0 — EMPTY** (35 raw rows: 15+10+10; RE2-OB mem reps 1–2 and all RE3-SS f1/f3 reps 1–4 are heldout tuples; no reps 1–2 remain) |
+| L4 | next non-empty OB bucket: RE1-OB cpu (4) + RE1-OB delay (10) + RE2-OB disk (10) + RE2-OB loss (10) + RE2-OB socket (10) — filled by §2 ordering until 10 cases | 44 (→ 10 picks) |
+| L5 | next non-empty OB bucket: RE1-OB disk (10) + RE1-OB loss (10) + RE3-OB f1 (6) + RE3-OB f3 (4) | 30 (→ 10 picks) |
+| L6 | RE1/RE2-SS resource buckets (cpu/mem/delay/disk/loss/socket, 5 strata each) | 110 (→ 10 picks) |
+| L7 | RE3-SS f2/f4 + RE3-TT f1–f4 (code-level faults) | 22 (→ 10 picks) |
+| L8 | RE1/RE2-TT resource buckets (cpu/mem/…) | 110 (→ 10 picks) |
+
+Computed 2026-10-10 on the pinned parquet by W2l (shown at §9). **MISSING-WITH-REASON
+(record, does not block):** the rung *names* L1–L3 were specified by the W2 fix directive
+(easiest→hardest by BARO smoke + strata), but all three are **empty on the reps-1–2
+scoreable pool** — the frozen heldout tuple-exclusion (§2 rule 2) removes exactly those
+strata, which is itself the anti-leak rule working as designed. L4–L8 are the actual
+non-empty rungs, ordered easiest→hardest (BARO-validated RE1/RE2-OB resource faults first,
+code-level RE3 and non-OB systems later). The human must approve L1–L3 being empty and
+L4–L8 taking over at T0 (this changes no number in §4: each re-pilot reuses the same
+envelope ceilings — 10 cases × 2 seeds × 2 arms × 60,000 + optional 8-case BARO feasibility
+pass → same 2,880,000 per-pilot-round ceiling). **MISSING-WITH-REASON (does not block):**
+whether stop rule 3's 2,880,000 cumulative ceiling is per-pilot-round or campaign-cumulative
+across re-pilots is not fixed by the current text; this spec proposes per-pilot-round
+(each round re-derives from the same §4 envelope arithmetic — no new numbers), but the
+choice must be confirmed in the T0 prereg wording (one sentence, no effect on any number
+above).
+
+**Cap (pre-registered, no discretion):** **MAX 2 re-pilots total**, each on the **NEXT
+ladder rung** only (re-pilot 1 → first non-empty rung after the run that tripped; re-pilot
+2 → the rung after that). Ladder rung choice is pre-declared in this table before any
+pilot outcome beyond the trip metric (s) is seen; a trip merely *selects* the next frozen
+rung. A **third** trip (after both re-pilots) aborts the campaign to
+**INCONCLUSIVE-STRATIFICATION** and goes to the **human** for re-scope/stop — it is *not*
+another re-stratification, and it is *not* a heldout-launch gate (the heldout does not
+launch while the verdict is INCONCLUSIVE-STRATIFICATION). The 42 heldout remain frozen
+throughout (already stated §2/§6).
+
 ## 6. Pre-registration requirements
 
 **Two-column freeze table. "Before" = must be in the frozen pilot prereg at T0 (launch);
@@ -267,17 +345,26 @@ pilot.**
 | Pilot case list (10 ids, §2 table) + sha256 of the id list + sha256 of the downloaded case data files (per S7 download-manifest pattern) | **σ̂_D** (pilot-estimated between-case variance of the paired difference) and effective per-case σ |
 | Exclusion rule text (rules 1–3, §2) verbatim | **s** (per-arm saturation fractions; disclosed in every report) |
 | Arm set = {D-E, C-EQ} + BARO-feasibility scope (8 RE2-OB delay cases, feasibility label) | Recomputed MC power (pilot-σ variant cell set, the 10-line extension, run **before** final prereg freeze) |
-| Model id + endpoint label: SimulaChat default (Qwen3.8-27B), endpoint label `simulachat` (no credentials), temperature 0.2, MODEL-SUBSTITUTION label rule for external comparisons | **Final Δ_min value** (0.10 vs 0.15, C-SCI-9) — decided from the grid + σ̂_D, with J-SCI + statistician sign-off; if ≠ 0.10, re-run the `rule_a1` variant at the frozen value |
-| Envelopes: 60,000 tokens / 900 s / 4 agents / ≤4 planner rounds / 1 consultation per investigator per case / C-EQ canary band (pending S3 reconciliation — the band's frozen value must be the one recorded after C-SCI-3 lands) | Heldout k (2/3/4) within the N=24 budget, per `monte_carlo_power_v3.md` §3.2 refinement 1 |
+| Model id + endpoint label: SimulaChat default (Qwen3.8-27B), endpoint label `simulachat` (no credentials), temperature 0.2, MODEL-SUBSTITUTION label rule for external comparisons | **Δ_min confirmed at 0.15 (A1 candidate), or LOWERED with written justification + `rule_a1` re-run at the chosen value — never RAISED post-pilot** (raising converts POSITIVE_SUBTHRESHOLD→NOT_ESTABLISHED; lowering manufactures MEANINGFUL_POSITIVE). `~~(0.10 vs 0.15, C-SCI-9)~~` harmonized per J-SCI W2 **S-W2-5**: the A1 candidate 0.15 is the single candidate; 0.10 (D-V3-007) is superseded-candidate-for-the-record only. This is the confirmation/lowering-only path — it does not contradict the protocol A1 amendment ("fixed at freeze as Δ_min = 0.15"), which fixes the *starting* value; lowering with written justification is the only permitted post-pilot movement. The `rule_a1`@0.15 MC re-run is scheduled **before G4** (a separate worker is executing it now; cite as **pending-with-track**), so the freeze cites the exact variant. J-SCI + statistician sign-off required. |
+| Envelopes: 60,000 tokens / 900 s / 4 agents / ≤4 planner rounds / 1 consultation per investigator per case / C-EQ prompt-volume canary band frozen value = **[0.6, 1.25]** (the value, not a pointer — `~~pending S3 reconciliation~~` per S-W2-6; source: FROZEN-CONSTANTS appendix `PROMPT_VOLUME_FLOOR=0.6 / CEIL=1.25`; the 0.8-docstring-vs-0.6-code mismatch is disclosed as amendments conflict #3) | Heldout k (2/3/4) within the N=24 budget, per `monte_carlo_power_v3.md` §3.2 refinement 1 |
 | Seeds {20261011, 20261012} | The S-sat *outcome* (trip or not) — the rule itself (0.25) is frozen, never tunable |
-| Stop rules 1–3 verbatim, incl. crash threshold 25% and token ceiling 2,880,000 | MDE re-scope (0.15 → 0.20) if the pilot-σ power shows 0.15 unattainable (this is a pre-declared consequence, not a tuning from outcome patterns — it executes a pre-registered branch) |
-| Estimator definitions: σ̂_D computed on paired per-case differences, k=2, cluster=case; s defined as all-seeds-success fraction; ITT (failed runs = non-success) | The heldout case list *only if* S-sat trips: re-stratified re-pilot first (the 42 remain frozen either way) |
+| Stop rules 1–3 verbatim, incl. crash threshold 25% and token ceiling 2,880,000; **plus the §5.1 difficulty ladder table + the MAX-2-re-pilots / INCONCLUSIVE-STRATIFICATION cap, verbatim (S-W2-10)** | MDE re-scope (0.15 → 0.20) if the pilot-σ power shows 0.15 unattainable (this is a pre-declared consequence, not a tuning from outcome patterns — it executes a pre-registered branch) |
+| Estimator definitions: σ̂_D computed on paired per-case differences, k=2, cluster=case; s defined as all-seeds-success fraction; ITT (failed runs = non-success) | The re-pilot case list *only if* S-sat trips: next rung of the §5.1 pre-registered difficulty ladder (MAX 2 re-pilots; `~~"re-stratified re-pilot"~~` — S-W2-10); the 42 remain frozen either way |
 | **"No confirmatory reuse" clause verbatim:** pilot results cannot be reused as heldout evidence; no effect estimate / power claim / superiority statement is reported from the pilot; any parameter change not in the After-column requires a versioned amendment motivated by a pre-registered defect | (nothing else. Any additional "After" permission must itself be a versioned amendment) |
 
-**Also frozen before T0 (carry-over conditions that must already be satisfied):** C-SCI-1
-scorer-only gate (S1), C-SCI-2 L5 pin (done, W2c), C-SCI-3 canary band reconciliation
-(G4-blocker, but the band value must be settled before the pilot so the frozen value is
-unambiguous), J-CODE W2 verdict clear (EXECUTION_STATE: "G3 requires … J-CODE W2 verdict").
+**Also frozen before T0 (carry-over conditions — current state at T0, updated per J-SCI W2
+**S-W2-6** as of dev @ a716a85):**
+- C-SCI-1 scorer-only gate (S1): required at T0 (unchanged).
+- C-SCI-2 L5 pin: **DONE** — `src/repliclaw/benchmarks/common/power_pin.py` +
+  `tests/benchmarks/test_l5_pin.py` in repo (W2c merged; shas `e14d28ad…` / `929d6fe9…`
+  re-verified by J-SCI W2).
+- C-SCI-3 canary band: **frozen value = [0.6, 1.25]** (the value is recorded, not a pointer
+  to a reconciliation event) — FROZEN-CONSTANTS appendix; amendments conflict #3
+  (0.8-docstring vs 0.6-code) is the disclosed 0.8 note and the one reconciliation item to
+  close before launch. `~~"G4-blocker, band pending"~~` framing removed.
+- J-CODE W2 verdict: **exists** — `reviews/CODE_JUDGE_WAVE2_20261010.md`,
+  **APPROVE-WITH-CONDITIONS**; conditions closed except **F-W2-12** (deferred to the G4 doc
+  pass). `~~"verdict clear"~~` updated to "verdict issued, conditions tracked".
 
 ## 7. Approval gates (human must approve, before LAUNCH)
 
@@ -311,7 +398,7 @@ Checklist — **all five required**, recorded in `DECISIONS.md` as a single entr
 | T0+4 | Pilot report: σ̂_D, s (per arm, disclosed), feasibility notes, ledger snapshot, stop-rule outcomes. No effect claim. | Integrator |
 | T0+5 | Pilot-σ MC variant cell set (10-line extension of `monte_carlo_power.py`, sha-pinned per C-SCI-2) recomputes power at σ̂_D for the candidate (N=24, k∈{2,3,4}, MDE 0.15/0.20) cells | Statistics worker |
 | T0+6 | **Final prereg freeze:** heldout N/k/MDE/Δ_min + S-sat + all disclosures (S4: reps-1–2, TT-absent, 10/42 smoke pre-finalization; S5: adaptivity scope; this spec's OB-only pilot caveat). J-SCI + statistician sign-off. | J-SCI + human |
-| T0+7 | Heldout launch (only if S-sat did not trip; if it tripped, loop back to a re-stratified re-pilot first — the 42 never change) | Human approval again |
+| T0+7 | Heldout launch (only if S-sat did not trip and no re-pilot is pending; if it tripped, execute the pre-registered difficulty ladder §5.1 — MAX 2 re-pilots, next rung each — before any heldout; a third trip aborts to INCONCLUSIVE-STRATIFICATION and goes to the human. The 42 never change) | Human approval again |
 
 ## 9. Traceability appendix (computation log)
 
@@ -320,14 +407,35 @@ the frozen quota table from `manifest.py`:
 - Heldout re-derivation: 42 ids, exact quota match (matches J-SCI W1 A6 independent replication).
 - Heldout tuples: 18 distinct (system, fault, service) tuples.
 - 735 − 42 = 693; 693 − 48 (rows sharing a heldout tuple) = **645 eligible rows/cases**.
-- `has_root_cause_file`: reps 1: 4/192, reps 2: 4/192 (both RE3 carts f1/f3 SS — the 6
-  S1 files), reps 3–6: 0/443 → scoreable pilot pool restricted to reps 1–2 → 168 eligible strata.
+- `has_root_cause_file` (measured): reps 1: 4/192, reps 2: 4/192 (both RE3 carts f1/f3 SS
+  — the 6 S1 files), reps 3–6: 0/**351** (`~~0/443~~` typo corrected per S-W2-3: reps
+  3–6 = 192+192+82+76+1 = 351 rows) → scoreable pilot pool restricted to reps 1–2 by
+  deterministic ordering convention + data-availability conservatism (a choice, not a
+  ground-truth-availability constraint; scorer label = index column
+  `root_cause_service`, populated in all 735 rows) → 168 eligible strata.
 - The 10 pilot ids in §2: all disjoint from the 42 ids and from all 42 heldout tuples
   (verified programmatically); sha256(sorted ids, "\n"-joined) =
   `955a462175200909577c8c71db64e3fc8f879c83f1a9028e307926c471503a02`.
 - Token ceiling arithmetic: 10 cases × 2 seeds × 2 arms × 60,000 = 2,400,000; + 8 × 60,000
   BARO = 480,000; total **2,880,000**.
-- Wall arithmetic: (20 + 20 + 8) runs × 900 s = 44,100 s sequential.
+- Wall arithmetic: (20 + 20 + 8) = **44 runs** × 900 s = **43,200 s = 12.0 h** sequential
+  (`~~44,100 s~~` — the "44,100 / 48 runs" figure was itself a miscount; corrected per
+  J-SCI W2 **S-W2-2**; 43,200/2 = 21,600 s = 6.0 h at 2-way parallel).
+- S-W2-4 binomial trip-probability table (trip = s ≥ 3/10; P(Bin(10, p) ≥ 3) at observed
+  case-saturation p): p = 0.00/0.10/0.20/0.30/0.40/0.50/0.60/0.70/0.80/0.90/1.00 →
+  0.000 / 0.070 / 0.322 / 0.617 / 0.833 / 0.945 / 0.988 / 0.998 / 1.000 / 1.000 / 1.000
+  (computed; matches J-SCI W2 S-W2-4's 0.18/0.32/0.47 at p = 0.15/0.20/0.25).
+- S-W2-10 difficulty-ladder pool sizes (computed on the pinned parquet after the §2
+  exclusion rules, reps 1–2 scoreable pool): RE1-OB mem 0 (25 raw), RE2-OB cpu 0
+  (15 raw; reps 1–2 = the 10 BARO-smoke ids), RE2-OB mem 0 (15 raw) + RE3-SS f1 0
+  (10 raw) + RE3-SS f3 0 (10 raw) — L1/L2/L3 all empty (35 raw rows total) because those
+  strata are exactly the frozen heldout tuples (anti-leak rule 2); L4 = RE1-OB cpu 4 + RE1-OB delay 10 +
+  RE2-OB disk 10 + RE2-OB loss 10 + RE2-OB socket 10 = 44 eligible; L5 = RE1-OB disk 10
+  + RE1-OB loss 10 + RE3-OB f1 6 + RE3-OB f3 4 = 30; L6 = RE1/RE2-SS buckets = 110;
+  L7 = RE3-SS f2 2 + f4 4 + RE3-TT f1 4 + f2 4 + f3 4 + f4 4 = 22; L8 = RE1/RE2-TT
+  buckets = 110. Per-rung pick sets follow the §2 ordering rule; per-rung id-list sha256s
+  to be generated at T0 of the applicable re-pilot (two-step freeze: rung definition now,
+  id-list hash when the trip executes — same pattern as §2 data-file hashes).
 
 **Known gaps (honest):** (i) per-case V3 live token/wall not yet measured — envelope is the
 planning number; (ii) pilot case data-file hashes MISSING until T0+1 download; (iii)
