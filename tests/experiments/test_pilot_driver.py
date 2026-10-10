@@ -15,6 +15,7 @@ import hashlib
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pandas as pd
 import pytest
@@ -350,3 +351,40 @@ def test_run_refuses_without_fake_and_env(monkeypatch: pytest.MonkeyPatch, capsy
     err = capsys.readouterr().err
     assert code != 0
     assert "provider env incomplete" in err
+
+
+def test_simula_client_adapter_chat_create_surface(monkeypatch):
+    """build_simula_client must expose client.chat.create (session surface)."""
+    import sys
+    import types
+
+    from scripts import pilot_run
+
+    class _FakeCompletions:
+        def create(self, **kw):
+            return SimpleNamespace(
+                choices=[SimpleNamespace(message=SimpleNamespace(content="{}", role="assistant"))],
+                usage=SimpleNamespace(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+            )
+
+    class _FakeChat:
+        def __init__(self):
+            self.completions = _FakeCompletions()
+
+    class _FakeSimulaChatClient:
+        def __init__(self, config=None, timeout=60.0):
+            self.chat = _FakeChat()
+
+    fake_mod = types.ModuleType("repliclaw.benchmarks.agentrx.simula")
+    fake_mod.DEFAULT_MODEL = "default"
+    fake_mod.ENV_BASE_URL = "SIMULACHAT_BASE_URL"
+    fake_mod.SimulaChatClient = _FakeSimulaChatClient
+    fake_mod.SimulaChatConfig = lambda **kw: types.SimpleNamespace(**kw)
+    monkeypatch.setitem(sys.modules, "repliclaw.benchmarks.agentrx.simula", fake_mod)
+    monkeypatch.setenv("SIMULACHAT_BASE_URL", "https://example.invalid/api/v1")
+    monkeypatch.setenv("SIMULACHAT_API_KEY", "k" * 30)
+
+    client = pilot_run.build_simula_client()
+    resp = client.chat.create(model="default", messages=[{"role": "user", "content": "x"}])
+    assert resp.usage.total_tokens == 2
+    assert not hasattr(client.chat, "completions")  # adapter surface, not raw client

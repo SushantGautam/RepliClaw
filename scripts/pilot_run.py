@@ -295,6 +295,21 @@ def provider_env_complete() -> bool:
     return bool(base) and bool(key.strip())
 
 
+class _ChatCreateAdapter:
+    """Exposes ``.create`` on the session's ``client.chat`` surface.
+
+    LLMToolSession calls ``client.chat.create(...)``; the W2g
+    SimulaChatClient exposes ``client.chat.completions.create(...)``.
+    This adapter keeps both module surfaces untouched.
+    """
+
+    def __init__(self, completions: Any) -> None:
+        self._completions = completions
+
+    def create(self, **kwargs: Any) -> Any:
+        return self._completions.create(**kwargs)
+
+
 def build_simula_client() -> Any:
     """Env-only SimulaChat client. The key env accepts SIMULACHAT_API_KEY or
     CUSTOM_SIMULACHAT_KEY (operator shell exports the latter); documented."""
@@ -311,7 +326,15 @@ def build_simula_client() -> Any:
     if not base_url or not api_key:
         raise RuntimeError("provider env incomplete")
     config = SimulaChatConfig(base_url=base_url, api_key=api_key, model=model)
-    return SimulaChatClient(config=config, timeout=120.0)
+    client = SimulaChatClient(config=config, timeout=120.0)
+    return _SessionClientAdapter(client)
+
+
+class _SessionClientAdapter:
+    """Presents the SimulaChatClient on the session's ``client.chat.create" surface."""
+
+    def __init__(self, client: Any) -> None:
+        self.chat = _ChatCreateAdapter(client.chat.completions)
 
 
 def build_fake_client() -> FakeLLMClient:
