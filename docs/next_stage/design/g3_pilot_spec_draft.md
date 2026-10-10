@@ -75,12 +75,11 @@ Sources read (all in `/Users/sushantgautam/Documents/RepliClaw-stg2-dev` unless 
    (42 total, re-derived by this worker from the quota table on the real parquet; J-SCI W1
    A6 independently replicated the same 42.)
 2. **Tuple exclusion (the operative anti-leak rule):** a pilot case must not share the
-   **(system, fault_type, root_cause_service)** tuple with any of the 42. Rationale: within an
+   **   (system, fault_type, root_cause_service)** tuple with any of the 42. Rationale: within an
    RCAEval dataset a `(system, fault, service)` stratum is the same incident scenario replayed
-   across repetitions; the 42 use reps 1–2, so only reps 3+ of those tuples differ, and the
-   dataset has **zero** `root_cause.txt` files for reps ≥ 3 (measured: `has_root_cause_file`
-   sum = 0 for reps 3–6 out of 351 rows — `~~443~~` typo corrected per J-SCI W2 **S-W2-3**;
-   reps 3–6 = 192+192+82+76+1 = 351 rows, reps 1–2 = 384). Tuple-exclusion is the rule that guarantees the
+   across repetitions; the 42 use reps 1–2, so only reps 3+ of those tuples differ
+   (measured: reps 3–6 = 192+192+82+76+1 = 351 rows, reps 1–2 = 384). Tuple-exclusion is
+   the rule that guarantees the
    pilot cannot share a ground-truth scenario (and its telemetry generation parameters) with
    the frozen heldout.
 3. **Smoke-id exclusion:** also exclude the 10 BARO smoke case ids — verified to be exactly
@@ -92,9 +91,18 @@ whose `(system, fault, root_cause_service)` is one of the 42 heldout tuples (18 
 tuples; 693 − 48 = 645). **Eligible = 645 rows / 645 distinct case ids**
 (computed inline by this worker on the pinned parquet; shown at the §9 computation log).
 
-**Additional feasibility filter (documented, not a hidden rule):** only reps 1–2 carry
-`root_cause.txt` at all (measured), so the scoreable pool is reps 1–2 of the 645 →
+**Additional feasibility filter (documented, not a hidden rule):** the scoreable pool is
+reps 1–2 of the 645 — a **deterministic ordering convention and data-availability
+conservatism** (the same reps-1–2 convention `manifest.py` uses for the heldout), **a
+choice, not a ground-truth-availability constraint** — yielding
 **168 distinct eligible (suite, system, fault, service) strata**, reps 1–2.
+**Factual disclosure:** the scorer's ground-truth label is the index column
+`root_cause_service` in `cases.parquet` (populated in **all 735 rows**, 0 nulls; the only
+resolve path is `manifest.py` `heldout_ground_truth` via `ScorerContext`); the 8
+`root_cause.txt` prose files (re3ss_carts f1/f3 and re3ss_front-end f1/f2, reps 1–2) are
+a layout quirk of RE3-SS and are **NOT** the scoring label; reps 3–6 index rows carry
+full telemetry metadata (n_metrics > 0 in all 351) and could be scored if a future
+amendment ever widened the pool — no number in this spec depends on that.
 
 **Proposed pilot set (n = 10, one case per stratum, lowest repetition, case-name tiebreak —
 same deterministic ordering as `manifest.py::_select_stratum`):**
@@ -399,9 +407,12 @@ the frozen quota table from `manifest.py`:
 - Heldout re-derivation: 42 ids, exact quota match (matches J-SCI W1 A6 independent replication).
 - Heldout tuples: 18 distinct (system, fault, service) tuples.
 - 735 − 42 = 693; 693 − 48 (rows sharing a heldout tuple) = **645 eligible rows/cases**.
-- `has_root_cause_file`: reps 1: 4/192, reps 2: 4/192 (both RE3 carts f1/f3 SS — the 6
-  S1 files), reps 3–6: 0/**351** (`~~0/443~~`, S-W2-3: reps 3–6 = 192+192+82+76+1 = 351
-  rows) → scoreable pilot pool restricted to reps 1–2 → 168 eligible strata.
+- `has_root_cause_file` (measured): reps 1: 4/192, reps 2: 4/192 (both RE3 carts f1/f3 SS
+  — the 6 S1 files), reps 3–6: 0/**351** (`~~0/443~~` typo corrected per S-W2-3: reps
+  3–6 = 192+192+82+76+1 = 351 rows) → scoreable pilot pool restricted to reps 1–2 by
+  deterministic ordering convention + data-availability conservatism (a choice, not a
+  ground-truth-availability constraint; scorer label = index column
+  `root_cause_service`, populated in all 735 rows) → 168 eligible strata.
 - The 10 pilot ids in §2: all disjoint from the 42 ids and from all 42 heldout tuples
   (verified programmatically); sha256(sorted ids, "\n"-joined) =
   `955a462175200909577c8c71db64e3fc8f879c83f1a9028e307926c471503a02`.
