@@ -59,10 +59,13 @@ Key canary files (verbatim per-file result lines from the verbose run):
 
 The 23 skips are data-availability skips on this host (pilot case data / `baro_feasibility.json` / pilot telemetry not on disk), not canary failures. No leak, parity, label-gate, or scorer-only-resolve canary failed.
 
-**Canary 2 — offline pilot canary: NOT RUN (data absent).**
-`.artifacts/rcaeval/pilot` does **not** exist on this host (verified: `NO_PILOT_DATA_DIR`; `.artifacts/` contains only `copilot-fleet/`). The offline pilot canary (`uv run python scripts/pilot_run.py canary --data-root .artifacts/rcaeval/pilot --out /tmp/ff03-canary`; subcommand/flags verified against `scripts/pilot_run.py` argparse: `canary` subparser with `--data-root` and `--out`) therefore **cannot run**. Per the tasking, the pytest canary (Canary 1) stands as the contamination verdict.
+**Canary 2 — offline no-LLM pilot canary: PASS (pilot data present in the main checkout).**
+The ff03 worktree itself lacks `.artifacts/rcaeval/pilot`, but the main checkout on this host (`/home/susan/projects/RepliClaw/.artifacts/rcaeval/pilot`) contains the pilot data, so the canary was run from the worktree with an explicit `--data-root`. Flags verified first via `uv run python scripts/pilot_run.py canary --help` (subparser `canary` with `--data-root`, `--out`).
 
-**VERDICT: PASS** — the D-E/C-EQ interface contamination canary (leak guards, payload parity, label gate, scorer-only resolve gate) passes with no failures; the offline pilot canary is not applicable on this host for lack of pilot data.
+Command: `uv run python scripts/pilot_run.py canary --data-root /home/susan/projects/RepliClaw/.artifacts/rcaeval/pilot --out /tmp/ff03-canary` (exit 0)
+Results (verbatim, per check): `PASS  both_arms_complete`, `PASS  payload_parity`, `PASS  scorer_path`, `PASS  label_gate`, `PASS  reset`. The two `[D-E-TELEM]`/`[C-EQ-TELEM] expected crash (label gate)` lines are the label gate's **intentional** negative checks (forbidden literal `re1ob_adservice_cpu_1` in a D-E payload → expected crash; manager two-consecutive-malformed action outputs → expected crash), not failures. Report: `/tmp/ff03-canary/canary_report.json`.
+
+**VERDICT: PASS** — the D-E/C-EQ interface contamination canary (leak guards, payload parity, label gate, scorer-only resolve gate; subset 180 passed, 23 skipped, 3 xfailed; full suite `tests -q` 447 passed, 32 skipped, 3 xfailed) and the offline no-LLM pilot canary (both_arms_complete, payload_parity, scorer_path, label_gate, reset) both pass with no failures on 2026-10-11.
 
 ## 6. Signoff
 
