@@ -485,3 +485,68 @@ envelope-bound or mechanism/model-bound.
   report §2c per preregistered A2/A3/A4 interpretations (envelope-bound vs
   mechanism/model-bound — whichever the data shows). Model change (c) still
   NOT authorized.
+
+## I4.22 — Round 6 (V3.4) completed: prereg interpretation (a) confirmed; judges PASS; report updated (2026-10-11)
+- **Round 6 outcome** (git_rev 5fd3075, model `default`, 21/40 runs, stop-1
+  C-EQ-sat 0.30 @ 16-run snapshot, 1.52M of 12M spent, exit 10):
+  - **D-E: 6/12 ledgered completed, ALL 6 hit=True** (121,236–282,525 tok,
+    mean 194,742). Prereg A3 comparison vs round-5 1/9: completion rate rose
+    11%→50% at 300K with 100% accuracy on completions ⇒ round-5 1/9 was
+    largely **envelope-bound** (prereg interpretation (a) confirmed).
+  - D-E non-completions: 4 crashed (AgentProtocolError malformed actions,
+    18,445–26,698 tok, 14–21 s — envelope-INVARIANT, same class as round 5)
+    + 2 aborted_budget (277,097 / 300,732). **P-05 = counter-evidence**:
+    152,364 (R5@150K) → 277,097 (R6@300K), ~1.8× more tokens, still no
+    submission ⇒ budget-truncated non-convergence, abort class NOT clean
+    "needs N tokens".
+  - **C-EQ: 9/9 completed, all hits, 54,759–78,652 tok** — reproduces
+    round-5 7/7 (6 of 9 per-case counts within <0.5%; P-05/P-06 s11 +9.4/9.5%
+    backend nondeterminism; case_sha256 identical across rounds). Per A4:
+    reproducibility check, NOT a new reference.
+  - **Snapshot gap (rider 13):** STOP.json 16 runs vs final ledger 21; 2
+    post-trip D-E completions (P-07 s11, P-04 s12); full-cohort D-E
+    non-completion 6/20 = 0.30 > 0.25 would have tripped stop-2 — C-EQ stop1
+    pre-empted it ⇒ terminal state is a D-E-favorable transient, not a
+    full-cohort rate. 19/40 runs (P-08 s12…P-10) never launched.
+- **Both fresh round-6 outcome judges PASS with SHOULD-FIX** (all applied as
+  doc/wording in the campaign report, none required code change to the frozen
+  instrument):
+  - **Code judge (PASS, 3 SHOULD-FIX):** (1) D-E arm hardcodes
+    `prompt_volume_ratio=None` (telemetry_arms.py:954) — parity metric
+    C-EQ-observed only → recorded as known instrument gap (rider 13);
+    (2) envelope abort can overshoot (P-08 300,732 > 300,000; pre-call check
+    at telemetry_arms.py:744) → disclosed; (3) my own claimed C-EQ token
+    range 54.7–61.3K was WRONG — actual 54.7–78.7K with P-05/P-06 +9.4/9.5%
+    cross-round drift → corrected in report with nondeterminism explanation.
+    Also verified: all 5 frozen hashes match @6e32153, 6e32153→5fd3075
+    docs-only, STOP.json snapshot arithmetic exact, 35/35 escrow hash
+    recomputes clean (all 3 investigators commit+reveal on every completed
+    D-E run), 0 ground-truth strings in non-hit D-E audit logs.
+  - **Science judge (PASS, 6 SHOULD-FIX, all doc):** (1) add round 6 to
+    report (done: §2 row, §2c, §4c, rider 13); (2) never write blanket
+    "D-E is envelope-bound" → "partially envelope-bound; crash class is
+    envelope-invariant mechanism/model-bound"; (3) no latent-success booking
+    of the 2 aborts (P-05 counter-evidence); (4) snapshot-gap rider (done);
+    (5) cost = 3.2× mean / 2.2–3.8× per-case (not "~4×"), same-budget at
+    per-run cap only; (6) truncation caveat (n=12 of 20, in-flight-inclusive,
+    feasibility readout not a rate comparison).
+  - **Judge-mandated round-6 wording** (≤5 sentences) adopted verbatim as §4c.
+- **Strongest-paired-cell facts (undermine, not support, D-E advantage):**
+  P-03 (only fully-paired case): C-EQ 2/2 hit vs D-E 0/2 (both crashed).
+  P-06 s11 (only fully-paired seed): both hit, D-E 282,525 vs C-EQ 74,883
+  (3.77×).
+- **Standing negative STANDS, refined**: "model-limited under substitution"
+  → "partially envelope-bound (abort class) + mechanism/model-bound (crash
+  class)"; no demonstrated advantage of decentralization/escrow at any
+  envelope tried; cost asymmetry WIDENED (2.4×→3.2–3.8×).
+- **Campaign report updated** (this commit): scope/verdict, §2 row 6, §2c,
+  §4c, §5 MUST-NOT +4, rider 13, §7 decision point (round 6 executed; new
+  options: (i) accept as V3 record / (ii) round 7 @600K disambiguation /
+  (iii) stop / (c) model change still not authorized), §8 pointers.
+- **Next (HUMAN GATE):** decision per §7 — most defensible default is (i)
+  accept round 6 as the terminal V3 feasibility record (envelope question
+  answered; crash class is the remaining D-E blocker and is envelope-
+  invariant, so only a model/protocol change — not authorized — can address
+  it), or (ii) authorize round 7 @600K for abort-class disambiguation. Model
+  change (c) still NOT authorized. No confirmatory campaign, no heldout, no
+  release without fresh G4/G7 approvals.
