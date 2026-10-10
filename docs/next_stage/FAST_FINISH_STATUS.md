@@ -1,6 +1,6 @@
 # RepliClaw fast-finish status (coordinator-owned)
 
-**As of 2026-10-11 19:30 UTC (fleet mode, native subagents):** BYOK inherit fix verified — `settings.json` sets rc-fast/rc-implement/rc-review to `model: inherit`; rc-fast native canary passed and telemetry confirms it ran on the inherited `sigma2.no/Qwen3.8-27B-Thinking` (no hosted fallback). Three native subagents now running in parallel on worktrees: FF-02 independent review (rc-review, of commit 7028865), FF-03 null-model completion (rc-implement, from WIP 63b3cfe), FF-04 intervention-parity tests (rc-implement). FF-05 fake full-pilot rehearsal verified the harness end-to-end (both arms + scoring + ledger + stop rules; stop1_ssat tripped correctly on fake saturation, both arms equal). FF-05 live pilot BLOCKED on SIMULACHAT provider env.
+**As of 2026-10-11 20:35 UTC:** FF-01 CI clean install DONE (dev green). FF-02 label isolation DONE + integrated (merge b196e06); its review nit (single-service stratum guard) fixed and committed d74b58f. FF-03 null-model correction DONE + integrated (merge 5702e52, DRAFT pending independent signoff). FF-04 intervention parity DONE + integrated (merge 209653e; 554-line test proves D-E vs C-EQ share the real interface, no arm asymmetry). **FF-05 LIVE PILOT (round 0) PARTIAL RESULT obtained** with human-provided SimulaChat creds (model=default = Qwen3.8-27B): 4 cases RCA-P-01..04, seed 20261011 only (driver refused resume of non-completed records so seed 20261012 did not run → 8/16 arm-runs). Result is an honest NEGATIVE/feasibility finding: C-EQ-TELEM completed 4/4 and submitted rankings (~10 tool calls, ~50k tok each); D-E-TELEM hit 0/4 (3 aborted_budget @~150k tok + 1 crashed on malformed action output). Root cause is architectural thrashing, NOT a cap artifact: each D-E investigator (inv-a/b/c) uses only 3 distinct tools and re-issues the SAME calls 60–90% of the time (inv-b RCA-P-01: 27/30 redundant), exhausting the token budget before committing a ranking. NO effect/superiority claim — single seed, 4/10 cases, §6 no-confirmatory-reuse applies. Report: `.artifacts/rcaeval/pilot/run_live_r0/round0/pilot_report_round0.md`.
 
 ## Primary goal
 An intervention-matched multi-case D-E vs C-EQ result, no false claims of escrow/decentralization superiority.
@@ -20,10 +20,10 @@ An intervention-matched multi-case D-E vs C-EQ result, no false claims of escrow
 | Task | Status | Owner | Latest artifact/command | Blocker |
 |---|---|---|---|---|
 | FF-01 CI clean install | DONE | coordinator (direct; subagent registry was stale this session) | dev @ c0cda69; CI run 38166853788 success (3.11+3.12 install/pytest/ruff/mypy); fresh-venv repro green | none |
-| FF-02 label isolation | RUNNING | rc-implement (fresh-process dispatch, worktree ff02-label-isolation) | ticket: remove decodable quota_service_order, failing-then-passing adversarial test, G2 docstring close | none |
-| FF-03 judge/statistical correction | RUNNING | rc-review (fresh-process dispatch, worktree ff03-null-model) | ticket: null-model amendment doc + independent contamination canary + verdict | none |
-| FF-04 actual intervention parity | RUNNING | rc-implement (fresh-process dispatch, worktree ff04-intervention-match) | ticket: action-menu/budget/environment parity + no-oracle/no-fixed-script/no-starvation tests | none |
-| FF-05 exploratory multi-case pilot | WAITING | pending | none | parity + case availability |
+| FF-02 label isolation | DONE | coordinator+rc-review | merge b196e06; nit fixed d74b58f (_select_stratum single-service guard + test); 91 benchmark tests pass | none |
+| FF-03 judge/statistical correction | DONE (DRAFT) | rc-implement | merge 5702e52; AMEND_NULL_MODEL_CORRECTION_20261011.md + 1-line erratum; needs independent science signoff before P4 | independent signoff |
+| FF-04 actual intervention parity | DONE | rc-implement | merge 209653e; tests/experiments/test_intervention_match.py (6 executable tests, no arm asymmetry) | none |
+| FF-05 exploratory multi-case pilot | PARTIAL RESULT | coordinator (direct) | live round-0 seed-20261011, 4 cases: C-EQ 4/4 hit, D-E 0/4 (3 budget + 1 crash) from investigator thrashing (3 tools, 60-90% redundant calls). Report run_live_r0/round0/pilot_report_round0.md. Seed 2 not run (resume-refusal). | full multi-seed/multi-case needs cap/prompt fix or explicit authorization to spend more tokens |
 | FF-06 prereg freeze/approvals | WAITING | pending | v3 draft | pilot + judge signoff |
 | FF-07 heldout results | WAITING | pending | none | FF-06 |
 
