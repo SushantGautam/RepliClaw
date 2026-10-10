@@ -24,3 +24,7 @@
 ## I4.15 — Turnkey human-gate deliverables (2026-10-11)
 - Wrote `science/v3_campaign_final_report.md` (path a) and `design/amendment_v33_both_arms_repair_DRAFT.md` (path b, DRAFT, code-level, pending approval).
 - Next: HUMAN GATE choice (a)/(b); (c) not authorized per D-V3-017.
+
+## I4.16 — V3.3 built + judged + canaried (2026-10-11)
+- Implemented V3.3 both-arms repair in wip worktree (anti-loop cache, no per-tool caps, volume canary→logged); gates 472 green; 2 fresh judges PASS; live canary: C-EQ 4/4 hits, D-E 0/4 (non-convergence persists as distinct-call rate).
+- Next: HUMAN GATE (a) run full round 5 / (b) raise envelope / (c) stop series / (d) model change[not authorized].
