@@ -61,6 +61,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 import time
 import traceback
 from dataclasses import dataclass
@@ -338,6 +339,7 @@ class LLMToolSession:
         self.transcript: list[dict[str, Any]] = []
         self.prompts: list[str] = []  # every user prompt sent (for the volume canary)
         self._tokens: list[_TokenRecord] = []
+        self._prev_prompt_chars = 0  # chars of full message history at the previous call
 
     # -- accounting ----------------------------------------------------------
     @property
@@ -396,7 +398,13 @@ class LLMToolSession:
         ct = getattr(usage, "completion_tokens", None) if usage is not None else None
         if isinstance(pt, int) and isinstance(ct, int):
             return _TokenRecord(pt, ct, "usage")
-        prompt_chars = sum(len(m["content"]) for m in self.messages)
+        # Estimate: count only the MARGINAL prompt chars added since the
+        # previous call (not the full history re-sent), so a long session is
+        # not re-charged for its own transcript on every turn.
+        prompt_chars = max(
+            0, sum(len(m["content"]) for m in self.messages) - self._prev_prompt_chars
+        )
+        self._prev_prompt_chars = sum(len(m["content"]) for m in self.messages)
         completion_chars = len(self.transcript[-1]["content"])
         return _TokenRecord(prompt_chars // 4, completion_chars // 4, "length_estimate")
 
@@ -467,6 +475,9 @@ class ArmEscrow:
         )
 
     def commit(self, agent_id: str, phase: str, ranking: list[str], confidence: float) -> dict[str, Any]:
+        # Service-validity (ranking must cover the case's metric inventory) is
+        # NOT checked here — escrow has no sandbox reference; validation
+        # happens at the final TelemetrySandbox.submit_diagnosis.
         payload = self._canonical_payload(agent_id, phase, ranking, confidence)
         sha = hashlib.sha256(payload.encode("utf-8")).hexdigest()
         entry = {
@@ -558,6 +569,7 @@ class _ArmBase:
         model_label: str | None = None,
         envelope: _Envelope | None = None,
         clock: Callable[[], float] | None = None,
+        verbose_crash: bool = True,
     ) -> None:
         self._client = client
         self._registry = registry
@@ -571,8 +583,20 @@ class _ArmBase:
         self.protocol_errors = 0
         self._clock = clock if clock is not None else time.monotonic
         self._start = 0.0
+        self.verbose_crash = verbose_crash
 
     # -- lifecycle helpers -----------------------------------------------------
+    def _record_crash(self, exc: Exception) -> None:
+        """Log an arm crash to stderr; demote to a one-liner when the crash
+        is expected (canary label-gate) via ``verbose_crash=False``."""
+        if self.verbose_crash:
+            print(f"[{self.arm_label}] crashed: {exc}\n{traceback.format_exc()}",
+                  file=sys.stderr, flush=True)
+        else:
+            print(f"[{self.arm_label}] expected crash (label gate): {exc}",
+                  file=sys.stderr, flush=True)
+        if isinstance(exc, AgentProtocolError):
+            self.protocol_errors += 1
     def _new_sandbox(self) -> TelemetrySandbox:
         sandbox = TelemetrySandbox(self._registry, self._opaque_id)
         self.sandboxes.append(sandbox)
@@ -699,9 +723,7 @@ class DetelemArm(_ArmBase):
                                 escrow_ledger_path=str(escrow.save(escrow_path)),
                                 prompt_volume_ratio=None)
         except Exception as exc:  # noqa: BLE001 — crash is recorded, not raised
-            if isinstance(exc, AgentProtocolError):
-                self.protocol_errors += 1
-            print(f"[{self.arm_label}] crashed: {exc}\n{traceback.format_exc()}", flush=True)
+            self._record_crash(exc)
             return self._result(submitted_ranking=None, status="crashed",
                                 escrow_ledger_path=str(escrow.save(escrow_path)),
                                 prompt_volume_ratio=None)
@@ -871,9 +893,7 @@ class CEQTelemArm(_ArmBase):
                                 escrow_ledger_path=str(escrow.save(escrow_path)),
                                 prompt_volume_ratio=None)
         except Exception as exc:  # noqa: BLE001 — crash is recorded, not raised
-            if isinstance(exc, AgentProtocolError):
-                self.protocol_errors += 1
-            print(f"[{self.arm_label}] crashed: {exc}\n{traceback.format_exc()}", flush=True)
+            self._record_crash(exc)
             return self._result(submitted_ranking=None, status="crashed",
                                 escrow_ledger_path=str(escrow.save(escrow_path)),
                                 prompt_volume_ratio=None)

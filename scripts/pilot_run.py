@@ -889,6 +889,9 @@ def cmd_canary(args: argparse.Namespace) -> int:
         arm_obj = (DetelemArm if arm == "D-E-TELEM" else CEQTelemArm)(
             client=FakeLLMClient(leaky_prompt), registry=registry, opaque_id=probe_case,
             out_dir=out_dir / "label_gate" / arm, seed=PILOT_SEEDS[0],
+            # Crashes here are EXPECTED label-gate evidence (the scripted echo
+            # of the upstream id must be blocked), so demote the traceback.
+            verbose_crash=False,
         )
         result = arm_obj.run()
         if result.status == "completed":

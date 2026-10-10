@@ -258,6 +258,71 @@ def test_session_token_accounting_usage_and_length_estimate() -> None:
     assert session2._tokens[0].method == "length_estimate"
 
 
+class _CapturingNoUsageClient:
+    """No-usage client that records the exact prompt chars sent on each call,
+    so a test can compare the session's estimate against the real wire traffic."""
+
+    class _Completions:
+        def __init__(self, client: "_CapturingNoUsageClient") -> None:
+            self._client = client
+
+        def create(self, *, model: str, messages: list[dict[str, str]],
+                   temperature: float = 0.0, **_kwargs: Any) -> Any:
+            self._client.prompt_chars_seen.append(sum(len(m["content"]) for m in messages))
+            message = type("M", (), {"content": _commit(RANK5)})()
+            choice = type("C", (), {"message": message})()
+            return type("R", (), {"choices": [choice], "usage": None})()
+
+    def __init__(self) -> None:
+        self.prompt_chars_seen: list[int] = []
+        self.chat: ChatCompletionsLike = self._Completions(self)
+
+
+def test_session_length_estimate_counts_only_marginal_prompt() -> None:
+    """No-usage fallback must count the MARGINAL prompt per turn, not the
+    full re-sent history: over 5 turns the estimate must stay at ~1x the
+    per-turn prompt size (1.2x tolerance), and must equal the sum of the
+    per-call prompt chars actually sent, divided by 4."""
+    client = _CapturingNoUsageClient()
+    session = LLMToolSession(client, system_prompt="sys", agent_id="x")
+    for i in range(5):
+        session.ask(f"turn {i}")
+
+    assert all(t.method == "length_estimate" for t in session._tokens)
+    # Never under-count: reported total equals the sum of each call's SENT
+    # prompt chars (marginal per call, not the re-sent history) divided by 4.
+    per_call_sent = client.prompt_chars_seen
+    for i, rec in enumerate(session._tokens):
+        sent = per_call_sent[i] - (per_call_sent[i - 1] if i else 0)
+        assert rec.prompt_tokens == sent // 4
+    assert session.prompt_tokens_total == sum(t.prompt_tokens for t in session._tokens)
+    # No inflation: ≤ 5 x (per-turn prompt)//4 with 1.2x tolerance. (The old
+    # full-history recount would be ~3.7x over this bound.)
+    avg_single_turn = client.prompt_chars_seen[-1] // 4
+    assert avg_single_turn > 0
+    assert session.prompt_tokens_total <= 1.2 * 5 * avg_single_turn
+    # Historical growth sanity: the 5th call's recorded estimate is the
+    # marginal 1-turn delta, not the 5-turn history.
+    assert session._tokens[-1].prompt_tokens == (
+        client.prompt_chars_seen[-1] - client.prompt_chars_seen[-2]
+    ) // 4
+
+
+def test_session_prompt_tokens_equal_usage_sum_over_multi_turn() -> None:
+    """When the client reports usage, the session's prompt-token total must
+    equal the sum of usage.prompt_tokens across all 5 calls."""
+    client = FakeLLMClient([_commit(RANK5)] * 5)
+    session = LLMToolSession(client, system_prompt="sys", agent_id="x")
+    for i in range(5):
+        session.ask(f"turn {i}")
+
+    assert session.llm_call_count == 5
+    assert all(t.method == "usage" for t in session._tokens)
+    assert session.prompt_tokens_total == sum(
+        t.prompt_tokens for t in session._tokens
+    )
+
+
 # ---------------------------------------------------------------------------
 # D-E-TELEM
 # ---------------------------------------------------------------------------

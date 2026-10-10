@@ -151,6 +151,23 @@ def test_sanitize_raises_on_label_text(tmp_path: Path) -> None:
         sandbox._sanitize({"message": "see root_cause service label"})
 
 
+def test_forbidden_literals_cover_all_frozen_pilot_ids(tmp_path: Path) -> None:
+    """The sanitizer's forbidden set must contain every frozen pilot upstream
+    case id and both label literals, so a leak in ANY agent-facing payload
+    (tool result, call log, commit confirmation) is blocked."""
+    forbidden = tel._forbidden_literals()
+    for lit in tel.FORBIDDEN_LABEL_LITERALS:
+        assert lit in forbidden
+    for case_id in FROZEN:
+        assert case_id in forbidden, f"frozen pilot id missing from forbidden set: {case_id}"
+    # The root_cause.txt filename is blocked via the 'root_cause' literal.
+    assert "root_cause" in forbidden
+    # Case-insensitive match: an upper-cased echo of a frozen id is caught too.
+    sandbox = _fake_sandbox(tmp_path)
+    with pytest.raises(LeakDetectedError):
+        sandbox._sanitize({"echo": FROZEN[0].upper()})
+
+
 def test_root_cause_txt_never_opened(tmp_path: Path) -> None:
     case = _build_fake_case(tmp_path)
     (case / "root_cause.txt").write_text(SENTINEL)
