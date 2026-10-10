@@ -45,8 +45,8 @@ Scientific rules honored here:
 
 * NO ground truth anywhere in prompts or tools. This module never
   imports the scorer-only heldout ground-truth function; scoring is the
-  scorer's job (``service_level_success`` on ``telemetry.py`` under
-  ``ScorerContext``).
+  scorer's job (``service_level_success`` on ``telemetry.py``, applied by
+  the scorer with its own resolve path).
 * No fixed script: which tools to call next is always an LLM action.
 * No oracle: agents only ever see sandbox payloads.
 
