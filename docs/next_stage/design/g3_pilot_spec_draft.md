@@ -75,7 +75,7 @@ Sources read (all in `/Users/sushantgautam/Documents/RepliClaw-stg2-dev` unless 
    (42 total, re-derived by this worker from the quota table on the real parquet; J-SCI W1
    A6 independently replicated the same 42.)
 2. **Tuple exclusion (the operative anti-leak rule):** a pilot case must not share the
-   **   (system, fault_type, root_cause_service)** tuple with any of the 42. Rationale: within an
+   **(system, fault_type, root_cause_service)** tuple with any of the 42. Rationale: within an
    RCAEval dataset a `(system, fault, service)` stratum is the same incident scenario replayed
    across repetitions; the 42 use reps 1–2, so only reps 3+ of those tuples differ
    (measured: reps 3–6 = 192+192+82+76+1 = 351 rows, reps 1–2 = 384). Tuple-exclusion is
