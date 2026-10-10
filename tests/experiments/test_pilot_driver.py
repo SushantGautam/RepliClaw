@@ -308,32 +308,32 @@ def test_stop4_floor_trip_at_9_allzero_cases() -> None:
     assert short_checks["stop4_floor"]["tripped"] is False
 
 
-def test_v31_amended_constants() -> None:
-    # AMEND_V3_1 (approved D-V3-016): A1 90K shared envelope, A3 4.32M ceiling.
-    assert pr.ROUND_TOKEN_CEILING == 4_320_000
-    assert pr.MAX_TOKENS_PER_RUN == 90_000
+def test_v32_amended_constants() -> None:
+    # AMEND_V3_2 (approved D-V3-017): B1 150K shared envelope, B4 7.2M ceiling.
+    assert pr.ROUND_TOKEN_CEILING == 7_200_000
+    assert pr.MAX_TOKENS_PER_RUN == 150_000
 
 
 def test_stop3_ceiling_preemptive() -> None:
-    # V3.1: 90,000/run envelope, 4,320,000 round ceiling.
-    # 46 runs x 90,000 = 4,140,000: next run still fits.
+    # V3.2: 150,000/run envelope (B1), 7,200,000 round ceiling (B4).
+    # 46 runs x 150,000 = 6,900,000: next run still fits.
     def state(n: int) -> list[pr.RunRecord]:
         return [
             _rec(f"RCA-P-{(i % 10) + 1:02d}",
                  20261011 if i % 2 == 0 else 20261012,
-                 "D-E-TELEM" if i % 2 == 0 else "C-EQ-TELEM", tokens=90_000)
+                 "D-E-TELEM" if i % 2 == 0 else "C-EQ-TELEM", tokens=150_000)
             for i in range(n)
         ]
 
     runs = state(46)
-    assert pr.cumulative_tokens(runs) == 4_140_000
-    assert pr.ceiling_would_breach(runs) is False  # 4,140,000 + 90,000 <= 4,320,000
+    assert pr.cumulative_tokens(runs) == 6_900_000
+    assert pr.ceiling_would_breach(runs) is False  # 6,900,000 + 150,000 <= 7,200,000
     runs = state(47)
-    assert pr.cumulative_tokens(runs) == 4_230_000
-    assert pr.ceiling_would_breach(runs) is False  # 4,230,000 + 90,000 == ceiling: not strictly over
+    assert pr.cumulative_tokens(runs) == 7_050_000
+    assert pr.ceiling_would_breach(runs) is False  # 7,050,000 + 150,000 == ceiling: not strictly over
     runs = state(48)
-    assert pr.cumulative_tokens(runs) == 4_320_000
-    assert pr.ceiling_would_breach(runs) is True  # 4,320,000 + 90,000 > 4,320,000
+    assert pr.cumulative_tokens(runs) == 7_200_000
+    assert pr.ceiling_would_breach(runs) is True  # 7,200,000 + 150,000 > 7,200,000
     checks = pr.evaluate_stop_rules(runs, cases_completed=0)
     assert checks["stop3_tokens"]["next_run_would_breach"] is True
     assert checks["stop3_tokens"]["tripped"] is False  # cumulative itself is under
@@ -465,3 +465,144 @@ def test_simula_client_adapter_chat_create_surface(monkeypatch):
     resp = client.chat.create(model="default", messages=[{"role": "user", "content": "x"}])
     assert resp.usage.total_tokens == 2
     assert not hasattr(client.chat, "completions")  # adapter surface, not raw client
+
+
+# ---------------------------------------------------------------------------
+# pilot_parallel (AMEND_V3_2) — offline
+# ---------------------------------------------------------------------------
+
+
+def _mk_parallel_index(tmp_path: Path) -> Path:
+    """Synthetic cases index covering all 10 frozen pilot ids (truth
+    'adservice' for the first id; arbitrary service names elsewhere —
+    the scorer only needs the column to exist)."""
+    rows = [
+        (upstream, "adservice" if i == 0 else f"svc{i:02d}")
+        for i, upstream in enumerate(sorted(FROZEN_PILOT_IDS))
+    ]
+    return _mk_index(tmp_path, rows)
+
+
+@needs_data
+def test_parallel_fake_bounded_round_artifacts(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    """pilot_parallel.py run --fake --max-cases 2: 8 runs recorded, V3.2
+    provenance stamped, no stop trip (sat 2/10 = 0.2 < 0.25)."""
+    import pilot_parallel as pp
+
+    index = _mk_parallel_index(tmp_path)
+    monkeypatch.setattr(pr, "CASES_PARQUET_SHA256",
+                        hashlib.sha256(index.read_bytes()).hexdigest())
+    out = tmp_path / "par"
+    code = pp.main([
+        "run", "--round", "1", "--out", str(out), "--fake", "--concurrency", "4",
+        "--max-cases", "2", "--cases-index", str(index),
+    ])
+    assert code == 0
+
+    round_dir = out / "round1"
+    meta = json.loads((round_dir / "parallel_meta.json").read_text(encoding="utf-8"))
+    assert meta["v32_constants"] == {
+        "max_tokens_per_run": 150_000,
+        "max_tool_calls": 48,
+        "round_token_ceiling": 7_200_000,
+        "prompt_volume_band": [0.6, 1.40],
+    }
+    assert meta["concurrency"] == 4
+    assert meta["max_cases"] == 2
+    assert meta["driver_sha256"] == pp._driver_sha256()
+
+    ledger_lines = [
+        json.loads(line) for line in
+        (round_dir / "ledger.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()
+    ]
+    assert len(ledger_lines) == 8
+    assert all(line["status"] == "completed" for line in ledger_lines)
+    assert {(line["case"], line["seed"], line["arm"]) for line in ledger_lines} == {
+        (case, seed, arm) for case in ("RCA-P-01", "RCA-P-02")
+        for seed in (20261011, 20261012)
+        for arm in ("D-E-TELEM", "C-EQ-TELEM")
+    }
+
+    # Every status.json carries the parallel provenance stamp.
+    status_paths = sorted(round_dir.glob("*/*/*/status.json"))
+    assert len(status_paths) == 8
+    for sp in status_paths:
+        obj = json.loads(sp.read_text(encoding="utf-8"))
+        assert obj["parallel"]["driver_sha256"] == meta["driver_sha256"]
+        assert obj["parallel"]["concurrency"] == 4
+        assert obj["envelope"]["max_tokens"] == 150_000  # V3.2 B1 in per-run status
+
+    # Per-case checks written for both cases; no trip at 2/10 saturation.
+    case_checks = sorted(round_dir.glob("*/case_check.json"))
+    assert len(case_checks) == 2
+    for cc in case_checks:
+        obj = json.loads(cc.read_text(encoding="utf-8"))
+        assert obj["any_tripped"] is False
+
+
+@needs_data
+def test_parallel_fake_full_round_trips_stop1(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    """Full 10-case fake round: the scripted fake saturates D-E on
+    adservice-truth cases, so stop-1 (sat >= 0.25) trips mid-round on
+    those synthetic indices; with other truth mixes stop-4 (C-EQ
+    run-success floor) can trip first. The load-bearing invariants are
+    the parallel driver's TRIP PATH itself: workers stop claiming,
+    STOP.json is written, exit 10, and every recorded run is 'completed'
+    (no crashes from the concurrency itself)."""
+    import pilot_parallel as pp
+
+    index = _mk_parallel_index(tmp_path)
+    monkeypatch.setattr(pr, "CASES_PARQUET_SHA256",
+                        hashlib.sha256(index.read_bytes()).hexdigest())
+    out = tmp_path / "par"
+    code = pp.main([
+        "run", "--round", "1", "--out", str(out), "--fake", "--concurrency", "4",
+        "--cases-index", str(index),
+    ])
+    assert code == 10  # EXIT_STOP_TRIP
+
+    round_dir = out / "round1"
+    stop = json.loads((round_dir / "STOP.json").read_text(encoding="utf-8"))
+    # With the synthetic truth, either stop-1 (fake saturation on
+    # adservice-truth cases) or stop-4 (C-EQ run-success floor under the
+    # non-adservice synthetic truths) legitimately trips first; the
+    # invariants pinned here are the TRIP PATH (STOP.json + exit 10) and
+    # that the concurrency itself introduces no run-level failures.
+    assert stop["tripped"]
+    for name in stop["tripped"]:
+        assert stop["checks"][name]["tripped"] is True
+
+    ledger_lines = [
+        json.loads(line) for line in
+        (round_dir / "ledger.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()
+    ]
+    # The 4 concurrently-claimed cases finish (16 runs), the trip halts
+    # further claims; in-flight cases may finish, so >= 16, all completed.
+    assert len(ledger_lines) >= 16
+    assert all(line["status"] == "completed" for line in ledger_lines)
+
+
+@needs_data
+def test_parallel_refuses_partial_round_state(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    """A round dir containing a crash-without-ledger (or ledger-without-
+    status) state is refused, not resumed: operator clears and relaunches."""
+    import pilot_parallel as pp
+
+    index = _mk_parallel_index(tmp_path)
+    monkeypatch.setattr(pr, "CASES_PARQUET_SHA256",
+                        hashlib.sha256(index.read_bytes()).hexdigest())
+    out = tmp_path / "par"
+    round_dir = out / "round1"
+    # Fabricate a ledger line whose status.json is absent.
+    round_dir.mkdir(parents=True)
+    with open(round_dir / "ledger.jsonl", "w", encoding="utf-8") as f:
+        f.write(json.dumps({
+            "run_path": "round1/RCA-P-01/seed20261011/D-E-TELEM",
+            "case": "RCA-P-01", "seed": 20261011, "arm": "D-E-TELEM",
+            "status": "completed", "tokens": 1000, "wall_s": 1.0, "hit": True,
+        }) + "\n")
+    code = pp.main([
+        "run", "--round", "1", "--out", str(out), "--fake", "--concurrency", "2",
+        "--cases-index", str(index),
+    ])
+    assert code == 1  # EXIT_REFUSED

@@ -43,6 +43,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import threading
 import time
 from pathlib import Path
 from typing import Any, Callable
@@ -74,8 +75,13 @@ FROZEN_PILOT_SHA256 = "955a462175200909577c8c71db64e3fc8f879c83f1a9028e307926c47
 # Label columns that must never surface in an agent-facing payload.
 FORBIDDEN_LABEL_LITERALS: tuple[str, ...] = ("root_cause", "fault_description")
 
-# Budget constants (addendum §3 / §6.2: per-run tool caps).
-MAX_TOOL_CALLS = 24
+# Budget constants (addendum §3 / §6.2: per-run tool caps; V3.2 AMEND_V3_2
+# item B2, approved D-V3-017: 24 -> 48 per-agent, IDENTICAL for both arms —
+# evidence: R3 D-E ToolBudgetExhausted at exactly 24 calls while below the
+# token cap (70,417–92,847 tokens), an independent second binding constraint;
+# per-tool caps unchanged; per-tool usage never bound (logs/traces 0/12
+# observed in R2+R3 D-E)).
+MAX_TOOL_CALLS = 48
 MAX_LOGS_CALLS = 4
 MAX_TRACES_CALLS = 4
 
@@ -170,6 +176,16 @@ class PilotCaseRegistry:
             raise UnknownCaseIdError(f"unknown opaque case id: {opaque_id!r}") from None
 
 
+# AMEND_V3_2 (pre-launch, science-judge C1): the parallel pilot driver
+# (pilot_parallel.py) runs runs concurrently on threads; concurrent
+# pyarrow reads of the same frozen pilot parquet are serialized here so
+# the sandbox read path carries no environment-dependent concurrency
+# assumption. Cost: reads are pure CPU + no network, so the lock is held
+# for milliseconds at most and does not meaningfully serialize the LLM
+# phase (which dominates run wall time).
+_PARQUET_READ_LOCK = threading.Lock()
+
+
 class TelemetrySandbox:
     """Per-arm telemetry sandbox over one frozen pilot case (via opaque id).
 
@@ -222,21 +238,27 @@ class TelemetrySandbox:
 
     def _load_metrics(self) -> pd.DataFrame:
         if self._metrics is None:
-            self._metrics = pd.read_parquet(self._open(self._case_dir / "metrics.parquet", "rb"))
+            with _PARQUET_READ_LOCK:
+                if self._metrics is None:
+                    self._metrics = pd.read_parquet(self._open(self._case_dir / "metrics.parquet", "rb"))
         return self._metrics
 
     def _load_logs(self) -> pd.DataFrame | None:
         if not self._logs_loaded:
-            path = self._case_dir / "logs.parquet"
-            self._logs = pd.read_parquet(self._open(path, "rb")) if path.is_file() else None
-            self._logs_loaded = True
+            with _PARQUET_READ_LOCK:
+                if not self._logs_loaded:
+                    path = self._case_dir / "logs.parquet"
+                    self._logs = pd.read_parquet(self._open(path, "rb")) if path.is_file() else None
+                    self._logs_loaded = True
         return self._logs
 
     def _load_traces(self) -> pd.DataFrame | None:
         if not self._traces_loaded:
-            path = self._case_dir / "traces.parquet"
-            self._traces = pd.read_parquet(self._open(path, "rb")) if path.is_file() else None
-            self._traces_loaded = True
+            with _PARQUET_READ_LOCK:
+                if not self._traces_loaded:
+                    path = self._case_dir / "traces.parquet"
+                    self._traces = pd.read_parquet(self._open(path, "rb")) if path.is_file() else None
+                    self._traces_loaded = True
         return self._traces
 
     @property

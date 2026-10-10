@@ -79,17 +79,23 @@ from repliclaw.experiments.v3.telemetry import PilotCaseRegistry, TelemetrySandb
 #: Mandatory scientific label for any run through these arms (J-SCI rule).
 MODEL_SUBSTITUTION_LABEL = "MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B)"
 
-#: Per-run token envelope (V3.1: AMEND_V3_1 item A1, approved D-V3-016 —
-#: 60,000 -> 90,000, applied IDENTICALLY to BOTH arms via this shared
-#: constant; evidence: every D-E budget abort landed at 55,271–64,089,
-#: truncated 15–25% pre-cap). The prompt-volume canary is UNCHANGED (A2
-#: repealed at approval).
-MAX_TOKENS_PER_RUN = 90_000
+#: Per-run token envelope (V3.2: AMEND_V3_2 item B1, approved D-V3-017 —
+#: 90,000 -> 150,000, applied IDENTICALLY to BOTH arms via this shared
+#: constant; evidence: R3 D-E budget aborts at 90,710–92,847 with 33 tool
+#: calls — the token cap truncated mid-investigation, so 150K ≈ 61% headroom
+#: over observed demand. V3.1 A1 (60K->90K) and A2 repeal history recorded
+#: in D-V3-016 / v31_prereg_freeze.md.)
+MAX_TOKENS_PER_RUN = 150_000
 #: Per-run wall cap in seconds (addendum §6.2).
 WALL_CAP_S = 900.0
-#: Prompt-volume band (copied from experiments/v3/ceq.py: PROMPT_VOLUME_FLOOR/CEIL).
+#: Prompt-volume band (V3.2: AMEND_V3_2 item B3, approved D-V3-017 —
+#: ceil 1.25 -> 1.40 with the MEASURED evidence distribution: completed runs
+#: 1.2245–1.2352; RCA-P-03 1.2843–1.2895 (both 60K/90K, both models);
+#: RCA-P-02 1.3476 (90K, both seeds, deterministic). Floor 0.6 and
+#: crash-on-violation UNCHANGED; the guard stays live above the observed
+#: deterministic exceedances. N1 calibration disclosure per science-judge.)
 PROMPT_VOLUME_FLOOR = 0.6
-PROMPT_VOLUME_CEIL = 1.25
+PROMPT_VOLUME_CEIL = 1.40
 
 #: Fixed D-E investigator ids.
 INVESTIGATOR_IDS: tuple[str, str, str] = ("inv-a", "inv-b", "inv-c")
