@@ -10,9 +10,15 @@ Label-mask safety
 ``select_heldout_cases`` touches ONLY stratum-defining index columns
 (:data:`STRATUM_COLUMNS` + ``dataset``/``repetition`` for ordering).
 ``CASE_MANIFEST_COLUMNS`` is the annotation column family a scorer may read to
-resolve ground truth, and nothing in this module reads it.
+resolve ground truth, and selection never reads it.
 ``tests/benchmarks/test_rcaeval_strata.py`` proves the selection output is
 identical when the label column is masked to NaN.
+
+J-SCI C-SCI-1 (S1): the single evaluator-only resolve path is
+:func:`heldout_ground_truth`, which reads labels exclusively THROUGH
+``repliclaw.benchmarks.common.gating.ScorerContext`` (audited). No
+agent-facing code may import or call it; the static caller-restriction scan
+in ``tests/benchmarks/test_ground_truth_gate.py`` pins this.
 """
 from __future__ import annotations
 
@@ -21,6 +27,7 @@ from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import pandas as pd
 
+from repliclaw.benchmarks.common.gating import ScorerContext
 from repliclaw.benchmarks.common.records import CaseManifest, GroundTruthPointer
 
 SOURCE_BENCHMARK = "rcaeval"
@@ -218,6 +225,21 @@ def build_heldout_manifest(
             )
         )
     return manifests
+
+
+def heldout_ground_truth(case_id: str, index: pd.DataFrame, *, caller_tag: str = "rcaeval_scorer") -> str:
+    """EVALUATOR-ONLY: resolve one case's ground-truth root-cause service.
+
+    Reads ``root_cause_service`` from the pinned cases index strictly through
+    :class:`~repliclaw.benchmarks.common.gating.ScorerContext`, so the resolve
+    is audited and there is exactly one code path by which a label can be
+    read (J-SCI C-SCI-1). Lane / agent-facing code MUST NOT import or call
+    this function; the static scan in
+    ``tests/benchmarks/test_ground_truth_gate.py`` enforces the allowed-caller
+    set. ``caller_tag`` identifies the resolving scorer run for the audit log.
+    """
+    scorer = ScorerContext(index=index, label_column="root_cause_service")
+    return scorer.resolve(case_id, caller_tag=caller_tag)
 
 
 def load_manifest_records(manifests: Sequence[CaseManifest]) -> List[Dict[str, Any]]:
