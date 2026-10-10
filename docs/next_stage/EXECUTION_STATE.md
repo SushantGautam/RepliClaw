@@ -174,3 +174,22 @@ Direct consistency audit of the G4-bound docs (subagent dispatch hit a 402 quota
 - **D (dual gates):** protocol floor gate (S-W2-1, <2/20 run-level OR ≥9/10 per-case all-seeds=0 → MODEL-CAPABILITY-SCREEN-FAILED, heldout canary 6/24 at 25% checkpoint) + ceiling S-sat ≥25% both mandatory. The pilot spec was MISSING the floor gate in its stop rules — ADDED as stop rule 4, verbatim-consistent, with the explicit rule that the §5.1 ladder does NOT run on a floor trip (a floor trip is a capability failure, not stratification).
 - **C/E (numbers/scope):** stop rule 3 now unambiguously per-round (2,880,000 resets per round; campaign worst-case 3 rounds = 8,640,000, $0 free tier); human-decision item 2 updated likewise; freeze table row now "Stop rules 1–4" including the floor gate. All other cross-checks (43,200 s/44 runs, ladder 44/30/110/22/110, Δ_min 0.15 lower-only, band [0.6,1.25], 60,000/900 s/4 agents) consistent.
 Gate unchanged (docs-only): pytest/mypy/ruff green at b5baba0. Pilot spec is now internally consistent and protocol-conformant — **ready for the G4 human decision package**.
+
+## I4 — G4 met, T0+0..T0+3 (2026-10-10, Track-II-only campaign per D-V3-013)
+**HEAD:** see commits below; `dev` (local only; never pushed).
+| Item | Result | Evidence |
+|---|---|---|
+| D-V3-013 (I4.0 `2551244`) | HUMAN APPROVAL | AIOpsLab DECLINED (Track-I out of V3, design-only); heldout N=24×k=4 approved; G3 pilot approved; 0.6 floor + L1–L3-empty ratified. |
+| T0+1 telemetry (I4.1 `7d1b868`, I4.2 `a1f35dd`) | DONE | `scripts/rcaeval_pilot_download.py` (id-sha asserted pre-fetch); 32 files / 49 MiB / per-file sha256; manifest pinned `docs/next_stage/data/download_manifest_pilot.json` (RE1-OB ships metrics-only — dataset layout fact, not a defect). |
+| Substrate defect + addendum (I4.1) | RESOLVED | Frozen D-E/C-EQ arms run on the SimpleAudit substrate (policy_rag_v1 factors) — NO RCAEval intervention path; Track-I declined. Versioned ADDENDUM `design/v3_telemetry_arm_addendum.md`: access-matched observational arms D-E-TELEM (3 investigators, pre-outcome escrow, committee adjudication) + C-EQ-TELEM (≤4 planner rounds, forecast-before-tools, union view, volume band [0.6,1.25]), one leak-guarded shared sandbox, official service-level accuracy@5 via scorer-only path. Intervention contrast represented by frozen P08 + Track-I design; limitation disclosed verbatim. |
+| W3a sandbox `36d77b5` | MERGED | telemetry.py 531 lines; opaque ids RCA-P-01..10 (roster sha-pinned); 5 OBS tools; leak scanner (12 literals incl. all 10 upstream ids); submit-once; 24-call budget; 20 tests. |
+| W3b arms `b3ad13a` | MERGED | telemetry_arms.py 1038 lines; LLMToolSession JSON protocol; D-E-TELEM escrow ledger; C-EQ-TELEM loop; volume-ratio parity hook; ArmRunResult; 21 tests; NO GT import (tested). |
+| Gate fix (I4.3) | GREEN | static ground-truth caller scan: agent-side docstrings cleared; full suite 454 passed/8 skipped/3 xfailed, mypy 79 clean, ruff clean (new files). |
+| W3c BARO feasibility `234b0d2` | DONE | OFFICIAL main.py @259ea41 rcarun venv: Avg@5-DELAY **0.60** ∈ [0.4,0.85] IN RANGE; W1 cpu re-run reproduced **0.66 EXACT** (harness confirmed); 4/4 top-5 hits; spec defect "8 RE2-OB delay" → corrected to 4 (strike-through in spec, artifact pinned). |
+| W3d driver `58e66df` | MERGED | `scripts/pilot_run.py` plan/canary/run/status; scorer-side scoring post each arm run; 4 stop evaluators; resume; pre-emptive ceiling; refusals; 12 tests. |
+| T0+2 canaries | ALL 5 PASS | both_arms_complete (10 real cases, fake client), payload_parity, scorer_path, label_gate (forbidden literal → crash, not silent), reset. Clean stdout, exit 0. |
+| W3e hardening `a033883` | MERGED | canary label-gate crashes demoted (fake-echo confirmed, NOT a real leak; no production payload contains upstream ids); token accounting fixed (O(turns²) history recount → usage/marginal); stderr crash logs; 454 green. |
+| T0+3 PILOT RUN | LAUNCHED 15:45 | autonomous through 10 cases, hard-stop on any of 4 stops; per-case case_check.json; SimulaChat default (MODEL-SUBSTITUTION label on every run). |
+
+**G4 status: MET** (human approval D-V3-013; prereg operative wording = pilot spec freeze table + protocol amendments; final prereg freeze doc still due at T0+6 with data-file hashes + doc sha).
+**Next (on pilot completion/stop):** pilot report (T0+4: σ̂_D, per-arm s + binomial trip probs, feasibility, ledger, no effect claim) → pilot-σ MC recompute (T0+5) → final prereg freeze (T0+6) → heldout launch (T0+7, per D-V3-013(b) approved budget N=24×k=4).
