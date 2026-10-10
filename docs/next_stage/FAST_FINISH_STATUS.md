@@ -1,6 +1,6 @@
 # RepliClaw fast-finish status (coordinator-owned)
 
-**As of 2026-10-11 19:15 UTC: FF-01 DONE (CI green on dev @ c0cda69); FF-02/FF-03/FF-04 dispatched as fresh-process rc-* workers on isolated worktrees; external watchdog running.**
+**As of 2026-10-11 19:30 UTC (fleet mode, native subagents):** BYOK inherit fix verified — `settings.json` sets rc-fast/rc-implement/rc-review to `model: inherit`; rc-fast native canary passed and telemetry confirms it ran on the inherited `sigma2.no/Qwen3.8-27B-Thinking` (no hosted fallback). Three native subagents now running in parallel on worktrees: FF-02 independent review (rc-review, of commit 7028865), FF-03 null-model completion (rc-implement, from WIP 63b3cfe), FF-04 intervention-parity tests (rc-implement). FF-05 fake full-pilot rehearsal verified the harness end-to-end (both arms + scoring + ledger + stop rules; stop1_ssat tripped correctly on fake saturation, both arms equal). FF-05 live pilot BLOCKED on SIMULACHAT provider env.
 
 ## Primary goal
 An intervention-matched multi-case D-E vs C-EQ result, no false claims of escrow/decentralization superiority.
