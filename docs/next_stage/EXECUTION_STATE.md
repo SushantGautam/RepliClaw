@@ -339,3 +339,12 @@ is now a distinct-call rate, not repeat-loop waste). Options:
 - **(d) Change model** — NOT authorized per D-V3-017 (would need refreshed access +
   re-prereg).
 Awaiting explicit human choice. NO full round launched; NO public release; `main` untouched.
+
+## I4.17 — V3.3 full round 5 launched (2026-10-11)
+- Full feasibility round 5 running in the v33 worktree: 10 cases × 2 seeds × 2 arms
+  = 40 runs, ≤7,200,000 tok ceiling, concurrency 6, model `default` (SimulaChat,
+  Qwen3.8-27B), frozen code @520f6859. Out: `.artifacts/rcaeval/pilot/run_v33/round5/`.
+- Per the canary (I4.16) the expectation is: C-EQ largely completes (no volume
+  crashes), D-E likely still 0-complete under the envelope → a 40-run feasibility
+  record that precisely characterizes the negative. Awaiting completion → T0+4
+  report → 2 fresh outcome judges.
