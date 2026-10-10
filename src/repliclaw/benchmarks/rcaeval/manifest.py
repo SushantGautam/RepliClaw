@@ -144,6 +144,19 @@ def _select_stratum(index: pd.DataFrame, dataset: str, fault: str, per_service: 
     if sub.empty:
         raise ValueError(f"quota row ({dataset}, {fault}) selects 0 cases — index changed?")
     services = sorted(sub["root_cause_service"].unique())
+    # Pre-G4 hardening: a quota row whose stratum collapsed to a SINGLE root-cause
+    # service makes the within-stratum selection trivially deterministic (there is
+    # no cross-service balance left to stratify over), which defeats the purpose of
+    # stratified heldout selection. Fail loudly so a future index change that
+    # produces such a degenerate cell is caught before G4 freeze instead of silently
+    # emitting a deterministic pick. The pinned 2026-10-09 index has >=3 services in
+    # every quota row, so this never fires on frozen data.
+    if len(services) < 2:
+        raise ValueError(
+            f"quota row ({dataset}, {fault}) has only one root-cause service "
+            f"({services[0]!r}); stratified selection requires >=2 services. "
+            "Index changed since the frozen 2026-10-09 manifest?"
+        )
     picked: List[str] = []
     for svc in services:
         stratum = sub[sub["root_cause_service"] == svc].sort_values(["repetition", "case"])
