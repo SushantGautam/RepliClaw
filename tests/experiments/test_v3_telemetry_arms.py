@@ -323,6 +323,96 @@ def test_session_prompt_tokens_equal_usage_sum_over_multi_turn() -> None:
     )
 
 
+class _CapturingCommitClient:
+    """No-usage client that records the exact prompt chars sent on each call,
+    always answering with a well-formed commit (protocol never breaks)."""
+
+    class _Completions:
+        def __init__(self, client: "_CapturingCommitClient") -> None:
+            self._client = client
+
+        def create(self, *, model: str, messages: list[dict[str, str]],
+                   temperature: float = 0.0, **_kwargs: Any) -> Any:
+            self._client.sent_chars.append(sum(len(m["content"]) for m in messages))
+            message = type("M", (), {"content": _commit(RANK5)})()
+            choice = type("C", (), {"message": message})()
+            return type("R", (), {"choices": [choice], "usage": None})()
+
+    def __init__(self) -> None:
+        self.sent_chars: list[int] = []
+        self.chat: ChatCompletionsLike = self._Completions(self)
+
+
+def test_session_compaction_bounds_send_view_keeps_full_audit() -> None:
+    """W3g: with large tool-observation prompts, the provider send-view must
+    stay bounded (older observations stubbed) while the audit transcript and
+    the volume-canary prompt list retain the FULL text, and the first
+    instruction is never stubbed. Without compaction the send-view would grow
+    linearly with every turn (full-history re-prompting blew the 60K envelope
+    on the RCA-P-01 pilot relaunch)."""
+    big_obs = "Observation: " + "x" * 700  # ~real service_metrics payload size
+    client = _CapturingCommitClient()
+    session = LLMToolSession(client, system_prompt="sys", agent_id="x")
+    n = 15
+    session.ask("phase instruction: investigate and commit")
+    for i in range(1, n):
+        session.ask(f"{i} " + big_obs)
+
+    view = session._compacted_view()
+    # First instruction (first user message) is verbatim, never stubbed.
+    assert view[1]["content"] == "phase instruction: investigate and commit"
+    assert "[older tool observation compacted" not in view[1]["content"]
+    # Some old observations ARE stubbed.
+    assert any("[older tool observation compacted" in m["content"]
+               for m in view if m["role"] == "user")
+    # Compaction active: the provider receives stubs where the un-compacted
+    # view would carry 8 full 700-char observations.
+    assert sum(1 for m in view if "[older tool observation compacted" in m["content"]) >= 5
+    sent_chars = sum(len(m["content"]) for m in view)
+    uncompacted_chars = sum(len(m["content"]) for m in session.messages)
+    assert sent_chars < uncompacted_chars  # strictly smaller than full history
+    # Growth stays bounded: 10 more turns must grow the send-view by far less
+    # than one full 700-char observation per turn (each turn: +1 new obs,
+    # +1 commit response, -1 obs converted to a stub as it slides out of the
+    # recent-keep window).
+    before = sent_chars
+    for i in range(n, n + 10):
+        session.ask(f"{i} " + big_obs)
+    after = sum(len(m["content"]) for m in session._compacted_view())
+    # 2071 measured for this shape; the un-compacted growth would be
+    # 10 x (703 + commit) ~ 8000.
+    assert after - before < 10 * 300
+    # Deep in the session the send-view is a bounded fraction of the
+    # un-compacted full history (~recent-keep window + stubs).
+    uncompacted_deep = sum(len(m["content"]) for m in session.messages)
+    assert after < uncompacted_deep * 0.6
+
+    # Audit transcript retains every full observation (provenance intact).
+    prompt_entries = [e for e in session.transcript if e["role"] == "prompt"]
+    assert all(big_obs in e["content"] for e in prompt_entries[1:])
+    # Volume-canary prompt list retains full text (canary math unchanged).
+    assert all(big_obs in p for p in session.prompts[1:])
+    # Length-estimate accounting: marginal over the SENT compacted view —
+    # each call's estimate is exactly (sent_chars - prev_sent_chars) // 4,
+    # so the total equals the final cumulative sent chars // 4 (bounded),
+    # NOT the O(n^2) full-history re-send.
+    assert all(t.method == "length_estimate" for t in session._tokens)
+    # No-usage fallback never over-charges: each call's estimate is bounded
+    # by what was actually SENT on that call (compacted view), and the
+    # session total is bounded by the sum of sent sizes / 4 — NOT by the
+    # O(n^2) full-history re-send (which would be ~25x larger here).
+    assert session.prompt_tokens_total <= sum(
+        c // 4 for c in client.sent_chars
+    )
+    assert session.prompt_tokens_total > 0
+    # And that bound is far below the un-compacted full-history worst case
+    # (every prompt re-sent on every later turn, ignoring assistant turns).
+    full_history_tokens = (
+        sum(len(p) for p in session.prompts) * (len(session.prompts) + 1) // 2 // 4
+    )
+    assert session.prompt_tokens_total < full_history_tokens // 3
+
+
 # ---------------------------------------------------------------------------
 # D-E-TELEM
 # ---------------------------------------------------------------------------
