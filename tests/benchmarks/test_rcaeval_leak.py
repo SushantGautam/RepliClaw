@@ -12,8 +12,9 @@ For every one of the 42 heldout CANDIDATE manifests built from the pinned
 (c) the upstream case-id service-embedding fact + the opaque-id runtime
     requirement are documented — pinned against
     ``case_manifest.schema.json`` (present) and, as a G2 hardening, against
-    the ``rcaeval/manifest.py`` module docstring (currently absent — pinned
-    by a strict xfail so the gap stays visible until it is closed).
+    the ``rcaeval/manifest.py`` module docstring (present — the G2 gap was
+    closed when the docstring section was added; the former strict-xfail
+    canary is now a plain passing test).
 
 Offline: reads only the pinned index and the in-repo schema file. No LLM,
 no network, no ground-truth content is copied anywhere.
@@ -114,21 +115,69 @@ def test_schema_documents_case_id_service_embedding_and_opaque_id() -> None:
     assert "evaluator-only" in gt_desc
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "G2 canary vs ACTUAL behavior: rcaeval/manifest.py's MODULE docstring "
-        "does not document the upstream case-id service-embedding fact or the "
-        "opaque-id runtime requirement — that documentation currently lives "
-        "only in case_manifest.schema.json (case_id note) and in the "
-        "test_manifest_strata_leak_free test docstring. J-SCI W1 S1 / J-CODE "
-        "W1 F1 make the fact load-bearing for the G2 gate, so pinning it in "
-        "the module that BUILDS the manifests is the G2 hardening this canary "
-        "tracks. If this xfail ever PASSES, the docstring was closed — keep "
-        "the test, drop the xfail."
-    ),
-)
 def test_module_docstring_documents_case_id_service_embedding() -> None:
     doc = (rca_manifest.__doc__ or "").lower()
     assert "embed" in doc, "module docstring must document the upstream case-id service-embedding fact"
     assert "opaque" in doc, "module docstring must document the opaque-id runtime requirement"
+
+
+def test_strata_do_not_decode_root_cause_service(index: pd.DataFrame, manifests) -> None:
+    """Adversarial decode canary: the agent-visible strata must never uniquely
+    determine the root-cause service.
+
+    Threat model. The attacker knows (i) the public index — the pinned
+    ``data/cases.parquet``, the same file the scorer reads — and (ii) ONLY the
+    agent-visible strata fields of each manifest: ``suite``, ``system``,
+    ``fault_type``, ``repetition``, and ``quota_service_order`` if present.
+    The attacker does NOT know the case id, the ground-truth pointer, or any
+    annotation column.
+
+    For each of the 42 heldout candidate manifests the attacker derives the
+    candidate root-cause-service set::
+
+        C = { root_cause_service of index rows whose (suite, system, fault,
+              repetition) match the visible strata }
+
+    The dataset is a deterministic function of (suite, system) per the module's
+    ``_dataset`` mapping, so filtering on the index's (suite, system) columns is
+    equivalent to filtering on the derived dataset. If the strata carry
+    ``quota_service_order``, the attacker additionally reduces C to the single
+    service at that alphabetical rank within the (suite, system, fault) group —
+    the ordinal's documented semantics (alphabetical rank of the root-cause
+    service within the fault stratum, computable from the public index).
+
+    Assertion: for EVERY case the final candidate set has size > 1, i.e. the
+    visible strata never decode the answer. With the ordinal present, C
+    collapses to exactly one service for every case, so this test FAILS.
+    Without the ordinal, C is the full (suite, system, fault, repetition) cell,
+    which is multi-service for every heldout case (verified: minimum size 3),
+    so this test PASSES.
+    """
+    for m in manifests:
+        s = m.strata
+        suite, system, fault = s["suite"], s["system"], s["fault_type"]
+        rep = int(s["repetition"])
+        cell = index[
+            (index["suite"] == suite)
+            & (index["system"] == system)
+            & (index["fault"] == fault)
+            & (index["repetition"] == rep)
+        ]
+        candidates = set(cell["root_cause_service"].astype(str))
+        assert candidates, f"{m.case_id}: no index rows match visible strata"
+        if "quota_service_order" in s:
+            group = index[
+                (index["suite"] == suite)
+                & (index["system"] == system)
+                & (index["fault"] == fault)
+            ]
+            ordered = sorted(group["root_cause_service"].astype(str).unique())
+            rank = int(s["quota_service_order"])
+            assert 0 <= rank < len(ordered), (
+                f"{m.case_id}: ordinal {rank} out of range for {len(ordered)} services"
+            )
+            candidates = {ordered[rank]}
+        assert len(candidates) > 1, (
+            f"{m.case_id}: visible strata decode the root-cause service "
+            f"uniquely -> {sorted(candidates)}"
+        )

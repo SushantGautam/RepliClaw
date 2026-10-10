@@ -139,7 +139,7 @@ def test_manifest_records_roundtrip(index: pd.DataFrame) -> None:
         assert m.heldout is True
         assert m.source_benchmark == "rcaeval"
         assert m.ground_truth is not None, "evaluator-only ground-truth pointer required"
-        assert set(m.strata) == {"suite", "system", "fault_type", "quota_service_order", "repetition"}
+        assert set(m.strata) == {"suite", "system", "fault_type", "repetition"}
         result = m.validate()
         assert not result.errors, [str(e) for e in result.errors]
         # wire round-trip preserves identity
