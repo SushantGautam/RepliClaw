@@ -53,3 +53,10 @@ Next verification: G2 offline canaries (Track-II only) on I1.1; independent re-r
 
 ## Append future entries
 For each: ID, UTC time, proposer, source hashes, issue/failed attempt, alternatives compared, independent reviews, chosen action, scope of prereg amendment, next verification and whether human authorized. Never rewrite an older entry to make a failure disappear.
+
+## D-V3-010 (2026-10-10T09:20+02:00, LLM provider authorization — human, via chat)
+Human (Sushant) authorized, verbatim: use the **SimulaChat default model for AgentRx LLM-provider**, free; also wire SimulaChat default for the other lanes. Interpretation recorded here (flagged for correction if wrong):
+- **AgentRx G1:** add an OpenAI-compatible client branch to the AgentRx adapter so the official pipeline (IR→static→dynamic→check→judge→report) can run against SimulaChat's default model. **Scientific label (mandatory, J-SCI rule):** results are a *model-substitution* baseline — the released AgentRx baseline used a frontier model; SimulaChat default = Qwen3.8-27B (per agent/model catalog). Numbers from this run must NEVER be presented as the official released baseline; the G1 "official reproduction" note stays open until a frontier-model run or the Copilot quota refresh.
+- **V3 arms (D-E, C-EQ, D-N, D-R, S-I, C-NE):** SimulaChat default is the authorized LIVE run model. It is arm-identical (matched-tools requires identical model across arms, not identical to any external release).
+- **Execution constraint:** the SimulaChat base URL + credential were not discoverable in the worker shell env (injected only into the agent layer). A pre-dispatch probe determines the actual access path; if truly unreachable from the shell, AgentRx G1-live and V3 live runs fall back to the documented BLOCKED state (no fake calls) and only agent-layer-internal LLM use proceeds. This probe must NOT be bypassed by embedding secrets in committed code/docs.
+- The other two human-gated items (AIOpsLab VM/deploy budget; N=24×k=4 heldout budget) were NOT addressed by this authorization and remain open.
