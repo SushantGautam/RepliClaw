@@ -12,12 +12,12 @@ import argparse
 import hashlib
 import json
 import os
-from pathlib import Path
 import re
 import sys
 import tempfile
 import time
 from datetime import datetime, timezone
+from pathlib import Path
 
 
 def data_root() -> Path:
@@ -62,7 +62,14 @@ def load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def record_task(task: str, status: str, agent: str = "", progress: str = "", artifact: str = "", deadline_min: int = 0) -> dict:
+def record_task(
+    task: str,
+    status: str,
+    agent: str = "",
+    progress: str = "",
+    artifact: str = "",
+    deadline_min: int = 0,
+) -> dict:
     safe_id(task)
     path = data_root() / "tasks" / f"{task}.json"
     old = load(path)

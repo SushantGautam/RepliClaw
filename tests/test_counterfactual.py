@@ -147,7 +147,11 @@ def test_machine_provenance(tmp_path, case, interventions):
     r = run_case(case, interventions["I0_baseline"], seed=0, out_root=tmp_path / "x")
     assert r.engine["name"] == "simpleaudit"
     assert r.engine["version"], "engine version must be pinned"
-    assert r.engine["git_sha"], "engine git sha must be recorded"
+    assert r.engine["git_sha"], "engine provenance marker must be recorded"
+    sha = r.engine["git_sha"]
+    assert sha.startswith("pypi:") or (
+        len(sha) == 40 and all(c in "0123456789abcdef" for c in sha)
+    ), f"provenance must be a git sha or pypi:<version>, got {sha!r}"
     assert r.run_id and r.model_id and r.config_sha256 and r.case_sha256
     assert r.exit_code == 0
     assert r.token_counts["real_token_calls"] == 0
