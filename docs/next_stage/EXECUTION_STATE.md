@@ -1,6 +1,6 @@
 # Stage 2 — authoritative execution state (dev only)
 
-**Timestamp:** 2026-10-10T02:35+02:00 (Wave 1 complete; W1 judge conditions remediated; I1.1 checkpoint).
+**Timestamp:** 2026-10-10T10:10+02:00 (Wave 2 integrated; I2 checkpoint; see bottom section for authoritative current state).
 **I1 summary:** dev now contains merged W1 branches: C-EQ arm (`src/repliclaw/experiments/v3/ceq.py` 1113 LOC + 23 offline parity/canary tests, J-SCI A4 closed: bounded logged consultation, two-sided token canary band [0.6,1.25] + anti-starve, explicit D-E round budget; ceq.py-only equivalents of four P08-side behaviors added, each test-pinned — the C-EQ commit touched shared `arm.py`/`runner.py` in a **behavior-neutral** way for P08, token-diff verified, so NO P08 artifact correction is required (J-SCI W1 S6)). AgentRx read-only adapter (73-case hash-pinned loader, verbatim normalize_category, label-free manifest, baseline-agnostic scorer, F8 provenance), RCAEval heldout candidate (42 cases spanning RE1/RE2/RE3, label-mask invariance tested; BARO RE2-OB cpu smoke Avg@5 0.66 vs RE1 1.00 — A6 confirmed: RE2 not saturated), MC power (254 cells × 10k reps: N=24×k=4, MDE 0.20 recommended; S-sat stop rule mandatory; D-V3-008). Integrator mypy sweep fixed 6 type errors in L6 common package (baseline mypy was clean pre-I0; post-I1: 72 files clean). Branch naming convention: `dev-<lane>` or `w1/<lane>` (git ref namespace forbids `dev/` prefix).
 **I0 checkpoint:** dev @ 5a7833f756119042bbb37bd7479be69a0bd5ea3c (24 files; 301 passed/8 skipped; ruff clean; P08 artifacts untouched). J-CODE conditions all closed in I0 (6 citation fixes, schema hardening F4/F5 with documented dataclass-subset relationship, F6-F8 low fixes, 3 regression tests). J-SCI conditions recorded as D-V3-007 A1-A6 (A2/A5/A6 are freeze-time requirements; A4 goes into C-EQ implementation; A1/A3 go into protocol amendment).
 **Development branch:** `dev` (created from public `main` at 97a455947895e48fb551503e8fd1158d03a293af).
@@ -105,3 +105,23 @@
 3. Create lane/worktree log; verify baseline official commands and expected exact metric schema; report blockages with evidence.
 4. Request approval only for truly necessary paid model/cluster/holdout activity; continue offline parallel work.
 5. Update this file at every checkpoint; **do not edit historical P08 artifacts**.
+
+## Wave 2 checkpoint (I2) — 2026-10-10, authoritative current state
+**HEAD:** `ba9bc56` (I2a doc batch) on `dev`. Merges this wave: W2b `a9f353d`, W2c (L5 pin, after a9f353d), W2a `a06f764`, W2g `51ded8b`.
+**Gate (post-merge, full):** pytest all green (W2g branch: 367 passed/8 skipped), mypy clean 77 files, ruff clean.
+
+| Worker | Result | Evidence |
+|---|---|---|
+| W2a G2 canaries | MERGED | 9 pass + 3 documented strict-xfail: (1) oracle-vocab scan is the guarantee — full derived literal set legitimately appears in executor artifacts (files keyed by intervention id); (2) replay byte-identical except `wall_s`; (3) rcaeval manifest module docstring lacks S1 caveat (tracked). Reset behavior pinned: rerun into existing out_root fails loud (DuplicateCommitment), both arms. |
+| W2b scorer gate (C-SCI-1) | MERGED | gating.py ScorerContext (audited resolve, caller tags) + heldout_ground_truth evaluator-only helper; 8 tests; synthetic labels only. |
+| W2c L5 pin (C-SCI-2) | MERGED | cluster_bootstrap.py byte-identical to scratch (sha256 e14d28ad… verified post-merge); power_pin.py verifier; frozen self-test constant bit-identical under numpy 1.26.4 AND 2.4.6; 5 tests. |
+| W2d novelty refresh | RUNNING | report pending (L8 follow-up, 2026-09-01..now). |
+| W2e prereg amendments | COMMITTED (I2a) | pure-insertion +34; A1 Δ_min=0.15, A2, A5, D-V3-008 power+S-sat, S1/S4/S7 block, frozen-constants appendix (shas re-verified); 4 conflicts flagged for G4. |
+| W2f A2 manifest | COMMITTED (I2a) | 7 actions × 14 problems code-cited @ ccf08d0; explicit_table_lookup_v1; reset digest spec; max_steps 20; VM problems GATED-PENDING-APPROVAL; contract correction (mongodb problems = SocialNetwork, verified auth_miss_mongodb.py:22). |
+| W2g SimulaChat (D-V3-010) | MERGED | probe REACHABLE (Qwen3.8-27B, /api/v1); AgentRx adapter + patch, reversible, env-only creds; REAL smoke (contract §10 step 2): 2 tau trajs, 1/2 root-cause correct, 21.4K tokens, every artifact labeled MODEL-SUBSTITUTION (NOT official baseline); secret scan clean; 13 offline tests. |
+| J-CODE W2 | RUNNING | independent review of W2a/b/c/g branches + xfail scrutiny. |
+
+**G2 status: PASS-OFFLINE** — Track-II parity/oracle-isolation/replay/reset canaries green; RCAEval-side leak canary green (S1 closed); scorer-only ground-truth gate green (C-SCI-1); A2 manifest frozen (design, no deployment). Track-I LIVE remains human-gated (VM/budget). G3 (bounded pilot) requires: human approval of scope/spend + J-CODE W2 verdict.
+**D-V3-010 (human, chat):** SimulaChat default (Qwen3.8-27B) authorized for AgentRx G1 (model-substitution label mandatory) and V3 live arms (arm-identical).
+**Still open (human):** (a) AIOpsLab VM/deploy + budget ceiling; (b) N=24×k=4 heldout budget; (c) G3 pilot authorization. **No paid/live work beyond the authorized free SimulaChat smoke.**
+**Next:** J-CODE W2 verdict → remediate if conditions → W2d novelty commit → then G3 pilot prep (pilot spec doc, cost estimate at SimulaChat rates, prereg §pilot) — pilot LAUNCH waits on (a)/(b)/(c).
