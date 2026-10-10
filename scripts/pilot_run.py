@@ -149,12 +149,24 @@ def run_level_success(r: RunRecord) -> bool:
 
 
 def arm_saturated(runs: list[RunRecord], arm: str, case: str) -> bool:
-    """Arm succeeded on ALL seeds of ``case`` (a seed counts once it has a
-    recorded run for that case/seed; any non-success seed breaks saturation)."""
-    seeds = {r.seed for r in runs if r.arm == arm and r.case == case}
-    if not seeds:
+    """Arm succeeded on ALL k seeds of ``case`` (spec S5 rule 1: "succeeded
+    on all k=2 seeds").
+
+    DEFECT FIX (post-round-4, science-judge-r4 Q1): the pre-fix version
+    divided by the RECORDED seed set, so a case where the arm succeeded on
+    1 of 2 seeds (the other seed not yet ledgered, e.g. a stop-tripped
+    round) was counted as saturated -> round-4 STOP.json stop1 co-trip at
+    0.30 from 3 one-seed successes (spec-correct sat = 0.0). Saturation
+    now requires every seed in PILOT_SEEDS to have a recorded, successful
+    run; an unrecorded seed breaks saturation. Same class as the I4.6
+    case-level running-denominator defect, at seed level."""
+    if len(PILOT_SEEDS) == 0:
         return False
-    return all(run_level_success(r) for r in runs if r.arm == arm and r.case == case and r.seed in seeds)
+    for seed in PILOT_SEEDS:
+        seed_runs = [r for r in runs if r.arm == arm and r.case == case and r.seed == seed]
+        if not seed_runs or not all(run_level_success(r) for r in seed_runs):
+            return False
+    return True
 
 
 def sat_per_arm(runs: list[RunRecord]) -> dict[str, float]:
@@ -1016,6 +1028,18 @@ def _reconstruct_ledger(record: RunRecord, run_dir: Path) -> RunRecord:
 def cmd_run(args: argparse.Namespace) -> int:
     out_root = Path(args.out)
     round_dir = out_root / f"round{args.round_no}"
+    # DEFECT FIX (post-round-4, code-judge-r4 SHOULD-FIX): a round dir with
+    # STOP.json is CLOSED — a stop-tripped round must not be relaunched or
+    # --continue-d through this driver. (Round 4's parallel driver only
+    # refused such a dir incidentally, via non-completed status.json files.)
+    if round_dir.is_dir() and (round_dir / "STOP.json").is_file():
+        print(
+            f"REFUSED: {round_dir} contains STOP.json — the round is closed "
+            "after a stop-rule trip. Do not relaunch; a new round is a new "
+            "round number (and, for a changed instrument, a new freeze).",
+            file=sys.stderr,
+        )
+        return EXIT_STOP_TRIP
     case_ids = [row["case"] for row in build_plan()]
     if args.max_cases is not None:
         case_ids = case_ids[: args.max_cases]

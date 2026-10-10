@@ -155,6 +155,17 @@ def _run_one(
 def cmd_run(args: argparse.Namespace) -> int:
     out_root = Path(args.out)
     round_dir = out_root / f"round{args.round_no}"
+    # DEFECT FIX (post-round-4, code-judge-r4 SHOULD-FIX): explicit closed
+    # round guard — a STOP.json means the round is over; the pre-fix refusal
+    # only happened incidentally (non-completed status.json files).
+    if (round_dir / "STOP.json").is_file():
+        print(
+            f"REFUSED: {round_dir} contains STOP.json — the round is closed "
+            "after a stop-rule trip. Do not relaunch; a new round is a new "
+            "round number (and, for a changed instrument, a new freeze).",
+            file=sys.stderr,
+        )
+        return EXIT_STOP_TRIP
     round_dir.mkdir(parents=True, exist_ok=True)
 
     # Refusals identical to the sequential driver. NOTE: --max-cases means
