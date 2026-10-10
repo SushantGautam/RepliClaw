@@ -17,3 +17,6 @@
 - **Judges:** science-judge-r4 PASS-integrity / FAIL-WITH-DEFECT(stop-1) / RECOMMEND(b) V3.3; code-judge-r4 PASS (evidence admissible; stop-2 mislabel refuted; 1 SHOULD-FIX resume guard).
 - **Defects fixed (57d1e1f):** arm_saturated seed-level denominator; STOP.json closed-round guard in both drivers. 471 passed / 8 skipped / 3 xfailed; ruff + mypy clean.
 - **Next:** HUMAN GATE — choose (a) close out / (b) V3.3 amendment / (c) model change (not authorized).
+
+## I4.14 — Final disclosures 8–11 (2026-10-11)
+- Recorded disclosures 8–11 (stop-1 defect, STOP.json snapshot gap, D-E phase-2/3 never executed, asymmetric volume gate) as mandatory riders for any report citing round 4. See EXECUTION_STATE.md I4.14.
