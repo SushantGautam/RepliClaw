@@ -578,6 +578,7 @@ class ArmRunResult:
     prompt_volume_ratio: float | None
     protocol_errors: int
     status: str  # "completed" | "crashed" | "aborted_budget"
+    crash_error: str | None = None  # type + text of the crashing exception (cause attribution)
 
 
 @dataclass
@@ -630,6 +631,7 @@ class _ArmBase:
         self.sandboxes: list[TelemetrySandbox] = []
         self.sessions: list[LLMToolSession] = []
         self.protocol_errors = 0
+        self._crash_error: str | None = None
         self._clock = clock if clock is not None else time.monotonic
         self._start = 0.0
         self.verbose_crash = verbose_crash
@@ -638,6 +640,7 @@ class _ArmBase:
     def _record_crash(self, exc: Exception) -> None:
         """Log an arm crash to stderr; demote to a one-liner when the crash
         is expected (canary label-gate) via ``verbose_crash=False``."""
+        self._crash_error = f"{type(exc).__name__}: {exc}"
         if self.verbose_crash:
             print(f"[{self.arm_label}] crashed: {exc}\n{traceback.format_exc()}",
                   file=sys.stderr, flush=True)
@@ -721,6 +724,7 @@ class _ArmBase:
             prompt_volume_ratio=prompt_volume_ratio,
             protocol_errors=self.protocol_errors,
             status=status,
+            crash_error=self._crash_error if status == "crashed" else None,
         )
 
 
