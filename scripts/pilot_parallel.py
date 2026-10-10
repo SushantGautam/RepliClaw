@@ -9,9 +9,13 @@ scheduling (a bounded worker pool over cases) and a run-level
 retry-once on unexpected exceptions.
 
 Provenance: each run's status.json is stamped with a ``parallel``
-section (driver sha, worker id, attempt count); the round dir gains a
-``parallel_meta.json`` (git rev, V3.2 constants, concurrency, worker
-count) written at start.
+section (driver sha, git rev, concurrency) after the pool joins; the
+round dir gains a ``parallel_meta.json`` (driver name + sha, git rev,
+concurrency, V3.2 constants, model, label) written at start. Per-run
+retry counts are ledgered (``driver_failure`` flag) but not stamped
+per run. (Post-round doc correction per science-judge C3 note,
+recorded in v32_prereg_freeze.md "Post-round documentation
+corrections"; the frozen launch hash is 5b9094d5c588d6b4206311fd4c6935b51d33babc88490216da2b979c1f4a02fb.)
 
 Stop-rule semantics are UNCHANGED (evaluate_stop_rules between cases,
 full-cohort denominators). On a trip: workers stop CLAIMING new cases,
