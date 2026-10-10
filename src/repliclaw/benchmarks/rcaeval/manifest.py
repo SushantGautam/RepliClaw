@@ -27,7 +27,11 @@ from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import pandas as pd
 
-from repliclaw.benchmarks.common.gating import ScorerContext
+from repliclaw.benchmarks.common.gating import (
+    ResolveAuditLedger,
+    ScorerContext,
+    get_resolve_audit_ledger,
+)
 from repliclaw.benchmarks.common.records import CaseManifest, GroundTruthPointer
 
 SOURCE_BENCHMARK = "rcaeval"
@@ -227,7 +231,13 @@ def build_heldout_manifest(
     return manifests
 
 
-def heldout_ground_truth(case_id: str, index: pd.DataFrame, *, caller_tag: str = "rcaeval_scorer") -> str:
+def heldout_ground_truth(
+    case_id: str,
+    index: pd.DataFrame,
+    *,
+    caller_tag: str = "rcaeval_scorer",
+    ledger: Optional[ResolveAuditLedger] = None,
+) -> str:
     """EVALUATOR-ONLY: resolve one case's ground-truth root-cause service.
 
     Reads ``root_cause_service`` from the pinned cases index strictly through
@@ -237,9 +247,24 @@ def heldout_ground_truth(case_id: str, index: pd.DataFrame, *, caller_tag: str =
     this function; the static scan in
     ``tests/benchmarks/test_ground_truth_gate.py`` enforces the allowed-caller
     set. ``caller_tag`` identifies the resolving scorer run for the audit log.
+
+    The resolve context is constructed and discarded per call; the audit
+    entry therefore also goes to a persistent :class:`ResolveAuditLedger`
+    (F-W2-3). When ``ledger`` is omitted, the module-level default ledger
+    from :func:`get_resolve_audit` is used, so production resolves leave a
+    surviving trail. Tests may inject a fresh ledger for isolation.
     """
-    scorer = ScorerContext(index=index, label_column="root_cause_service")
+    scorer = ScorerContext(index=index, label_column="root_cause_service", ledger=ledger or get_resolve_audit_ledger())
     return scorer.resolve(case_id, caller_tag=caller_tag)
+
+
+def get_resolve_audit() -> ResolveAuditLedger:
+    """Return the persistent resolve-audit ledger for RCAEval holds.
+
+    DOCUMENTED USE: evaluator/QA inspection only. Never import this from
+    agent/lane-facing code to act on audit contents.
+    """
+    return get_resolve_audit_ledger()
 
 
 def load_manifest_records(manifests: Sequence[CaseManifest]) -> List[Dict[str, Any]]:

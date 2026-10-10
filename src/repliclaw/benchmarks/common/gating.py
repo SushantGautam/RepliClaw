@@ -45,6 +45,43 @@ class ResolveAuditEntry:
 
 
 @dataclass
+class ResolveAuditLedger:
+    """Append-only, process-lifetime ledger of ground-truth resolves.
+
+    A :class:`ScorerContext` that is given a ledger mirrors every
+    :class:`ResolveAuditEntry` into it, so audits survive the destruction of
+    the context (F-W2-3: the production resolve path in
+    ``heldout_ground_truth`` constructs a fresh context per call and would
+    otherwise discard its audit log). Use :meth:`entries` to read a snapshot
+    (a shallow copy — mutating the returned list never affects the ledger).
+    :meth:`clear` exists for test isolation only; production code must not
+    call it.
+    """
+
+    _entries: List[ResolveAuditEntry] = field(default_factory=list)
+
+    def append(self, entry: ResolveAuditEntry) -> None:
+        """Append one resolve record (append-only; no removal API)."""
+        self._entries.append(entry)
+
+    def entries(self) -> List[ResolveAuditEntry]:
+        """Return a copy of all recorded entries, oldest first."""
+        return list(self._entries)
+
+    def clear(self) -> None:
+        """Drop all entries. Test isolation only — never call in production."""
+        self._entries.clear()
+
+
+_MODULE_LEDGER = ResolveAuditLedger()
+
+
+def get_resolve_audit_ledger() -> ResolveAuditLedger:
+    """Return the module-level default ledger (evaluator/QA inspection only)."""
+    return _MODULE_LEDGER
+
+
+@dataclass
 class ScorerContext:
     """EVALUATOR-ONLY reader of ground truth; the single sanctioned resolve path.
 
@@ -52,7 +89,10 @@ class ScorerContext:
     ``label_column`` (the resolved ground-truth value, e.g.
     ``root_cause_service`` for RCAEval). ``pointer`` is the evaluator-side
     locator recorded on the manifest for provenance; it is never dereferenced
-    by lane code. ``clock`` is injectable for deterministic tests.
+    by lane code. ``clock`` is injectable for deterministic tests. ``ledger``
+    is an optional :class:`ResolveAuditLedger`; when provided, every resolve
+    is recorded both in this context's ``audit`` list and in the ledger, so
+    audits survive contexts that are created and discarded per call.
     """
 
     index: pd.DataFrame
@@ -60,6 +100,7 @@ class ScorerContext:
     pointer: Optional[GroundTruthPointer] = None
     clock: Callable[[], str] = lambda: datetime.now(timezone.utc).isoformat()
     audit: List[ResolveAuditEntry] = field(default_factory=list)
+    ledger: Optional[ResolveAuditLedger] = None
 
     def resolve(self, case_id: str, *, caller_tag: str = "scorer") -> str:
         """Return the ground-truth label for ``case_id``, auditing every call.
@@ -76,7 +117,10 @@ class ScorerContext:
         if self.label_column not in self.index.columns:
             raise ValueError(f"label column {self.label_column!r} missing from index")
         label = str(sub[self.label_column].iloc[0])
-        self.audit.append(ResolveAuditEntry(case_id=case_id, timestamp=self.clock(), caller=caller_tag))
+        entry = ResolveAuditEntry(case_id=case_id, timestamp=self.clock(), caller=caller_tag)
+        self.audit.append(entry)
+        if self.ledger is not None:
+            self.ledger.append(entry)
         return label
 
     def resolve_many(self, case_ids: Sequence[str], *, caller_tag: str = "scorer") -> dict:

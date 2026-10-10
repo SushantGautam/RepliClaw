@@ -22,8 +22,11 @@ import pytest
 
 from repliclaw.benchmarks.common.gating import (
     GroundTruthLeakError,
+    ResolveAuditEntry,
+    ResolveAuditLedger,
     ScorerContext,
     assert_no_agent_access,
+    get_resolve_audit_ledger,
 )
 from repliclaw.benchmarks.common.records import CaseManifest, GroundTruthPointer
 from repliclaw.benchmarks.rcaeval import manifest as rcaeval_manifest
@@ -84,6 +87,70 @@ def test_heldout_ground_truth_goes_through_scorer_context() -> None:
     # The RCAEval evaluator-only helper resolves through the same audited path.
     label = rcaeval_manifest.heldout_ground_truth("alpha_svc", _synthetic_index())
     assert label == "svc_alpha"
+
+
+def test_heldout_ground_truth_audit_survives_in_module_ledger() -> None:
+    """F-W2-3: per-call contexts are discarded; the ledger must retain entries."""
+    module_ledger = get_resolve_audit_ledger()
+    module_ledger.clear()  # test isolation only
+    try:
+        rcaeval_manifest.heldout_ground_truth("alpha_svc", _synthetic_index())
+        entries = module_ledger.entries()
+        assert [(e.case_id, e.caller) for e in entries] == [("alpha_svc", "rcaeval_scorer")]
+        # The manifest-level accessor exposes the same persistent ledger.
+        assert rcaeval_manifest.get_resolve_audit() is module_ledger
+    finally:
+        module_ledger.clear()
+
+
+def test_heldout_ground_truth_records_caller_tag_and_case_id() -> None:
+    module_ledger = get_resolve_audit_ledger()
+    module_ledger.clear()  # test isolation only
+    try:
+        rcaeval_manifest.heldout_ground_truth(
+            "beta_svc", _synthetic_index(), caller_tag="wave2_remediation"
+        )
+        (entry,) = module_ledger.entries()
+        assert entry.case_id == "beta_svc"
+        assert entry.caller == "wave2_remediation"
+        assert entry.timestamp  # non-empty ISO-ish stamp
+    finally:
+        module_ledger.clear()
+
+
+def test_custom_ledger_injection_isolates_from_module_ledger() -> None:
+    module_ledger = get_resolve_audit_ledger()
+    custom = ResolveAuditLedger()
+    module_ledger.clear()  # test isolation only
+    try:
+        rcaeval_manifest.heldout_ground_truth("alpha_svc", _synthetic_index(), ledger=custom)
+        assert [(e.case_id, e.caller) for e in custom.entries()] == [("alpha_svc", "rcaeval_scorer")]
+        assert module_ledger.entries() == []
+    finally:
+        module_ledger.clear()
+
+
+def test_ledger_entries_returns_copies() -> None:
+    ledger = ResolveAuditLedger()
+    ledger.append(
+        ResolveAuditEntry(case_id="alpha_svc", timestamp="t0", caller="unit_test")
+    )
+    snapshot = ledger.entries()
+    snapshot.clear()
+    snapshot.append(ResolveAuditEntry(case_id="injected", timestamp="t1", caller="attacker"))
+    assert [(e.case_id, e.caller) for e in ledger.entries()] == [("alpha_svc", "unit_test")]
+
+
+def test_scoring_context_without_ledger_keeps_local_audit_only() -> None:
+    module_ledger = get_resolve_audit_ledger()
+    module_ledger.clear()  # test isolation only
+    try:
+        scorer = ScorerContext(index=_synthetic_index(), label_column="root_cause_service")
+        scorer.resolve("alpha_svc", caller_tag="no_ledger")
+        assert len(scorer.audit) == 1
+        assert module_ledger.entries() == []
+    finally:
+        module_ledger.clear()
 
 
 def test_canary_raises_on_leak_and_passes_when_absent(tmp_path: Path) -> None:
