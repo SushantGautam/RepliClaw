@@ -7,7 +7,7 @@ name = "repliclaw"
 version = "0.1.0"
 description = "RepliClaw: Evidence-Escrow Scientific Swarm — independent agents commit to falsifiable predictions, run counterfactual interventions, and select the next experiment from shared verified evidence (SimuMet AI Safety)"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.14"
 license = { text = "MIT" }
 authors = [{ name = "Sushant Gautam" }]
 dependencies = [
