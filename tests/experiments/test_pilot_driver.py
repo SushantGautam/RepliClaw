@@ -257,8 +257,16 @@ def test_stop_denominators_full_cohort_after_case_1() -> None:
     """I4.6 regression: after ONLY case 1 completes (all-seeds success on
     C-EQ; 2 aborted_budget on D-E), the live pilot #3 harness fired
     stop-1 at 1/1 and stop-2 at 2/2. The spec-verbatim denominators are
-    the full cohort: sat = 1/10 = 0.10 (< 0.25, no trip) and
-    crash = 2/20 = 0.10 (< 0.25, no trip).
+    the full cohort: sat = 1/10 = 0.10 (< 0.25, no trip) and crash = 0/20
+    (< 0.25, no trip).
+
+    FF-05 correction (mirrors the FF-03 statistical-misconception fix): the
+    OLD assertion pinned ``crash = 2/20`` by counting ``aborted_budget`` as
+    a crash. Spec §5 rule 2 defines the crash class as harness/driver
+    failures ("harness error, abort, or timeout at the 900 s cap"); a
+    per-run exhaustion of the frozen token envelope is a legitimate finished
+    arm outcome — excluded from the crash numerator, still in the /20
+    denominator, still non-success for sat/floor.
     """
     runs = [
         _rec("RCA-P-01", 20261011, "D-E-TELEM", status="aborted_budget"),
@@ -270,9 +278,48 @@ def test_stop_denominators_full_cohort_after_case_1() -> None:
     assert checks["stop1_ssat"]["sat"]["C-EQ-TELEM"] == pytest.approx(0.10)
     assert checks["stop1_ssat"]["sat"]["D-E-TELEM"] == pytest.approx(0.0)
     assert checks["stop1_ssat"]["tripped"] is False
-    assert checks["stop2_crash"]["rate"]["D-E-TELEM"] == pytest.approx(0.10)
+    assert checks["stop2_crash"]["rate"]["D-E-TELEM"] == pytest.approx(0.0)
     assert checks["stop2_crash"]["tripped"] is False
     assert checks["any_tripped"] is False
+
+
+def test_stop2_aborted_budget_excluded_from_crash_class() -> None:
+    """FF-05: run_live_full_r0c round-0 shape — 11 aborted_budget + 9
+    completed D-E rows and 20 C-EQ rows. D-E crash rate must be 0.0 (the
+    pre-fix code computed 11/20 = 0.55 and would write STOP.json after the
+    first completed case of a resumed round). Denominator stays /20."""
+    runs: list[pr.RunRecord] = []
+    for seed in (20261011, 20261012):
+        for n in range(1, 11):
+            case = f"RCA-P-{n:02d}"
+            de_status = "aborted_budget" if n <= 6 else "completed"
+            runs.append(_rec(case, seed, "D-E-TELEM", status=de_status))
+            runs.append(_rec(case, seed, "C-EQ-TELEM", hit=True))
+    assert sum(1 for r in runs if r.arm == "D-E-TELEM" and r.status == "aborted_budget") == 12
+    rates = pr.crash_rate_per_arm(runs)
+    assert rates["D-E-TELEM"] == pytest.approx(0.0)  # NOT 0.55
+    assert rates["C-EQ-TELEM"] == pytest.approx(0.0)
+    checks = pr.evaluate_stop_rules(runs, cases_completed=10)
+    assert checks["stop2_crash"]["tripped"] is False
+    # Saturation semantics untouched: budget-aborted runs are non-success.
+    assert checks["stop1_ssat"]["sat"]["D-E-TELEM"] == pytest.approx(0.0)
+
+
+def test_stop2_harness_failures_still_count_as_crashes() -> None:
+    """FF-05 control: only aborted_budget leaves the crash class. A single
+    'crashed' row among aborted_budget/completed rows is a harness failure
+    and counts: 1/20 = 0.05 (> 0, < 0.25)."""
+    runs = [
+        _rec(f"RCA-P-{n:02d}", seed, "D-E-TELEM",
+             status="crashed" if (n, seed) == (1, 20261011) else "aborted_budget")
+        for n in range(1, 7) for seed in (20261011, 20261012)
+    ]
+    runs += [_rec(f"RCA-P-{n:02d}", seed, "C-EQ-TELEM")
+             for n in range(1, 11) for seed in (20261011, 20261012)]
+    assert pr.crash_rate_per_arm(runs)["D-E-TELEM"] == pytest.approx(1 / 20)
+    # refused_ceiling likewise remains a crash-class status.
+    runs[0].status = "refused_ceiling"
+    assert pr.crash_rate_per_arm(runs)["D-E-TELEM"] == pytest.approx(1 / 20)
 
 
 def test_stop1_ssat_trip_at_3_of_10() -> None:
@@ -350,11 +397,15 @@ def test_stop2_crash_trip_at_6_of_20() -> None:
     checks = pr.evaluate_stop_rules(runs, cases_completed=10)
     assert checks["stop2_crash"]["rate"]["D-E-TELEM"] == pytest.approx(0.30)
     assert checks["stop2_crash"]["tripped"] is True
-    # aborted_budget counts as a crash: flip one *completed* D-E run.
+    # FF-05 correction (was: "aborted_budget counts as a crash"): flipping a
+    # completed D-E run to aborted_budget is NOT a harness failure — it
+    # leaves the crash class, so the rate stays at the 6 crashed rows
+    # (6/20 = 0.30, still a trip). The pre-fix assertion of 7/20 encoded the
+    # misconception that per-run budget exhaustion is a driver crash.
     completed_de = next(r for r in runs if r.arm == "D-E-TELEM" and r.status == "completed")
     completed_de.status = "aborted_budget"
     crashes = pr.crash_rate_per_arm(runs)["D-E-TELEM"]
-    assert crashes == pytest.approx(7 / 20)
+    assert crashes == pytest.approx(6 / 20)
     assert crashes > pr.CRASH_RATIO_MAX
 
 
@@ -606,6 +657,48 @@ def test_parallel_refuses_partial_round_state(tmp_path: Path, monkeypatch: pytes
         "--cases-index", str(index),
     ])
     assert code == 1  # EXIT_REFUSED
+
+
+@needs_data
+def test_parallel_resume_accepts_legitimately_finished_round(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    """FF-05: a round dir whose ledger holds one 'completed' and one
+    'aborted_budget' record (each with a matching status.json) passes the
+    parallel resume guard — aborted_budget is a legitimately-finished arm
+    outcome under the frozen per-run envelope, not partial state. The fake
+    run then continues to its stop trip (exit 10), proving no refusal."""
+    import pilot_parallel as pp
+
+    index = _mk_parallel_index(tmp_path)
+    monkeypatch.setattr(pr, "CASES_PARQUET_SHA256",
+                        hashlib.sha256(index.read_bytes()).hexdigest())
+    out = tmp_path / "par"
+    round_dir = out / "round1"
+    for rel, status in [
+        ("RCA-P-01/seed20261011/D-E-TELEM", "aborted_budget"),
+        ("RCA-P-01/seed20261011/C-EQ-TELEM", "completed"),
+    ]:
+        run_dir = round_dir / rel
+        run_dir.mkdir(parents=True)
+        (run_dir / "status.json").write_text(
+            json.dumps({"status": status}), encoding="utf-8")
+    with open(round_dir / "ledger.jsonl", "w", encoding="utf-8") as f:
+        for rel, status in [
+            ("RCA-P-01/seed20261011/D-E-TELEM", "aborted_budget"),
+            ("RCA-P-01/seed20261011/C-EQ-TELEM", "completed"),
+        ]:
+            case, seed_s, arm = rel.split("/")
+            f.write(json.dumps({
+                "run_path": f"round1/{rel}", "case": case,
+                "seed": int(seed_s[4:]), "arm": arm,
+                "status": status, "tokens": 1000, "wall_s": 1.0, "hit": None,
+            }) + "\n")
+    code = pp.main([
+        "run", "--round", "1", "--out", str(out), "--fake", "--concurrency", "2",
+        "--cases-index", str(index),
+    ])
+    assert code == 10  # EXIT_STOP_TRIP — resumed, NOT refused (code 1)
+    stop = json.loads((round_dir / "STOP.json").read_text(encoding="utf-8"))
+    assert stop["tripped"]
 
 
 # ---------------------------------------------------------------------------
