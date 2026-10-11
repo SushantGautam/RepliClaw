@@ -4,7 +4,7 @@ description: Independent focused scientific-integrity and critical-code gate rev
 model: Qwen3.8-27B-Thinking
 modelPolicy: required
 reasoningEffort: medium
-infer: false
+infer: true
 include-custom-instructions: true
 tools: ["view", "grep", "glob", "bash"]
 ---
