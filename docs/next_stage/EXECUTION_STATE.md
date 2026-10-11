@@ -6,9 +6,9 @@
 **Development branch:** `dev` (created from public `main` at 97a455947895e48fb551503e8fd1158d03a293af).
 **Integration worktree:** `/Users/sushantgautam/Documents/RepliClaw-stg2-dev` (dev @ a8e2b0e725bb6eb1c106d975663c1de0ee188f56).
 **Public-facing branch:** `main`; never update without explicit human release approval.
-**Current milestone:** V3 pilot series rounds 5–8 RUN + adjudicated (see I4.16–I4.27 at bottom). **Round 8 (V3.6, 600K) is CLOSED** (I4.27): TIE 6/8 vs 6/8 (ceiling lower bound), H-burn (mechanism-negative), 5/5 residual D-E aborts = phase-2 tool-cap; standing negative finding extended across five envelopes; token-envelope axis CLOSED. **Current state: HUMAN DECISION POINT (report §7)** — (i) accept the round-8 refined negative as the V3 record [judge-recommended] / (ii) new freeze for the phase-2 tool-cap hypothesis / (iii) stop the series / (c) model change [NOT authorized]. No live runs in flight.
-**Experiment authorization:** historical record — round-8 scope/spend was explicitly human-authorized 2026-10-11 (I4.26, unlimited SimulaChat `default`); nothing further is authorized without a new decision per §7. `main` untouched; dev LOCAL-ONLY (never pushed).
-**V3 protocol:** FROZEN per-round (v33/v34/v35/v36 freezes); no further envelope experiments without a new freeze.
+**Current milestone:** V3 pilot series rounds 5–8 RUN + adjudicated (see I4.16–I4.27 at bottom). Round 8 CLOSED (I4.27): TIE 6/8 vs 6/8 (ceiling lower bound), H-burn (mechanism-negative), 5/5 residual D-E aborts = phase-2 tool-cap; envelope axis CLOSED. **§7 option (ii) approved by the human → V3.7 round 9 IN PROGRESS (I4.28):** D-E-only phase-2 tool-cap 4→8 ablation; worktree `RepliClaw-stg2-v37` `wip/v37-toolcap` (instrument `da4a142` + freeze DRAFT `3818f3f`); gates green; **2 fresh pre-run judges RUNNING** (V37-PRECODE `4fab502e`, V37-PRESCI `0d4601b8`) — launch gated on their REQUIRED items.
+**Experiment authorization:** round-9 scope/spend human-authorized 2026-10-11 (I4.28; standing unlimited SimulaChat `default`); model change (c) NOT authorized. `main` untouched; dev LOCAL-ONLY (never pushed).
+**V3 protocol:** FROZEN per-round (v33/v34/v35/v36 freezes; v37 freeze pending pre-run judges).
 
 ## Wave 0 fleet results (2026-10-09, this checkpoint)
 | Lane | Status | Evidence |
