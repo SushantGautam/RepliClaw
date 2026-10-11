@@ -49,7 +49,6 @@ from repliclaw.experiments.v3.telemetry import (
     MAX_TOOL_CALLS,
     PilotCaseRegistry,
     TelemetrySandbox,
-    ToolBudgetExhausted,
 )
 from repliclaw.experiments.v3.telemetry_arms import (
     ACTION_PROTOCOL,
@@ -260,26 +259,23 @@ def _hammer(
     out: Path,
     tool: str,
     args: dict[str, Any],
-) -> tuple[int, str, str]:
+) -> tuple[int, dict[str, Any]]:
     """Drive the arm's real execution seam with a scripted client that hammers
-    one tool until the sandbox budget is exhausted. Returns (calls allowed,
-    exception type name, exception message)."""
+    one tool until the sandbox budget is exhausted. A per-tool or total budget
+    cap is a NORMAL end-of-evidence condition: the arm returns a
+    ``budget_exhausted`` observation (parity-preserving) rather than crashing.
+    Returns (calls actually recorded by the sandbox, the first exhausted
+    observation payload)."""
     client = FakeLLMClient(lambda _p, _i: _tool(tool, **args))
     arm = arm_cls(client=client, registry=registry, opaque_id=OP1, out_dir=out, seed=1)
     sandbox = arm._new_sandbox()
-    executed = 0
-    name = msg = ""
     for i in range(MAX_TOOL_CALLS + MAX_LOGS_CALLS + 4):
         resp = client.chat.create(model="default", messages=[{"role": "user", "content": f"hammer {i}"}])
         action = parse_action(resp.choices[0].message.content)
-        try:
-            arm._execute_tool(sandbox, action)
-            executed += 1
-        except ToolBudgetExhausted as exc:
-            name, msg = type(exc).__name__, str(exc)
-            break
-    assert name, f"{tool}: budget never exhausted within {MAX_TOOL_CALLS + MAX_LOGS_CALLS + 4} calls"
-    return executed, name, msg
+        obs = arm._execute_tool(sandbox, action)
+        if obs["payload"].get("error") == "budget_exhausted":
+            return sandbox._total_calls, obs["payload"]
+    raise AssertionError(f"{tool}: budget never exhausted within {MAX_TOOL_CALLS + MAX_LOGS_CALLS + 4} calls")
 
 
 def test_budget_caps_identical(registry: PilotCaseRegistry, tmp_path: Path) -> None:
@@ -288,16 +284,16 @@ def test_budget_caps_identical(registry: PilotCaseRegistry, tmp_path: Path) -> N
     total_ceq = _hammer(CEQTelemArm, registry, tmp_path / "ceq-total", "top_anomalies", {"k": 20})
     assert total_de == total_ceq, f"total-cap exhaustion differs: D-E {total_de} vs C-EQ {total_ceq}"
     assert total_de[0] == MAX_TOOL_CALLS
-    assert total_de[1] == "ToolBudgetExhausted"
-    assert f"({MAX_TOOL_CALLS} calls)" in total_de[2]
+    assert total_de[1]["error"] == "budget_exhausted"
+    assert f"({MAX_TOOL_CALLS} calls)" in total_de[1]["detail"]
 
     # Per-tool cap: hammer service_logs — identical on both arms.
     logs_de = _hammer(DetelemArm, registry, tmp_path / "de-logs", "service_logs", {"svc": "svc00", "k": 10})
     logs_ceq = _hammer(CEQTelemArm, registry, tmp_path / "ceq-logs", "service_logs", {"svc": "svc00", "k": 10})
     assert logs_de == logs_ceq, f"per-tool cap exhaustion differs: D-E {logs_de} vs C-EQ {logs_ceq}"
     assert logs_ceq[0] == MAX_LOGS_CALLS
-    assert logs_ceq[1] == "ToolBudgetExhausted"
-    assert f"({MAX_LOGS_CALLS} calls)" in logs_ceq[2]
+    assert logs_ceq[1]["error"] == "budget_exhausted"
+    assert f"({MAX_LOGS_CALLS} calls)" in logs_ceq[1]["detail"]
 
     # Per-run envelope (token + wall ceiling): one shared constant, both arms.
     de = DetelemArm(client=FakeLLMClient([]), registry=registry, opaque_id=OP1, out_dir=tmp_path / "de-env")
@@ -308,6 +304,10 @@ def test_budget_caps_identical(registry: PilotCaseRegistry, tmp_path: Path) -> N
 
     # End-to-end: a full D-E run hammered with one tool exhausts the SAME
     # shared sandbox ceiling (48) — the run path reaches the cap for real.
+    # Budget exhaustion is now a NORMAL observation (not an arm crash): the
+    # agent keeps receiving ``budget_exhausted`` and eventually hits the shared
+    # per-run TOKEN ceiling, so the run ends as aborted_budget at exactly the
+    # shared tool cap — no ToolBudgetExhausted crash.
     r = DetelemArm(
         client=FakeLLMClient(lambda _p, _i: _tool("top_anomalies", k=20)),
         registry=registry,
@@ -315,9 +315,9 @@ def test_budget_caps_identical(registry: PilotCaseRegistry, tmp_path: Path) -> N
         out_dir=tmp_path / "de-ham",
         seed=1,
     ).run()
-    assert r.status == "crashed"
+    assert r.status == "aborted_budget"
     assert r.tool_calls == MAX_TOOL_CALLS
-    assert "ToolBudgetExhausted" in (r.crash_error or "")
+    assert not r.crash_error
 
 
 # ---------------------------------------------------------------------------

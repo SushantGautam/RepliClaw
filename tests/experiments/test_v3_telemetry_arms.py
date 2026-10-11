@@ -888,6 +888,29 @@ def test_sandbox_payload_parity_canary(fake_registry: PilotCaseRegistry) -> None
         assert de._execute_tool(sb1, action) == ceq._execute_tool(sb2, action)
 
 
+def test_execute_tool_budget_exhausted_is_observation_not_crash(
+    fake_registry: PilotCaseRegistry
+) -> None:
+    """Hitting the per-tool log/trace cap must return a ``budget_exhausted``
+    observation (so the agent can still commit) rather than crash the arm, and
+    it must behave identically in both arms (parity)."""
+    from repliclaw.experiments.v3.telemetry import TelemetrySandbox
+
+    sb = TelemetrySandbox(fake_registry, "RCA-P-01")
+    de = DetelemArm.__new__(DetelemArm)
+    ceq = CEQTelemArm.__new__(CEQTelemArm)
+    action = {"action": "tool_call", "tool": "service_logs", "args": {"svc": "svc04", "k": 50}}
+    # Exhaust the shared service_logs budget (MAX_LOGS_CALLS = 4).
+    for _ in range(4):
+        sb.service_logs("svc04", k=50)
+    out_de = de._execute_tool(sb, action)
+    assert out_de["payload"]["error"] == "budget_exhausted"
+    assert "service_logs budget exhausted" in out_de["payload"]["detail"]
+    # Identical treatment in the other arm on the same (exhausted) sandbox.
+    out_ceq = ceq._execute_tool(sb, action)
+    assert out_ceq == out_de
+
+
 def test_both_arms_share_identical_tool_docs() -> None:
     import repliclaw.experiments.v3.telemetry_arms as arms
 

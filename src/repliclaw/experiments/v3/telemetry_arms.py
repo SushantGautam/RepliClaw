@@ -70,7 +70,11 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, Callable, Protocol, Sequence, runtime_checkable
 
-from repliclaw.experiments.v3.telemetry import PilotCaseRegistry, TelemetrySandbox
+from repliclaw.experiments.v3.telemetry import (
+    PilotCaseRegistry,
+    TelemetrySandbox,
+    ToolBudgetExhausted,
+)
 
 # ---------------------------------------------------------------------------
 # Frozen arm constants (addendum §2 / §6.2, ceq_arm_design §5)
@@ -725,26 +729,37 @@ class _ArmBase:
             )
 
     def _execute_tool(self, sandbox: TelemetrySandbox, action: dict[str, Any]) -> dict[str, Any]:
-        """Execute one tool_call action on a sandbox; returns the observation."""
+        """Execute one tool_call action on a sandbox; returns the observation.
+
+        A per-tool or total budget cap (``ToolBudgetExhausted``) is a NORMAL
+        end-of-evidence condition for an agent, not an arm fault: it is returned
+        as a ``budget_exhausted`` observation so the agent can still commit its
+        diagnosis instead of the whole arm crashing (parity-preserving — the
+        shared caps are unchanged, both arms get identical treatment).
+        """
         tool = action["tool"]
         if tool not in _OBS_TOOLS:
             raise AgentProtocolError(f"unknown tool requested: {tool!r}")
         args = action["args"]
-        if tool == "system_context":
-            payload: Any = sandbox.system_context()
-            log_args: dict[str, Any] = {}
-        elif tool == "top_anomalies":
-            payload = sandbox.top_anomalies(k=int(args.get("k", 20)))
-            log_args = {"k": int(args.get("k", 20))}
-        elif tool == "service_metrics":
-            payload = sandbox.service_metrics(str(args.get("svc", "")), k=int(args.get("k", 30)))
-            log_args = {"svc": str(args.get("svc", "")), "k": int(args.get("k", 30))}
-        elif tool == "service_logs":
-            payload = sandbox.service_logs(str(args.get("svc", "")), k=int(args.get("k", 50)))
-            log_args = {"svc": str(args.get("svc", "")), "k": int(args.get("k", 50))}
-        else:  # service_traces
-            payload = sandbox.service_traces(str(args.get("svc", "")), k=int(args.get("k", 30)))
-            log_args = {"svc": str(args.get("svc", "")), "k": int(args.get("k", 30))}
+        try:
+            if tool == "system_context":
+                payload: Any = sandbox.system_context()
+                log_args: dict[str, Any] = {}
+            elif tool == "top_anomalies":
+                payload = sandbox.top_anomalies(k=int(args.get("k", 20)))
+                log_args = {"k": int(args.get("k", 20))}
+            elif tool == "service_metrics":
+                payload = sandbox.service_metrics(str(args.get("svc", "")), k=int(args.get("k", 30)))
+                log_args = {"svc": str(args.get("svc", "")), "k": int(args.get("k", 30))}
+            elif tool == "service_logs":
+                payload = sandbox.service_logs(str(args.get("svc", "")), k=int(args.get("k", 50)))
+                log_args = {"svc": str(args.get("svc", "")), "k": int(args.get("k", 50))}
+            else:  # service_traces
+                payload = sandbox.service_traces(str(args.get("svc", "")), k=int(args.get("k", 30)))
+                log_args = {"svc": str(args.get("svc", "")), "k": int(args.get("k", 30))}
+        except ToolBudgetExhausted as exc:
+            return {"tool": tool, "args": args,
+                    "payload": {"error": "budget_exhausted", "detail": str(exc)}}
         return {"tool": tool, "args": log_args, "payload": payload}
 
     def _result(
