@@ -759,6 +759,7 @@ def perform_case(
         "interface": "v3_telemetry_arm_addendum §2/§4 OBS tool parity; telemetry_arms arms",
         "protocol_errors": result.protocol_errors,
         "crash_error": result.crash_error,
+        "warnings": list(result.warnings),
         "prompt_volume_ratio": result.prompt_volume_ratio,
         "escrow_ledger_path": result.escrow_ledger_path,
         # AMEND_V3_1 A4: gateway-echoed backend model id per agent (W3i

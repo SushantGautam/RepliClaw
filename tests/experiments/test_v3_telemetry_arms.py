@@ -227,12 +227,30 @@ def test_session_malformed_retry_then_success() -> None:
     assert json.loads(client.responses[1])["action"] == "tool_call"
 
 
-def test_session_agent_protocol_error_after_two_bad() -> None:
-    client = FakeLLMClient(["first bad output", "second bad output"])
+def test_session_agent_protocol_error_after_persistent_malformed() -> None:
+    # The session retries once on malformed output, then performs ONE bounded
+    # recovery re-ask; only if the model is still malformed does it fail loudly.
+    client = FakeLLMClient(
+        ["first bad output", "second bad output", "third bad output"]
+    )
     session = LLMToolSession(client, system_prompt="sys", agent_id="x")
     with pytest.raises(AgentProtocolError):
         session.ask("go")
-    assert session.llm_call_count == 2
+    assert session.llm_call_count == 3
+
+
+def test_session_recovers_on_third_attempt() -> None:
+    # Two malformed outputs followed by a valid one: the bounded recovery retry
+    # should return the valid action instead of crashing the arm.
+    def script(prompt: str, call_index: int) -> str:
+        if "not a single valid JSON action object" in prompt:
+            return _tool("system_context")  # both correction prompts recover
+        return "still no json here"
+
+    client = FakeLLMClient(script)
+    session = LLMToolSession(client, system_prompt="sys", agent_id="x")
+    action = session.ask("go")
+    assert action["action"] == "tool_call"
 
 
 class _NoUsageClient:
@@ -754,6 +772,36 @@ def test_ceq_volume_band_in_band_on_happy_path(fake_registry: PilotCaseRegistry,
     assert result.status == "completed"
     assert result.prompt_volume_ratio is not None
     assert 0.6 <= result.prompt_volume_ratio <= PROMPT_VOLUME_CEIL
+
+
+def test_ceq_volume_breach_records_warning_not_crash(
+    fake_registry: PilotCaseRegistry, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A prompt-volume canary breach must NOT discard an already-submitted C-EQ
+    ranking (that masked valid results on large-payload cases); it records a
+    warning and still completes."""
+    import repliclaw.experiments.v3.telemetry_arms as ta
+
+    real = ta.prompt_volume_ratio
+
+    def _breach(prompts_manager: Any, prompts_investigator_pool: Any) -> float:
+        # Force the manager/investigator volume ratio above the ceiling so the
+        # canary trips, regardless of the deterministic fake script's real value.
+        return real(prompts_manager, prompts_investigator_pool) + 2.0
+
+    monkeypatch.setattr(ta, "prompt_volume_ratio", _breach)
+    arm = CEQTelemArm(
+        client=FakeLLMClient(_ceq_script()),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=5,
+    )
+    result = arm.run()
+    assert result.status == "completed"
+    assert result.submitted_ranking == RANK5  # ranking preserved, not discarded
+    assert result.success_eligible is True
+    assert any("prompt-volume" in w for w in result.warnings)
 
 
 # ---------------------------------------------------------------------------
