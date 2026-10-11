@@ -1,0 +1,67 @@
+{
+  "method": "baro (official, RCAEval pinned 259ea41, venv rcarun)",
+  "dataset_arg": "re2-ob",
+  "cases": [
+    "re2ob_checkoutservice_delay_1",
+    "re2ob_currencyservice_delay_1",
+    "re2ob_emailservice_delay_1",
+    "re2ob_productcatalogservice_delay_1"
+  ],
+  "metric_name": "Avg@5-DELAY (service-level, official main.py report; the -DELAY bucket is the official analog of the Avg@5-CPU smoke metric)",
+  "avg_at_5_cpu": 0.6,
+  "w1_cpu_smoke_ref": 0.66,
+  "in_range_0.4_0.85": true,
+  "per_case": {
+    "re2ob_checkoutservice_delay_1": {
+      "top5": [
+        "redis_diskio",
+        "emailservice_latency",
+        "shippingservice_latency",
+        "checkoutservice_latency",
+        "paymentservice_latency"
+      ],
+      "n_ranks": 45,
+      "hit": true
+    },
+    "re2ob_currencyservice_delay_1": {
+      "top5": [
+        "redis_diskio",
+        "checkoutservice_latency",
+        "frontend_latency",
+        "redis_mem",
+        "currencyservice_latency"
+      ],
+      "n_ranks": 45,
+      "hit": true
+    },
+    "re2ob_emailservice_delay_1": {
+      "top5": [
+        "redis_diskio",
+        "emailservice_mem",
+        "checkoutservice_latency",
+        "redis_mem",
+        "checkoutservice_workload"
+      ],
+      "n_ranks": 45,
+      "hit": true
+    },
+    "re2ob_productcatalogservice_delay_1": {
+      "top5": [
+        "redis_diskio",
+        "productcatalogservice_latency",
+        "recommendationservice_latency",
+        "checkoutservice_latency",
+        "frontend_latency"
+      ],
+      "n_ranks": 45,
+      "hit": true
+    }
+  },
+  "log": "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/.artifacts/rcaeval/pilot/baro_re2ob_delay_feasibility.log",
+  "spec_defect": {
+    "finding": "frozen spec \u00a73 names 'the 8 RE2-OB delay pilot cases' but the frozen 10-case pilot set (\u00a72 table) contains exactly 4 RE2-OB delay cases; BARO ran on all 4",
+    "spec_quote": "**BARO (official baseline):** run on the 8 RE2-OB delay pilot cases **only as a feasibility check**",
+    "recorded_only": true
+  },
+  "generated_at": "2026-10-10T14:22:29.093083+00:00"
+}
