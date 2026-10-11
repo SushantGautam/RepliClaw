@@ -16,7 +16,6 @@ import time
 from dataclasses import dataclass
 from typing import Any, Optional
 
-
 DEFAULT_BASE_URL = "https://simulachat.sushant.pp.ua/api/v1"
 DEFAULT_MODEL = "default"
 

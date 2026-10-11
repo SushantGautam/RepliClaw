@@ -25,7 +25,6 @@ from typing import Any, Optional
 from repliclaw.canonical import commit_hash
 from repliclaw.escrow.phase import Phase, PhaseGate
 
-from . import _vendor
 from ._vendor import ensure_path
 from .client import Usage
 
