@@ -1,8 +1,6 @@
 ---
 name: rc-review
 description: Independent focused scientific-integrity and critical-code gate reviewer; Sigma2 thinking Qwen only.
-model: Qwen3.8-27B-Thinking
-modelPolicy: required
 reasoningEffort: medium
 infer: true
 include-custom-instructions: true
