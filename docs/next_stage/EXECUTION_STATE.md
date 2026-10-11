@@ -856,3 +856,40 @@ untouched; dev LOCAL-ONLY.
 `/tmp/adjudicate_round8.py` (600K token-cap threshold) → 2 fresh OUTCOME
 judges → campaign report §2f/§4e + rider → I4.27. Standing negative finding
 remains until the round's machine-verified result says otherwise.
+
+## I4.27 (in progress) — Round 8 (V3.6, 600K) EARLY-STOPPED: machine-verified ledger, outcome judges dispatched
+
+- **Stop:** STOP1_SSAT tripped at the 18-run snapshot (sat_D-E 0.2, sat_C-EQ 0.3 ≥ 0.25;
+  per_arm_crashes D-E = 2 is the STOP rule's `status!="completed"` counting,
+  pilot_run.py:202-214 — **NOT 2 `status=crashed`**; final ledger has 0 crashed).
+  Driver finished 5 in-flight runs → **final 23-run ledger** (14 D-E / 9 C-EQ, 8 cases
+  driven; P-09/P-10 + 7 C-EQ slots never launched). Token delta reconciles:
+  STOP snapshot 2,640,155 + 5 post-snapshot runs = 4,084,520 (verify residual = 1,444,365).
+  Relaunch refused by guard (closed round).
+- **Adjudication (`/tmp/adjudicate_round8.py`, regression-verified on round 7 @300K):**
+  0 crash-class (`status=crashed`), 0 drift-recovered, D-E 9 completed (180,020–324,901 tok)
+  + 5 aborted_budget (3 classify phase-2 tool-cap: 215,927/65tc, 258,083/82tc, 270,226/82tc;
+  2 at 328,161/94tc, 362,587/105tc — sub-600K, wall 83–133s, **abort-site attribution
+  unresolved**: crash_error=None, no per-inv phase-2 loop exhaustion evident in audit —
+  HYPOTHESIS: envelope `_tokens_total()` sums 3 investigator sessions so a burst crossed
+  600K transiently? NO — final totals <600K; alternative: aborted at an intermediate gate.
+  Code judge (R8-OUTCOME-CODE, 41324f73) is attributing this from source + audit.),
+  C-EQ 9 completed (54,759–71,865 tok).
+- **Case-level paired hit (frozen full-cohort rule, FINAL LEDGER per R3):**
+  D-E 6/8 vs C-EQ 6/8 (hit: P-01..P-06 both arms; P-07/P-08 non-hit both arms).
+  **TIE.** Completing-run support: D-E 6/6, C-EQ 6/6.
+- **H-budget/H-burn:** all 9 D-E completions ≤324,901 tok (< 400K gray-zone floor) → H-burn
+  on mass; repeat-rate guard: D-E completion repeat rate 76.0% (637 calls/153 unique) vs
+  48.1% round-4 baseline — HIGHER, so a clean H-burn label is NOT yet defensible;
+  science judge (R8-OUTCOME-SCI, 999d61cb) adjudicating the R2 guard's direction.
+  Note 2 D-E aborts (328K, 362K) are the first runs EVER above 300K and neither completed
+  despite 600K headroom — key H-budget evidence.
+- **Standing negative finding:** EXTENDED to 600K (5th envelope). No advantage of D-E over
+  same-tools C-EQ; cost ~4× per completion (231K median vs 62K median).
+- **Integrity:** JSON-mode parity 0 plain drops both arms (D-E 1186, C-EQ 156 responses);
+  case_sha256 all 8 match round 7; 14 D-E escrow ledgers; envelope 600000 + git_rev cff7d748
+  uniform; scorer_sha multi-value = per-case scorer content hash, round-7 had the same
+  4-way split (66648f3b×2, a8c545f2×7, 0f68edd6×1, e9ceced8×6) — code judge confirming.
+- **R7-STATS committed on dev** (`30e7bfd`).
+- **Next:** R8-OUTCOME-CODE + R8-OUTCOME-SCI verdicts → apply REQUIRED → abort-site
+  resolution in report → report §2f + §4e + rider 15 → commit dev → checkpoint 020.
