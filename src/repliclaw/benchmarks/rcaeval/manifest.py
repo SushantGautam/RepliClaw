@@ -19,6 +19,24 @@ J-SCI C-SCI-1 (S1): the single evaluator-only resolve path is
 ``repliclaw.benchmarks.common.gating.ScorerContext`` (audited). No
 agent-facing code may import or call it; the static caller-restriction scan
 in ``tests/benchmarks/test_ground_truth_gate.py`` pins this.
+
+Case-id and strata confidentiality (G2)
+---------------------------------------
+(i) Upstream RCAEval case ids embed the root-cause service (e.g.
+    ``re1ob_adservice_mem_1`` names ``adservice``), so the upstream id is
+    itself a ground-truth identifier.
+(ii) Agents only ever receive OPAQUE case ids at runtime — the upstream id
+    stays evaluator-side (the ground-truth pointer and the pinned index are
+    scorer-only). The V3 runtime must present cases by opaque random id; see
+    the ``case_id`` note in ``case_manifest.schema.json``.
+(iii) The agent-visible ``strata`` exclude ALL ground-truth identifiers,
+    including derived ordinals. A ``quota_service_order`` ordinal was removed
+    pre-G4 (J-CODE W1 F1 follow-up) because it was the alphabetical rank of
+    the root-cause service within the fault stratum — decodable from the
+    public index, hence a ground-truth channel, not a non-informative one.
+    The strata now carry only (suite, system, fault_type, repetition), which
+    never uniquely determine the service (pinned by
+    ``tests/benchmarks/test_rcaeval_leak.py::test_strata_do_not_decode_root_cause_service``).
 """
 from __future__ import annotations
 
@@ -182,15 +200,6 @@ def build_heldout_manifest(
     if missing:
         raise ValueError(f"no data hashes for selected cases: {missing[:5]}…")
 
-    # Non-informative ordinal for each (fault, service) quota stratum, in the
-    # same alphabetical order _select_stratum used. This preserves the
-    # stratification's structural info WITHOUT naming the service.
-    services_order: Dict[Tuple[str, str], int] = {}
-    for _suite, _system, fault, _cap in QUOTA_TABLE:
-        sub = index[(index["dataset"] == _dataset(_suite, _system)) & (index["fault"] == fault)]
-        for _i, svc in enumerate(sorted(sub["root_cause_service"].unique())):
-            services_order[(fault, svc)] = _i
-
     by_case = index.set_index("case")
     manifests: List[CaseManifest] = []
     for case in cases:
@@ -198,14 +207,21 @@ def build_heldout_manifest(
         # J-CODE Wave 1 F1 (HIGH): strata are AGENT-VISIBLE. The index row's
         # root_cause_service is ground truth and MUST NOT appear in the
         # manifest (it would disclose the answer before the diagnosis).
-        # Quota stratification uses it internally in _select_stratum only;
-        # here we expose the non-informative quota-order ordinal instead.
-        stratum_rank = services_order.get((str(row["fault"]), str(row["root_cause_service"])), -1)
+        # Quota stratification uses it internally in _select_stratum only.
+        #
+        # J-CODE W1 F1 follow-up (pre-G4): the earlier "non-informative"
+        # quota_service_order ordinal was REMOVED. It was the alphabetical
+        # rank of the root-cause service within the (dataset, fault) stratum,
+        # which is decodable from the public index (an attacker recomputes the
+        # rank and maps it back to the service) — a ground-truth channel, not
+        # a non-informative one. The strata now carry only
+        # (suite, system, fault_type, repetition), which never uniquely
+        # determine the service (pinned by
+        # tests/benchmarks/test_rcaeval_leak.py::test_strata_do_not_decode_root_cause_service).
         strata = {
             "suite": str(row["suite"]),
             "system": str(row["system"]),
             "fault_type": str(row["fault"]),
-            "quota_service_order": str(stratum_rank),
             "repetition": str(int(row["repetition"])),
         }
         notes = (
