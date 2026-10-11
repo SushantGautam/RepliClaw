@@ -1,11 +1,11 @@
 """Fast safety tests for Copilot CLI fleet hook/heartbeat helper (stdlib only)."""
 import json
 import os
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 
 SCRIPT = Path(__file__).resolve().parents[1] / 'scripts' / 'copilot_fleet_watch.py'
 
@@ -22,25 +22,33 @@ class FleetWatchTests(unittest.TestCase):
 
     def test_assignment_heartbeat_and_completion(self):
         self.assertEqual(self.call('assign','FF-01','--agent','rc-fast','--progress','fix CI').returncode, 0)
-        self.assertEqual(self.call('beat','FF-01','--progress','dependency patch','--artifact','pyproject.toml').returncode, 0)
-        result=self.call('watch','--json')
-        self.assertEqual(json.loads(result.stdout)['tasks'][0]['health'],'ACTIVE')
-        self.assertEqual(self.call('done','FF-01','--progress','passed').returncode,0)
+        beat = self.call('beat', 'FF-01', '--progress', 'dependency patch', '--artifact', 'pyproject.toml')
+        self.assertEqual(beat.returncode, 0)
+        result = self.call('watch', '--json')
+        self.assertEqual(json.loads(result.stdout)['tasks'][0]['health'], 'ACTIVE')
+        done = self.call('done', 'FF-01', '--progress', 'passed')
+        self.assertEqual(done.returncode, 0)
         self.assertEqual(json.loads(self.call('watch','--json').stdout)['tasks'][0]['health'],'DONE')
         self.assertNotEqual(self.call('beat','FF-01','--progress','late').returncode,0)
 
     def test_missing_progress_detected_even_with_beat(self):
         self.call('assign','FF-02','--agent','rc-implement')
         p=Path(self.root.name)/'tasks'/'FF-02.json'
-        data=json.loads(p.read_text()); data['last_progress']-=900; p.write_text(json.dumps(data))
-        r=self.call('watch','--json'); self.assertEqual(r.returncode,1)
+        data = json.loads(p.read_text())
+        data['last_progress'] -= 900
+        p.write_text(json.dumps(data))
+        r = self.call('watch', '--json')
+        self.assertEqual(r.returncode, 1)
         self.assertEqual(json.loads(r.stdout)['tasks'][0]['health'],'NO_MEASURABLE_PROGRESS')
 
     def test_stale_heartbeat_detected(self):
         self.call('assign','FF-02','--agent','rc-implement')
         p=Path(self.root.name)/'tasks'/'FF-02.json'
-        data=json.loads(p.read_text()); data['last_beat']-=900; p.write_text(json.dumps(data))
-        r=self.call('watch','--json'); self.assertEqual(r.returncode,1)
+        data = json.loads(p.read_text())
+        data['last_beat'] -= 900
+        p.write_text(json.dumps(data))
+        r = self.call('watch', '--json')
+        self.assertEqual(r.returncode, 1)
         self.assertEqual(json.loads(r.stdout)['tasks'][0]['health'],'STALE_HEARTBEAT')
 
     def test_reject_invalid_task_id(self):

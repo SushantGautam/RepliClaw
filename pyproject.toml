@@ -14,11 +14,17 @@ dependencies = [
     "pydantic>=2.0",
     "networkx>=3.0",
     "openai>=1.0",
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pyarrow>=14.0",
+    "simpleaudit>=0.4.1",
 ]
 
 [project.optional-dependencies]
 otel = ["opentelemetry-api>=1.20", "opentelemetry-sdk>=1.20", "openinference-semantic-conventions>=0.1"]
-dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.8"]
+# Tests import opentelemetry unconditionally (tests/test_observability.py),
+# so the dev extra includes the otel stack; CI installs ".[dev]".
+dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.8", "repliclaw[otel]"]
 
 [project.scripts]
 repliclaw = "repliclaw.cli:main"
