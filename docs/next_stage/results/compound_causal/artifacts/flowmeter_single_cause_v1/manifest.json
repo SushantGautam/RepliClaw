@@ -1,0 +1,427 @@
+{
+  "arms": {
+    "I0_baseline": {
+      "arm_id": "I0_baseline",
+      "artifact_hashes": {
+        "config.json": "4b0d978d09de886d6eba0186dee2b7dab23f663b11bda5a4204f59e37f11105f",
+        "judgment.json": "2377b9f21d717ea41fa57ac887e77edc02c29a70c99dc684634bf8ffcaef6747",
+        "stdout.log": "9876d9fabb64a0cabec1aefd6401d6705d4f18271ac0292877ae31a5a99334eb",
+        "target_output.json": "31d8bf573e919740860ae009fc910bcd3335156e421724a91a9aa38814d18f3b"
+      },
+      "artifacts": {
+        "config.json": "4b0d978d09de886d6eba0186dee2b7dab23f663b11bda5a4204f59e37f11105f",
+        "judgment.json": "2377b9f21d717ea41fa57ac887e77edc02c29a70c99dc684634bf8ffcaef6747",
+        "stdout.log": "9876d9fabb64a0cabec1aefd6401d6705d4f18271ac0292877ae31a5a99334eb",
+        "target_output.json": "31d8bf573e919740860ae009fc910bcd3335156e421724a91a9aa38814d18f3b"
+      },
+      "case_id": "flowmeter_single_cause_v1",
+      "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+      "case_version": "v1",
+      "config_sha256": "4b0d978d09de886d6eba0186dee2b7dab23f663b11bda5a4204f59e37f11105f",
+      "engine": {
+        "git_sha": "",
+        "name": "python",
+        "version": "3.12.3"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-12T16:02:51.566274+00:00",
+      "judgment": {
+        "arm_id": "I0_baseline",
+        "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+        "measured_total_volume_liters": 95737.9784,
+        "measurement": "pulse_count_volume_total/v1",
+        "n_days": 14
+      },
+      "run_id": "flowmeter_single_cause_v1::I0_baseline::seed0",
+      "seed": 0,
+      "severity": "mismatch",
+      "started_at": "2026-10-12T16:02:51.565898+00:00",
+      "stdout_log": "offline deterministic run; arm=I0_baseline; no LLM, no network, 0 real tokens\n",
+      "target_output": {
+        "arm_id": "I0_baseline",
+        "measurement": "pulse_count_volume_total/v1",
+        "meter_id": "FT-7731",
+        "n_days": 14,
+        "per_day": [
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-01",
+            "pulse_counts": 179123,
+            "volume_liters": 8454.6056
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-02",
+            "pulse_counts": 125462,
+            "volume_liters": 5921.8064
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-03",
+            "pulse_counts": 137133,
+            "volume_liters": 6472.6776
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-04",
+            "pulse_counts": 113640,
+            "volume_liters": 5363.808
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-05",
+            "pulse_counts": 141863,
+            "volume_liters": 6695.9336
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-06",
+            "pulse_counts": 147130,
+            "volume_liters": 6944.536
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-07",
+            "pulse_counts": 116737,
+            "volume_liters": 5509.9864
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-08",
+            "pulse_counts": 159116,
+            "volume_liters": 7510.2752
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-09",
+            "pulse_counts": 110347,
+            "volume_liters": 5208.3784
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-10",
+            "pulse_counts": 150382,
+            "volume_liters": 7098.0304
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-11",
+            "pulse_counts": 137733,
+            "volume_liters": 6500.9976
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-12",
+            "pulse_counts": 162096,
+            "volume_liters": 7650.9312
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-13",
+            "pulse_counts": 171727,
+            "volume_liters": 8105.5144
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-14",
+            "pulse_counts": 175858,
+            "volume_liters": 8300.4976
+          }
+        ],
+        "total_counted_dropped_events": 0,
+        "total_pulse_counts": 2028347,
+        "total_volume_liters": 95737.9784
+      },
+      "token_counts": {
+        "real_token_calls": 0
+      }
+    },
+    "I1_fix_calibration": {
+      "arm_id": "I1_fix_calibration",
+      "artifact_hashes": {
+        "config.json": "e9ed4fc48ad3ccb59824ef5d43e899e8f1c297d8ad2ac13101ab96b691aa1a03",
+        "judgment.json": "6fddab3f923e445ada806c4a1ffc23290cbbbb13249924151c39024503c28c90",
+        "stdout.log": "0a50969d446ce01455c21cfc95421dba9c529cfb437105a5e18e715a38871766",
+        "target_output.json": "c4f01d6271bca09de0f245cb0a29856bcb4e9be641307b3500d798c9bf28036a"
+      },
+      "artifacts": {
+        "config.json": "e9ed4fc48ad3ccb59824ef5d43e899e8f1c297d8ad2ac13101ab96b691aa1a03",
+        "judgment.json": "6fddab3f923e445ada806c4a1ffc23290cbbbb13249924151c39024503c28c90",
+        "stdout.log": "0a50969d446ce01455c21cfc95421dba9c529cfb437105a5e18e715a38871766",
+        "target_output.json": "c4f01d6271bca09de0f245cb0a29856bcb4e9be641307b3500d798c9bf28036a"
+      },
+      "case_id": "flowmeter_single_cause_v1",
+      "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+      "case_version": "v1",
+      "config_sha256": "e9ed4fc48ad3ccb59824ef5d43e899e8f1c297d8ad2ac13101ab96b691aa1a03",
+      "engine": {
+        "git_sha": "",
+        "name": "python",
+        "version": "3.12.3"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-12T16:02:51.567942+00:00",
+      "judgment": {
+        "arm_id": "I1_fix_calibration",
+        "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+        "measured_total_volume_liters": 101417.35,
+        "measurement": "pulse_count_volume_total/v1",
+        "n_days": 14
+      },
+      "run_id": "flowmeter_single_cause_v1::I1_fix_calibration::seed0",
+      "seed": 0,
+      "severity": "pass",
+      "started_at": "2026-10-12T16:02:51.567836+00:00",
+      "stdout_log": "offline deterministic run; arm=I1_fix_calibration; no LLM, no network, 0 real tokens\n",
+      "target_output": {
+        "arm_id": "I1_fix_calibration",
+        "measurement": "pulse_count_volume_total/v1",
+        "meter_id": "FT-7731",
+        "n_days": 14,
+        "per_day": [
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-01",
+            "pulse_counts": 179123,
+            "volume_liters": 8956.15
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-02",
+            "pulse_counts": 125462,
+            "volume_liters": 6273.1
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-03",
+            "pulse_counts": 137133,
+            "volume_liters": 6856.65
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-04",
+            "pulse_counts": 113640,
+            "volume_liters": 5682.0
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-05",
+            "pulse_counts": 141863,
+            "volume_liters": 7093.15
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-06",
+            "pulse_counts": 147130,
+            "volume_liters": 7356.5
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-07",
+            "pulse_counts": 116737,
+            "volume_liters": 5836.85
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-08",
+            "pulse_counts": 159116,
+            "volume_liters": 7955.8
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-09",
+            "pulse_counts": 110347,
+            "volume_liters": 5517.35
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-10",
+            "pulse_counts": 150382,
+            "volume_liters": 7519.1
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-11",
+            "pulse_counts": 137733,
+            "volume_liters": 6886.65
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-12",
+            "pulse_counts": 162096,
+            "volume_liters": 8104.8
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-13",
+            "pulse_counts": 171727,
+            "volume_liters": 8586.35
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-14",
+            "pulse_counts": 175858,
+            "volume_liters": 8792.9
+          }
+        ],
+        "total_counted_dropped_events": 0,
+        "total_pulse_counts": 2028347,
+        "total_volume_liters": 101417.35
+      },
+      "token_counts": {
+        "real_token_calls": 0
+      }
+    },
+    "I2_account_dropped": {
+      "arm_id": "I2_account_dropped",
+      "artifact_hashes": {
+        "config.json": "e5f5f2d6fb81ab52a226b90f09b2cd027a414365863c6cb16b661b86d1b40802",
+        "judgment.json": "5a1bdaacc9c26b12177d9c1984783712de57ee7a960e524786206378bb723c92",
+        "stdout.log": "fcac823549d7d789aa86402d4ec1b3f09152dbf21edb5d0e0bd12d9a8c4027d4",
+        "target_output.json": "22f9fc24af0842a2de1665cc39e9c0ae982d457fc9627fb07e7efa3fa9e812f2"
+      },
+      "artifacts": {
+        "config.json": "e5f5f2d6fb81ab52a226b90f09b2cd027a414365863c6cb16b661b86d1b40802",
+        "judgment.json": "5a1bdaacc9c26b12177d9c1984783712de57ee7a960e524786206378bb723c92",
+        "stdout.log": "fcac823549d7d789aa86402d4ec1b3f09152dbf21edb5d0e0bd12d9a8c4027d4",
+        "target_output.json": "22f9fc24af0842a2de1665cc39e9c0ae982d457fc9627fb07e7efa3fa9e812f2"
+      },
+      "case_id": "flowmeter_single_cause_v1",
+      "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+      "case_version": "v1",
+      "config_sha256": "e5f5f2d6fb81ab52a226b90f09b2cd027a414365863c6cb16b661b86d1b40802",
+      "engine": {
+        "git_sha": "",
+        "name": "python",
+        "version": "3.12.3"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-12T16:02:51.568934+00:00",
+      "judgment": {
+        "arm_id": "I2_account_dropped",
+        "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+        "measured_total_volume_liters": 95737.9784,
+        "measurement": "pulse_count_volume_total/v1",
+        "n_days": 14
+      },
+      "run_id": "flowmeter_single_cause_v1::I2_account_dropped::seed0",
+      "seed": 0,
+      "severity": "mismatch",
+      "started_at": "2026-10-12T16:02:51.568838+00:00",
+      "stdout_log": "offline deterministic run; arm=I2_account_dropped; no LLM, no network, 0 real tokens\n",
+      "target_output": {
+        "arm_id": "I2_account_dropped",
+        "measurement": "pulse_count_volume_total/v1",
+        "meter_id": "FT-7731",
+        "n_days": 14,
+        "per_day": [
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-01",
+            "pulse_counts": 179123,
+            "volume_liters": 8454.6056
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-02",
+            "pulse_counts": 125462,
+            "volume_liters": 5921.8064
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-03",
+            "pulse_counts": 137133,
+            "volume_liters": 6472.6776
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-04",
+            "pulse_counts": 113640,
+            "volume_liters": 5363.808
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-05",
+            "pulse_counts": 141863,
+            "volume_liters": 6695.9336
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-06",
+            "pulse_counts": 147130,
+            "volume_liters": 6944.536
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-07",
+            "pulse_counts": 116737,
+            "volume_liters": 5509.9864
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-08",
+            "pulse_counts": 159116,
+            "volume_liters": 7510.2752
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-09",
+            "pulse_counts": 110347,
+            "volume_liters": 5208.3784
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-10",
+            "pulse_counts": 150382,
+            "volume_liters": 7098.0304
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-11",
+            "pulse_counts": 137733,
+            "volume_liters": 6500.9976
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-12",
+            "pulse_counts": 162096,
+            "volume_liters": 7650.9312
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-13",
+            "pulse_counts": 171727,
+            "volume_liters": 8105.5144
+          },
+          {
+            "counted_dropped": 0,
+            "day": "2026-06-14",
+            "pulse_counts": 175858,
+            "volume_liters": 8300.4976
+          }
+        ],
+        "total_counted_dropped_events": 0,
+        "total_pulse_counts": 2028347,
+        "total_volume_liters": 95737.9784
+      },
+      "token_counts": {
+        "real_token_calls": 0
+      }
+    }
+  },
+  "case": "flowmeter_single_cause_v1",
+  "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+  "case_version": "v1",
+  "engine": {
+    "git_sha": "",
+    "name": "python",
+    "version": "3.12.3"
+  },
+  "reproduce": "replay.sh",
+  "runtime": {
+    "deterministic": true,
+    "offline": true
+  },
+  "schema": "repliclaw.case_manifest/v1",
+  "target_measurement_id": "pulse_count_volume_total/v1"
+}

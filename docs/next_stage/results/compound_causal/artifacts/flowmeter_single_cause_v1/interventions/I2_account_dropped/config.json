@@ -1,0 +1,1 @@
+{"account_for_dropped":true,"arm_id":"I2_account_dropped","calibration_l_per_count":0.0472,"case_sha256":"b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1","intervention":"account for logged dropped pulse events (counter is 0 all window)","measurement":"pulse_count_volume_total/v1","meter_id":"FT-7731","n_days":14}

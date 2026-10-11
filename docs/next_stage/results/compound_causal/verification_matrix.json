@@ -1,0 +1,169 @@
+{
+  "all_requirements_met": true,
+  "cases": {
+    "drift_sign_and_v1": {
+      "authentic_replay": true,
+      "case_sha256": "cbd0982a3dfb1bec1ce4c995022d7dcab1826771218174713caaffe1f21408a4",
+      "leak_check_hits": [],
+      "rows": [
+        {
+          "arm_id": "I0_baseline",
+          "artifact_hashes": {
+            "config.json": "96442a94c12d344f355965356527bc47000f5e8cdb63f3abb23e2eb1241ad081",
+            "judgment.json": "ad8e34af081dcecd50afa82524e63349b819ab2e54a575ff12233390142bfe0d",
+            "stdout.log": "9876d9fabb64a0cabec1aefd6401d6705d4f18271ac0292877ae31a5a99334eb",
+            "target_output.json": "8acc0c708be862746abf5a1f1621c4fc4419a8be1171fc7403bf8efe93e62eeb"
+          },
+          "case_id": "drift_sign_and_v1",
+          "case_sha256": "cbd0982a3dfb1bec1ce4c995022d7dcab1826771218174713caaffe1f21408a4",
+          "config_sha256": "96442a94c12d344f355965356527bc47000f5e8cdb63f3abb23e2eb1241ad081",
+          "intervention": "none (as-run system: sign bug + uncalibrated instrument)",
+          "measured": 485.178711,
+          "meets_requirement": true,
+          "observed_severity": "mismatch",
+          "required_severity": "mismatch",
+          "seed": 0
+        },
+        {
+          "arm_id": "I1_fix_sign",
+          "artifact_hashes": {
+            "config.json": "4435d714b8e0b9b1ad7bce937a4c3edcf4f95b387fef12fc771a07661f442da2",
+            "judgment.json": "d68632b262ef5e19bd536078970e260f13c89443f1b8864750c2c74d0257e848",
+            "stdout.log": "032d2f3c5d6ebd8c585a9f5613331e9228199ad2f42440e1ecf573f663c49aa8",
+            "target_output.json": "be98c43982e9e80a7e55be41f77ffd59fb0051a482a8a9259ac6c7ccc8b3f06d"
+          },
+          "case_id": "drift_sign_and_v1",
+          "case_sha256": "cbd0982a3dfb1bec1ce4c995022d7dcab1826771218174713caaffe1f21408a4",
+          "config_sha256": "4435d714b8e0b9b1ad7bce937a4c3edcf4f95b387fef12fc771a07661f442da2",
+          "intervention": "fix correction routine to subtract blank drift (instrument uncalibrated)",
+          "measured": 479.706706,
+          "meets_requirement": true,
+          "observed_severity": "pass",
+          "required_severity": "pass",
+          "seed": 0
+        },
+        {
+          "arm_id": "I2_recalibrate",
+          "artifact_hashes": {
+            "config.json": "53045a53e7d9d32361975810ab3bd9a3c9866e353b218017f5610eb4fcd046e3",
+            "judgment.json": "3879332f5cbf986a4bdab6b773215989a7b952c96940426ee3a7927103f59b22",
+            "stdout.log": "1db3e3934c98cad786be2cb03158658bcb0eafbcdafa8c06bdf171eba2cde950",
+            "target_output.json": "2e3d10e1333ed10aacbc32d1ef8133ce8faee7c36a5ae0e2148c09a1afc311e9"
+          },
+          "case_id": "drift_sign_and_v1",
+          "case_sha256": "cbd0982a3dfb1bec1ce4c995022d7dcab1826771218174713caaffe1f21408a4",
+          "config_sha256": "53045a53e7d9d32361975810ab3bd9a3c9866e353b218017f5610eb4fcd046e3",
+          "intervention": "recalibrate instrument: bias removed from readout, logged drift = 0",
+          "measured": 479.706706,
+          "meets_requirement": true,
+          "observed_severity": "pass",
+          "required_severity": "pass",
+          "seed": 0
+        },
+        {
+          "arm_id": "I3_fix_both",
+          "artifact_hashes": {
+            "config.json": "a4612e16d4d012b48cd6f61f0f575d33175cd70bb8133a8e71765925f3fac38f",
+            "judgment.json": "16f27fe3a18c4dd5e104bfd68d630154faaff5b1f26c61f1afd7d0a26f733f3a",
+            "stdout.log": "0ff4268960f8c49cdb46ee637733cb6bd8b36b1ecccad4c2dc770e891822a213",
+            "target_output.json": "13bd07cfa33c150d6fb6a0bd73b3b2374f1a4de9c8b6dec97217afbd2786b29c"
+          },
+          "case_id": "drift_sign_and_v1",
+          "case_sha256": "cbd0982a3dfb1bec1ce4c995022d7dcab1826771218174713caaffe1f21408a4",
+          "config_sha256": "a4612e16d4d012b48cd6f61f0f575d33175cd70bb8133a8e71765925f3fac38f",
+          "intervention": "fix correction sign AND recalibrate instrument (both-fix sanity arm)",
+          "measured": 479.706706,
+          "meets_requirement": true,
+          "observed_severity": "pass",
+          "required_severity": "pass",
+          "seed": 0
+        }
+      ]
+    },
+    "flowmeter_single_cause_v1": {
+      "authentic_replay": true,
+      "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+      "leak_check_hits": [],
+      "rows": [
+        {
+          "arm_id": "I0_baseline",
+          "artifact_hashes": {
+            "config.json": "4b0d978d09de886d6eba0186dee2b7dab23f663b11bda5a4204f59e37f11105f",
+            "judgment.json": "2377b9f21d717ea41fa57ac887e77edc02c29a70c99dc684634bf8ffcaef6747",
+            "stdout.log": "9876d9fabb64a0cabec1aefd6401d6705d4f18271ac0292877ae31a5a99334eb",
+            "target_output.json": "31d8bf573e919740860ae009fc910bcd3335156e421724a91a9aa38814d18f3b"
+          },
+          "case_id": "flowmeter_single_cause_v1",
+          "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+          "config_sha256": "4b0d978d09de886d6eba0186dee2b7dab23f663b11bda5a4204f59e37f11105f",
+          "intervention": "none (as-shipped meter config)",
+          "measured": 95737.9784,
+          "meets_requirement": true,
+          "observed_severity": "mismatch",
+          "required_severity": "mismatch",
+          "seed": 0
+        },
+        {
+          "arm_id": "I1_fix_calibration",
+          "artifact_hashes": {
+            "config.json": "e9ed4fc48ad3ccb59824ef5d43e899e8f1c297d8ad2ac13101ab96b691aa1a03",
+            "judgment.json": "6fddab3f923e445ada806c4a1ffc23290cbbbb13249924151c39024503c28c90",
+            "stdout.log": "0a50969d446ce01455c21cfc95421dba9c529cfb437105a5e18e715a38871766",
+            "target_output.json": "c4f01d6271bca09de0f245cb0a29856bcb4e9be641307b3500d798c9bf28036a"
+          },
+          "case_id": "flowmeter_single_cause_v1",
+          "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+          "config_sha256": "e9ed4fc48ad3ccb59824ef5d43e899e8f1c297d8ad2ac13101ab96b691aa1a03",
+          "intervention": "restore firmware 3.4.1 pulse calibration",
+          "measured": 101417.35,
+          "meets_requirement": true,
+          "observed_severity": "pass",
+          "required_severity": "pass",
+          "seed": 0
+        },
+        {
+          "arm_id": "I2_account_dropped",
+          "artifact_hashes": {
+            "config.json": "e5f5f2d6fb81ab52a226b90f09b2cd027a414365863c6cb16b661b86d1b40802",
+            "judgment.json": "5a1bdaacc9c26b12177d9c1984783712de57ee7a960e524786206378bb723c92",
+            "stdout.log": "fcac823549d7d789aa86402d4ec1b3f09152dbf21edb5d0e0bd12d9a8c4027d4",
+            "target_output.json": "22f9fc24af0842a2de1665cc39e9c0ae982d457fc9627fb07e7efa3fa9e812f2"
+          },
+          "case_id": "flowmeter_single_cause_v1",
+          "case_sha256": "b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1",
+          "config_sha256": "e5f5f2d6fb81ab52a226b90f09b2cd027a414365863c6cb16b661b86d1b40802",
+          "intervention": "account for logged dropped pulse events (counter is 0 all window)",
+          "measured": 95737.9784,
+          "meets_requirement": true,
+          "observed_severity": "mismatch",
+          "required_severity": "mismatch",
+          "seed": 0
+        }
+      ]
+    }
+  },
+  "executor": "repliclaw.counterfactual.cases._base (run_canonical + replay)",
+  "generated_at": "2026-10-12T16:02:51.595294+00:00",
+  "lane": "lane-compound-causal",
+  "repo_sha": "832b3b0390e65f285bfc73804521e0d1b1e740bc",
+  "required_pattern": {
+    "drift_sign_and_v1": {
+      "I0_baseline": "mismatch",
+      "I1_fix_sign": "pass",
+      "I2_recalibrate": "pass",
+      "I3_fix_both": "pass"
+    },
+    "flowmeter_single_cause_v1": {
+      "I0_baseline": "mismatch",
+      "I1_fix_calibration": "pass",
+      "I2_account_dropped": "mismatch"
+    }
+  },
+  "runtime": {
+    "deterministic": true,
+    "llm_calls": 0,
+    "offline": true
+  },
+  "schema": "repliclaw.verification_matrix/v1",
+  "seed": 0
+}
