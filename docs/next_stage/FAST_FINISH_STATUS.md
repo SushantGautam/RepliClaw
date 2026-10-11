@@ -1,6 +1,6 @@
 # RepliClaw fast-finish status (coordinator-owned)
 
-**As of 2026-10-11, instructions committed, NOT evidence of fleet startup.**
+**As of 2026-10-11 19:15 UTC: FF-01 DONE (CI green on dev @ c0cda69); FF-02/FF-03/FF-04 dispatched as fresh-process rc-* workers on isolated worktrees; external watchdog running.**
 
 ## Primary goal
 An intervention-matched multi-case D-E vs C-EQ result, no false claims of escrow/decentralization superiority.
@@ -19,10 +19,10 @@ An intervention-matched multi-case D-E vs C-EQ result, no false claims of escrow
 ## Execution queue (update at real checkpoint, not every hook)
 | Task | Status | Owner | Latest artifact/command | Blocker |
 |---|---|---|---|---|
-| FF-01 CI clean install | QUEUED | rc-fast | none | remote CI failure |
-| FF-02 label isolation | QUEUED | rc-implement | none | oracle exposure |
-| FF-03 judge/statistical correction | QUEUED | rc-review | none | dependent on specific artifact |
-| FF-04 actual intervention parity | WAITING | pending | existing ceq.py | P0 gates |
+| FF-01 CI clean install | DONE | coordinator (direct; subagent registry was stale this session) | dev @ c0cda69; CI run 38166853788 success (3.11+3.12 install/pytest/ruff/mypy); fresh-venv repro green | none |
+| FF-02 label isolation | RUNNING | rc-implement (fresh-process dispatch, worktree ff02-label-isolation) | ticket: remove decodable quota_service_order, failing-then-passing adversarial test, G2 docstring close | none |
+| FF-03 judge/statistical correction | RUNNING | rc-review (fresh-process dispatch, worktree ff03-null-model) | ticket: null-model amendment doc + independent contamination canary + verdict | none |
+| FF-04 actual intervention parity | RUNNING | rc-implement (fresh-process dispatch, worktree ff04-intervention-match) | ticket: action-menu/budget/environment parity + no-oracle/no-fixed-script/no-starvation tests | none |
 | FF-05 exploratory multi-case pilot | WAITING | pending | none | parity + case availability |
 | FF-06 prereg freeze/approvals | WAITING | pending | v3 draft | pilot + judge signoff |
 | FF-07 heldout results | WAITING | pending | none | FF-06 |
