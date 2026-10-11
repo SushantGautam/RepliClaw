@@ -22,12 +22,21 @@ def main() -> None:
     score.add_argument("--root", required=True, type=Path)
     score.add_argument("--predictions", required=True, type=Path)
     score.add_argument("--out", type=Path, help="write evaluation to this file")
+    run = sub.add_parser("run", help="Run the frozen four-arm protocol end to end")
+    run.add_argument("--root", required=True, type=Path, help="benchmark dataset root")
+    run.add_argument("--out", required=True, type=Path, help="artifact output directory")
     args = parser.parse_args()
 
     if args.command == "generate":
         manifest = generate_dataset(args.out, seed=args.seed)
         print(json.dumps({"out": str(args.out), **manifest}, indent=2))
         print("WARNING: do not give private/oracles.jsonl to agent sessions.")
+        return
+
+    cards, gold = load_dataset(args.root)
+    if args.command == "run":
+        from .run_cli import main as run_main
+        run_main(["--root", str(args.root), "--out", str(args.out)])
         return
 
     cards, gold = load_dataset(args.root)
