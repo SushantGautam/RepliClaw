@@ -52,7 +52,8 @@ From existing local repo/worktree on **dev**:
 copilot version
 copilot --help | grep -E 'fleet|autopilot|model|agent|no-sandbox'
 # Interactive is preferable for real-time steering and drill-in:
-export COPILOT_HOME="${COPILOT_HOME:-$HOME/copilot-exp-home}"
+# Keep COPILOT_HOME unchanged: use the HOME whose Sigma2 providers.json already works.
+# Do NOT set COPILOT_HOME to a new directory here.
 export COPILOT_SUBAGENT_MAX_CONCURRENT=3
 export COPILOT_SUBAGENT_MAX_DEPTH=1
 copilot --agent rc-orchestrator --model sigma2.no/Qwen3.8-27B-Thinking \
@@ -69,6 +70,10 @@ python scripts/copilot_fleet_watch.py watch --loop --every 60
 ```
 
 Coordinator: `assign FF-01`, worker: `beat FF-01`, worker `done FF-01`, inspect `watch`. Only live Copilot agents can use `write_agent` to steer another agent. A watchdog cannot inject messages by itself; logs must be read by the coordinator or operator. Record files under `.artifacts/copilot-fleet/` (ignored by Git). No secrets/transcript content stored by hooks.
+
+### Native BYOK subagent model-catalog blocker — operational workaround
+
+If the `rc-*` agent is registered but Copilot's `task` rejects `sigma2.no/Qwen3.8-27B-NonThinking` while listing that **exact same name** as available, **stop retries after one quick check**. Do not change provider registry or relax `modelPolicy: required`. Upstream BYOK subagent routing can fail separately from a working main session. Launch FF-02 and FF-03 concurrently as **separate top-level Copilot CLI processes in two isolated git worktrees**, both explicitly pinned to the authorized Sigma2 thinking model. This is a temporary parallel-execution fallback, not a new orchestration project. See `docs/next_stage/COPILOT_PARALLEL_BYOK_FALLBACK.md`. `/tasks` and `write_agent` do not supervise independent processes, so use logs + shared `REPLICLAW_FLEET_DIR` and git commits. The CI lane FF-01 is already underway on `dev`; do not duplicate it.
 
 ### Steering policy
 
