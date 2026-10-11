@@ -264,15 +264,22 @@ def cmd_run(args: argparse.Namespace) -> int:
     reservations = 0
 
     def next_case() -> str | None:
-        with queue_lock:
-            if stop_claims.is_set() or not case_queue:
-                return None
-            case = case_queue.pop(0)
-            # Skip cases already fully recorded (resume tolerance).
-            needed = {(s, a) for s in pr.PILOT_SEEDS for a in pr.ARM_ORDER}
+        """Return the next incomplete case, or None when the queue is
+        exhausted or a stop-trip is pending. Iterative (not recursive) to
+        avoid unbounded stack growth and hold-time when many leading
+        cases are already complete on resume."""
+        needed = {(s, a) for s in pr.PILOT_SEEDS for a in pr.ARM_ORDER}
+        while True:
+            with queue_lock:
+                if stop_claims.is_set() or not case_queue:
+                    return None
+                case = case_queue.pop(0)
+            # Check completion OUTSIDE the queue lock (reads the shared
+            # ledger, which is protected by ledger_lock elsewhere; this
+            # read-only scan is safe because entries are only appended).
             have = {(r.seed, r.arm) for r in ledger if r.case == case}
             if needed <= have:
-                return next_case()
+                continue  # skip already-complete case, try next
             return case
 
     def case_worker(worker_id: str) -> None:
