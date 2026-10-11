@@ -43,7 +43,7 @@ Repository files: `.github/agents/rc-*.agent.md` (4 strict Sigma2-only profiles)
 
 ### Run and monitor
 
-Use an existing CLI setup and check `copilot version`, `/models`, `/subagents` and custom agent availability first. Your Sigma2 provider is on the CLI machine, not in the repo. Local registry expected: provider-qualified session `sigma2.no/Qwen3.8-27B-Thinking`; custom profiles use **bare** `Qwen3.8-27B-Thinking` or `Qwen3.8-27B-NonThinking` IDs. This bare-ID dispatch was verified previously with a different provider: **test actual Sigma2 routing; if failed, do not silently substitute a GitHub model**. Both custom profiles should send wire ID `Qwen3.8-27B` with different backend thinking parameters; do not make a second model weight dependency. `modelPolicy: required` means an unresolved profile should be reported and fixed before the fleet proceeds.
+Use an existing CLI setup and check `copilot version`, `/models`, `/subagents` and custom agent availability first. Your Sigma2 provider is on the CLI machine, not in the repo. Local registry expected: provider-qualified session `sigma2.no/Qwen3.8-27B-Thinking`; worker profiles OMIT the optional model key to inherit that exact parent model. Do not use bare-ID per-subagent model overrides until supported by the installed CLI.
 
 From existing local repo/worktree on **dev**:
 
@@ -71,9 +71,9 @@ python scripts/copilot_fleet_watch.py watch --loop --every 60
 
 Coordinator: `assign FF-01`, worker: `beat FF-01`, worker `done FF-01`, inspect `watch`. Only live Copilot agents can use `write_agent` to steer another agent. A watchdog cannot inject messages by itself; logs must be read by the coordinator or operator. Record files under `.artifacts/copilot-fleet/` (ignored by Git). No secrets/transcript content stored by hooks.
 
-### Native BYOK subagent model-catalog blocker — operational workaround
+### Native Copilot BYOK subagents — inherited model, not per-worker override
 
-If the `rc-*` agent is registered but Copilot's `task` rejects `sigma2.no/Qwen3.8-27B-NonThinking` while listing that **exact same name** as available, **stop retries after one quick check**. Do not change provider registry or relax `modelPolicy: required`. Upstream BYOK subagent routing can fail separately from a working main session. Launch FF-02 and FF-03 concurrently as **separate top-level Copilot CLI processes in two isolated git worktrees**, both explicitly pinned to the authorized Sigma2 thinking model. This is a temporary parallel-execution fallback, not a new orchestration project. See `docs/next_stage/COPILOT_PARALLEL_BYOK_FALLBACK.md`. `/tasks` and `write_agent` do not supervise independent processes, so use logs + shared `REPLICLAW_FLEET_DIR` and git commits. The CI lane FF-01 is already underway on `dev`; do not duplicate it.
+The custom worker profiles intentionally omit `model:` so native `task` and `/fleet` workers inherit the top-level `sigma2.no/Qwen3.8-27B-Thinking` model. This is the **documented** behavior (GitHub Copilot CLI command reference). The existing installed CLI rejects explicit child BYOK model overrides despite listing the model as available; do NOT change architecture, provider registry or `COPILOT_HOME`. The `rc-fast` worker temporarily also runs thinking Qwen, staying within the approved two-model set. Verify one read-only child dispatch, then proceed with up to three parallel native workers; supervise with `/tasks` and `write_agent`. Restore nonthinking for rc-fast only after a tested native model-override fix. Any old `COPILOT_PARALLEL_BYOK_FALLBACK.md` instructions are superseded and **must not** be used as routine operational guidance.
 
 ### Steering policy
 
