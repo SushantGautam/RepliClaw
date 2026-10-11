@@ -131,6 +131,9 @@ class Case(ABC):
     case_id: str = ""
     case_version: str = "v1"
     target_measurement_id: str = ""
+    # Extra judgment field names (beyond the global drop set) that name the
+    # sealed ground truth and must be stripped from PERSISTED artifacts.
+    public_judgment_drop: frozenset = frozenset()
 
     @abstractmethod
     def case_sha256(self) -> str:
@@ -186,7 +189,18 @@ def _write_json(path: Path, obj: Any) -> None:
 _PERSISTED_JUDGMENT_DROP = frozenset({"expected_mean_delta_logp", "oracle_schema"})
 
 
-def persist_arm(run: ArmRun, effective_config: Dict[str, Any], out_root: Path) -> Dict[str, str]:
+def _judgment_drop(case: "Case") -> frozenset:
+    """Per-case extension of the global drop set (case-agnostic, additive)."""
+    extra = getattr(case, "public_judgment_drop", None) or frozenset()
+    return _PERSISTED_JUDGMENT_DROP | frozenset(extra)
+
+
+def persist_arm(
+    run: ArmRun,
+    effective_config: Dict[str, Any],
+    out_root: Path,
+    drop: Optional[frozenset] = None,
+) -> Dict[str, str]:
     """Persist deterministic artifacts for one arm and pin their sha256.
 
     The PERSISTED ``judgment.json`` is a public view: any field that names the
@@ -195,14 +209,13 @@ def persist_arm(run: ArmRun, effective_config: Dict[str, Any], out_root: Path) -
     ONLY in the sealed oracle file, never in investigator-visible artifacts).
     The in-memory ``ArmRun.judgment`` is left intact for internal validation.
     """
+    drop = drop if drop is not None else _PERSISTED_JUDGMENT_DROP
     arm_dir = Path(out_root) / "interventions" / run.arm_id
     arm_dir.mkdir(parents=True, exist_ok=True)
     (arm_dir / "config.json").write_bytes(canonical_bytes(effective_config))
     (arm_dir / "target_output.json").write_bytes(canonical_bytes(run.target_output))
     (arm_dir / "stdout.log").write_bytes(run.stdout_log.encode("utf-8"))
-    public_judgment = {
-        k: v for k, v in run.judgment.items() if k not in _PERSISTED_JUDGMENT_DROP
-    }
+    public_judgment = {k: v for k, v in run.judgment.items() if k not in drop}
     (arm_dir / "judgment.json").write_bytes(canonical_bytes(public_judgment))
     hashes = {name: sha256_bytes((arm_dir / name).read_bytes()) for name in ARM_FILES}
     (arm_dir / "hashes.json").write_bytes(canonical_bytes(hashes))
@@ -218,9 +231,8 @@ def write_case_manifest(case: "Case", out_root: Path, runs: Dict[str, ArmRun]) -
         entry = run.to_dict()
         # Public view: strip ground-truth fields from the manifest judgment
         # (section 6: oracle values only in the sealed oracle file).
-        entry["judgment"] = {
-            k: v for k, v in entry["judgment"].items() if k not in _PERSISTED_JUDGMENT_DROP
-        }
+        drop = _judgment_drop(case)
+        entry["judgment"] = {k: v for k, v in entry["judgment"].items() if k not in drop}
         entry["artifacts"] = {
             name: sha256_bytes((arm_dir / name).read_bytes()) for name in ARM_FILES
         }
@@ -275,7 +287,7 @@ def run_case(case: "Case", arm_id: str, *, seed: int = 0, out_root: Optional[Pat
         artifact_hashes={},
     )
     if out_root is not None:
-        hashes = persist_arm(run, effective, Path(out_root))
+        hashes = persist_arm(run, effective, Path(out_root), drop=_judgment_drop(case))
         run = ArmRun(**{**run.__dict__, "artifact_hashes": hashes})
     return run
 
