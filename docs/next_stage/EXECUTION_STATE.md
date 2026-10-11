@@ -550,3 +550,96 @@ envelope-bound or mechanism/model-bound.
   it), or (ii) authorize round 7 @600K for abort-class disambiguation. Model
   change (c) still NOT authorized. No confirmatory campaign, no heldout, no
   release without fresh G4/G7 approvals.
+
+## I4.23 — Round-6 crash class root-caused; V3.5 instrument built + probes; 2 fresh pre-run judges launched (2026-10-11)
+
+**User question this turn:** "(i) a model change? why crash? maybe used
+forced-JSON — Qwen3.8 (default) supports it. (ii) unlimited spend approval
+for SimulaChat `default` reaffirmed." **Answer to (i): NO model change is
+needed.** The crash is a schema-discriminant drift on the SAME model; the
+forced-JSON hypothesis is SUPPORTED by a live diagnostic probe (below).
+
+**Root cause (established from round-6 live transcripts `audit_llm.json`):**
+all 4 round-6 crashes were `inv-a` (D-E investigator) emitting **valid JSON**
+whose `action` field held the tool name — `{"action": "service_metrics",
+"args": {...}}` — instead of the literal `"tool_call"` sentinel.
+`parse_action` (telemetry_arms.py:301) rejected it as "unknown action"; the
+`_CORRECTION_PROMPT` (:271) **misdiagnosed** it as "not a single valid JSON
+object"; the model repeated the same payload; the session then raised
+`AgentProtocolError: two consecutive malformed action outputs`. Crash runs:
+RCA-P-01/s11, P-02/s12, P-03/s11, P-03/s12. **This is NOT malformed JSON** —
+it is discriminant spelling drift. Parity: both arms share the SAME
+`parse_action` + `ACTION_PROTOCOL` (A1), so the brittleness is a
+shared-instrument artifact, not a D-E handicap — but D-E's 3-investigator
+design (4 agents vs C-EQ's 1 manager) hits it ~4× more often, which is why all
+crashes landed on D-E. This was a measured cost AND a fixable instrument
+artifact.
+
+**Live diagnostic probe (`scripts/diag_crash_probe.py`, committed in v3.5):**
+replays the exact P-01/s11/inv-a crash exchange (17 messages cut at the
+trigger prompt) under 2 send-conditions × 8 reps on live `default`, scoring
+each output under the current `parse_action` and a tolerant normalizer that
+accepts only the real `_OBS_TOOLS` names (no metric gaming). Results
+(`/tmp/crash_probe.json`, ephemeral):
+- **C1 forced-JSON (`response_format={"type":"json_object"}`): 8/8 clean
+  protocol-compliant** `{"action":"tool_call","tool":...}` with **zero prose**.
+- **C0 plain: 8/8 parse-OK** but all outputs are **prose + embedded JSON**.
+- Honest caveat: at this SINGLE replay point the model did NOT crash in either
+  condition (8/8 vs 8/8) ⇒ the original crash was **stochastic/low-probability**,
+  and C0's single-point compliance does NOT fully quantify the drift rate.
+  Forced JSON is nonetheless a real output-discipline improvement (kills the
+  prose wrapper that co-occurred with the drift). The proper evidence for
+  crash-rate REDUCTION is round 7 itself, not the probe.
+
+**V3.5 instrument built** (separate worktree/branch `wip/v35-forced-json` off
+the frozen V3.4 code `6e32153`→docs `5fd3075`; committed `1f3786a`):
+- **(B) Forced-JSON:** `LLMToolSession.ask()` requests
+  `response_format={"type":"json_object"}`; if a transport rejects the
+  optional param it disables JSON mode for the session and falls back to plain
+  mode (a run is never crashed on an optional transport param).
+- **(C) Tolerant discriminant + mode-aware correction:** `parse_action`
+  recovers tool-name-in-`action` / missing-`action`-with-valid-`tool` into a
+  `tool_call`, **only when the tool ∈ `_OBS_TOOLS`** (can never accept a
+  fabricated action; `_execute_tool` rejects unknown tools identically).
+  `_MalformedActionError` carries `had_valid_json`; the retry prompt names the
+  actual failure mode instead of mislabeling it.
+- Both fixes are in the **shared** session/parser → both arms, A1 parity
+  intact, no capability transfer. Envelope stays 300K/12M (V3.5 does NOT
+  change the abort class — that is orthogonal and would need a 600K scope
+  decision).
+- **Verification (at `1f3786a`):** full suite **472 passed / 0 failed** (20
+  skipped / 3 xfailed in this worktree — data-gated skips); ruff clean
+  (v3 module + probe + test file); mypy clean (3 instrument files); +9 new
+  tests (tolerant recovery ×2 forms, unknown-tool rejection, args-required,
+  `had_valid_json` flag, mode-aware prompt, JSON-mode send, JSON-mode
+  fallback); offline fake smoke (both arms, full cohort) **15/15 completed,
+  all hit, 0 crashes** — validates the crash-recovery path mechanically.
+- Only `telemetry_arms.py` differs from the V3.4 frozen blob
+  (`d907a13c…` → `0463e6b2…`); telemetry.py / pilot_run.py / pilot_parallel.py
+  / pilot_report.py byte-identical (verified via `git rev-parse`).
+- **Prereg:** `docs/next_stage/design/v35_prereg_freeze.md` DRAFT written
+  (D-V3-019), preregistering: crash-class reduction as primary expected
+  effect; abort class expected UNCHANGED; no-confirmatory-reuse; no
+  pre-registered "should win"; C-EQ round-7 = reproducibility check per A4.
+
+**Gate status:** this is a NEW instrument ⇒ 2 **fresh** independent pre-run
+judges REQUIRED before launch (V3.4 round-6 judges not reused). **Both
+launched** (code + science, background, read-only). ⏳ **PENDING:** judge
+verdicts → apply any SHOULD-FIXes → re-stamp freeze FINAL → **human
+scope/spend re-confirm** → launch round 7 (SimulaChat `default`, 300K/12M,
+concurrency 6). Unlimited `default` budget covers spend; the re-confirm
+record follows the I4.21 precedent.
+
+**Standing negative STANDS, further refined:** the crash class is
+envelope-invariant (crashed at 18–26K, far below cap) and is a FIXABLE
+instrument artifact on the same model; the abort class is the
+envelope-bound class. V3.5 separates them for the first time. No model change
+required; no demonstrated D-E advantage at any envelope yet — round 7
+tests whether removing the parse-drift artifact changes D-E's completion
+picture, NOT whether D-E "should win."
+
+**Next:** (1) collect the 2 judge verdicts; (2) apply SHOULD-FIXes, re-stamp
+freeze FINAL with new hashes; (3) record the human scope/spend re-confirm;
+(4) launch round 7 on `default` (unlimited budget pre-authorized for spend);
+(5) on completion: escrow/STOP verification, 2 fresh outcome judges, I4.24,
+campaign report §2d/§4d. Model change (c) still NOT authorized.
