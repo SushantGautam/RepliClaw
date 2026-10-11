@@ -179,3 +179,38 @@ def test_manifest_rejects_missing_data_hashes(index: pd.DataFrame) -> None:
     cases = select_heldout_cases(index)
     with pytest.raises(ValueError, match="no data hashes"):
         build_heldout_manifest(index, {c: {} for c in cases})
+
+
+def test_select_stratum_rejects_single_service_cell() -> None:
+    """Pre-G4 hardening: a quota row whose stratum collapsed to a single
+    root-cause service makes within-stratum selection trivially deterministic,
+    which defeats stratified heldout selection. ``_select_stratum`` must fail
+    loudly rather than silently emit a deterministic pick.
+    """
+    from repliclaw.benchmarks.rcaeval.manifest import _select_stratum
+
+    # One (dataset, fault) row, all rows sharing a single root_cause_service.
+    single_svc = pd.DataFrame(
+        {
+            "case": ["a1", "a2", "a3"],
+            "dataset": ["RE9-X"] * 3,
+            "fault": ["mem"] * 3,
+            "root_cause_service": ["onlysvc"] * 3,
+            "repetition": [1, 2, 3],
+        }
+    )
+    with pytest.raises(ValueError, match="only one root-cause service"):
+        _select_stratum(single_svc, "RE9-X", "mem", per_service=2)
+
+    # Two services is the minimal valid stratum and must NOT raise here.
+    two_svc = pd.DataFrame(
+        {
+            "case": ["b1", "b2", "c1", "c2"],
+            "dataset": ["RE9-Y"] * 4,
+            "fault": ["cpu"] * 4,
+            "root_cause_service": ["s1", "s1", "s2", "s2"],
+            "repetition": [1, 2, 1, 2],
+        }
+    )
+    picked = _select_stratum(two_svc, "RE9-Y", "cpu", per_service=2)
+    assert sorted(picked) == ["b1", "b2", "c1", "c2"]
