@@ -1,3 +1,11 @@
+# UPDATE: Native BYOK model inheritance is now the correct fix
+
+**2026-10-11:** The three worker profiles (`rc-fast`, `rc-implement`, `rc-review`) now omit the optional `model:` and `modelPolicy:` keys. They inherit `sigma2.no/Qwen3.8-27B-Thinking` from the root session under GitHub Copilot CLI's documented behavior. The `infer: true` values remain. **Do not follow the superseded directions below asking for per-worker `modelPolicy: required` or explicit child-model routing.** Restart Copilot, verify the root model, run one read-only native `task` canary, then use `/fleet` and `/tasks` normally. `rc-fast` runs thinking during this compatibility workaround. Root session is explicitly pinned to Sigma2, and runtime model verification is still required.
+
+Source: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference (custom agent `model`: unset inherits outer model).
+
+---
+
 # Copilot CLI — rc-* custom agents missing from the task tool
 
 **Fix shipped 2026-10-11 (dev):** changed `infer: false` → `infer: true` for **rc-fast, rc-implement, rc-review**. The `rc-orchestrator` remains `infer: false` intentionally: it is explicitly selected via `--agent`. Each agent keeps `modelPolicy: required` and its authored Sigma2 model. This addresses agent eligibility; it does **not** prove local CLI discovery, model registry, or successful dispatch.
