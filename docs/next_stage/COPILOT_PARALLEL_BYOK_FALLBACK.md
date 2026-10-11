@@ -1,3 +1,11 @@
+# SUPERSEDED — Do not use this parallel-process detour as the standard fix
+
+**2026-10-11 correction:** The official Copilot CLI custom-agent reference says an agent without `model:` inherits its parent session's selected model. RepliClaw's `rc-fast`, `rc-implement`, and `rc-review` profiles now omit per-agent model overrides to use the authorized parent `sigma2.no/Qwen3.8-27B-Thinking`. This preserves **native task/fleet parallelism, /tasks supervision, and write_agent steering**. Read `AGENTS.md` and `docs/next_stage/COPILOT_FAST_SEED.md`, restart Copilot in the updated `dev` checkout, and verify one inherited-model canary. **Do not launch standalone worktree Copilot processes to work around this without a newly verified blocker and explicit direction.**
+
+Historical fallback draft retained below for audit only; it is not current operational guidance.
+
+---
+
 # Copilot CLI parallel execution when BYOK custom subagents cannot resolve the model
 
 **Operational fallback (2026-10-11):** Copilot CLI may discover `rc-*` agents and show `sigma2.no/Qwen3.8-27B-{Thinking,NonThinking}` in *Available models*, yet refuse a `task` dispatch with *"Model ... is not available."* This is an upstream BYOK/subagent model-catalog compatibility issue, NOT evidence that the Sigma2 endpoint is down. This session saw the exact contradiction. Do **not** spend more than one short check changing `providers.json`, `infer`, the backend weights or `modelPolicy: required`; none of those is proven to fix the runtime. **Do not remove the model policy or fall back to Copilot-hosted models.**
