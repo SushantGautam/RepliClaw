@@ -33,6 +33,7 @@ Live (non-frozen, non-archived) docs in the bound search set that carry the flaw
 | 1 | `docs/next_stage/EXPERIMENT_PROTOCOL_V3_DRAFT.md` | "Scientific design", D-V3-008 bullet → "Mandatory S-sat stop rule" sub-bullet (line 64) | "one-arm saturation at **true Δ=0** fires MEANINGFUL_POSITIVE ~83% of the time at s=0.5" | **ONE-LINE ERRATUM pointer added** (single most misleading LIVE location) |
 | 2 | `docs/next_stage/design/g3_pilot_spec_draft.md` | §5 Stop rules, rule 1 (S-sat) "Source" clause (lines 256–257) | "one-arm s=0.25 already gives ~30–40% **false-fire at Δ=0**, N=12–24" | Carries the phrasing; corrected **by reference to this doc** (no in-file edit — the single erratum pointer is kept at location #1 to honor "one line only") |
 | 3 | `docs/next_stage/design/v3_prereg_final_freeze.md` | S-sat guard note (lines 191–192) | "the one-arm s = 0.25 ceiling-saturation trip probability **at Δ=0** is the reason S-sat exists" | **FROZEN — NOT edited** (read-only). Recorded here for traceability; any correction requires a versioned amendment + re-freeze with independent signoff. |
+| 4 | `docs/next_stage/science/monte_carlo_power_v3.md` | §2.1 CRITICAL ADJACENT FINDING (line ~49); §4.1 S-sat rationale (line ~112) | "with **true Δ = 0**, the decision rule still fires MEANINGFUL_POSITIVE 83% of the time"; "s=0.5 → 83% false-fire at N=24" | **IN-BOUND, LIVE simulation-authority doc (S4 per v3 freeze line 14) — NOT edited** (DRAFT revision, FF06 condition C1, 2026-10-12): same forced-ceiling mislabel as locations #1–#3. Carried for traceability under this same amendment; no in-file edit (single erratum pointer stays at location #1). The underlying SIMULATION result (one-arm ceiling ⇒ contrast dominated by difficulty mismatch) remains valid and unchanged — only the "Δ=0 null" framing is corrected, exactly as for #1–#3. |
 
 The **single one-line erratum pointer** was added at location **#1** (the most misleading LIVE location — the primary protocol's mandatory S-sat rule). Its exact text:
 
@@ -48,6 +49,8 @@ Locations #2 and #3 are documented for traceability; #3 is frozen and untouched.
 
 Command: `uv run python -m pytest tests/benchmarks tests/experiments -q`
 Summary line (verbatim): `================== 180 passed, 23 skipped, 3 xfailed in 5.28s ==================` (exit 0)
+
+> **Snapshot footnote (FF06 condition C2, 2026-10-12):** the counts above are a dated snapshot from the 2026-10-11 canary run. Re-verified on 2026-10-12 at dev@5ec0152 (after FF-05 harness fixes 5f78c82 + resume guard eebde20 added tests): the same two canary directories now yield `tests/experiments` = 113 passed / 3 skipped / 2 xfailed and `tests/benchmarks` = 91 passed / 11 skipped (exit 0); full repo suite = 468 passed / 23 skipped / 2 xfailed. Same canary files, all green; the deltas vs the 180/23/3 snapshot are the new budget-exhaustion-parity, recovery and resume-guard tests. The original snapshot is preserved verbatim for traceability.
 
 Key canary files (verbatim per-file result lines from the verbose run):
 - `tests/benchmarks/test_rcaeval_leak.py ..x` — leak guard: 2 passed, 1 xfailed (xfail = intentional G2-hardening canary tracking the `rcaeval/manifest.py` module-docstring closure; not a failure)
