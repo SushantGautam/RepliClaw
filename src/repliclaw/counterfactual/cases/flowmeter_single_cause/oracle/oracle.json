@@ -1,0 +1,31 @@
+{
+  "case": "flowmeter_single_cause_v1",
+  "cause_set": [
+    "stale_pulse_calibration"
+  ],
+  "expected_total_liters": 101417.35,
+  "hidden_fields": [
+    "true_cause",
+    "cause_set",
+    "injected_defect",
+    "expected_total_liters",
+    "tolerance_abs_liters",
+    "abs_diff",
+    "per_arm_expected_outcome",
+    "oracle_schema"
+  ],
+  "injected_defect": {
+    "description": "Meter FT-7731 shipped with stale firmware 3.2.0 pulse calibration 0.0472 L/count; the correct factor (firmware 3.4.1 release note) is 0.05 L/count. This is the ONLY injected latent cause.",
+    "id": "stale_pulse_calibration"
+  },
+  "interaction_type": "single_cause",
+  "note": "Expected total = 2028347 total pulses * 0.05 L/count = 101417.35 L on the frozen window (sha256 b619445bf76764b5ae7b779aeac4ab366fcf64fcc2905f7657378f3f5a0377b1). Frozen 2026-10-12. Sealed ground truth: the judge (judge.py) is the ONLY reader; no arm code path references this file, and these fields are stripped from all persisted investigator-visible artifacts via the case's public_judgment_drop.",
+  "per_arm_expected_outcome": {
+    "I0_baseline": "fail",
+    "I1_fix_calibration": "pass",
+    "I2_account_dropped": "fail"
+  },
+  "schema": "repliclaw.sealed_oracle/v1",
+  "tolerance_abs_liters": 0.5,
+  "true_cause": "stale_pulse_calibration"
+}
