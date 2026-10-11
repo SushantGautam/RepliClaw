@@ -1,0 +1,4 @@
+{
+  "fx-case-1": ["cartservice"],
+  "fx-case-2": ["cartservice", "currencyservice"]
+}
