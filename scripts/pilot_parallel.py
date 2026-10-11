@@ -190,17 +190,22 @@ def cmd_run(args: argparse.Namespace) -> int:
         index_df = pr.load_cases_index(index_path)
         index_sha = pr.verify_cases_index(index_path)
 
-    # Resume: the round dir must contain ONLY completed runs (or be empty)
-    # — partial/crashed state from a killed parallel run is not resumable
-    # through this driver; clear the round dir manually and relaunch.
+    # Resume: the round dir must contain ONLY legitimately-finished records
+    # (status "completed" or "aborted_budget" — per-run exhaustion of the
+    # frozen token envelope is a finished arm outcome, FF-05), or be empty.
+    # Partial/crashed/driver-failure state from a killed parallel run is not
+    # resumable through this driver; clear the round dir manually and
+    # relaunch.
     ledger = pr.load_ledger(round_dir)
     if ledger:
         for rec in ledger:
             run_dir = out_root / rec.run_path
             if not pr._run_already_done(run_dir):
                 print(
-                    f"REFUSED: round dir has incomplete record {rec.run_path}; "
-                    "parallel driver does not resume partial state. Clear the "
+                    f"REFUSED: round dir has an incomplete or non-legitimately-"
+                    f"finished record {rec.run_path} (expected status.json with "
+                    "status 'completed' or 'aborted_budget'); the parallel "
+                    "driver does not resume partial/crashed state. Clear the "
                     "round dir and relaunch.",
                     file=sys.stderr,
                 )
