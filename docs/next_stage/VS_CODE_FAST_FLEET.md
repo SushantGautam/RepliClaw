@@ -7,7 +7,7 @@
 - Worktree/session A: `rc-telemetry` (fix D-E phase-1 sequential and uncontrolled continuation; commit/reveal must still be real).
 - Worktree/session B: `rc-causal` (reuse actual P08 counterfactual executor and adaptive C-EQ to obtain executable interventions; never pass recorded telemetry off as interventions).
 - Worktree/session C: `rc-eval` (minimal pilot harness/report; no changes to A/B-owned modules).
-- Worktree/session D: `rc-integrity` (small read-only integrity review + versioned claims correction).
+- Worktree/session D: `rc-integrity` (small read-only integrity review; lead writes any correction).
 
 Start sessions from the Agents window using the corresponding workspace agent, select the verified Sigma2 Qwen3.8 Thinking/NonThinking model **per session**, and choose a separate worktree for each session. If the harness cannot start sessions programmatically, open four sessions manually; do not spend a half-hour debugging orchestration APIs. Running a local VS Code agent against the remote SSH workspace is preferable to switching to an unapproved model. If additional capacity exists, add independent reproduction/critical-review sessions ONLY after A/B/C/D are dispatched.
 
