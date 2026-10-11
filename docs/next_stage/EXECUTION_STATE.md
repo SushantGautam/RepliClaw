@@ -591,6 +591,19 @@ accepts only the real `_OBS_TOOLS` names (no metric gaming). Results
   prose wrapper that co-occurred with the drift). The proper evidence for
   crash-rate REDUCTION is round 7 itself, not the probe.
 
+> **CORRECTION ADDENDUM (2026-10-11, post-4-point-probe):** the single-point
+> probe above OVERSTATED forced-JSON's effect. An upgraded **4-point, 64-call
+> probe** (`docs/next_stage/design/v35_probe_all4points.json`, 8 reps × 4
+> crash points × 2 conditions, on live `default`) **refuted the
+> single-point narrative**: the crash did NOT reproduce at ANY point in
+> EITHER condition (both **32/32** parsed under both the current and the
+> tolerant parser); prose appeared **only at P-01 in plain mode** (the other
+> 3 points were already pure JSON in both conditions). So (B) forced-JSON is
+> **NOT independently crash-reducing** — it is a secondary output-discipline
+> hardening. The transcript-evidenced **PRIMARY** fix is (C) tolerant
+> discriminant; (D) unbounded envelope-bounded retry eliminates the crash
+> class by construction. See `v35_prereg_freeze.md` probe rider.
+
 **V3.5 instrument built** (separate worktree/branch `wip/v35-forced-json` off
 the frozen V3.4 code `6e32153`→docs `5fd3075`; committed `1f3786a`):
 - **(B) Forced-JSON:** `LLMToolSession.ask()` requests
@@ -643,3 +656,73 @@ freeze FINAL with new hashes; (3) record the human scope/spend re-confirm;
 (4) launch round 7 on `default` (unlimited budget pre-authorized for spend);
 (5) on completion: escrow/STOP verification, 2 fresh outcome judges, I4.24,
 campaign report §2d/§4d. Model change (c) still NOT authorized.
+
+---
+
+## I4.24 — V3.5-D built (unbounded retry); 4-point probe refutes single-point B narrative; B+C+D judges pass; scope/spend re-confirmed (2026-10-11)
+
+**User input this turn:** "(i) model change? why crash? maybe forced-JSON —
+Qwen3.8 (default) supports it. (ii) unlimited spend approval for SimulaChat
+`default` reaffirmed." + "Go! Spin the fleet." **Answer to (i): NO model
+change is needed or authorized** (model change remains out of scope); the
+crash is schema-discriminant drift on the same model.
+
+**4-point live probe (64 `default` calls) — refutes the I4.23 single-point
+narrative** (see correction addendum above): both conditions 32/32 parsed at
+all 4 replay points; prose only at P-01 plain. **(B) forced-JSON is therefore
+downgraded to secondary output-discipline hardening, NOT a crash-reduction
+mechanism.** (C) tolerant discriminant is the transcript-backed primary; (D)
+eliminates the crash class by construction.
+
+**V3.5-D fix (commit `11e7e63a`, instrument blob `1b33c002…`):** `ask()` now
+retries on malformed output **until valid**, bounded by a `budget_gate`
+wired to each arm's `_enforce_envelope` (300K tokens / 900s wall). A
+never-valid model burns the envelope and terminates as an honest
+`aborted_budget`, never `crashed`. All 12 `ask()` call sites (D-E
+phase1/phase2/committee + C-EQ forecast/planner/continuation/commit) pass
+`budget_gate=self._enforce_envelope`. JSON-mode fallback is now logged
+(`json_mode_events` + per-prompt transcript `json_mode` flag) for the
+cross-arm parity check. Code-judge fixes applied (permissive fallback
+documented; `saw_json` set before `isinstance` check; tolerant extra-key
+comment).
+
+**Verification (evidence):** full suite **483 passed / 11 skipped / 3
+xfailed / 0 failed**; ruff clean; mypy clean; offline fake smoke (round 99,
+both arms) crash rate **0.0** on both arms (stop1_ssat trip expected on fake
+client).
+
+**2 FRESH pre-run judges on the B+C+D instrument (`11e7e63a`)** (required
+because (D) postdated the earlier B+C judges):
+- **Code Judge: PASS** (0 required, 1 recommended — persist `json_mode_events`
+  to audit, deferred with disclosure; the per-prompt transcript `json_mode`
+  flag suffices for the symmetry check).
+- **Science Judge: CONDITIONAL PASS** (3 REQUIRED R1–R3 + 5 recommended
+  A1–A5). **All applied** as freeze amendment v3 (`9369b5b8`): R1
+  crash-vs-budget via `status.json:crash_error` + scope sentence; R2 wall vs
+  token derived from `status.json` `tokens`/`wall_s`; R3 drift trigger =
+  terminal payload; A1 both-arms rule; A2 B retained cost/hygiene-only;
+  A3 arm-asymmetry → reliability-only framing; A4 unified both-arms accuracy
+  caveat; A5 first-class negative-result commitment.
+
+**Freeze:** `v35_prereg_freeze.md` amendment v3 at `9369b5b8` (code
+`11e7e63a`). Both code + docs are stamped; **only remaining gate = human
+scope/spend re-confirm.**
+
+**Scope/spend re-confirm — RECORDED.** The standing user approval "unlimited
+spend for SimulaChat `default` model" (reaffirmed twice this session) +
+"Go! Spin the fleet." constitutes the explicit re-confirm for the V3.5-D
+instrument + round 7, consistent with the I4.21 precedent for V3.4. Scope:
+round 7, SimulaChat `default` (no model change), 300K per-run envelope / 12M
+round ceiling / 900s wall, 10 cases × 2 seeds × 2 arms = 40 runs,
+concurrency 6. **Model change still NOT authorized.**
+
+**Standing finding preserved:** round 6 negative result (no demonstrated
+advantage of decentralization/escrow beyond counterfactual access) is
+unchanged and is carried forward into the V3.5 freeze in BOTH possible
+outcomes. No retroactive rewrite of P08 or preregistered claims.
+
+**Next:** (1) launch round 7 (detached) on `default`; (2) on completion:
+escrow/STOP verification + adjudicate non-completions per the prereg rule
+(I4.24 freeze), 2 fresh OUTCOME judges, campaign report §2d/§4d, checkpoint;
+(3) clean up /tmp/crash_probe*.json + smoke artifact. `main` untouched; dev
+LOCAL-ONLY.
