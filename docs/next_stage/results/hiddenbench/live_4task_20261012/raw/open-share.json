@@ -1,0 +1,764 @@
+{
+  "arm": "open-share",
+  "model": "default",
+  "seed": 2026,
+  "rounds": 3,
+  "runs": [
+    {
+      "task_id": 1,
+      "scenario": "evacuation_west_city",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "West City",
+      "possible_answers": [
+        "West City",
+        "East Town",
+        "North Hill"
+      ],
+      "seed": 2026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "East Town",
+          "rationale": "North Hill is inaccessible due to closed trails, and West City lacks medical supplies for the elderly; East Town offers accessible tunnel access and confirmed volunteer assistance."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "rationale": "North Hill is inaccessible due to a mudslide, and West City poses risks from rising river levels despite the bridge currently being clear; East Town offers a safe tunnel route with guaranteed accommodations and volunteer assistance."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "North Hill",
+          "rationale": "The massive fire blocking the supply truck likely obstructs the main roads to West City and East Town, making North Hill's driveway and trails the only accessible route, while its school provides essential self-sufficient shelter."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "West City",
+          "rationale": "East Town is inaccessible due to the stuck truck in the tunnel, and North Hill requires walking which is unsafe for elderly and children; West City is accessible via bridge (river level is low) and has hotel accommodations."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: North Hill is inaccessible due to closed trails, and West City lacks medical supplies for the elderly; East Town offers accessible tunnel access and confirmed volunteer assistance.\n\nYou are the first to speak.\n",
+              "response": "I propose we evacuate to East Town, as the tunnel is accessible and the mayor has confirmed volunteer support for our elderly residents, unlike West City's potential medical shortages or North Hill's closed trails."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: North Hill is inaccessible due to a mudslide, and West City poses risks from rising river levels despite the bridge currently being clear; East Town offers a safe tunnel route with guaranteed accommodations and volunteer assistance.\n\nPrevious messages from other people:\nPerson 1: I propose we evacuate to East Town, as the tunnel is accessible and the mayor has confirmed volunteer support for our elderly residents, unlike West City's potential medical shortages or North Hill's closed trails.\nIt is your turn to speak. \n",
+              "response": "I agree with Person 1; East Town is the only viable option since North Hill is blocked by a mudslide and West City risks rising river levels, while East Town offers safe tunnel access and guaranteed volunteer support."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: North Hill\nYour initial rationale was: The massive fire blocking the supply truck likely obstructs the main roads to West City and East Town, making North Hill's driveway and trails the only accessible route, while its school provides essential self-sufficient shelter.\n\nPrevious messages from other people:\nPerson 1: I propose we evacuate to East Town, as the tunnel is accessible and the mayor has confirmed volunteer support for our elderly residents, unlike West City's potential medical shortages or North Hill's closed trails.\nPerson 2: I agree with Person 1; East Town is the only viable option since North Hill is blocked by a mudslide and West City risks rising river levels, while East Town offers safe tunnel access and guaranteed volunteer support.\nIt is your turn to speak. \n",
+              "response": "I must correct the record: Fact 5 states a fire blocked the supply truck, not that North Hill is blocked by a mudslide or that its trails are closed. Since the river level is still below the bridge (Fact 3) and West City has prepared hotels (Fact 4), I maintain my vote for North Hill as the safest self-sufficient option given the uncertainty of the other routes."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: West City\nYour initial rationale was: East Town is inaccessible due to the stuck truck in the tunnel, and North Hill requires walking which is unsafe for elderly and children; West City is accessible via bridge (river level is low) and has hotel accommodations.\n\nPrevious messages from other people:\nPerson 1: I propose we evacuate to East Town, as the tunnel is accessible and the mayor has confirmed volunteer support for our elderly residents, unlike West City's potential medical shortages or North Hill's closed trails.\nPerson 2: I agree with Person 1; East Town is the only viable option since North Hill is blocked by a mudslide and West City risks rising river levels, while East Town offers safe tunnel access and guaranteed volunteer support.\nPerson 3: I must correct the record: Fact 5 states a fire blocked the supply truck, not that North Hill is blocked by a mudslide or that its trails are closed. Since the river level is still below the bridge (Fact 3) and West City has prepared hotels (Fact 4), I maintain my vote for North Hill as the safest self-sufficient option given the uncertainty of the other routes.\nIt is your turn to speak. \n",
+              "response": "I stand by West City: the river is below the bridge (Fact 4) and hotels are ready (Fact 5), whereas East Town’s tunnel is blocked by the stuck truck (Fact 3)."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I agree with Person 1; East Town is the only viable option since North Hill is blocked by a mudslide and West City risks rising river levels, while East Town offers safe tunnel access and guaranteed volunteer support.\nPerson 3: I must correct the record: Fact 5 states a fire blocked the supply truck, not that North Hill is blocked by a mudslide or that its trails are closed. Since the river level is still below the bridge (Fact 3) and West City has prepared hotels (Fact 4), I maintain my vote for North Hill as the safest self-sufficient option given the uncertainty of the other routes.\nPerson 4: I stand by West City: the river is below the bridge (Fact 4) and hotels are ready (Fact 5), whereas East Town’s tunnel is blocked by the stuck truck (Fact 3).\nIt is your turn to speak. \n",
+              "response": "I stand by East Town because Fact 2 explicitly states the North Hill trails are closed, making it inaccessible for our vulnerable residents. West City is risky due to potential medical shortages (Fact 1), and I cannot confirm the tunnel is blocked as claimed without evidence in the provided facts."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I must correct the record: Fact 5 states a fire blocked the supply truck, not that North Hill is blocked by a mudslide or that its trails are closed. Since the river level is still below the bridge (Fact 3) and West City has prepared hotels (Fact 4), I maintain my vote for North Hill as the safest self-sufficient option given the uncertainty of the other routes.\nPerson 4: I stand by West City: the river is below the bridge (Fact 4) and hotels are ready (Fact 5), whereas East Town’s tunnel is blocked by the stuck truck (Fact 3).\nPerson 1: I stand by East Town because Fact 2 explicitly states the North Hill trails are closed, making it inaccessible for our vulnerable residents. West City is risky due to potential medical shortages (Fact 1), and I cannot confirm the tunnel is blocked as claimed without evidence in the provided facts.\nIt is your turn to speak. \n",
+              "response": "I stand by East Town because Fact 5 explicitly states a mudslide covers the driveway to North Hill, making it inaccessible, while West City poses risks from rising river levels despite the bridge currently being clear."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I stand by West City: the river is below the bridge (Fact 4) and hotels are ready (Fact 5), whereas East Town’s tunnel is blocked by the stuck truck (Fact 3).\nPerson 1: I stand by East Town because Fact 2 explicitly states the North Hill trails are closed, making it inaccessible for our vulnerable residents. West City is risky due to potential medical shortages (Fact 1), and I cannot confirm the tunnel is blocked as claimed without evidence in the provided facts.\nPerson 2: I stand by East Town because Fact 5 explicitly states a mudslide covers the driveway to North Hill, making it inaccessible, while West City poses risks from rising river levels despite the bridge currently being clear.\nIt is your turn to speak. \n",
+              "response": "I must firmly correct the record: none of the provided facts mention a mudslide blocking North Hill or closed trails; those claims are fabricated. Since Fact 3 confirms the river is below the bridge and Fact 4 states West City hotels are ready, I am switching my vote to West City as the only option with verified accessibility and accommodation."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I stand by East Town because Fact 2 explicitly states the North Hill trails are closed, making it inaccessible for our vulnerable residents. West City is risky due to potential medical shortages (Fact 1), and I cannot confirm the tunnel is blocked as claimed without evidence in the provided facts.\nPerson 2: I stand by East Town because Fact 5 explicitly states a mudslide covers the driveway to North Hill, making it inaccessible, while West City poses risks from rising river levels despite the bridge currently being clear.\nPerson 3: I must firmly correct the record: none of the provided facts mention a mudslide blocking North Hill or closed trails; those claims are fabricated. Since Fact 3 confirms the river is below the bridge and Fact 4 states West City hotels are ready, I am switching my vote to West City as the only option with verified accessibility and accommodation.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for West City, as Fact 4 confirms the river is below the bridge and Fact 5 states hotels are prepared. East Town is inaccessible due to the stuck truck in the tunnel (Fact 3), and North Hill lacks verified accommodation details compared to West City's confirmed readiness."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I stand by East Town because Fact 5 explicitly states a mudslide covers the driveway to North Hill, making it inaccessible, while West City poses risks from rising river levels despite the bridge currently being clear.\nPerson 3: I must firmly correct the record: none of the provided facts mention a mudslide blocking North Hill or closed trails; those claims are fabricated. Since Fact 3 confirms the river is below the bridge and Fact 4 states West City hotels are ready, I am switching my vote to West City as the only option with verified accessibility and accommodation.\nPerson 4: I maintain my vote for West City, as Fact 4 confirms the river is below the bridge and Fact 5 states hotels are prepared. East Town is inaccessible due to the stuck truck in the tunnel (Fact 3), and North Hill lacks verified accommodation details compared to West City's confirmed readiness.\nIt is your turn to speak. \n",
+              "response": "I must correct the record: Fact 2 explicitly states North Hill trails are closed, and there is no evidence in the provided facts that East Town’s tunnel is blocked. Given West City’s potential lack of medical supplies (Fact 1) for our elderly residents, I maintain my vote for East Town, which offers confirmed volunteer assistance (Fact 5)."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I must firmly correct the record: none of the provided facts mention a mudslide blocking North Hill or closed trails; those claims are fabricated. Since Fact 3 confirms the river is below the bridge and Fact 4 states West City hotels are ready, I am switching my vote to West City as the only option with verified accessibility and accommodation.\nPerson 4: I maintain my vote for West City, as Fact 4 confirms the river is below the bridge and Fact 5 states hotels are prepared. East Town is inaccessible due to the stuck truck in the tunnel (Fact 3), and North Hill lacks verified accommodation details compared to West City's confirmed readiness.\nPerson 1: I must correct the record: Fact 2 explicitly states North Hill trails are closed, and there is no evidence in the provided facts that East Town’s tunnel is blocked. Given West City’s potential lack of medical supplies (Fact 1) for our elderly residents, I maintain my vote for East Town, which offers confirmed volunteer assistance (Fact 5).\nIt is your turn to speak. \n",
+              "response": "I stand by East Town because Fact 5 explicitly states a mudslide covers the driveway to North Hill, making it inaccessible, while West City poses risks from rising river levels despite the bridge currently being clear."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I maintain my vote for West City, as Fact 4 confirms the river is below the bridge and Fact 5 states hotels are prepared. East Town is inaccessible due to the stuck truck in the tunnel (Fact 3), and North Hill lacks verified accommodation details compared to West City's confirmed readiness.\nPerson 1: I must correct the record: Fact 2 explicitly states North Hill trails are closed, and there is no evidence in the provided facts that East Town’s tunnel is blocked. Given West City’s potential lack of medical supplies (Fact 1) for our elderly residents, I maintain my vote for East Town, which offers confirmed volunteer assistance (Fact 5).\nPerson 2: I stand by East Town because Fact 5 explicitly states a mudslide covers the driveway to North Hill, making it inaccessible, while West City poses risks from rising river levels despite the bridge currently being clear.\nIt is your turn to speak. \n",
+              "response": "I must clarify that the provided facts do not mention any mudslides, closed trails, or blocked tunnels; those claims are unsupported. Since Fact 3 confirms the river is below the bridge and Fact 4 states West City hotels are ready, I am switching my vote to West City as the only option with verified accessibility and accommodation."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I must correct the record: Fact 2 explicitly states North Hill trails are closed, and there is no evidence in the provided facts that East Town’s tunnel is blocked. Given West City’s potential lack of medical supplies (Fact 1) for our elderly residents, I maintain my vote for East Town, which offers confirmed volunteer assistance (Fact 5).\nPerson 2: I stand by East Town because Fact 5 explicitly states a mudslide covers the driveway to North Hill, making it inaccessible, while West City poses risks from rising river levels despite the bridge currently being clear.\nPerson 3: I must clarify that the provided facts do not mention any mudslides, closed trails, or blocked tunnels; those claims are unsupported. Since Fact 3 confirms the river is below the bridge and Fact 4 states West City hotels are ready, I am switching my vote to West City as the only option with verified accessibility and accommodation.\nIt is your turn to speak. \n",
+              "response": "I stand by West City because Fact 4 confirms the river is below the bridge and Fact 5 states hotels are prepared. East Town is inaccessible due to the stuck truck in the tunnel (Fact 3), and North Hill lacks verified accommodation details compared to West City's confirmed readiness."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "East Town",
+          "rationale": "North Hill is inaccessible due to closed trails (Fact 2), and West City poses a medical risk for our elderly residents (Fact 1). East Town remains the safest choice with confirmed volunteer assistance (Fact 5) and no evidence of tunnel blockage in the provided facts."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "rationale": "Fact 5 explicitly states a mudslide covers the driveway to North Hill, making it inaccessible, while West City poses risks from rising river levels despite the bridge currently being clear; East Town offers a safe tunnel route with guaranteed accommodations and volunteer assistance."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "West City",
+          "rationale": "Fact 3 confirms the river is below the bridge, ensuring accessibility, and Fact 4 states hotels are prepared to accommodate evacuees. Claims about blocked tunnels or trails in other options are unsupported by the provided facts, making West City the only verifiably safe and accessible option."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "West City",
+          "rationale": "Fact 4 confirms the river is below the bridge, making West City accessible, and Fact 5 states hotels are prepared. East Town is inaccessible due to the stuck truck in the tunnel (Fact 3), and North Hill lacks verified accommodation details compared to West City's confirmed readiness."
+        }
+      ],
+      "group_decision": "East Town",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. While these hotels are fully stocked with food, they may lack medical supplies.",
+            "The walking trails have been closed since last weekend due to fallen trees.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The river level is still below the bridge to West City.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them."
+          ],
+          "assigned_hidden_information": [
+            "The walking trails have been closed since last weekend due to fallen trees."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. While these hotels are fully stocked with food, they may lack medical supplies.",
+            "The river level is still below the bridge to West City.",
+            "A mudslide just occurred, covering the driveway to North Hill."
+          ],
+          "assigned_hidden_information": [
+            "A mudslide just occurred, covering the driveway to North Hill."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The river level is still below the bridge to West City.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. While these hotels are fully stocked with food, they may lack medical supplies.",
+            "A massive fire has blocked the supply truck and all other traffic."
+          ],
+          "assigned_hidden_information": [
+            "A massive fire has blocked the supply truck and all other traffic."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The supply truck headed to the village from East Town was stuck in the tunnel.",
+            "The river level is still below the bridge to West City.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. While these hotels are fully stocked with food, they may lack medical supplies."
+          ],
+          "assigned_hidden_information": [
+            "The supply truck headed to the village from East Town was stuck in the tunnel."
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 20,
+        "total_tokens": 21550
+      },
+      "wall_s": 26.16
+    },
+    {
+      "task_id": 2,
+      "scenario": "evacuation_north_hill",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "North Hill",
+      "possible_answers": [
+        "West City",
+        "East Town",
+        "North Hill"
+      ],
+      "seed": 12026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "rationale": "East Town is inaccessible due to the stuck truck in the tunnel, and North Hill's walking trails are blocked by mudslides which endangers vulnerable villagers; West City remains accessible via bridge and offers fully stocked hotels."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "rationale": "West City is inaccessible due to the fire blocking traffic, and North Hill's walking trails are blocked by a mudslide which endangers vulnerable villagers; East Town offers accessible accommodations and volunteer assistance."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "East Town",
+          "rationale": "West City is risky due to the river level near the bridge, and North Hill is inaccessible for vulnerable villagers because the walking trails are blocked by mudslides; East Town offers a safe tunnel route with guaranteed accommodations and volunteer assistance."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "East Town",
+          "rationale": "West City is dangerous due to the imminent dam release, and North Hill's walking trails are blocked by mudslides, making East Town the only safe and accessible option."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: West City\nYour initial rationale was: East Town is inaccessible due to the stuck truck in the tunnel, and North Hill's walking trails are blocked by mudslides which endangers vulnerable villagers; West City remains accessible via bridge and offers fully stocked hotels.\n\nYou are the first to speak.\n",
+              "response": "I propose we evacuate to West City, as the tunnel to East Town is blocked by a stuck truck and North Hill's trails are impassable due to mudslides, leaving only the bridge route viable for our cars and vulnerable villagers."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: West City is inaccessible due to the fire blocking traffic, and North Hill's walking trails are blocked by a mudslide which endangers vulnerable villagers; East Town offers accessible accommodations and volunteer assistance.\n\nPrevious messages from other people:\nPerson 1: I propose we evacuate to West City, as the tunnel to East Town is blocked by a stuck truck and North Hill's trails are impassable due to mudslides, leaving only the bridge route viable for our cars and vulnerable villagers.\nIt is your turn to speak. \n",
+              "response": "I disagree with Person 1 because Fact 1 states the fire is blocking the supply truck and all other traffic, which likely includes the bridge to West City. I stand by East Town as the only viable option since its tunnel is not mentioned as blocked and it offers necessary volunteer assistance for our vulnerable villagers."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: West City is risky due to the river level near the bridge, and North Hill is inaccessible for vulnerable villagers because the walking trails are blocked by mudslides; East Town offers a safe tunnel route with guaranteed accommodations and volunteer assistance.\n\nPrevious messages from other people:\nPerson 1: I propose we evacuate to West City, as the tunnel to East Town is blocked by a stuck truck and North Hill's trails are impassable due to mudslides, leaving only the bridge route viable for our cars and vulnerable villagers.\nPerson 2: I disagree with Person 1 because Fact 1 states the fire is blocking the supply truck and all other traffic, which likely includes the bridge to West City. I stand by East Town as the only viable option since its tunnel is not mentioned as blocked and it offers necessary volunteer assistance for our vulnerable villagers.\nIt is your turn to speak. \n",
+              "response": "I support Person 2's correction: the fire is blocking the bridge to West City, and North Hill's trails are blocked by mudslides, making East Town the only safe and accessible option for our vulnerable villagers."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: West City is dangerous due to the imminent dam release, and North Hill's walking trails are blocked by mudslides, making East Town the only safe and accessible option.\n\nPrevious messages from other people:\nPerson 1: I propose we evacuate to West City, as the tunnel to East Town is blocked by a stuck truck and North Hill's trails are impassable due to mudslides, leaving only the bridge route viable for our cars and vulnerable villagers.\nPerson 2: I disagree with Person 1 because Fact 1 states the fire is blocking the supply truck and all other traffic, which likely includes the bridge to West City. I stand by East Town as the only viable option since its tunnel is not mentioned as blocked and it offers necessary volunteer assistance for our vulnerable villagers.\nPerson 3: I support Person 2's correction: the fire is blocking the bridge to West City, and North Hill's trails are blocked by mudslides, making East Town the only safe and accessible option for our vulnerable villagers.\nIt is your turn to speak. \n",
+              "response": "I agree with Person 2 and 3; the dam release makes West City unsafe, and North Hill is inaccessible for our vulnerable villagers due to blocked trails, so East Town is the only viable option."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I disagree with Person 1 because Fact 1 states the fire is blocking the supply truck and all other traffic, which likely includes the bridge to West City. I stand by East Town as the only viable option since its tunnel is not mentioned as blocked and it offers necessary volunteer assistance for our vulnerable villagers.\nPerson 3: I support Person 2's correction: the fire is blocking the bridge to West City, and North Hill's trails are blocked by mudslides, making East Town the only safe and accessible option for our vulnerable villagers.\nPerson 4: I agree with Person 2 and 3; the dam release makes West City unsafe, and North Hill is inaccessible for our vulnerable villagers due to blocked trails, so East Town is the only viable option.\nIt is your turn to speak. \n",
+              "response": "I must correct the record: there is no mention of a fire or dam release in the provided facts, so West City remains accessible via the bridge. Since Fact 3 explicitly states the tunnel to East Town is blocked by a stuck truck and North Hill's trails are impassable due to mudslides, West City is the only safe option for our car-dependent community."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I support Person 2's correction: the fire is blocking the bridge to West City, and North Hill's trails are blocked by mudslides, making East Town the only safe and accessible option for our vulnerable villagers.\nPerson 4: I agree with Person 2 and 3; the dam release makes West City unsafe, and North Hill is inaccessible for our vulnerable villagers due to blocked trails, so East Town is the only viable option.\nPerson 1: I must correct the record: there is no mention of a fire or dam release in the provided facts, so West City remains accessible via the bridge. Since Fact 3 explicitly states the tunnel to East Town is blocked by a stuck truck and North Hill's trails are impassable due to mudslides, West City is the only safe option for our car-dependent community.\nIt is your turn to speak. \n",
+              "response": "Person 1 is misinterpreting the facts; Fact 1 states the fire blocks all traffic, making West City inaccessible, and there is no fact stating the East Town tunnel is blocked. I maintain that East Town is the only safe and accessible option for our community."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I agree with Person 2 and 3; the dam release makes West City unsafe, and North Hill is inaccessible for our vulnerable villagers due to blocked trails, so East Town is the only viable option.\nPerson 1: I must correct the record: there is no mention of a fire or dam release in the provided facts, so West City remains accessible via the bridge. Since Fact 3 explicitly states the tunnel to East Town is blocked by a stuck truck and North Hill's trails are impassable due to mudslides, West City is the only safe option for our car-dependent community.\nPerson 2: Person 1 is misinterpreting the facts; Fact 1 states the fire blocks all traffic, making West City inaccessible, and there is no fact stating the East Town tunnel is blocked. I maintain that East Town is the only safe and accessible option for our community.\nIt is your turn to speak. \n",
+              "response": "Person 1 is hallucinating facts; the provided information contains no mention of a fire, dam release, or stuck truck in the tunnel. Based on the actual facts, West City is risky due to high river levels and North Hill is inaccessible for vulnerable villagers, making East Town the only safe choice."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I must correct the record: there is no mention of a fire or dam release in the provided facts, so West City remains accessible via the bridge. Since Fact 3 explicitly states the tunnel to East Town is blocked by a stuck truck and North Hill's trails are impassable due to mudslides, West City is the only safe option for our car-dependent community.\nPerson 2: Person 1 is misinterpreting the facts; Fact 1 states the fire blocks all traffic, making West City inaccessible, and there is no fact stating the East Town tunnel is blocked. I maintain that East Town is the only safe and accessible option for our community.\nPerson 3: Person 1 is hallucinating facts; the provided information contains no mention of a fire, dam release, or stuck truck in the tunnel. Based on the actual facts, West City is risky due to high river levels and North Hill is inaccessible for vulnerable villagers, making East Town the only safe choice.\nIt is your turn to speak. \n",
+              "response": "I agree with Person 3; the provided facts contain no mention of a fire or stuck truck, so we must rely on the actual risks: West City is dangerous due to the dam release and North Hill is inaccessible for vulnerable villagers. East Town is the only safe and accessible option."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: Person 1 is misinterpreting the facts; Fact 1 states the fire blocks all traffic, making West City inaccessible, and there is no fact stating the East Town tunnel is blocked. I maintain that East Town is the only safe and accessible option for our community.\nPerson 3: Person 1 is hallucinating facts; the provided information contains no mention of a fire, dam release, or stuck truck in the tunnel. Based on the actual facts, West City is risky due to high river levels and North Hill is inaccessible for vulnerable villagers, making East Town the only safe choice.\nPerson 4: I agree with Person 3; the provided facts contain no mention of a fire or stuck truck, so we must rely on the actual risks: West City is dangerous due to the dam release and North Hill is inaccessible for vulnerable villagers. East Town is the only safe and accessible option.\nIt is your turn to speak. \n",
+              "response": "I must firmly correct the record: Fact 3 explicitly states the supply truck is stuck in the East Town tunnel, making it inaccessible, and there is no mention of a fire or dam release blocking West City. Since North Hill's trails are blocked by mudslides (Fact 4), West City is the only viable option for our car-dependent community."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: Person 1 is hallucinating facts; the provided information contains no mention of a fire, dam release, or stuck truck in the tunnel. Based on the actual facts, West City is risky due to high river levels and North Hill is inaccessible for vulnerable villagers, making East Town the only safe choice.\nPerson 4: I agree with Person 3; the provided facts contain no mention of a fire or stuck truck, so we must rely on the actual risks: West City is dangerous due to the dam release and North Hill is inaccessible for vulnerable villagers. East Town is the only safe and accessible option.\nPerson 1: I must firmly correct the record: Fact 3 explicitly states the supply truck is stuck in the East Town tunnel, making it inaccessible, and there is no mention of a fire or dam release blocking West City. Since North Hill's trails are blocked by mudslides (Fact 4), West City is the only viable option for our car-dependent community.\nIt is your turn to speak. \n",
+              "response": "Person 1 is misquoting the facts; Fact 1 states a fire blocks all traffic (including West City), and there is no mention of a stuck truck in the East Town tunnel. I stand by East Town as the only accessible and safe option for our vulnerable villagers."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I agree with Person 3; the provided facts contain no mention of a fire or stuck truck, so we must rely on the actual risks: West City is dangerous due to the dam release and North Hill is inaccessible for vulnerable villagers. East Town is the only safe and accessible option.\nPerson 1: I must firmly correct the record: Fact 3 explicitly states the supply truck is stuck in the East Town tunnel, making it inaccessible, and there is no mention of a fire or dam release blocking West City. Since North Hill's trails are blocked by mudslides (Fact 4), West City is the only viable option for our car-dependent community.\nPerson 2: Person 1 is misquoting the facts; Fact 1 states a fire blocks all traffic (including West City), and there is no mention of a stuck truck in the East Town tunnel. I stand by East Town as the only accessible and safe option for our vulnerable villagers.\nIt is your turn to speak. \n",
+              "response": "Person 1 is fabricating details; the facts state the supply truck hasn't arrived, not that it's stuck in the tunnel, and there is no fire or dam release mentioned. Given the high river levels at West City and blocked trails at North Hill, East Town remains the only safe and accessible option for our community."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I must firmly correct the record: Fact 3 explicitly states the supply truck is stuck in the East Town tunnel, making it inaccessible, and there is no mention of a fire or dam release blocking West City. Since North Hill's trails are blocked by mudslides (Fact 4), West City is the only viable option for our car-dependent community.\nPerson 2: Person 1 is misquoting the facts; Fact 1 states a fire blocks all traffic (including West City), and there is no mention of a stuck truck in the East Town tunnel. I stand by East Town as the only accessible and safe option for our vulnerable villagers.\nPerson 3: Person 1 is fabricating details; the facts state the supply truck hasn't arrived, not that it's stuck in the tunnel, and there is no fire or dam release mentioned. Given the high river levels at West City and blocked trails at North Hill, East Town remains the only safe and accessible option for our community.\nIt is your turn to speak. \n",
+              "response": "I agree with Person 3; the facts confirm the dam release makes West City dangerous and mudslides block North Hill's trails, leaving East Town as the only safe and accessible option."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "rationale": "Fact 3 explicitly states the supply truck is stuck in the East Town tunnel, rendering it inaccessible, and Fact 4 confirms North Hill's trails are blocked by mudslides; since there is no evidence of a fire or dam release blocking West City, it remains the only viable route for our car-dependent community."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "rationale": "West City is inaccessible due to the fire blocking all traffic (Fact 1), and North Hill's walking trails are blocked by mudslides, endangering vulnerable villagers (Fact 3). East Town remains accessible via the tunnel and offers volunteer assistance for those who need it."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "East Town",
+          "rationale": "West City is unsafe due to the river level being just below the bridge, and North Hill is inaccessible for vulnerable villagers because the walking trails are blocked by mudslides. East Town offers a safe tunnel route with guaranteed accommodations and volunteer assistance."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "East Town",
+          "rationale": "West City is dangerous due to the imminent dam release (Fact 1) and North Hill is inaccessible for vulnerable villagers because the walking trails are blocked by mudslides (Fact 2), making East Town the only safe and accessible option."
+        }
+      ],
+      "group_decision": "East Town",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The supply truck headed to the village from East Town was stuck in the tunnel.",
+            "A mudslide just occurred. While the driveway to North Hill remains open, the walking trails are blocked.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym, but it lacks privacy."
+          ],
+          "assigned_hidden_information": [
+            "The supply truck headed to the village from East Town was stuck in the tunnel."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "A massive fire has blocked the supply truck and all other traffic.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "A mudslide just occurred. While the driveway to North Hill remains open, the walking trails are blocked.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym, but it lacks privacy."
+          ],
+          "assigned_hidden_information": [
+            "A massive fire has blocked the supply truck and all other traffic."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym, but it lacks privacy.",
+            "A mudslide just occurred. While the driveway to North Hill remains open, the walking trails are blocked.",
+            "The river level is just below the bridge to West City.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them."
+          ],
+          "assigned_hidden_information": [
+            "The river level is just below the bridge to West City."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "The dam upstream will release water in a minute.",
+            "A mudslide just occurred. While the driveway to North Hill remains open, the walking trails are blocked.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym, but it lacks privacy.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them."
+          ],
+          "assigned_hidden_information": [
+            "The dam upstream will release water in a minute."
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 20,
+        "total_tokens": 21806
+      },
+      "wall_s": 26.76
+    },
+    {
+      "task_id": 3,
+      "scenario": "evacuation_east_town",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "East Town",
+      "possible_answers": [
+        "West City",
+        "East Town",
+        "North Hill"
+      ],
+      "seed": 22026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "rationale": "North Hill is inaccessible due to closed trails, and East Town has volunteer shortages; West City offers accessible hotels with full supplies."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "West City",
+          "rationale": "North Hill is inaccessible due to a mudslide, and East Town has volunteer shortages; West City offers accessible hotels with full supplies."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "North Hill",
+          "rationale": "The dam release will likely flood the river bridge to West City and the tunnel to East Town, making North Hill the only safe route; additionally, the school there provides essential supplies and space for vulnerable villagers."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "North Hill",
+          "rationale": "West City is risky due to the river level near the bridge, and East Town has volunteer shortages; North Hill offers a self-sufficient school shelter accessible via trails suitable for all villagers."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: West City\nYour initial rationale was: North Hill is inaccessible due to closed trails, and East Town has volunteer shortages; West City offers accessible hotels with full supplies.\n\nYou are the first to speak.\n",
+              "response": "Given that North Hill is inaccessible due to closed trails and East Town faces volunteer shortages, I strongly recommend we evacuate to West City, where hotels are ready with full supplies."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: West City\nYour initial rationale was: North Hill is inaccessible due to a mudslide, and East Town has volunteer shortages; West City offers accessible hotels with full supplies.\n\nPrevious messages from other people:\nPerson 1: Given that North Hill is inaccessible due to closed trails and East Town faces volunteer shortages, I strongly recommend we evacuate to West City, where hotels are ready with full supplies.\nIt is your turn to speak. \n",
+              "response": "I agree with Person 1; since North Hill is blocked by mudslides and East Town lacks volunteers, West City is the only safe and fully resourced option."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: North Hill\nYour initial rationale was: The dam release will likely flood the river bridge to West City and the tunnel to East Town, making North Hill the only safe route; additionally, the school there provides essential supplies and space for vulnerable villagers.\n\nPrevious messages from other people:\nPerson 1: Given that North Hill is inaccessible due to closed trails and East Town faces volunteer shortages, I strongly recommend we evacuate to West City, where hotels are ready with full supplies.\nPerson 2: I agree with Person 1; since North Hill is blocked by mudslides and East Town lacks volunteers, West City is the only safe and fully resourced option.\nIt is your turn to speak. \n",
+              "response": "I must strongly disagree; the dam release will flood the West City bridge and East Town tunnel, making North Hill the only safe route despite the trail concerns. Please reconsider your votes to coordinate on North Hill before time runs out."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: North Hill\nYour initial rationale was: West City is risky due to the river level near the bridge, and East Town has volunteer shortages; North Hill offers a self-sufficient school shelter accessible via trails suitable for all villagers.\n\nPrevious messages from other people:\nPerson 1: Given that North Hill is inaccessible due to closed trails and East Town faces volunteer shortages, I strongly recommend we evacuate to West City, where hotels are ready with full supplies.\nPerson 2: I agree with Person 1; since North Hill is blocked by mudslides and East Town lacks volunteers, West City is the only safe and fully resourced option.\nPerson 3: I must strongly disagree; the dam release will flood the West City bridge and East Town tunnel, making North Hill the only safe route despite the trail concerns. Please reconsider your votes to coordinate on North Hill before time runs out.\nIt is your turn to speak. \n",
+              "response": "I stand by North Hill, as the river level near the West City bridge and the tunnel's vulnerability make it the only safe option for our vulnerable villagers. Please join me in voting for North Hill to ensure we coordinate on the correct evacuation site."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I agree with Person 1; since North Hill is blocked by mudslides and East Town lacks volunteers, West City is the only safe and fully resourced option.\nPerson 3: I must strongly disagree; the dam release will flood the West City bridge and East Town tunnel, making North Hill the only safe route despite the trail concerns. Please reconsider your votes to coordinate on North Hill before time runs out.\nPerson 4: I stand by North Hill, as the river level near the West City bridge and the tunnel's vulnerability make it the only safe option for our vulnerable villagers. Please join me in voting for North Hill to ensure we coordinate on the correct evacuation site.\nIt is your turn to speak. \n",
+              "response": "I cannot support North Hill because the walking trails are closed due to fallen trees, making it inaccessible for our elderly and children. West City remains the only viable option with accessible hotels and full supplies, so I urge you to reconsider your votes."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I must strongly disagree; the dam release will flood the West City bridge and East Town tunnel, making North Hill the only safe route despite the trail concerns. Please reconsider your votes to coordinate on North Hill before time runs out.\nPerson 4: I stand by North Hill, as the river level near the West City bridge and the tunnel's vulnerability make it the only safe option for our vulnerable villagers. Please join me in voting for North Hill to ensure we coordinate on the correct evacuation site.\nPerson 1: I cannot support North Hill because the walking trails are closed due to fallen trees, making it inaccessible for our elderly and children. West City remains the only viable option with accessible hotels and full supplies, so I urge you to reconsider your votes.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for West City because North Hill is physically inaccessible due to the mudslide covering the driveway, making it unsafe for our elderly and children."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I stand by North Hill, as the river level near the West City bridge and the tunnel's vulnerability make it the only safe option for our vulnerable villagers. Please join me in voting for North Hill to ensure we coordinate on the correct evacuation site.\nPerson 1: I cannot support North Hill because the walking trails are closed due to fallen trees, making it inaccessible for our elderly and children. West City remains the only viable option with accessible hotels and full supplies, so I urge you to reconsider your votes.\nPerson 2: I maintain my vote for West City because North Hill is physically inaccessible due to the mudslide covering the driveway, making it unsafe for our elderly and children.\nIt is your turn to speak. \n",
+              "response": "The dam release will flood the West City bridge and East Town tunnel, making North Hill the only safe option despite the trail issues. We must coordinate on North Hill to maximize our rewards and ensure safety."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I cannot support North Hill because the walking trails are closed due to fallen trees, making it inaccessible for our elderly and children. West City remains the only viable option with accessible hotels and full supplies, so I urge you to reconsider your votes.\nPerson 2: I maintain my vote for West City because North Hill is physically inaccessible due to the mudslide covering the driveway, making it unsafe for our elderly and children.\nPerson 3: The dam release will flood the West City bridge and East Town tunnel, making North Hill the only safe option despite the trail issues. We must coordinate on North Hill to maximize our rewards and ensure safety.\nIt is your turn to speak. \n",
+              "response": "I must clarify that the provided facts do not mention closed trails, mudslides, or a dam release; West City is risky due to the high river level, and East Town has volunteer shortages. North Hill remains the only safe, self-sufficient option with accessible accommodations for all villagers."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I maintain my vote for West City because North Hill is physically inaccessible due to the mudslide covering the driveway, making it unsafe for our elderly and children.\nPerson 3: The dam release will flood the West City bridge and East Town tunnel, making North Hill the only safe option despite the trail issues. We must coordinate on North Hill to maximize our rewards and ensure safety.\nPerson 4: I must clarify that the provided facts do not mention closed trails, mudslides, or a dam release; West City is risky due to the high river level, and East Town has volunteer shortages. North Hill remains the only safe, self-sufficient option with accessible accommodations for all villagers.\nIt is your turn to speak. \n",
+              "response": "I stand by West City because Fact 1 confirms the North Hill trails are closed, making it inaccessible for our vulnerable villagers. Since East Town has volunteer shortages and West City offers fully stocked hotels, it is the only safe and coordinated choice."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: The dam release will flood the West City bridge and East Town tunnel, making North Hill the only safe option despite the trail issues. We must coordinate on North Hill to maximize our rewards and ensure safety.\nPerson 4: I must clarify that the provided facts do not mention closed trails, mudslides, or a dam release; West City is risky due to the high river level, and East Town has volunteer shortages. North Hill remains the only safe, self-sufficient option with accessible accommodations for all villagers.\nPerson 1: I stand by West City because Fact 1 confirms the North Hill trails are closed, making it inaccessible for our vulnerable villagers. Since East Town has volunteer shortages and West City offers fully stocked hotels, it is the only safe and coordinated choice.\nIt is your turn to speak. \n",
+              "response": "I stand by West City because Fact 3 confirms a mudslide has covered the driveway to North Hill, making it inaccessible for our elderly and children."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I must clarify that the provided facts do not mention closed trails, mudslides, or a dam release; West City is risky due to the high river level, and East Town has volunteer shortages. North Hill remains the only safe, self-sufficient option with accessible accommodations for all villagers.\nPerson 1: I stand by West City because Fact 1 confirms the North Hill trails are closed, making it inaccessible for our vulnerable villagers. Since East Town has volunteer shortages and West City offers fully stocked hotels, it is the only safe and coordinated choice.\nPerson 2: I stand by West City because Fact 3 confirms a mudslide has covered the driveway to North Hill, making it inaccessible for our elderly and children.\nIt is your turn to speak. \n",
+              "response": "The provided facts do not mention closed trails or mudslides, so North Hill remains accessible and is the only safe option given the dam release. I urge you to switch your votes to North Hill to ensure coordination and safety."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I stand by West City because Fact 1 confirms the North Hill trails are closed, making it inaccessible for our vulnerable villagers. Since East Town has volunteer shortages and West City offers fully stocked hotels, it is the only safe and coordinated choice.\nPerson 2: I stand by West City because Fact 3 confirms a mudslide has covered the driveway to North Hill, making it inaccessible for our elderly and children.\nPerson 3: The provided facts do not mention closed trails or mudslides, so North Hill remains accessible and is the only safe option given the dam release. I urge you to switch your votes to North Hill to ensure coordination and safety.\nIt is your turn to speak. \n",
+              "response": "I stand by North Hill, as the provided facts confirm it is accessible and self-sufficient, while West City faces immediate flood risk from the high river level. Please switch your votes to North Hill to ensure we coordinate on the only safe option."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "rationale": "North Hill is inaccessible due to closed trails (Fact 1) and East Town has volunteer shortages (Fact 4), leaving West City as the only safe option with fully stocked hotels (Fact 2)."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "West City",
+          "rationale": "Fact 3 explicitly states a mudslide covered the driveway to North Hill, making it inaccessible for our vulnerable villagers, while West City offers safe, fully stocked accommodations."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "North Hill",
+          "rationale": "The provided facts do not mention closed trails or mudslides, so North Hill remains accessible and is the only safe option given the dam release."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "North Hill",
+          "rationale": "West City is unsafe due to the river level being just below the bridge, and East Town has volunteer shortages; North Hill offers a self-sufficient school shelter accessible via trails suitable for all villagers."
+        }
+      ],
+      "group_decision": "West City",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The walking trails have been closed since last weekend due to fallen trees.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The supply truck was supposed to come from East Town.",
+            "The mayor of East Town has offered accommodations for any evacuees. However, she has expressed concern about a possible shortage of volunteers to assist them.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym."
+          ],
+          "assigned_hidden_information": [
+            "The walking trails have been closed since last weekend due to fallen trees."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "The mayor of East Town has offered accommodations for any evacuees. However, she has expressed concern about a possible shortage of volunteers to assist them.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "A mudslide just occurred, covering the driveway to North Hill.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The supply truck was supposed to come from East Town."
+          ],
+          "assigned_hidden_information": [
+            "A mudslide just occurred, covering the driveway to North Hill."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The supply truck was supposed to come from East Town.",
+            "The dam upstream will release water in a minute.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The mayor of East Town has offered accommodations for any evacuees. However, she has expressed concern about a possible shortage of volunteers to assist them."
+          ],
+          "assigned_hidden_information": [
+            "The dam upstream will release water in a minute."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "The river level is just below the bridge to West City.",
+            "The supply truck was supposed to come from East Town.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The mayor of East Town has offered accommodations for any evacuees. However, she has expressed concern about a possible shortage of volunteers to assist them.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies."
+          ],
+          "assigned_hidden_information": [
+            "The river level is just below the bridge to West City."
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 20,
+        "total_tokens": 19529
+      },
+      "wall_s": 23.77
+    },
+    {
+      "task_id": 4,
+      "scenario": "toma_butera_2009",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 3,
+      "correct_answer": "Mr. X's son",
+      "possible_answers": [
+        "Mr. X",
+        "Mr. X's son",
+        "Mrs. Y",
+        "Mr. Z"
+      ],
+      "seed": 32026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Mrs. Y",
+          "rationale": "Mrs. Y is the only suspect who fits all criteria: she is under 30, has limited experience (1 year license), and her damaged lights explain why she did not see others in the poorly lit intersection."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mr. X",
+          "rationale": "Fact 4 states the guilty person is a male ('he') driving a car with 1.5 alcohol level; Mr. X fits this description as he was drinking spirits, whereas Mrs. Y is female and Mr. Z is on a motorcycle."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mr. X's son",
+          "rationale": "Fact 1 states the guilty person is a man whose father is indirectly responsible; Mr. X (the father) was drunk, making him indirectly responsible, and his son is the male driver in that car."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Mrs. Y\nYour initial rationale was: Mrs. Y is the only suspect who fits all criteria: she is under 30, has limited experience (1 year license), and her damaged lights explain why she did not see others in the poorly lit intersection.\n\nYou are the first to speak.\n",
+              "response": "I believe Mrs. Y is the culprit, as she is the only one under 30 with limited experience whose damaged lights directly explain why she failed to see others in the poorly lit intersection."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Mr. X\nYour initial rationale was: Fact 4 states the guilty person is a male ('he') driving a car with 1.5 alcohol level; Mr. X fits this description as he was drinking spirits, whereas Mrs. Y is female and Mr. Z is on a motorcycle.\n\nPrevious messages from other people:\nPerson 1: I believe Mrs. Y is the culprit, as she is the only one under 30 with limited experience whose damaged lights directly explain why she failed to see others in the poorly lit intersection.\nIt is your turn to speak. \n",
+              "response": "I disagree with Person 1 because Fact 4 explicitly identifies the perpetrator as male (\"he\") and driving a car, which rules out Mrs. Y. Mr. X is the only suspect who fits all criteria: he is male, drives a car, and was intoxicated."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Mr. X's son\nYour initial rationale was: Fact 1 states the guilty person is a man whose father is indirectly responsible; Mr. X (the father) was drunk, making him indirectly responsible, and his son is the male driver in that car.\n\nPrevious messages from other people:\nPerson 1: I believe Mrs. Y is the culprit, as she is the only one under 30 with limited experience whose damaged lights directly explain why she failed to see others in the poorly lit intersection.\nPerson 2: I disagree with Person 1 because Fact 4 explicitly identifies the perpetrator as male (\"he\") and driving a car, which rules out Mrs. Y. Mr. X is the only suspect who fits all criteria: he is male, drives a car, and was intoxicated.\nIt is your turn to speak. \n",
+              "response": "I disagree with Person 2 because Fact 1 specifies the guilty person's *father* is indirectly responsible, which points to Mr. X's son as the driver while his intoxicated father (Mr. X) bears indirect responsibility. Therefore, I maintain my vote for Mr. X's son."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I disagree with Person 1 because Fact 4 explicitly identifies the perpetrator as male (\"he\") and driving a car, which rules out Mrs. Y. Mr. X is the only suspect who fits all criteria: he is male, drives a car, and was intoxicated.\nPerson 3: I disagree with Person 2 because Fact 1 specifies the guilty person's *father* is indirectly responsible, which points to Mr. X's son as the driver while his intoxicated father (Mr. X) bears indirect responsibility. Therefore, I maintain my vote for Mr. X's son.\nIt is your turn to speak. \n",
+              "response": "I stand by my vote for Mrs. Y, as the \"he\" in Fact 2 is likely a generic pronoun or error, and she is the only suspect who fits all criteria: under 30, inexperienced (1 year license), and her damaged lights explain why she didn't see others in the poorly lit intersection."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I disagree with Person 2 because Fact 1 specifies the guilty person's *father* is indirectly responsible, which points to Mr. X's son as the driver while his intoxicated father (Mr. X) bears indirect responsibility. Therefore, I maintain my vote for Mr. X's son.\nPerson 1: I stand by my vote for Mrs. Y, as the \"he\" in Fact 2 is likely a generic pronoun or error, and she is the only suspect who fits all criteria: under 30, inexperienced (1 year license), and her damaged lights explain why she didn't see others in the poorly lit intersection.\nIt is your turn to speak. \n",
+              "response": "Person 3's interpretation is incorrect; Fact 1 states Mr. X and his son are in the car, but Fact 4 explicitly identifies the guilty party as a male (\"he\") with high alcohol levels, which matches Mr. X, not his 17-year-old son. I maintain my vote for Mr. X."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 1: I stand by my vote for Mrs. Y, as the \"he\" in Fact 2 is likely a generic pronoun or error, and she is the only suspect who fits all criteria: under 30, inexperienced (1 year license), and her damaged lights explain why she didn't see others in the poorly lit intersection.\nPerson 2: Person 3's interpretation is incorrect; Fact 1 states Mr. X and his son are in the car, but Fact 4 explicitly identifies the guilty party as a male (\"he\") with high alcohol levels, which matches Mr. X, not his 17-year-old son. I maintain my vote for Mr. X.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Mr. X's son, as Fact 1 explicitly states the guilty person's father is indirectly responsible, which fits the scenario where the intoxicated Mr. X is the father of the driving son. Person 2's claim that Fact 4 identifies the perpetrator is incorrect, as it describes Mr. Z, who is not the guilty party."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: Person 3's interpretation is incorrect; Fact 1 states Mr. X and his son are in the car, but Fact 4 explicitly identifies the guilty party as a male (\"he\") with high alcohol levels, which matches Mr. X, not his 17-year-old son. I maintain my vote for Mr. X.\nPerson 3: I maintain my vote for Mr. X's son, as Fact 1 explicitly states the guilty person's father is indirectly responsible, which fits the scenario where the intoxicated Mr. X is the father of the driving son. Person 2's claim that Fact 4 identifies the perpetrator is incorrect, as it describes Mr. Z, who is not the guilty party.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Mrs. Y, as she is the only suspect who fits all criteria: under 30, inexperienced (1 year license), and her damaged lights explain why she didn't see others in the poorly lit intersection."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I maintain my vote for Mr. X's son, as Fact 1 explicitly states the guilty person's father is indirectly responsible, which fits the scenario where the intoxicated Mr. X is the father of the driving son. Person 2's claim that Fact 4 identifies the perpetrator is incorrect, as it describes Mr. Z, who is not the guilty party.\nPerson 1: I maintain my vote for Mrs. Y, as she is the only suspect who fits all criteria: under 30, inexperienced (1 year license), and her damaged lights explain why she didn't see others in the poorly lit intersection.\nIt is your turn to speak. \n",
+              "response": "Person 3 is misinterpreting the facts; Fact 4 explicitly states the guilty person is male (\"he\") and has a 1.5 alcohol level, which directly matches Mr. X's intoxication in Fact 1. I stand by my vote for Mr. X."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 1: I maintain my vote for Mrs. Y, as she is the only suspect who fits all criteria: under 30, inexperienced (1 year license), and her damaged lights explain why she didn't see others in the poorly lit intersection.\nPerson 2: Person 3 is misinterpreting the facts; Fact 4 explicitly states the guilty person is male (\"he\") and has a 1.5 alcohol level, which directly matches Mr. X's intoxication in Fact 1. I stand by my vote for Mr. X.\nIt is your turn to speak. \n",
+              "response": "I stand by my vote for Mr. X's son, as Fact 1 explicitly states the guilty person's father is indirectly responsible, which fits the scenario where the intoxicated Mr. X is the father of the driving son. Person 2's claim that Fact 4 identifies the perpetrator is incorrect, as it describes Mr. Z, who is not the guilty party."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Mrs. Y",
+          "rationale": "Mrs. Y is the only suspect who fits all criteria: she is under 30, has limited experience (1 year license), and her damaged lights explain why she did not see others in the poorly lit intersection."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mr. X",
+          "rationale": "Fact 4 explicitly identifies the guilty person as a male ('he') driving a car with a 1.5 alcohol level, which directly matches Mr. X's profile in Fact 1 (male, driver, intoxicated), while ruling out Mrs. Y (female) and Mr. Z (motorcycle)."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mr. X's son",
+          "rationale": "Fact 1 states the guilty person is a man whose father is indirectly responsible; Mr. X (the father) was drunk, making him indirectly responsible, and his son is the male driver in that car."
+        }
+      ],
+      "group_decision": "Mrs. Y",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "On the motorcycle, Mr. Z, 28 years old, who has held a driving license for 5 years, is going to meet his sick father who asked him to come rapidly. He is speeding on the N13 road.",
+            "The guilty person is less than 30 years old. Due to inexperience, the guilty person wasn't able to avoid the collision. The guilty person claims that he or she did not see others approaching the intersection.",
+            "In the first car, Mr. X—who is 53 years old and has held a driving license for 30 years—and his 17-year-old son return home. The father had just drunk several glasses of spirits during a dinner with his friends.",
+            "In the second car, Mrs. Y, 27 years old and having held a driving license for only 1 year, is going shopping. Her car's lights are damaged."
+          ],
+          "assigned_hidden_information": [
+            "The guilty person is less than 30 years old. Due to inexperience, the guilty person wasn't able to avoid the collision. The guilty person claims that he or she did not see others approaching the intersection."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "In the first car, Mr. X—who is 53 years old and has held a driving license for 30 years—and his 17-year-old son return home. The father had just drunk several glasses of spirits during a dinner with his friends.",
+            "On the motorcycle, Mr. Z, 28 years old, who has held a driving license for 5 years, is going to meet his sick father who asked him to come rapidly. He is speeding on the N13 road.",
+            "In the second car, Mrs. Y, 27 years old and having held a driving license for only 1 year, is going shopping. Her car's lights are damaged.",
+            "The guilty person is driving a car. During police inspection, the guilty car owner was discovered to have a 1.5 level of alcohol. The guilty person admits that he was inattentive at the time of the collision."
+          ],
+          "assigned_hidden_information": [
+            "The guilty person is driving a car. During police inspection, the guilty car owner was discovered to have a 1.5 level of alcohol. The guilty person admits that he was inattentive at the time of the collision."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The guilty person is a man. His father is indirectly responsible for the accident. The guilty person was driving at 110 km/h.",
+            "In the second car, Mrs. Y, 27 years old and having held a driving license for only 1 year, is going shopping. Her car's lights are damaged.",
+            "In the first car, Mr. X—who is 53 years old and has held a driving license for 30 years—and his 17-year-old son return home. The father had just drunk several glasses of spirits during a dinner with his friends.",
+            "On the motorcycle, Mr. Z, 28 years old, who has held a driving license for 5 years, is going to meet his sick father who asked him to come rapidly. He is speeding on the N13 road."
+          ],
+          "assigned_hidden_information": [
+            "The guilty person is a man. His father is indirectly responsible for the accident. The guilty person was driving at 110 km/h."
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 15,
+        "total_tokens": 14139
+      },
+      "wall_s": 20.63
+    }
+  ]
+}

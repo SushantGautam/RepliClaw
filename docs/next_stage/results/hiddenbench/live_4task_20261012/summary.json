@@ -1,0 +1,225 @@
+{
+  "benchmark": "/home/susan/worktrees/repliclaw-hiddenbench/third_party/hiddenbench/data/benchmark.json",
+  "benchmark_file_sha256": "2815afffca4e470d1dfbc81e625160447df1109ce371968181c9e1e6b90443a3",
+  "task_ids": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "arms": [
+    "escrow",
+    "open-share",
+    "central"
+  ],
+  "rounds": 3,
+  "seed": 2026,
+  "caps": {
+    "max_calls_per_arm": 256,
+    "max_total_tokens_per_arm": 200000
+  },
+  "fake": false,
+  "labels": [
+    "OBSERVATIONAL",
+    "ACCESS-MATCHED (not causal)",
+    "MODEL-SUBSTITUTION"
+  ],
+  "git_sha": "d238af8e22f8ed2725078fc0426b33d09b5fff80",
+  "run_started_at": "2026-10-12T16:00:26.305023+00:00",
+  "per_arm": {
+    "escrow": {
+      "num_tasks": 4,
+      "completed": 4,
+      "failures": 0,
+      "failure_reasons": [],
+      "group_decision_accuracy_completed": 0.0,
+      "group_decision_accuracy_all_tasks": 0.0,
+      "mean_individual_final_vote_accuracy": 0.08333333333333333,
+      "total_llm_calls": 90,
+      "total_tokens": 92266,
+      "total_wall_s": 126.44,
+      "by_task": [
+        {
+          "task_id": 1,
+          "scenario": "evacuation_west_city",
+          "completed": true,
+          "group_decision": "East Town",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 24,
+          "tokens": 24564,
+          "wall_s": 31.32
+        },
+        {
+          "task_id": 2,
+          "scenario": "evacuation_north_hill",
+          "completed": true,
+          "group_decision": "East Town",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 24,
+          "tokens": 25914,
+          "wall_s": 34.8
+        },
+        {
+          "task_id": 3,
+          "scenario": "evacuation_east_town",
+          "completed": true,
+          "group_decision": "West City",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 24,
+          "tokens": 24629,
+          "wall_s": 34.54
+        },
+        {
+          "task_id": 4,
+          "scenario": "toma_butera_2009",
+          "completed": true,
+          "group_decision": "Mrs. Y",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 18,
+          "tokens": 17159,
+          "wall_s": 25.78
+        }
+      ],
+      "usage": {
+        "calls": 90,
+        "prompt_tokens": 87221,
+        "completion_tokens": 5045,
+        "total_tokens": 92266
+      }
+    },
+    "open-share": {
+      "num_tasks": 4,
+      "completed": 4,
+      "failures": 0,
+      "failure_reasons": [],
+      "group_decision_accuracy_completed": 0.0,
+      "group_decision_accuracy_all_tasks": 0.0,
+      "mean_individual_final_vote_accuracy": 0.20833333333333331,
+      "total_llm_calls": 75,
+      "total_tokens": 77024,
+      "total_wall_s": 97.32,
+      "by_task": [
+        {
+          "task_id": 1,
+          "scenario": "evacuation_west_city",
+          "completed": true,
+          "group_decision": "East Town",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 20,
+          "tokens": 21550,
+          "wall_s": 26.16
+        },
+        {
+          "task_id": 2,
+          "scenario": "evacuation_north_hill",
+          "completed": true,
+          "group_decision": "East Town",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 20,
+          "tokens": 21806,
+          "wall_s": 26.76
+        },
+        {
+          "task_id": 3,
+          "scenario": "evacuation_east_town",
+          "completed": true,
+          "group_decision": "West City",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 20,
+          "tokens": 19529,
+          "wall_s": 23.77
+        },
+        {
+          "task_id": 4,
+          "scenario": "toma_butera_2009",
+          "completed": true,
+          "group_decision": "Mrs. Y",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 15,
+          "tokens": 14139,
+          "wall_s": 20.63
+        }
+      ],
+      "usage": {
+        "calls": 75,
+        "prompt_tokens": 72696,
+        "completion_tokens": 4328,
+        "total_tokens": 77024
+      }
+    },
+    "central": {
+      "num_tasks": 4,
+      "completed": 4,
+      "failures": 0,
+      "failure_reasons": [],
+      "group_decision_accuracy_completed": 1.0,
+      "group_decision_accuracy_all_tasks": 1.0,
+      "mean_individual_final_vote_accuracy": 1.0,
+      "total_llm_calls": 4,
+      "total_tokens": 3064,
+      "total_wall_s": 5.86,
+      "by_task": [
+        {
+          "task_id": 1,
+          "scenario": "evacuation_west_city",
+          "completed": true,
+          "group_decision": "West City",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 764,
+          "wall_s": 1.57
+        },
+        {
+          "task_id": 2,
+          "scenario": "evacuation_north_hill",
+          "completed": true,
+          "group_decision": "North Hill",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 774,
+          "wall_s": 1.4
+        },
+        {
+          "task_id": 3,
+          "scenario": "evacuation_east_town",
+          "completed": true,
+          "group_decision": "East Town",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 755,
+          "wall_s": 1.12
+        },
+        {
+          "task_id": 4,
+          "scenario": "toma_butera_2009",
+          "completed": true,
+          "group_decision": "Mr. X's son",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 771,
+          "wall_s": 1.77
+        }
+      ],
+      "usage": {
+        "calls": 4,
+        "prompt_tokens": 2803,
+        "completion_tokens": 261,
+        "total_tokens": 3064
+      }
+    }
+  },
+  "model": "default",
+  "base_url": "https://simulachat.sushant.pp.ua/api/v1"
+}

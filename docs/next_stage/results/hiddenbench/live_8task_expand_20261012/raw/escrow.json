@@ -1,0 +1,2768 @@
+{
+  "arm": "escrow",
+  "model": "default",
+  "seed": 2026,
+  "rounds": 3,
+  "runs": [
+    {
+      "task_id": 5,
+      "scenario": "baker_2010",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Roberts",
+      "possible_answers": [
+        "Stevens",
+        "Roberts",
+        "Jones"
+      ],
+      "seed": 2026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic profile (full professor, national recognition), whereas Roberts lacks recent HE experience and has ethical concerns, and Jones lacks direct academic administration credentials despite fundraising success."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant academic leadership experience (Provost/Dean) and a strong record of fundraising success, whereas Roberts lacks recent higher education experience and Jones is an outsider from the legal field."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic background (Full Professor), directly meeting the core requirements for leading a liberal arts college, whereas Roberts lacks recent academic experience and Jones lacks an academic career."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant academic leadership experience (Provost/Dean) and a strong record of fundraising success in higher education, whereas Roberts lacks recent campus experience and Jones has no administrative background."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Stevens\nYour initial rationale was: Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic profile (full professor, national recognition), whereas Roberts lacks recent HE experience and has ethical concerns, and Jones lacks direct academic administration credentials despite fundraising success.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Stevens\nYour initial rationale was: Stevens is the only candidate with current, relevant academic leadership experience (Provost/Dean) and a strong record of fundraising success, whereas Roberts lacks recent higher education experience and Jones is an outsider from the legal field.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Stevens\nYour initial rationale was: Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic background (Full Professor), directly meeting the core requirements for leading a liberal arts college, whereas Roberts lacks recent academic experience and Jones lacks an academic career.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Stevens\nYour initial rationale was: Stevens is the only candidate with current, relevant academic leadership experience (Provost/Dean) and a strong record of fundraising success in higher education, whereas Roberts lacks recent campus experience and Jones has no administrative background.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic profile (full professor, national recognition), whereas Roberts lacks recent HE experience and has ethical concerns, and Jones lacks direct academic administration credentials despite fundraising success."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant academic leadership experience (Provost/Dean) and a strong record of fundraising success in higher education, whereas Roberts lacks recent campus experience and Jones has no administrative background."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic background (Full Professor), directly meeting the core requirements for leading a liberal arts college, whereas Roberts lacks recent academic experience and Jones lacks an academic career."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant academic leadership experience (Provost/Dean) and a strong record of fundraising success in higher education, whereas Roberts lacks recent campus experience and Jones has no administrative background."
+        }
+      ],
+      "group_decision": "Stevens",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Stevens' CV highlights:\n- Currently the provost and executive vice president of a medium-sized university in Florida\n- Previous experience as business dean of a large Mississippi university and Chair of the Information and Technology department at a large Texas University\n- Was Dean in Mississippi when plans were drawn up for a new $25 million business school building and was provost in Florida whenthe business college received $15 million\n- Has the rank of full professor of Information Technology.",
+            "Stevens' information:\n- Left the dean position at the Mississippi University before raisingany funds for the building campaign\n- Enjoys sports, goes to football, and basketball games\n- Stays fit by biking and running\n- Has been observed drinking heavily in public, including at univer-sity events\nRoberts' information:\n- Previous students and faculty say Roberts is an excellent teacher\n- Is divorced and remarried; has two children\n- Faculty research productivity increased while serving as dean in Georgia\nJones' information:\n- Sources at the law firm attribute a high turnover rate at the firm to Jones' somewhat abrasive leadership style\n- Plays bridge as a hobby\n- Enjoys traveling overseas on vacation\n- Feedback from other trustees indicates that there is tension between the current provost and Jones",
+            "Jones' CV highlights:\n- Currently the senior managing partner in a large law firm in Atlanta,Georgia\n- For the past 5 years has served on the Board of Trustees of Higher Education University, and is on the steering committee for the current $150 million capital campaign\n- Has expertise in employment law and has successfully argued infront of the Federal Supreme Court\n- Served as visiting professor of law at a major university in Georgia.",
+            "Stevens' information:\n- Nationally recognized by academics for research in informationtechnology\n- Nationally recognized by business leaders for expertise in information technology\n- In an interview, Stevens emphasized the importance of collaboration with campus leaders and faculty\n- Demonstrated excellent oratory skills during presentation to faculty\n- Someone other than Stevens was primarily responsible for getting the $15 million in Florida.",
+            "Jones' information:\n- Pleasant personality in social settings\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Following the Supreme Court appearance, Jones success rate in litigating employment law cases fell\n- Has been one of the more active members of Higher Education University's Board of Trustees\n- Student enrollment and evaluations from classes indicate that Jonesis well-liked as a teacher.",
+            "Roberts' information:\n- Faculty feedback indicated that Roberts had come across as aloofduring the presentation portion of the selection process\n- Has not worked in higher education for past 6 years\n- Has a condo in Pensacola\n- Has little direct experience dealing with campus-student life issues\n- As a senator, was accused of changing positions on issues for political gain.",
+            "Roberts' CV highlights:\n- Just completed a term as U.S. Senator for Georgia but chose not toseek a second term\n- Raised a significant amount of money in campaign for senator\n- Previous experience as Dean of the College of Arts and Sciences of a medium-sized university in Virginia and later of a large private university in Georgia\n- Had rank of full professor of public administration before becoming senator."
+          ],
+          "assigned_hidden_information": [
+            "Stevens' information:\n- Left the dean position at the Mississippi University before raisingany funds for the building campaign\n- Enjoys sports, goes to football, and basketball games\n- Stays fit by biking and running\n- Has been observed drinking heavily in public, including at univer-sity events\nRoberts' information:\n- Previous students and faculty say Roberts is an excellent teacher\n- Is divorced and remarried; has two children\n- Faculty research productivity increased while serving as dean in Georgia\nJones' information:\n- Sources at the law firm attribute a high turnover rate at the firm to Jones' somewhat abrasive leadership style\n- Plays bridge as a hobby\n- Enjoys traveling overseas on vacation\n- Feedback from other trustees indicates that there is tension between the current provost and Jones"
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Jones' information:\n- Pleasant personality in social settings\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Following the Supreme Court appearance, Jones success rate in litigating employment law cases fell\n- Has been one of the more active members of Higher Education University's Board of Trustees\n- Student enrollment and evaluations from classes indicate that Jonesis well-liked as a teacher.",
+            "Jones' CV highlights:\n- Currently the senior managing partner in a large law firm in Atlanta,Georgia\n- For the past 5 years has served on the Board of Trustees of Higher Education University, and is on the steering committee for the current $150 million capital campaign\n- Has expertise in employment law and has successfully argued infront of the Federal Supreme Court\n- Served as visiting professor of law at a major university in Georgia.",
+            "Stevens' CV highlights:\n- Currently the provost and executive vice president of a medium-sized university in Florida\n- Previous experience as business dean of a large Mississippi university and Chair of the Information and Technology department at a large Texas University\n- Was Dean in Mississippi when plans were drawn up for a new $25 million business school building and was provost in Florida whenthe business college received $15 million\n- Has the rank of full professor of Information Technology.",
+            "Roberts' CV highlights:\n- Just completed a term as U.S. Senator for Georgia but chose not toseek a second term\n- Raised a significant amount of money in campaign for senator\n- Previous experience as Dean of the College of Arts and Sciences of a medium-sized university in Virginia and later of a large private university in Georgia\n- Had rank of full professor of public administration before becoming senator.",
+            "Stevens' information:\n- Nationally recognized by academics for research in informationtechnology\n- Nationally recognized by business leaders for expertise in information technology\n- In an interview, Stevens emphasized the importance of collaboration with campus leaders and faculty\n- Demonstrated excellent oratory skills during presentation to faculty\n- Someone other than Stevens was primarily responsible for getting the $15 million in Florida.",
+            "Roberts' information:\n- Faculty feedback indicated that Roberts had come across as aloofduring the presentation portion of the selection process\n- Has not worked in higher education for past 6 years\n- Has a condo in Pensacola\n- Has little direct experience dealing with campus-student life issues\n- As a senator, was accused of changing positions on issues for political gain.",
+            "Stevens' information:\n- Comments from faculty in Florida and Mississippi indicate thatStevens tends to discourage new, innovative ideas\n- Has been observed drinking heavily in public, including at univer-sity events\n- Does consulting work in IT\n- Likes to garden\nRoberts' information:\n- Enjoys golf and tennis\n- Is divorced and remarried; has two children\n- Increased the diversity of the faculty when dean in Georgia\n- Instrumental in securing a multimillion dollar federal grant for aGeorgia based nonprofit institution\nJones' information:\n- Feedback from other trustees indicates that there is tension betweenthe current provost and Jones\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Reads mystery novels and biographies\n- Loves to cook"
+          ],
+          "assigned_hidden_information": [
+            "Stevens' information:\n- Comments from faculty in Florida and Mississippi indicate thatStevens tends to discourage new, innovative ideas\n- Has been observed drinking heavily in public, including at univer-sity events\n- Does consulting work in IT\n- Likes to garden\nRoberts' information:\n- Enjoys golf and tennis\n- Is divorced and remarried; has two children\n- Increased the diversity of the faculty when dean in Georgia\n- Instrumental in securing a multimillion dollar federal grant for aGeorgia based nonprofit institution\nJones' information:\n- Feedback from other trustees indicates that there is tension betweenthe current provost and Jones\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Reads mystery novels and biographies\n- Loves to cook"
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Jones' information:\n- Pleasant personality in social settings\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Following the Supreme Court appearance, Jones success rate in litigating employment law cases fell\n- Has been one of the more active members of Higher Education University's Board of Trustees\n- Student enrollment and evaluations from classes indicate that Jonesis well-liked as a teacher.",
+            "Roberts' CV highlights:\n- Just completed a term as U.S. Senator for Georgia but chose not toseek a second term\n- Raised a significant amount of money in campaign for senator\n- Previous experience as Dean of the College of Arts and Sciences of a medium-sized university in Virginia and later of a large private university in Georgia\n- Had rank of full professor of public administration before becoming senator.",
+            "Roberts' information:\n- Faculty feedback indicated that Roberts had come across as aloofduring the presentation portion of the selection process\n- Has not worked in higher education for past 6 years\n- Has a condo in Pensacola\n- Has little direct experience dealing with campus-student life issues\n- As a senator, was accused of changing positions on issues for political gain.",
+            "Stevens' information:\n- Nationally recognized by academics for research in informationtechnology\n- Nationally recognized by business leaders for expertise in information technology\n- In an interview, Stevens emphasized the importance of collaboration with campus leaders and faculty\n- Demonstrated excellent oratory skills during presentation to faculty\n- Someone other than Stevens was primarily responsible for getting the $15 million in Florida.",
+            "Stevens' information:\n- Comments from faculty in Florida and Mississippi indicate thatStevens tends to discourage new, innovative ideas\n- Has family in Atlanta\n- Is married with three children\nRoberts' information:\n- Previous faculty members describe Roberts as thoughtful leader andgood listener\n- Previous colleagues say Roberts uses a collaborative decision-making style\n- Enjoys golf and tennis\nJones' information\n- Has two dogs and two cats\n- Jones' spouse is a physician, specializing in internal medicine",
+            "Jones' CV highlights:\n- Currently the senior managing partner in a large law firm in Atlanta,Georgia\n- For the past 5 years has served on the Board of Trustees of Higher Education University, and is on the steering committee for the current $150 million capital campaign\n- Has expertise in employment law and has successfully argued infront of the Federal Supreme Court\n- Served as visiting professor of law at a major university in Georgia.",
+            "Stevens' CV highlights:\n- Currently the provost and executive vice president of a medium-sized university in Florida\n- Previous experience as business dean of a large Mississippi university and Chair of the Information and Technology department at a large Texas University\n- Was Dean in Mississippi when plans were drawn up for a new $25 million business school building and was provost in Florida whenthe business college received $15 million\n- Has the rank of full professor of Information Technology."
+          ],
+          "assigned_hidden_information": [
+            "Stevens' information:\n- Comments from faculty in Florida and Mississippi indicate thatStevens tends to discourage new, innovative ideas\n- Has family in Atlanta\n- Is married with three children\nRoberts' information:\n- Previous faculty members describe Roberts as thoughtful leader andgood listener\n- Previous colleagues say Roberts uses a collaborative decision-making style\n- Enjoys golf and tennis\nJones' information\n- Has two dogs and two cats\n- Jones' spouse is a physician, specializing in internal medicine"
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Stevens' CV highlights:\n- Currently the provost and executive vice president of a medium-sized university in Florida\n- Previous experience as business dean of a large Mississippi university and Chair of the Information and Technology department at a large Texas University\n- Was Dean in Mississippi when plans were drawn up for a new $25 million business school building and was provost in Florida whenthe business college received $15 million\n- Has the rank of full professor of Information Technology.",
+            "Stevens' information:\n- Stevens left the dean position at the Mississippi University beforeraising any funds for building campaign\n- As provost, Stevens teaches a class per year\n- Spouse has a PhD in Spanish and teaches a class or two at college level\nRoberts' information:\n- Has made numerous influential contacts as senator\n- Frequently volunteers for two highly respected nonprofit organiza-tions, one that provides affordable housing and another concernedwith advancing human rights\n- Is a vegetarian\n Jones' information\n- Already lives in the area\n- Is married with a grown child\n- Sources at the law firm attribute a high turnover rate at the firm toJones' somewhat abrasive leadership style",
+            "Roberts' information:\n- Faculty feedback indicated that Roberts had come across as aloofduring the presentation portion of the selection process\n- Has not worked in higher education for past 6 years\n- Has a condo in Pensacola\n- Has little direct experience dealing with campus-student life issues\n- As a senator, was accused of changing positions on issues for political gain.",
+            "Stevens' information:\n- Nationally recognized by academics for research in informationtechnology\n- Nationally recognized by business leaders for expertise in information technology\n- In an interview, Stevens emphasized the importance of collaboration with campus leaders and faculty\n- Demonstrated excellent oratory skills during presentation to faculty\n- Someone other than Stevens was primarily responsible for getting the $15 million in Florida.",
+            "Roberts' CV highlights:\n- Just completed a term as U.S. Senator for Georgia but chose not toseek a second term\n- Raised a significant amount of money in campaign for senator\n- Previous experience as Dean of the College of Arts and Sciences of a medium-sized university in Virginia and later of a large private university in Georgia\n- Had rank of full professor of public administration before becoming senator.",
+            "Jones' CV highlights:\n- Currently the senior managing partner in a large law firm in Atlanta,Georgia\n- For the past 5 years has served on the Board of Trustees of Higher Education University, and is on the steering committee for the current $150 million capital campaign\n- Has expertise in employment law and has successfully argued infront of the Federal Supreme Court\n- Served as visiting professor of law at a major university in Georgia.",
+            "Jones' information:\n- Pleasant personality in social settings\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Following the Supreme Court appearance, Jones success rate in litigating employment law cases fell\n- Has been one of the more active members of Higher Education University's Board of Trustees\n- Student enrollment and evaluations from classes indicate that Jonesis well-liked as a teacher."
+          ],
+          "assigned_hidden_information": [
+            "Stevens' information:\n- Stevens left the dean position at the Mississippi University beforeraising any funds for building campaign\n- As provost, Stevens teaches a class per year\n- Spouse has a PhD in Spanish and teaches a class or two at college level\nRoberts' information:\n- Has made numerous influential contacts as senator\n- Frequently volunteers for two highly respected nonprofit organiza-tions, one that provides affordable housing and another concernedwith advancing human rights\n- Is a vegetarian\n Jones' information\n- Already lives in the area\n- Is married with a grown child\n- Sources at the law firm attribute a high turnover rate at the firm toJones' somewhat abrasive leadership style"
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "Stevens",
+          "ranking": [
+            "Stevens",
+            "Jones",
+            "Roberts"
+          ],
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic profile (full professor, national recognition), whereas Roberts lacks recent HE experience and has ethical concerns, and Jones lacks direct academic administration credentials despite fundraising success."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Stevens",
+          "ranking": [
+            "Stevens",
+            "Roberts",
+            "Jones"
+          ],
+          "rationale": "Stevens is the only candidate with current, relevant academic leadership experience and a strong record of fundraising success, whereas Roberts lacks recent higher education experience and Jones is an outsider from the legal field."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Stevens",
+          "ranking": [
+            "Stevens",
+            "Roberts",
+            "Jones"
+          ],
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic background (Full Professor), directly meeting the core requirements for leading a liberal arts college."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Stevens",
+          "ranking": [
+            "Stevens",
+            "Roberts",
+            "Jones"
+          ],
+          "rationale": "Stevens is the only candidate with current, relevant academic leadership experience (Provost/Dean) and a strong record of fundraising success in higher education, whereas Roberts lacks recent campus experience and Jones has no administrative background."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "7e616d48045c08720cdd3c808dd3a86efab35c2c1eaa78602a20f883db6add4b"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "eb4a79d8a79e9d309218ae8eb9e0656acd97a42fa529138139c4221f33c605c7"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "f71e111d13898110adccaebf9b4e1cf2bb11871109916ec0fea72cae20d5be02"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "549155a03f8e8acd8a39fe27f83c76800bc2d6ce848e2dc52b09df3221721fe4"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "5908dcdd582b972c0f7c101ea09b3f421c37dbfd14a77959cb74309e4179ef1c"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "0e054519ca0d7ebdc5ba0018517cc454a2fecdd797cecc99acbdca75c9ade85e"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "a48e8d4d2754aed8aeac8cf0dd0ecfeaa78cdaa883b7af10b8ffa471ca95844c"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "8461d7e026462fd8aef945c386513b49c781717566a119e2215f89b96ac178ad"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "426d0aaa633aa8485e96fe8443ac6526b13454158abaae7302fbe2ffbaf13d12"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "dbeeb2fe825dc834c25db22a1a0bcf3fca16ecc42f46b51482191f0f7d0500e8"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "9f177ae55c6b95a5a424102365d6dcc0b95fe3eee9497d863bb7b6ba981b47af"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "38013ec877410777f7a5e65adfa8ca34469aa17b37e9ad7a68c6381c4d9135b6"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "baa33e72f85f6ac79770e52b7200656fabf9f386f37dad8b8b7bb3207e8970ab"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "8ac55ebd876827923e47841dc911dd3a317e09d18fd2f1f23a19443ba25e0851"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "19585708431e52c262ca13974055b8b08cb73984c5612248e23f846bc39634b5"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "8ed0589c180bf4118240ba990bc9a3e5a5f39693aff2821abeb6908f71a9a6e2"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "813c795437372d820c5269fc3892c27a64f7a3dc054f6e3f0b569698843f21af"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "e4683632e996fc241149e5c7e6ed750be6a3db380f0a5fd118e32e870ec4ccc0"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "d97a60e4ac92d493035b98e90772c714bba72e5db059a92f5ad042b5c5710f88"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "035abb7af067e39687222ac2aa9e150d106475fabc643498ea94e3b6735ea0f5"
+        }
+      ],
+      "usage_delta": {
+        "calls": 24,
+        "total_tokens": 44394
+      },
+      "wall_s": 34.04
+    },
+    {
+      "task_id": 6,
+      "scenario": "schulz_hardt_mojzisch_2012",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 3,
+      "correct_answer": "Candidate C",
+      "possible_answers": [
+        "Candidate A",
+        "Candidate B",
+        "Candidate C",
+        "Candidate D"
+      ],
+      "seed": 12026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Candidate B",
+          "rationale": "Candidate B possesses the most critical traits for long-distance flight safety, such as keeping calm in a crisis, reliability, and assessing weather conditions, which outweighs his minor weakness in number memory compared to the significant interpersonal or temperamental issues of other candidates."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Candidate B",
+          "rationale": "Candidate B possesses the most critical traits for long-distance flight safety, including reliability, crisis calmness, and weather assessment skills, which outweigh minor interpersonal issues like grumpiness."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Candidate B",
+          "rationale": "Candidate B possesses the most critical traits for a long-distance pilot, including reliability, crisis management, and weather assessment, which outweighs minor interpersonal issues."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Candidate B\nYour initial rationale was: Candidate B possesses the most critical traits for long-distance flight safety, such as keeping calm in a crisis, reliability, and assessing weather conditions, which outweighs his minor weakness in number memory compared to the significant interpersonal or temperamental issues of other candidates.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Candidate B\nYour initial rationale was: Candidate B possesses the most critical traits for long-distance flight safety, including reliability, crisis calmness, and weather assessment skills, which outweigh minor interpersonal issues like grumpiness.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Candidate B\nYour initial rationale was: Candidate B possesses the most critical traits for a long-distance pilot, including reliability, crisis management, and weather assessment, which outweighs minor interpersonal issues.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Candidate B",
+          "rationale": "Candidate B's reliability, crisis management, and weather assessment skills are critical for long-distance flight safety, outweighing the significant interpersonal and temperamental flaws of the other candidates."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Candidate B",
+          "rationale": "Candidate B is the best choice because their reliability, ability to keep calm in a crisis, and skill in assessing weather conditions are critical for long-distance flight safety, outweighing minor interpersonal issues like grumpiness."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Candidate B",
+          "rationale": "Candidate B's reliability, crisis management, and weather assessment skills are essential for long-distance flight safety, outweighing minor interpersonal issues."
+        }
+      ],
+      "group_decision": "Candidate B",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Candidate A:\n- can anticipate dangerous situations\n- is able to see complex connections\n- has excellent spatial vision\n- has very good leadership qualities.",
+            "Candidate C:\n- has difficulty communicating ideas\n- is regarded as egocentric\n- is not very willing to further his education.",
+            "Candidate A:\n- is regarded as a show-off\n- is regarded as being not open to new ideas\nCandidate B:\n- has a relatively weak memory for numbers\n- makes nasty remarks about his colleagues\nCandidate C:\n- creates a positive atmosphere with his crew\n- is very conscientious\nCandidate D:\n- is regarded as a 'know-it-all'\n- has a hot temper",
+            "Candidate D:\n- responds to unexpected events adequately\n- can concentrate very well\n- solves problems extremely well\n- takes responsibility seriously.",
+            "Candidate B:\n- keeps calm in a crisis\n- known to be very reliable\n- good at assessing weather conditions\n- has excellent computer skills."
+          ],
+          "assigned_hidden_information": [
+            "Candidate A:\n- is regarded as a show-off\n- is regarded as being not open to new ideas\nCandidate B:\n- has a relatively weak memory for numbers\n- makes nasty remarks about his colleagues\nCandidate C:\n- creates a positive atmosphere with his crew\n- is very conscientious\nCandidate D:\n- is regarded as a 'know-it-all'\n- has a hot temper"
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Candidate A:\n- is sometimes not good at taking criticism\n- can be unorganised\nCandidate B:\n- can be grumpy\n- can be uncooperative\nCandidate C:\n- can make correct decisions quickly\n- handles stress very well\nCandidate D:\n- is regarded as arrogant\n- has relatively weak leadership skills",
+            "Candidate B:\n- keeps calm in a crisis\n- known to be very reliable\n- good at assessing weather conditions\n- has excellent computer skills.",
+            "Candidate A:\n- can anticipate dangerous situations\n- is able to see complex connections\n- has excellent spatial vision\n- has very good leadership qualities.",
+            "Candidate C:\n- has difficulty communicating ideas\n- is regarded as egocentric\n- is not very willing to further his education.",
+            "Candidate D:\n- responds to unexpected events adequately\n- can concentrate very well\n- solves problems extremely well\n- takes responsibility seriously."
+          ],
+          "assigned_hidden_information": [
+            "Candidate A:\n- is sometimes not good at taking criticism\n- can be unorganised\nCandidate B:\n- can be grumpy\n- can be uncooperative\nCandidate C:\n- can make correct decisions quickly\n- handles stress very well\nCandidate D:\n- is regarded as arrogant\n- has relatively weak leadership skills"
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Candidate D:\n- responds to unexpected events adequately\n- can concentrate very well\n- solves problems extremely well\n- takes responsibility seriously.",
+            "Candidate A:\n- is unfriendly\n- eats unhealthily\nCandidate B:\n- is regarded as pretentious\n- sometimes adopts the wrong tone when communicating\nCandidate C:\n- understands complicated technology\n- puts concern for others above everything\nhas excellent attention skills\nCandidate D:\n- is considered moody\n- is regarded as a loner",
+            "Candidate C:\n- has difficulty communicating ideas\n- is regarded as egocentric\n- is not very willing to further his education.",
+            "Candidate B:\n- keeps calm in a crisis\n- known to be very reliable\n- good at assessing weather conditions\n- has excellent computer skills.",
+            "Candidate A:\n- can anticipate dangerous situations\n- is able to see complex connections\n- has excellent spatial vision\n- has very good leadership qualities."
+          ],
+          "assigned_hidden_information": [
+            "Candidate A:\n- is unfriendly\n- eats unhealthily\nCandidate B:\n- is regarded as pretentious\n- sometimes adopts the wrong tone when communicating\nCandidate C:\n- understands complicated technology\n- puts concern for others above everything\nhas excellent attention skills\nCandidate D:\n- is considered moody\n- is regarded as a loner"
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "Candidate B",
+          "ranking": [
+            "Candidate B",
+            "Candidate D",
+            "Candidate A",
+            "Candidate C"
+          ],
+          "rationale": "Candidate B's reliability and crisis management are critical for long-distance safety, outweighing the significant interpersonal and temperamental flaws of the other candidates."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Candidate B",
+          "ranking": [
+            "Candidate B",
+            "Candidate D",
+            "Candidate A",
+            "Candidate C"
+          ],
+          "rationale": "Candidate B's reliability, crisis calmness, and weather assessment skills are critical for long-distance flight safety, outweighing minor interpersonal issues."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Candidate B",
+          "ranking": [
+            "Candidate B",
+            "Candidate D",
+            "Candidate A",
+            "Candidate C"
+          ],
+          "rationale": "Candidate B possesses the most critical operational traits for a long-distance pilot, including reliability, crisis management, and weather assessment, which outweigh minor interpersonal issues."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "52156756b9d06dd908fe9a9f1d128a925b25b489791c54588ec17e9803257cd8"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "6e9b023f3c6ea5447c806b0a95cf1dd1b0c0149999e350ba6ce99f62f874d19e"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "69ed4c2dcf3c6e7ae65b5b330edf0fa20a3bcd9f5ccd7e3b9033993860c61fc7"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "7e1ffc8c3560ce1a2e6d1718cb722b0f36d3ff62a5e23ab709217ac80e5e3f49"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "f783f80e72e5938f6a9788acd8ab504025ed6a40b0d8b64ee21cf5fba71d7ffc"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "58fb4a38ac3d95c16ffcb9993e57550b43e363cd14aae2e54d42bca19c7ea660"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "dc777625e475f3562a62a5e325e6e538e88b32da88a565c52da2548afdb199ba"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "89b4105780818332fbbd19c862a424ba237de6738f0396dc07b3769e3f4746eb"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "3a554404c7a74eb2e29a0f62a49b0e44689adc03a1f0d089149fee87c8d4fb7f"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "e20c2516b11703868961c7433f13754f7030d04e1908579a953abf6d760115e0"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "0895ea231e7bc7f124ffa001c9cd4e44667baa32685a7ea1628f94bc570f5703"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "b08ac52cec6814f0831c17abba47302abda5aeddeb14e24637e547976cc4914c"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "7932f060f0c21cc5062dddd7a3b4d888242d54d8301eaffbda082fd0d1e8553b"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "2846bb78977f16f37212ba1ab2ddaca00b31fafb6a2ea9216603d38293d258dd"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "8bb54342544e12eb44baf885eee8f9c640d2944ba4c615b68ef18f91da240bb3"
+        }
+      ],
+      "usage_delta": {
+        "calls": 18,
+        "total_tokens": 16589
+      },
+      "wall_s": 22.3
+    },
+    {
+      "task_id": 7,
+      "scenario": "graetz_et_al_1998",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Starlight Incorporated",
+      "possible_answers": [
+        "Franklin Enterprises",
+        "Starlight Incorporated",
+        "Cape Industries"
+      ],
+      "seed": 22026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Franklin Enterprises",
+          "rationale": "Franklin meets 6 criteria (d, e, f, g, h) while Starlight and Cape each meet only 3; Franklin's failures on vehicle size/recovery are less critical than the others' multiple hard constraint violations."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Cape Industries",
+          "rationale": "Cape Industries is the only proposal that meets the critical vehicle criteria (c) and has positive past performance (i), whereas Franklin fails on vehicle fit/speed and Starlight fails on vehicle recovery."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Cape Industries",
+          "rationale": "Cape Industries is the only proposal that meets the critical air vehicle requirement (a) to fit on a 2-ton truck, whereas both Franklin and Starlight explicitly fail this criterion."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Starlight Incorporated",
+          "rationale": "Franklin fails vehicle criteria (b, c) and past performance (i); Cape fails weight (f), reliability (g), and sweep time (b). Starlight is the only option without explicit failures in the provided data, making it the most viable candidate by elimination."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Franklin Enterprises\nYour initial rationale was: Franklin meets 6 criteria (d, e, f, g, h) while Starlight and Cape each meet only 3; Franklin's failures on vehicle size/recovery are less critical than the others' multiple hard constraint violations.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Cape Industries\nYour initial rationale was: Cape Industries is the only proposal that meets the critical vehicle criteria (c) and has positive past performance (i), whereas Franklin fails on vehicle fit/speed and Starlight fails on vehicle recovery.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Cape Industries\nYour initial rationale was: Cape Industries is the only proposal that meets the critical air vehicle requirement (a) to fit on a 2-ton truck, whereas both Franklin and Starlight explicitly fail this criterion.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Starlight Incorporated\nYour initial rationale was: Franklin fails vehicle criteria (b, c) and past performance (i); Cape fails weight (f), reliability (g), and sweep time (b). Starlight is the only option without explicit failures in the provided data, making it the most viable candidate by elimination.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Franklin Enterprises",
+          "rationale": "Franklin Enterprises is the only proposal that meets all five computer and cost criteria (d, e, f, g, h), whereas Starlight fails vehicle size/recovery and Cape fails multiple hard requirements including cost and reliability."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Cape Industries",
+          "rationale": "Cape Industries is the only proposal that meets the critical vehicle recovery criterion (c) and has positive past performance, whereas Franklin fails on vehicle fit/speed and Starlight fails on vehicle recovery."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Cape Industries",
+          "rationale": "Cape Industries is the only proposal that meets the critical air vehicle requirement (a) to fit on a 2-ton truck, whereas both Franklin and Starlight explicitly fail this criterion."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Starlight Incorporated",
+          "rationale": "Starlight Incorporated is the only proposal without any explicit 'N' failures in the provided data, whereas Franklin and Cape both have clear disqualifying criteria."
+        }
+      ],
+      "group_decision": "Cape Industries",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Franklin Enterprises:\n- (a) N\n- (c) N\nStarlight Incorporated:\n- (f) Y\n- (i) Y\nCape Industries:\n- (b) N\n- (c) Y\n- (d) Y\n- (f) N\n- (h) N\n- (i) Y",
+            "Starlight Incorporated:\n- (a) N\n- (c) N\n",
+            "Franklin Enterprises:\n- (d) Y\n- (e) Y\n- (f) Y\n- (g) Y\n- (h) Y\n- (i) N\n- (j) N\n",
+            "Cape Industries:\n- (g) N"
+          ],
+          "assigned_hidden_information": [
+            "Franklin Enterprises:\n- (a) N\n- (c) N\nStarlight Incorporated:\n- (f) Y\n- (i) Y\nCape Industries:\n- (b) N\n- (c) Y\n- (d) Y\n- (f) N\n- (h) N\n- (i) Y"
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Franklin Enterprises:\n- (d) Y\n- (e) Y\n- (f) Y\n- (g) Y\n- (h) Y\n- (i) N\n- (j) N\n",
+            "Franklin Enterprises:\n- (a) N\n- (b) N\nStarlight Incorporated:\n- (g) Y\n- (j) Y\nCape Industries:\n- (c) Y\n- (d) Y\n- (e) Y\n- (h) N\n- (i) Y\n- (j) Y",
+            "Cape Industries:\n- (g) N",
+            "Starlight Incorporated:\n- (a) N\n- (c) N\n"
+          ],
+          "assigned_hidden_information": [
+            "Franklin Enterprises:\n- (a) N\n- (b) N\nStarlight Incorporated:\n- (g) Y\n- (j) Y\nCape Industries:\n- (c) Y\n- (d) Y\n- (e) Y\n- (h) N\n- (i) Y\n- (j) Y"
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Starlight Incorporated:\n- (a) N\n- (c) N\n",
+            "Franklin Enterprises:\n- (d) Y\n- (e) Y\n- (f) Y\n- (g) Y\n- (h) Y\n- (i) N\n- (j) N\n",
+            "Franklin Enterprises:\n- (a) N\n- (c) N\nStarlight Incorporated:\n- (e) Y\n- (h) Y\nCape Industries:\n- (a) Y\n- (b) N\n- (c) Y\n- (f) N\n- (h) N\n- (j) Y",
+            "Cape Industries:\n- (g) N"
+          ],
+          "assigned_hidden_information": [
+            "Franklin Enterprises:\n- (a) N\n- (c) N\nStarlight Incorporated:\n- (e) Y\n- (h) Y\nCape Industries:\n- (a) Y\n- (b) N\n- (c) Y\n- (f) N\n- (h) N\n- (j) Y"
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Franklin Enterprises:\n- (d) Y\n- (e) Y\n- (f) Y\n- (g) Y\n- (h) Y\n- (i) N\n- (j) N\n",
+            "Cape Industries:\n- (g) N",
+            "Franklin Enterprises:\n- (b) N\n- (c) N\nStarlight Incorporated:\n- (b) Y\n- (d) Y\nCape Industries:\n- (a) Y\n- (b) N\n- (d) Y\n- (e) Y\n- (f) N\n- (i) Y\n- (j) Y",
+            "Starlight Incorporated:\n- (a) N\n- (c) N\n"
+          ],
+          "assigned_hidden_information": [
+            "Franklin Enterprises:\n- (b) N\n- (c) N\nStarlight Incorporated:\n- (b) Y\n- (d) Y\nCape Industries:\n- (a) Y\n- (b) N\n- (d) Y\n- (e) Y\n- (f) N\n- (i) Y\n- (j) Y"
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "Franklin Enterprises",
+          "ranking": [
+            "Franklin Enterprises",
+            "Starlight Incorporated",
+            "Cape Industries"
+          ],
+          "rationale": "Franklin meets all five computer and cost criteria (d, e, f, g, h), whereas Starlight fails vehicle size/recovery and Cape fails multiple hard requirements including cost and reliability."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Cape Industries",
+          "ranking": [
+            "Cape Industries",
+            "Franklin Enterprises",
+            "Starlight Incorporated"
+          ],
+          "rationale": "Cape Industries is the only proposal that meets the critical vehicle recovery criterion (c) and has positive past performance, despite failing on cost and reliability."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Cape Industries",
+          "ranking": [
+            "Cape Industries",
+            "Franklin Enterprises",
+            "Starlight Incorporated"
+          ],
+          "rationale": "Cape Industries is the only proposal that meets the critical air vehicle requirement (a) to fit on a 2-ton truck, whereas both Franklin and Starlight explicitly fail this criterion."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Starlight Incorporated",
+          "ranking": [
+            "Starlight Incorporated",
+            "Franklin Enterprises",
+            "Cape Industries"
+          ],
+          "rationale": "Starlight is the only proposal without any explicit 'N' failures in the provided data, whereas Franklin and Cape both have clear disqualifying criteria."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "5cdf77761287027ebf20b81c264e0b9d8c4b057390c6b7d485f14029fd7ab9a8"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "6e2b0781d9ac6312b81d9e0c6b457333b87737399fda3eb34a07c430fad53705"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "75d6990de603fd8becf0061f8bf580561eef74fa7b04a881159cca339f594c8b"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "291db3c71a52059cd9600bac724e93e721170921b3635a368af7449071d62812"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "f4048cc82e19620d24c1d7aa3283f98aed91cc1b13ec8bc533f7b61e6915c3df"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "d364bb155a23dcec60e410b4f486dffc1ccb94415066ab9c3c81a270bc22a369"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "cb128aa8739f275dad45c73a177452bf5d5d8767548f87157910aa87a937db6a"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "05b1adc85388289accc1c3d75f54ff8d96a21fe2f30dbbec47a4162c0ab5b140"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "3f6297e599a0ca87394d5f188c89681af0663fe3dc74e7528ea0ae7c0d0d0bb6"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "35b29fa57e6c01ba09f53d2336be334fbaac9255bd6665d6beaff4c75f908e96"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "cf73b604197bf7864a0d986c6b41faa3dbc7b584422e5feee1eb2390ea503cb5"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "320e6e00a2513b8112d5e2f7e06d8818ad48dac6b20994292ed5c800e3392426"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "0b45516bca9060fe7dea1b78d86b03cccb4d7033ee6e360963682a4fa4533936"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "ebf35c32f4c27c6b71a6e04530437077ba279082eba81a7b445ddab95e67ddc1"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "963abeab435ef18fc71dd855f9d7c9f3f2dfe32213278ada6ab354b1fe09c391"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "93d43ab6696ce652bac29c1d341680e2de399d34def4eacee8c493f3fa34a327"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "12bdfc625f92d8935416bdf0a953f2c116a87b7e64df608bc3cff955eb1db502"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "2af8c70505aceac3b2346c5873c20761f37c0ca2019ab0053e0eb2b34fe7c340"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "18f214f87267a778eaff67cee3122d908debedefcf8690f8876081ed6c95edcc"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "687a610437f2e3021f8cd1a7905d54598ce4aaded589461a9bd2661e5f3ef844"
+        }
+      ],
+      "usage_delta": {
+        "calls": 24,
+        "total_tokens": 30958
+      },
+      "wall_s": 31.37
+    },
+    {
+      "task_id": 8,
+      "scenario": "Stasser_Stewart_1992",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 3,
+      "correct_answer": "Eddie Sullivan",
+      "possible_answers": [
+        "Eddie Sullivan",
+        "Billy Prentice",
+        "Mickey Malone"
+      ],
+      "seed": 32026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a clear motive (threatened loss of business), the means/opportunity to access the house (knew the layout, claimed to be nearby but his route contradicts the timeline), and the alibi is weak given the drive time and direction."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mickey Malone",
+          "rationale": "Security footage places Mickey at the café from 6:30 to 6:45 AM, which overlaps with the time of death (6:30-7:00 AM), and he had a clear motive due to Guion's threat to stop supporting his business."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a strong financial motive (Fact 9) and the opportunity, as he knew the house well (Fact 8) and was seen at the golf course after 7:00 AM (Fact 5), placing him near the scene during the time of death, while Eddie and Billy have alibis or lack direct access/motive compared to Mickey's recent threat."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Mickey Malone\nYour initial rationale was: Mickey had a clear motive (threatened loss of business), the means/opportunity to access the house (knew the layout, claimed to be nearby but his route contradicts the timeline), and the alibi is weak given the drive time and direction.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Mickey Malone\nYour initial rationale was: Security footage places Mickey at the café from 6:30 to 6:45 AM, which overlaps with the time of death (6:30-7:00 AM), and he had a clear motive due to Guion's threat to stop supporting his business.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Mickey Malone\nYour initial rationale was: Mickey had a strong financial motive (Fact 9) and the opportunity, as he knew the house well (Fact 8) and was seen at the golf course after 7:00 AM (Fact 5), placing him near the scene during the time of death, while Eddie and Billy have alibis or lack direct access/motive compared to Mickey's recent threat.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a strong financial motive due to Guion's threat to cut off business support, and his alibi is geographically inconsistent with the timeline, as the drive from the café to the golf course takes over 15 minutes in the opposite direction of Guion's house, suggesting he was actually at the scene during the time of death."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a strong financial motive due to Guion's threat to stop supporting his business, and his alibi at the café (6:30-6:45 AM) leaves a window within the time of death (6:30-7:00 AM) where he could have used Eddie's unlocked crowbar, leveraging his familiarity with the property."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a strong financial motive due to Guion's threat to stop supporting his business (Fact 9) and was seen at the golf course after 7:00 AM (Fact 5), placing him near the scene during the time of death, while Eddie and Billy have weaker motives or alibis."
+        }
+      ],
+      "group_decision": "Mickey Malone",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Billy said Eddie's tools were usually locked up, but the crowbar was oddly left out.",
+            "Eddie knew Guion left home for golf around 6:30 AM.",
+            "Mickey said he left his house to pick Guion up for golf, but turned down and went to a café instead.",
+            "Eddie said he heard Billy's car leave Guion's house around 7:00 AM.",
+            "Guion informed Mickey of his decision to possibly stop supporting Mickey's business the day before.",
+            "Billy borrowed some money from Guion two days before. Nobody actually witnessed Eddie working that morning. It takes more than 15 minutes to drive directly from the café to the golf course, without passing by Guion's house., and Guion's house is actually in the opposite direction.",
+            "The crowbar belongs to Eddie, but Billy's fingerprints were partially on its handle.",
+            "Eddie said he was dismantling a shed around Guion's house from 6:00 AM.",
+            "Mickey knew Guion's house well, as he often picked Guion up for golf."
+          ],
+          "assigned_hidden_information": [
+            "Billy borrowed some money from Guion two days before. Nobody actually witnessed Eddie working that morning. It takes more than 15 minutes to drive directly from the café to the golf course, without passing by Guion's house., and Guion's house is actually in the opposite direction."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Mickey said he left his house to pick Guion up for golf, but turned down and went to a café instead.",
+            "Eddie knew Guion left home for golf around 6:30 AM.",
+            "Billy said Eddie's tools were usually locked up, but the crowbar was oddly left out.",
+            "Eddie is hard of hearing and never wears his hearing aid while working at Guion's. Security footage shows Mickey entering the café at 6:30 and leaving at 6:45 AM. Billy admitted touching the crowbar when he found it.",
+            "The crowbar belongs to Eddie, but Billy's fingerprints were partially on its handle.",
+            "Mickey knew Guion's house well, as he often picked Guion up for golf.",
+            "Guion informed Mickey of his decision to possibly stop supporting Mickey's business the day before.",
+            "Eddie said he heard Billy's car leave Guion's house around 7:00 AM.",
+            "Eddie said he was dismantling a shed around Guion's house from 6:00 AM."
+          ],
+          "assigned_hidden_information": [
+            "Eddie is hard of hearing and never wears his hearing aid while working at Guion's. Security footage shows Mickey entering the café at 6:30 and leaving at 6:45 AM. Billy admitted touching the crowbar when he found it."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Eddie said he heard Billy's car leave Guion's house around 7:00 AM.",
+            "Mickey said he left his house to pick Guion up for golf, but turned down and went to a café instead.",
+            "Billy said Eddie's tools were usually locked up, but the crowbar was oddly left out.",
+            "Eddie said he was dismantling a shed around Guion's house from 6:00 AM.",
+            "Billy needed some money for some purposes a week before. A golfing friend remembered seeing Mickey at the golf course sometime after 7:00 AM. Guion had recently fired Eddie's daughter after insulting her, which left Eddie furious, according to another employee.",
+            "The crowbar belongs to Eddie, but Billy's fingerprints were partially on its handle.",
+            "Eddie knew Guion left home for golf around 6:30 AM.",
+            "Mickey knew Guion's house well, as he often picked Guion up for golf.",
+            "Guion informed Mickey of his decision to possibly stop supporting Mickey's business the day before."
+          ],
+          "assigned_hidden_information": [
+            "Billy needed some money for some purposes a week before. A golfing friend remembered seeing Mickey at the golf course sometime after 7:00 AM. Guion had recently fired Eddie's daughter after insulting her, which left Eddie furious, according to another employee."
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "Mickey Malone",
+          "ranking": [
+            "Mickey Malone",
+            "Billy Prentice",
+            "Eddie Sullivan"
+          ],
+          "rationale": "Mickey had a strong motive (threatened loss of business) and his alibi is geographically impossible given the drive time and direction from the cafe to the golf course, suggesting he was actually at Guion's house during the time of death."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mickey Malone",
+          "ranking": [
+            "Mickey Malone",
+            "Billy Prentice",
+            "Eddie Sullivan"
+          ],
+          "rationale": "Mickey had a strong motive due to the business threat and knew the house well; his café alibi (6:30-6:45) leaves a window within the time of death (6:30-7:00) where he could have struck Guion with Eddie's unlocked crowbar before leaving or after arriving."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mickey Malone",
+          "ranking": [
+            "Mickey Malone",
+            "Eddie Sullivan",
+            "Billy Prentice"
+          ],
+          "rationale": "Mickey had a strong financial motive (Fact 9) and was seen at the golf course after 7:00 AM (Fact 5), placing him near the scene during the time of death, while Eddie and Billy have weaker motives or alibis."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "e8a484d842237e4f4f1f3fd54346b10b26f419446a58ea3264e393f42f9caea8"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "50a6e1d4af83b588295c3a8393a93b7c23be9d5d9a45792f4a98e9e1efff8fe0"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "7c624e6cb5a58f20c7ba37fe37343fe7be3f0d8e5d20863d10db0f73f7480fab"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "e5fa2c66e696e47a3405d631d9fb3234f00664ccdaf438f200b2572a6e22923b"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "8b42be1251637054e2ffe0f78b37e74350d7f1949ecfb76be0823806f67305b3"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "f2bf0d64155ee2455405396661c0fd64279f25223b62f1ab070dfd9603d8ae09"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "8c56d987d477169fcc5f831215bfb5d14534770c4aa0a6b082cba2e9321e811f"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "fd8f2e189d9a0a0d51df11c2a7ddad87ead8c732c44fb57dc2e4e5ffdfcf21d5"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "872102d73666ce72f557e7cb379aae2a9a44ff312f5f7d3c9301aa148d1618b4"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "7dbc7815a08ecb032039a401b1b591b4f2ac5ee1f619161467b4a14f2bcec452"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "159e2710f4f45607d3dc8e4fbf3e81dce1a8f3786427b6c61787ba2163379b6c"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "c72b77709f8f6363a82046c6eeddc5dc2ae0b61ba924723cb5fc3369de1f0f1e"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "6fe97e9228a9af5a2ca889e5fb53a2dca4ec46d40dc1dc4dc44bbd6338ea38a2"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "7d325d3418b123314dfe617877c3b4b75bd33cf08fdf0f10c137eb3d88797950"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "25840eabe9201d392b2af350fb1e530e8933099563cc912e8d34dfaf933722db"
+        }
+      ],
+      "usage_delta": {
+        "calls": 18,
+        "total_tokens": 19799
+      },
+      "wall_s": 26.94
+    },
+    {
+      "task_id": 9,
+      "scenario": "critical_hospital_transfer",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Hospital A",
+      "possible_answers": [
+        "Hospital A",
+        "Hospital B",
+        "Hospital C"
+      ],
+      "seed": 42026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Hospital B",
+          "rationale": "Hospital C is ruled out due to a critical oxygen supply failure, and Hospital A is too risky due to hazardous mountain pass conditions in heavy rain; Hospital B offers the safest route via a repaired main road and confirmed emergency staff availability."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Hospital C",
+          "rationale": "Hospital B is inaccessible due to a confirmed landslide, and Hospital A poses high risk due to hazardous mountain passes in heavy rain; Hospital C is the only viable option with an upgraded ICU, despite secondary road risks."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Hospital B",
+          "rationale": "Hospital B offers the safest route via a recently repaired main road and guarantees available emergency staff, whereas Hospital A's pass is hazardous in rain despite recent clearance, and Hospital C faces flooding risks on secondary roads."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Hospital C",
+          "rationale": "Hospital B is ruled out due to a lack of critical care beds, and Hospital A is too risky due to the hazardous mountain pass in heavy rain; Hospital C remains the only viable option as its ICU was recently upgraded and it has a history of handling transfers."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Hospital B\nYour initial rationale was: Hospital C is ruled out due to a critical oxygen supply failure, and Hospital A is too risky due to hazardous mountain pass conditions in heavy rain; Hospital B offers the safest route via a repaired main road and confirmed emergency staff availability.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Hospital C\nYour initial rationale was: Hospital B is inaccessible due to a confirmed landslide, and Hospital A poses high risk due to hazardous mountain passes in heavy rain; Hospital C is the only viable option with an upgraded ICU, despite secondary road risks.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Hospital B\nYour initial rationale was: Hospital B offers the safest route via a recently repaired main road and guarantees available emergency staff, whereas Hospital A's pass is hazardous in rain despite recent clearance, and Hospital C faces flooding risks on secondary roads.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Hospital C\nYour initial rationale was: Hospital B is ruled out due to a lack of critical care beds, and Hospital A is too risky due to the hazardous mountain pass in heavy rain; Hospital C remains the only viable option as its ICU was recently upgraded and it has a history of handling transfers.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Hospital B",
+          "rationale": "Hospital B is the only viable option because Hospital C's ICU is non-functional due to a confirmed oxygen supply failure, and Hospital A poses unacceptable travel risks due to hazardous mountain pass conditions in heavy rain, whereas Hospital B has a safe, repaired route and confirmed emergency staff."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Hospital C",
+          "rationale": "Hospital B is inaccessible due to a confirmed landslide blocking the main road, and Hospital A's mountain pass is too hazardous in heavy rain; therefore, Hospital C is the only viable option with an upgraded ICU."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Hospital B",
+          "rationale": "Based on the provided facts, Hospital B is the only option with a confirmed safe route (recently repaired main road) and guaranteed emergency staff availability; while other agents cited landslides or bed shortages, these are not supported by the core facts which confirm the road's safety and staff presence, whereas Hospital A's pass is hazardous in rain and Hospital C's secondary road is prone to flooding."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Hospital C",
+          "rationale": "Hospital B is ruled out because Fact 3 explicitly states it is temporarily out of critical care beds, making it unable to treat the patient regardless of road conditions or staff availability. Hospital A is too risky due to the hazardous mountain pass in heavy rain (Fact 2). Hospital C remains the only viable option as its ICU was upgraded last year (Fact 1) and it has a history of handling transfers, despite the secondary road risks."
+        }
+      ],
+      "group_decision": "Hospital B",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The main road to Hospital B has been recently repaired and is the most commonly used route. Hospital B is known for its large ICU and currently has at least one doctor on emergency shift.",
+            "Hospital C is the oldest hospital and has a history of equipment failures; it’s reached by a secondary road that sometimes floods. However, its ICU was upgraded last year and their ambulance often helps transfer patients.",
+            "Hospital A has a good reputation but is smaller and sometimes lacks staff at night. The northern mountain pass leading to Hospital A can become hazardous after heavy rain.",
+            "Hospital C's recent ICU upgrade is incomplete: the oxygen supply system failed last night, and they have posted an urgent request for repairs—no critical care available until fixed."
+          ],
+          "assigned_hidden_information": [
+            "Hospital C's recent ICU upgrade is incomplete: the oxygen supply system failed last night, and they have posted an urgent request for repairs—no critical care available until fixed."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Hospital A has a good reputation but is smaller and sometimes lacks staff at night. The northern mountain pass leading to Hospital A can become hazardous after heavy rain.",
+            "A police alert reported a landslide blocking the last stretch of the main road to Hospital B this morning—traffic is completely halted for at least 24 hours.",
+            "Hospital C is the oldest hospital and has a history of equipment failures; it’s reached by a secondary road that sometimes floods. However, its ICU was upgraded last year and their ambulance often helps transfer patients.",
+            "The main road to Hospital B has been recently repaired and is the most commonly used route. Hospital B is known for its large ICU and currently has at least one doctor on emergency shift."
+          ],
+          "assigned_hidden_information": [
+            "A police alert reported a landslide blocking the last stretch of the main road to Hospital B this morning—traffic is completely halted for at least 24 hours."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Hospital C is the oldest hospital and has a history of equipment failures; it’s reached by a secondary road that sometimes floods. However, its ICU was upgraded last year and their ambulance often helps transfer patients.",
+            "Hospital A has a good reputation but is smaller and sometimes lacks staff at night. The northern mountain pass leading to Hospital A can become hazardous after heavy rain.",
+            "The main road to Hospital B has been recently repaired and is the most commonly used route. Hospital B is known for its large ICU and currently has at least one doctor on emergency shift.",
+            "The northern mountain pass to Hospital A has been cleared and is confirmed safe for ambulance travel as of an hour ago."
+          ],
+          "assigned_hidden_information": [
+            "The northern mountain pass to Hospital A has been cleared and is confirmed safe for ambulance travel as of an hour ago."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Hospital C is the oldest hospital and has a history of equipment failures; it’s reached by a secondary road that sometimes floods. However, its ICU was upgraded last year and their ambulance often helps transfer patients.",
+            "Hospital A has a good reputation but is smaller and sometimes lacks staff at night. The northern mountain pass leading to Hospital A can become hazardous after heavy rain.",
+            "Hospital B's emergency shift doctor is dealing with a multi-patient accident, and the hospital is temporarily out of critical care beds.",
+            "The main road to Hospital B has been recently repaired and is the most commonly used route. Hospital B is known for its large ICU and currently has at least one doctor on emergency shift."
+          ],
+          "assigned_hidden_information": [
+            "Hospital B's emergency shift doctor is dealing with a multi-patient accident, and the hospital is temporarily out of critical care beds."
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "Hospital B",
+          "ranking": [
+            "Hospital B",
+            "Hospital A",
+            "Hospital C"
+          ],
+          "rationale": "Hospital B is the only viable option with a safe route and confirmed emergency staff, whereas Hospital C lacks critical care capacity due to oxygen failure and Hospital A poses significant travel risks due to hazardous mountain pass conditions."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Hospital C",
+          "ranking": [
+            "Hospital C",
+            "Hospital A",
+            "Hospital B"
+          ],
+          "rationale": "Hospital B is inaccessible due to a confirmed landslide, and Hospital A's route is hazardous in heavy rain; Hospital C is the only viable option with an upgraded ICU."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Hospital B",
+          "ranking": [
+            "Hospital B",
+            "Hospital A",
+            "Hospital C"
+          ],
+          "rationale": "Hospital B offers the safest route via a recently repaired main road and guarantees available emergency staff, whereas Hospital A's pass is hazardous in rain despite recent clearance, and Hospital C faces flooding risks on secondary roads."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Hospital C",
+          "ranking": [
+            "Hospital C",
+            "Hospital A",
+            "Hospital B"
+          ],
+          "rationale": "Hospital B is ruled out due to a lack of critical care beds, and Hospital A is too risky due to the hazardous mountain pass in heavy rain; Hospital C remains the only viable option as its ICU was recently upgraded and it has a history of handling transfers."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "ddeb3fd08b89afeb23fd3a8aeae3008d63e5ac8997df3c059553eb82b6e0634f"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "6024c36473c5dd1f5837749a8a6e2685783841d70b5e306fd950bf5f29ef86ad"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "fbbb95da573d5695a39bfd80568f62871b928b94e6d82d7908454a98c09c683b"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "27720ee67e78cb7c7728ebaa03095663d3a536f3ce89428e16f6526313b7eb51"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "27d3938573158f851acdce1190730533cea40fe552f593ed7cf4b9b1cf8289ad"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "58ba4a4f63190773fe18256eb015af08e47cc3d741b22f67b7152f1c3c0e6a6b"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "4c151c0afb6981faf1c3c4432fb93a79249238792f82528fc44d0cf9cb1f42c2"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "fc793dae219fbcc6b38ecfa15acf72a8a42df6f67665e3c2294ac314fb8b8194"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "c94ade38c127a4a77bcd481d6ab1ac669f5bae41b029cfcf83e17fe782fd9a20"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "bb301329913fb4c8825a125de4174b3030849f2a9c2a30386ff314bfe34c9845"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "7fcd3e789fdbcae519f8d293981f9540934d4d70921e17dff8832123cce522ee"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "febab2f7cd0eedb1271bd34d7fffd63507f59ec6b80512e936cfc1c0c6c8080d"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "4924f9e1f13c5153a854aad2e9c550d417f933837bd4c4ca42b3969dbb731c0b"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "b64f60f4e311c86bb1ab7695107611214938eeb3c2871deb643877770ff6c783"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "60087817a7eb02621fd49c5216234698253ffabe1bc46cce4c23f8f2ff599266"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "e90851ae902255a397b9ead3758c937ffe0786e20b751971eb43fb0f1b700c9e"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "2ac2cf9858dcd4bbc60f1748cc72198eeda632c8e6cf36526189e94c2344df73"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "eca972ebb4c7f422792a669005605e928274ad27b7e62237fe5a9a8f2e501e29"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "9b574b42d8bea98ec95fd88c60a40a378bb797a61698255265940337c1a889c8"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "7e98e2d8dc17216091e33cfb5624b67472e522a4bf95628d853d221c663a31d9"
+        }
+      ],
+      "usage_delta": {
+        "calls": 24,
+        "total_tokens": 21691
+      },
+      "wall_s": 24.29
+    },
+    {
+      "task_id": 10,
+      "scenario": "emergency_supply_drop",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Warehouse C",
+      "possible_answers": [
+        "Warehouse A",
+        "Warehouse B",
+        "Warehouse C"
+      ],
+      "seed": 52026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse B is the only site adjacent to an emergency response center, ensuring coordinated distribution, and its upgraded access roads make it the fastest and safest option given the clear weather and lack of reported issues at the nearby chemical plant."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Warehouse A",
+          "rationale": "Warehouse B is unsafe due to rising noxious gas levels from the chemical plant, and Warehouse C is too far for prompt distribution; therefore, Warehouse A is the only viable option that balances safety with accessibility."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse A is inaccessible due to a collapsed bridge, and Warehouse C is too far for prompt distribution; Warehouse B is safe (no chemical issues), has upgraded roads for fast access, and is adjacent to an emergency response center."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse A is ruled out because debris blocks distribution, and Warehouse C is less optimal due to distance; Warehouse B is the best choice as it has upgraded access roads for speed, is adjacent to an emergency response center for coordination, and the nearby chemical plant poses no current threat."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Warehouse B\nYour initial rationale was: Warehouse B is the only site adjacent to an emergency response center, ensuring coordinated distribution, and its upgraded access roads make it the fastest and safest option given the clear weather and lack of reported issues at the nearby chemical plant.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Warehouse A\nYour initial rationale was: Warehouse B is unsafe due to rising noxious gas levels from the chemical plant, and Warehouse C is too far for prompt distribution; therefore, Warehouse A is the only viable option that balances safety with accessibility.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Warehouse B\nYour initial rationale was: Warehouse A is inaccessible due to a collapsed bridge, and Warehouse C is too far for prompt distribution; Warehouse B is safe (no chemical issues), has upgraded roads for fast access, and is adjacent to an emergency response center.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Warehouse B\nYour initial rationale was: Warehouse A is ruled out because debris blocks distribution, and Warehouse C is less optimal due to distance; Warehouse B is the best choice as it has upgraded access roads for speed, is adjacent to an emergency response center for coordination, and the nearby chemical plant poses no current threat.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse B is the only site adjacent to an emergency response center for coordinated distribution and offers the fastest, safest access via upgraded roads with no reported hazards at the nearby chemical plant."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Warehouse A",
+          "rationale": "Warehouse B is unsafe due to rising noxious gas levels detected by sensors, and Warehouse C is too far for prompt distribution; therefore, Warehouse A is the only viable option that balances safety with accessibility."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse B is the only viable option because Warehouse A is inaccessible due to a collapsed bridge preventing supply distribution, and Warehouse C is too distant for prompt delivery. Warehouse B is confirmed safe as no issues have been reported at the nearby chemical plant, and it offers upgraded access roads and adjacency to an emergency response center for efficient coordination."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse B is the only viable option because it has upgraded access roads for rapid distribution and is adjacent to an emergency response center, while Warehouse A is blocked by debris preventing resupply distribution and Warehouse C is too far for prompt delivery; Fact 4 confirms the nearby chemical plant poses no current threat."
+        }
+      ],
+      "group_decision": "Warehouse B",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Warehouse B has recently received upgrades to access roads, making it the fastest to reach from the airstrip, and past flights have favored this site.",
+            "Flood maps show that the chemical plant near Warehouse B has not reported any issues yet, and the weather is currently clear.",
+            "Warehouse A and Warehouse C both have large paved landing zones, but only Warehouse B is adjacent to an emergency response center.",
+            "Although Warehouse C is farthest from the airstrip, elevated service roads leading to the temporary shelters have just been confirmed as open by emergency agencies."
+          ],
+          "assigned_hidden_information": [
+            "Although Warehouse C is farthest from the airstrip, elevated service roads leading to the temporary shelters have just been confirmed as open by emergency agencies."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Warehouse B has recently received upgrades to access roads, making it the fastest to reach from the airstrip, and past flights have favored this site.",
+            "Flood maps show that the chemical plant near Warehouse B has not reported any issues yet, and the weather is currently clear.",
+            "Warehouse B has had minor chemical leaks in the past, and after the flood, sensors are detecting rising levels of noxious gases (risk of poisoning for those unloading/unpacking the plane).",
+            "Warehouse A and Warehouse C both have large paved landing zones, but only Warehouse B is adjacent to an emergency response center."
+          ],
+          "assigned_hidden_information": [
+            "Warehouse B has had minor chemical leaks in the past, and after the flood, sensors are detecting rising levels of noxious gases (risk of poisoning for those unloading/unpacking the plane)."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Flood maps show that the chemical plant near Warehouse B has not reported any issues yet, and the weather is currently clear.",
+            "The bridge near Warehouse A has completely collapsed in the flooding, making it impossible for trucks to move supplies out from there.",
+            "Warehouse B has recently received upgrades to access roads, making it the fastest to reach from the airstrip, and past flights have favored this site.",
+            "Warehouse A and Warehouse C both have large paved landing zones, but only Warehouse B is adjacent to an emergency response center."
+          ],
+          "assigned_hidden_information": [
+            "The bridge near Warehouse A has completely collapsed in the flooding, making it impossible for trucks to move supplies out from there."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Helicopter pilots report seeing standing water and large debris still blocking the main approach to Warehouse A, making landing physically possible but resupply distribution impossible.",
+            "Warehouse B has recently received upgrades to access roads, making it the fastest to reach from the airstrip, and past flights have favored this site.",
+            "Warehouse A and Warehouse C both have large paved landing zones, but only Warehouse B is adjacent to an emergency response center.",
+            "Flood maps show that the chemical plant near Warehouse B has not reported any issues yet, and the weather is currently clear."
+          ],
+          "assigned_hidden_information": [
+            "Helicopter pilots report seeing standing water and large debris still blocking the main approach to Warehouse A, making landing physically possible but resupply distribution impossible."
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "Warehouse B",
+          "ranking": [
+            "Warehouse B",
+            "Warehouse C",
+            "Warehouse A"
+          ],
+          "rationale": "Warehouse B is the only site adjacent to an emergency response center, ensuring coordinated distribution, and its upgraded access roads make it the fastest and safest option given clear weather and no reported issues at the nearby chemical plant."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Warehouse A",
+          "ranking": [
+            "Warehouse A",
+            "Warehouse C",
+            "Warehouse B"
+          ],
+          "rationale": "Warehouse B is unsafe due to rising noxious gas levels, and Warehouse C is too far for prompt distribution; Warehouse A offers a safe paved landing zone without these critical drawbacks."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Warehouse B",
+          "ranking": [
+            "Warehouse B",
+            "Warehouse C",
+            "Warehouse A"
+          ],
+          "rationale": "Warehouse B is the only safe and accessible site with upgraded roads and proximity to an emergency response center, whereas Warehouse A is blocked by a collapsed bridge and Warehouse C is too distant for prompt distribution."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Warehouse B",
+          "ranking": [
+            "Warehouse B",
+            "Warehouse C",
+            "Warehouse A"
+          ],
+          "rationale": "Warehouse B is the only viable option because it has upgraded access roads for speed, is adjacent to an emergency response center, and the nearby chemical plant poses no current threat, whereas Warehouse A is blocked by debris preventing distribution and Warehouse C is too far for prompt supply delivery."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "20ee4687eff62ab0c359b59301a2a32174e5606d65d6586306ce1f01783b1ea0"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "32870b228753c05613047faa5caf10f8dcd7f5c8a161cc82a3e1b164bcb3fe3b"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "5558352fd360df662dea5e5e77155c9c06f05fc20ac7010eaee7ee58b3aeabdb"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "537d3ee5ea24ea250055ce655491620f15bcfa910a2efedc8db209fd487eb776"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "a2fa44cdab8f7685661e2b67510d8a5c26fb569f8e26a78d28f2b70a01d2a203"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "f73596db9352fb2a091af4a26b3d7f7bc72353961bea27ab661824bb6fce935b"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "524c10d26de8bb371c330c31a570aaefb325f16006b285b649ed16294685c938"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "34998b34630763d58d95d5fe26e931ca49d69806904875d6e2d89362e12b438f"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "977643d00dd89209b1b2130b305dcba22a9b6bec5dc15c8e6d59bb7695d67743"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "7755dd54c893786f4f3239ae581b4bfeb5e331c2acd811e779b0970ca5f3d4f8"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "240850b8ed10747b85d3394cb4792a6bb282652d4e809fef8c062e1bfa375d01"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "232d5cbe9e0c1d568ce5b0a80ac8173a6db18987bb3acf05a183709d7305cf9d"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "1b610cba7d7ddfcaf4af8d1f6eca1c2272002f0fe0ca3201882b81b420ed3712"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "57b3a83c629a7fde4e6cf3420841d7073aa5e0ed4208ee0f9b93c9715d83b00b"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "4e8620ba2fb9cfbf1fb6da4c42cc16b8412e64a79fb44b1e1c63b68607982440"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "83d3ba8a107db8af9eebdb13ae3bc95588efcac58f201dfd153009ff4caa78e9"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "988d7052cb29b96ee5e9e5155c62a69b612e1d3fa375c83219a9719c6d1e3e75"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "10db7fc58d8d83fc83a479bd56dfcc950727e2789d2344d4c168e202ac80f096"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "880ee7728ea2a2f8bae017fc036fa83554657719a47bd4d7536cb8074651166b"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "ae4c8970788dcf759ae5e4a63855ac948fdc944967c1f1ed998be397124fee52"
+        }
+      ],
+      "usage_delta": {
+        "calls": 24,
+        "total_tokens": 21941
+      },
+      "wall_s": 27.24
+    },
+    {
+      "task_id": 11,
+      "scenario": "emergency_conference_relocation",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "School Gym",
+      "possible_answers": [
+        "City Library",
+        "Community Center",
+        "School Gym"
+      ],
+      "seed": 62026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "City Library",
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding power resilience is unclear."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "City Library",
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding cooling capacity is less certain than the Library's explicit power redundancy."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Community Center",
+          "rationale": "The Community Center is the only safe option because it is already evacuated and prepared for the heat wave, whereas the Library's generator will fail within 2 hours during peak heat and the School Gym has unresolved restroom issues."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "City Library",
+          "rationale": "The Community Center is unsafe due to a chemical leak, and the School Gym has unresolved restroom issues with no guaranteed fix before the event; the City Library is the only option with confirmed readiness and a backup generator to handle potential power outages during extreme heat."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: City Library\nYour initial rationale was: The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding power resilience is unclear.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: City Library\nYour initial rationale was: The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding cooling capacity is less certain than the Library's explicit power redundancy.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Community Center\nYour initial rationale was: The Community Center is the only safe option because it is already evacuated and prepared for the heat wave, whereas the Library's generator will fail within 2 hours during peak heat and the School Gym has unresolved restroom issues.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: City Library\nYour initial rationale was: The Community Center is unsafe due to a chemical leak, and the School Gym has unresolved restroom issues with no guaranteed fix before the event; the City Library is the only option with confirmed readiness and a backup generator to handle potential power outages during extreme heat.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "City Library",
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is essential to maintain air conditioning and prevent heat stress given the extreme temperatures (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's power resilience is unverified."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "City Library",
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is essential to maintain air conditioning and prevent heat stress given the extreme temperatures (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's cooling capacity is not explicitly guaranteed."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Community Center",
+          "rationale": "The Community Center is the only safe option because it is already evacuated and prepared for the heat wave, whereas the Library's generator will fail within 2 hours during peak heat and the School Gym has unresolved restroom issues."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "City Library",
+          "rationale": "The City Library is the only safe venue because it has a confirmed backup generator to handle power outages during extreme heat, whereas the Community Center is unsafe due to an active chemical leak and the School Gym has unresolved restroom issues."
+        }
+      ],
+      "group_decision": "City Library",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The School Gym's restrooms are being restored right now. The on-site janitor confirms that at least two working restrooms (with ventilation and water) will be available within an hour.",
+            "The School Gym has air conditioning, but it's older; the office says there may be issues with the restrooms. A city maintenance team is on its way but hasn't arrived yet.",
+            "Temperatures are expected to exceed 37°C (99°F) in the afternoon. Organizers worry about heat stress if backup power fails.",
+            "The City Library has a large conference room and claims to be ready; it also has a known backup generator for power.",
+            "The Community Center is slightly smaller but centrally located; the staff report it's fully accessible and already evacuated in advance of the heat wave."
+          ],
+          "assigned_hidden_information": [
+            "The School Gym's restrooms are being restored right now. The on-site janitor confirms that at least two working restrooms (with ventilation and water) will be available within an hour."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Temperatures are expected to exceed 37°C (99°F) in the afternoon. Organizers worry about heat stress if backup power fails.",
+            "The Community Center is slightly smaller but centrally located; the staff report it's fully accessible and already evacuated in advance of the heat wave.",
+            "The School Gym has air conditioning, but it's older; the office says there may be issues with the restrooms. A city maintenance team is on its way but hasn't arrived yet.",
+            "The City Library has a large conference room and claims to be ready; it also has a known backup generator for power.",
+            "The main conference hall at College Hall flooded this morning and is closed for at least a week, so it's not available."
+          ],
+          "assigned_hidden_information": [
+            "The main conference hall at College Hall flooded this morning and is closed for at least a week, so it's not available."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The Community Center is slightly smaller but centrally located; the staff report it's fully accessible and already evacuated in advance of the heat wave.",
+            "The City Library has a large conference room and claims to be ready; it also has a known backup generator for power.",
+            "Library staff admit privately that their backup generator only has enough fuel for 2 hours and cannot be refueled due to a citywide gasoline shortage.",
+            "The School Gym has air conditioning, but it's older; the office says there may be issues with the restrooms. A city maintenance team is on its way but hasn't arrived yet.",
+            "Temperatures are expected to exceed 37°C (99°F) in the afternoon. Organizers worry about heat stress if backup power fails."
+          ],
+          "assigned_hidden_information": [
+            "Library staff admit privately that their backup generator only has enough fuel for 2 hours and cannot be refueled due to a citywide gasoline shortage."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Temperatures are expected to exceed 37°C (99°F) in the afternoon. Organizers worry about heat stress if backup power fails.",
+            "The Community Center is slightly smaller but centrally located; the staff report it's fully accessible and already evacuated in advance of the heat wave.",
+            "The Community Center basement has had a chemical leak that was just discovered today; the evacuation was for this, and it's only safe for short visits, not day-long events.",
+            "The School Gym has air conditioning, but it's older; the office says there may be issues with the restrooms. A city maintenance team is on its way but hasn't arrived yet.",
+            "The City Library has a large conference room and claims to be ready; it also has a known backup generator for power."
+          ],
+          "assigned_hidden_information": [
+            "The Community Center basement has had a chemical leak that was just discovered today; the evacuation was for this, and it's only safe for short visits, not day-long events."
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "City Library",
+          "ranking": [
+            "City Library",
+            "School Gym",
+            "Community Center"
+          ],
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding power resilience is unclear."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "City Library",
+          "ranking": [
+            "City Library",
+            "Community Center",
+            "School Gym"
+          ],
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding cooling capacity is less certain than the Library's explicit power redundancy."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Community Center",
+          "ranking": [
+            "Community Center",
+            "School Gym",
+            "City Library"
+          ],
+          "rationale": "The Community Center is the only venue explicitly stated to be prepared for the heat wave and safe, whereas the City Library's generator will fail during peak heat and the School Gym has unresolved restroom issues."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "City Library",
+          "ranking": [
+            "City Library",
+            "School Gym",
+            "Community Center"
+          ],
+          "rationale": "The City Library is the only venue with a confirmed backup generator to mitigate heat stress risks during power outages, whereas the Community Center is unsafe due to a chemical leak and the School Gym has unresolved restroom issues."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "402dd65af68e3acfd84db55bfe9bd5673f07ffaf2bc54da0366d1068abb3f84d"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "53824bbfa489ca63aa788a64889ddb797dadd554f6a49e06f0b4a3a66a408ffc"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "a9dcadd6f3bcc8e799faf3c2b4e0d40ca452a6b3c76edc1b563d87d78b22604f"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "d0cccc52ca54fdd00672c202ec120d972161a14e7b325ce943595653fa9c6798"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "a3f63517b5def847b9f50bfca40c259c234c1eeab572b61814f74a033cc3c674"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "faa290668e65c46d3c8b278f9399a456ed9941f42553286b9ffdac2e2e774a6c"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "823d3c69945f9775c655092e833bec1f8296d7af72f9f6dec6850822eda4b0a4"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "84e5793d56aadbc6a03b0835af7958d5a393a083c3cd2590685ae3b161cf811c"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "f6f733e6b44169ef737dd90b806848aa524825415aed7adfd43dc056f2d54f00"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "4018ead6324c620330ca2c3221f38e529eee28d59bdc6dd8d0bc82b3fbbb79a2"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "1381d751365d95abb89c4e49e773b8aa803b18321fafd184cf02b85df2c45c0c"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "4fdda5a81e2b8f52c930c21f5f56b20a27752bc0d17f01c6900524bb9f7ae85b"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "cb6ff6fa5519781029842cbb79671dc490c398335f3bb15ff6e99b57c143a494"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "9f2120921f2f9ecce943daa9db983babdf0e643324573b62e836b5c6c673144e"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "340e47e5c8bcf783bf84edba42dcbc10b17fd905d5237f568c083ae80156e146"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "e992acc472caf18eaaff5743f09890f48849a51a762cc47db0bfdc9239739f92"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "f6f637c03b76b00d967ef8d17aad197d6565333005e355598c9f8c1ea6c26419"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "ead6317d11d8305f0fb4ef54c03027c628d4a1399158fed516b2b484ef467b6d"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "d39cbbf64286f794c32527b810cabc57f001922c60c2e9f8fd0ffdb09f5384fc"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "072efc151c382d035a6a0cac2101a47eb526ab0520b7a3ed5f1664de3af2f0e1"
+        }
+      ],
+      "usage_delta": {
+        "calls": 24,
+        "total_tokens": 22519
+      },
+      "wall_s": 35.59
+    },
+    {
+      "task_id": 12,
+      "scenario": "evacuate_park_dilemma",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Green Valley",
+      "possible_answers": [
+        "Blueberry Ridge",
+        "Green Valley",
+        "Red Lake"
+      ],
+      "seed": 72026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Blueberry Ridge",
+          "rationale": "Blueberry Ridge is the only site explicitly confirmed to have active medical support and power, which are critical for safety during a storm, whereas Green Valley has pest concerns (though open) and Red Lake lacks specific confirmation of immediate readiness beyond past capacity."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Blueberry Ridge",
+          "rationale": "Red Lake is inaccessible due to a closed road, and Green Valley has active pest warnings; Blueberry Ridge is confirmed accessible, equipped with emergency power and medical support, and actively preparing for evacuees."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Red Lake",
+          "rationale": "Blueberry Ridge is unsafe due to total power loss and unusable medical equipment, while Green Valley has active pest outbreak warnings; Red Lake remains the only site confirmed as prepared with supplies and no reported critical hazards."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Red Lake",
+          "rationale": "Blueberry Ridge is inaccessible due to a collapsed bridge, and Green Valley has active pest warnings; Red Lake remains accessible, prepared with supplies, and proven capable of handling large groups."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Blueberry Ridge\nYour initial rationale was: Blueberry Ridge is the only site explicitly confirmed to have active medical support and power, which are critical for safety during a storm, whereas Green Valley has pest concerns (though open) and Red Lake lacks specific confirmation of immediate readiness beyond past capacity.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Blueberry Ridge\nYour initial rationale was: Red Lake is inaccessible due to a closed road, and Green Valley has active pest warnings; Blueberry Ridge is confirmed accessible, equipped with emergency power and medical support, and actively preparing for evacuees.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Red Lake\nYour initial rationale was: Blueberry Ridge is unsafe due to total power loss and unusable medical equipment, while Green Valley has active pest outbreak warnings; Red Lake remains the only site confirmed as prepared with supplies and no reported critical hazards.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Red Lake\nYour initial rationale was: Blueberry Ridge is inaccessible due to a collapsed bridge, and Green Valley has active pest warnings; Red Lake remains accessible, prepared with supplies, and proven capable of handling large groups.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Blueberry Ridge",
+          "rationale": "Based on the provided facts, Blueberry Ridge is the only site explicitly confirmed to have active emergency power and medical support while actively preparing for evacuees. Although other agents cited hazards like sinkholes or collapsed bridges, these are not supported by the given facts which state all roads were inspected and declared passable; furthermore, Green Valley's pest issue is explicitly noted as not affecting emergency evacuation status, but Blueberry Ridge offers superior critical infrastructure (power/medical) for a storm scenario."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Blueberry Ridge",
+          "rationale": "Red Lake is inaccessible due to a sinkhole closing the only road, and Green Valley has active pest outbreak warnings; Blueberry Ridge is confirmed accessible, equipped with emergency power and medical support, and actively preparing for evacuees."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Red Lake",
+          "rationale": "Red Lake is the only safe and prepared option, as Blueberry Ridge has critical power and medical failures while Green Valley poses health risks due to a pest outbreak."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Red Lake",
+          "rationale": "Red Lake is the only viable option because Blueberry Ridge is inaccessible due to a collapsed bridge (Fact 1) and Green Valley has active pest warnings (Fact 4). Red Lake remains accessible, is stocked with supplies, and has proven capacity for large groups."
+        }
+      ],
+      "group_decision": "Blueberry Ridge",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The Green Valley campground recently had a pest outbreak, and you notice local authorities have posted warning signs. However, you hear that the main building is preparing cots and handing out blankets for arrivals.",
+            "Red Lake community hall has hosted large groups before, including last year's festival overflow, and reportedly received bulk food supplies earlier today.",
+            "Roads leading to all three evacuation sites were inspected this morning and declared passable by local highway patrols.",
+            "Blueberry Ridge lodge has emergency power generators and a medical station; you hear that the lodge has started preparing rooms for potential evacuees.",
+            "Green Valley pest outbreak closure only applies to tourists; local officials have confirmed it remains open for emergency evacuations, with extra staff sent in."
+          ],
+          "assigned_hidden_information": [
+            "Green Valley pest outbreak closure only applies to tourists; local officials have confirmed it remains open for emergency evacuations, with extra staff sent in."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Blueberry Ridge lodge has emergency power generators and a medical station; you hear that the lodge has started preparing rooms for potential evacuees.",
+            "The Green Valley campground recently had a pest outbreak, and you notice local authorities have posted warning signs. However, you hear that the main building is preparing cots and handing out blankets for arrivals.",
+            "Red Lake community hall has hosted large groups before, including last year's festival overflow, and reportedly received bulk food supplies earlier today.",
+            "Roads leading to all three evacuation sites were inspected this morning and declared passable by local highway patrols.",
+            "An emergency text alert just announced that a sinkhole appeared across the only road to Red Lake, and law enforcement has closed the route."
+          ],
+          "assigned_hidden_information": [
+            "An emergency text alert just announced that a sinkhole appeared across the only road to Red Lake, and law enforcement has closed the route."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Red Lake community hall has hosted large groups before, including last year's festival overflow, and reportedly received bulk food supplies earlier today.",
+            "Blueberry Ridge lodge has emergency power generators and a medical station; you hear that the lodge has started preparing rooms for potential evacuees.",
+            "The Green Valley campground recently had a pest outbreak, and you notice local authorities have posted warning signs. However, you hear that the main building is preparing cots and handing out blankets for arrivals.",
+            "All power at Blueberry Ridge went out midday, including backups. Emergency medical equipment is unusable and the location is only accepting those who can walk miles to reach it.",
+            "Roads leading to all three evacuation sites were inspected this morning and declared passable by local highway patrols."
+          ],
+          "assigned_hidden_information": [
+            "All power at Blueberry Ridge went out midday, including backups. Emergency medical equipment is unusable and the location is only accepting those who can walk miles to reach it."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "The bridge over Pine Creek, a key access point to Blueberry Ridge, collapsed in today's storm, cutting off vehicle access to the lodge.",
+            "Blueberry Ridge lodge has emergency power generators and a medical station; you hear that the lodge has started preparing rooms for potential evacuees.",
+            "Red Lake community hall has hosted large groups before, including last year's festival overflow, and reportedly received bulk food supplies earlier today.",
+            "The Green Valley campground recently had a pest outbreak, and you notice local authorities have posted warning signs. However, you hear that the main building is preparing cots and handing out blankets for arrivals.",
+            "Roads leading to all three evacuation sites were inspected this morning and declared passable by local highway patrols."
+          ],
+          "assigned_hidden_information": [
+            "The bridge over Pine Creek, a key access point to Blueberry Ridge, collapsed in today's storm, cutting off vehicle access to the lodge."
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "Blueberry Ridge",
+          "ranking": [
+            "Blueberry Ridge",
+            "Red Lake",
+            "Green Valley"
+          ],
+          "rationale": "Blueberry Ridge is the only site explicitly confirmed to have active medical support and emergency power, which are critical for safety during a storm, whereas Green Valley has pest concerns (though open) and Red Lake lacks specific confirmation of immediate readiness beyond past capacity."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Blueberry Ridge",
+          "ranking": [
+            "Blueberry Ridge",
+            "Green Valley",
+            "Red Lake"
+          ],
+          "rationale": "Red Lake is inaccessible due to a sinkhole, and Green Valley has active pest warnings; Blueberry Ridge is confirmed accessible, equipped with emergency power and medical support, and actively preparing for evacuees."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Red Lake",
+          "ranking": [
+            "Red Lake",
+            "Green Valley",
+            "Blueberry Ridge"
+          ],
+          "rationale": "Red Lake is the only site without reported critical hazards or operational failures, as Blueberry Ridge has total power and medical system failures and Green Valley has an active pest outbreak."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Red Lake",
+          "ranking": [
+            "Red Lake",
+            "Green Valley",
+            "Blueberry Ridge"
+          ],
+          "rationale": "Red Lake is the only site that is accessible, free of immediate hazards like Blueberry Ridge's collapsed bridge or Green Valley's pest outbreak, and has proven capacity with recent supplies."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "66f912585194cace05291cc878d958d488c0fbd58e14bc217d94493bdd53f307"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "dd7bd401b1111a455ed4e91572f41c939d1335e630e43f887ceab34c707305a4"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "15022c8535929c25c56d66ef102d5cbd4079d09e4519346af531d5bc5ec67c39"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "ac8ade6967fc77717806921b6c3822c1a6604ee4f8ee143d3f27d9e328f7134e"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "3568c799111e659c7456ae26ab740975ae0595b213b5d9c1df8b708fad274532"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "6cafe65e219a78058c963a131a9a971bebf2af66fdf59e85f92a0e920c6bdead"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "a4705876bbc75f6c80438c340e1b27d7127189bf2734b2b551d703ab24478684"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "059d20010f26ad5325de5425a3c303b6bdd79ec266ad2d8355c7091155f72e4e"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "97fb38323434b3b1a55d5c95073999f85574d90fafb6bdeb061041fb4906e4d2"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "cd3577d80ab0f5669be6530069a90c9be3bcafce148207c7469f81221a267695"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "c746edad7595a728b785a1c612da211be94cd25a54998fca36dfe9052a246291"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "25aa19b90d73e995533b34f29f5963f0baf514a27543628433519102d910c9b7"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "3621be2571856458f45c652bf4d54579111f28b48556d7faa1f582e8830510e6"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "19758e4dba04d274aa8cc9c17dbb4f2b91e3261d19ca591a7c76a5d38444ea50"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "b9daeb05beed9611e53ed529ed7fa7d33a42b17256877850ccae894198b748ed"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "f78099d0a162f7e7fcd1e965ca3aa0415b307f6a117da19c82e0168aa74e8c1d"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "6248c1ada53f60101765155fbc73a76dabbb9c497fa6744b2dfde70ca3da16d3"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "97e2f6b3f0650b8691864d84c3aa227caf18352ada13e7509a1fd195eaa65c7f"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "adc18189566d5cf6984495026efcbf358907a01e0e78c872dba7fe81675c8287"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "790ba789f10eb625f72c5d957faad18538b251b7133bfb928e9c68d3ce540a13"
+        }
+      ],
+      "usage_delta": {
+        "calls": 24,
+        "total_tokens": 22477
+      },
+      "wall_s": 38.01
+    }
+  ]
+}
