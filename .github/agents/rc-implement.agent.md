@@ -1,8 +1,6 @@
 ---
 name: rc-implement
 description: Implement one sharply scoped RepliClaw experiment blocker using the Sigma2 thinking Qwen only.
-model: Qwen3.8-27B-Thinking
-modelPolicy: required
 reasoningEffort: medium
 infer: true
 include-custom-instructions: true
