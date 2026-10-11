@@ -726,3 +726,71 @@ escrow/STOP verification + adjudicate non-completions per the prereg rule
 (I4.24 freeze), 2 fresh OUTCOME judges, campaign report §2d/§4d, checkpoint;
 (3) clean up /tmp/crash_probe*.json + smoke artifact. `main` untouched; dev
 LOCAL-ONLY.
+
+---
+
+## I4.25 — Round 7 (V3.5-D) completed: crash class machine-verified eliminated (0/14 vs 4/12); 2 live drift emissions recovered by (C); 2 fresh OUTCOME judges; standing finding UNCHANGED (2026-10-11)
+
+**Round 7 executed** on the V3.5-D instrument (`11e7e63a`, blob `1b33c002…`;
+instrument code verified unchanged since launch — only docs committed after).
+Stopped at a 22-run snapshot (stop1_ssat + stop2_crash); **final 24-run
+ledger** (14 D-E, 10 C-EQ) after 2 post-trip D-E aborts (P-07 s11, P-08 s11;
+token delta reconciles exactly: STOP 3,734,441 + 302,152 + 275,300 =
+4,311,893 = final total). 16 of 40 planned runs never launched.
+
+**Results (machine-verified from status.json + score.json + audit_llm.json):**
+- **C-EQ: 10/10 completed, 10/10 hit (100%), 49,030–77,228 tok; case-level 6/6.**
+- **D-E: 6/14 completed, 6/6 hit (100% of completions), 232,273–295,234 tok
+  (case-level 2/8 — only P-01, P-03 both seeds).**
+- **CRASH CLASS: 0/14 `status=crashed`** (vs round-6's 4/12). The round-6
+  parse-drift `AgentProtocolError` class is **machine-verified gone**.
+- **2 drift-form EMISSIONS recovered by (C)** (P-04 s11/inv-c, P-06
+  s12/inv-c, both `{"action":"service_metrics",...}`): recovered into valid
+  tool_calls → run continued → later aborted on the orthogonal tool cap.
+  **Direct live evidence (C) works; NOT crashes, NOT fix failures.**
+- **8 D-E non-completions = all `aborted_budget`, all orthogonal (not crash
+  class):** 4 token-cap (≥300K) + 4 phase-2 tool-cap (`DE_PHASE2_TOOL_CAP=4`,
+  D-E-ONLY, pre-existing V3.4, sub-envelope 178–275K tok).
+- **JSON-mode parity held:** 0 plain-mode drops in either arm (C-EQ 176/176,
+  D-E 1210/1210). Escrow commit-reveal intact on all 14 D-E runs (66 entries,
+  0 commit-after-reveal violations).
+
+**⚠️ Adjudication bug caught and fixed (honesty):** my first adjudicator used
+`role=="assistant"` but the audit uses `role=="response"`, so it returned
+`drift=False` vacuously and I initially reported "0 parse-drift" — a **false
+negative**. The independent science OUTCOME judge caught this; I re-derived and
+it now matches the judge exactly. **Corrected headline: "0 crash-class
+crashes," NOT "0 parse-drift"** (2 drift emissions occurred and were recovered).
+
+**2 fresh OUTCOME judges on the round-7 artifact:**
+- **Code Judge: PASS** — frozen code confirmed; no GT leak; no fabricated
+  score.json (scorer_sha on all 16); artifacts complete/consistent; escrow
+  intact; STOP-vs-ledger snapshot gap reconciled.
+- **Science Judge: CONDITIONAL PASS → both REQUIRED applied:** (R1) crash-class
+  vs drift-emission distinction documented in the freeze rule-3 clarification
+  (freeze commit `4c972e9`) + the "0 crash-class / not 0 parse-drift"
+  correction; (R2) the freeze-mandated **raw-vs-adjudicated dual-count** now in
+  campaign report §2d (raw stop-2 8/14, full-cohort 8/20=0.40; adjudicated
+  crash-class 0/14). RECOMMENDED (snapshot-gap annotation, /20 denominator)
+  applied in §2d/disclosure 14.
+
+**Campaign report updated** (`v3_campaign_final_report.md`): round-7 row in
+§2 table; §2d (round-7 detail + dual-count table); §2e (what changes / does
+not); §4d (refined negative); 3 new §5 MUST-NOT items; disclosure rider 14;
+§7 decision point re-based (round 8 @600K now the open disambiguation option);
+§8 evidence pointers. **Standing negative finding preserved and refined, NOT
+flipped.**
+
+**Standing finding: UNCHANGED** — no demonstrated advantage of
+decentralization/escrow beyond counterfactual access, at any envelope
+(60/90/150/300K). Round 7 refines *reliability* (crash class gone) while the
+*mechanism* question stays unresolved: D-E still completes only 6/14 at ~5×
+C-EQ cost with case-level 2/8; residual non-completions are orthogonal
+(token-cap + D-E-only tool-cap).
+
+**Next / decision (HUMAN GATE, §7):** (i) accept the round-7 refined negative
+as the V3 record and close out; OR (ii) authorize round 8 @600K to
+disambiguate the remaining token-cap abort class (genuine budget-need vs
+burn-through) — new freeze + 2 fresh judges + human scope/spend approval; OR
+(iii) stop the series. Model change (c) still NOT authorized. `main`
+untouched; dev LOCAL-ONLY.
