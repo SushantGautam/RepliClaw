@@ -49,6 +49,12 @@ def _simpleaudit_version() -> str:
 
 
 def _simpleaudit_git_sha() -> str:
+    """Provenance marker for the engine code (contract §5/§7: never empty).
+
+    Source-checkout installs resolve to the exact git commit SHA; package
+    (e.g. PyPI) installs resolve to ``pypi:<version>`` — a fully reproducible
+    pin, since release artifacts are immutable.
+    """
     try:
         import simpleaudit
 
@@ -62,8 +68,8 @@ def _simpleaudit_git_sha() -> str:
             timeout=10,
         )
         return out.stdout.strip()
-    except Exception:  # noqa: BLE001 - git metadata is best-effort
-        return ""
+    except Exception:  # noqa: BLE001 - not a source checkout (e.g. PyPI install)
+        return f"pypi:{_simpleaudit_version()}"
 
 
 def engine_metadata() -> Dict[str, str]:

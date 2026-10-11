@@ -1,0 +1,41 @@
+[D-E-TELEM] crashed: agent 'inv-a': two consecutive malformed action outputs
+Traceback (most recent call last):
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 769, in run
+    return self._run_inner(escrow)
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 801, in _run_inner
+    action = session.ask(self._continuation_prompt(observations, inv))
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 402, in ask
+    raise AgentProtocolError(
+repliclaw.experiments.v3.telemetry_arms.AgentProtocolError: agent 'inv-a': two consecutive malformed action outputs
+
+[D-E-TELEM] crashed: agent 'inv-a': two consecutive malformed action outputs
+Traceback (most recent call last):
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 769, in run
+    return self._run_inner(escrow)
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 801, in _run_inner
+    action = session.ask(self._continuation_prompt(observations, inv))
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 402, in ask
+    raise AgentProtocolError(
+repliclaw.experiments.v3.telemetry_arms.AgentProtocolError: agent 'inv-a': two consecutive malformed action outputs
+
+[C-EQ-TELEM] crashed: prompt-volume ratio 1.2883 outside canary band [0.6, 1.25]
+Traceback (most recent call last):
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 939, in run
+    return self._run_inner(escrow, manager_sandbox, manager_session)
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 1071, in _run_inner
+    assert_volume_band(ratio)
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 490, in assert_volume_band
+    raise ValueError(
+ValueError: prompt-volume ratio 1.2883 outside canary band [0.6, 1.25]
+
+[C-EQ-TELEM] crashed: prompt-volume ratio 1.2845 outside canary band [0.6, 1.25]
+Traceback (most recent call last):
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 939, in run
+    return self._run_inner(escrow, manager_sandbox, manager_session)
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 1071, in _run_inner
+    assert_volume_band(ratio)
+  File "/Users/sushantgautam/Documents/RepliClaw-stg2-dev/src/repliclaw/experiments/v3/telemetry_arms.py", line 490, in assert_volume_band
+    raise ValueError(
+ValueError: prompt-volume ratio 1.2845 outside canary band [0.6, 1.25]
+
+pilot STOP tripped after RCA-P-03/20261012/C-EQ-TELEM

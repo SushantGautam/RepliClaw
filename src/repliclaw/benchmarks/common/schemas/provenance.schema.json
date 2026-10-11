@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repliclaw.provenance/v1",
+  "title": "RepliClaw run provenance record",
+  "description": "Everything needed to re-execute a run byte-for-byte: upstream repo SHAs, dataset file hashes, dependency pins, the RepliClaw git SHA at run time, and the captured environment.",
+  "type": "object",
+  "required": [
+    "schema",
+    "run_id",
+    "captured_at",
+    "repliclaw_git_sha",
+    "repliclaw_dirty",
+    "dependency_pins",
+    "environment"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "repliclaw.provenance/v1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "captured_at": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$" },
+    "upstream_repos": {
+      "type": "object",
+      "description": "Upstream repo name -> {url, sha}.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["sha"],
+        "additionalProperties": false,
+        "properties": {
+          "url": { "type": "string", "minLength": 1 },
+          "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$|^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "dataset_sha256s": {
+      "type": "object",
+      "description": "Dataset file (relative name or path) -> sha256 hex.",
+      "additionalProperties": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+      "propertyNames": { "type": "string", "minLength": 1 }
+    },
+    "dependency_pins": {
+      "type": "object",
+      "description": "Installed distribution name -> version string (from importlib.metadata).",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string", "minLength": 1 },
+      "propertyNames": { "type": "string", "minLength": 1 }
+    },
+    "repliclaw_git_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "HEAD SHA of the RepliClaw worktree at run time; 'unknown' is not allowed — capture must resolve a real SHA."
+    },
+    "repliclaw_dirty": { "type": "boolean", "description": "True when the worktree had uncommitted changes at capture time." },
+    "environment": {
+      "type": "object",
+      "required": ["python_version", "platform"],
+      "additionalProperties": false,
+      "properties": {
+        "python_version": { "type": "string", "minLength": 1 },
+        "platform": { "type": "string", "minLength": 1 },
+        "os_version": { "type": "string" },
+        "os_release": { "type": "string" },
+        "timezone": { "type": "string" },
+        "vars": {
+          "type": "object",
+          "description": "Optional allowlisted environment variables captured verbatim.",
+          "additionalProperties": { "type": "string" },
+          "propertyNames": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
