@@ -15,8 +15,9 @@ upstream-id order — the registry is the single mapping authority), k=2 seeds
   completed case and written to ``{out}/round{R}/{case}/case_check.json``:
   1. S-sat: per-arm sat_A >= 0.25 (saturated = arm succeeded on ALL seeds);
   2. per-arm crash rate > 25% OF THE FULL PLANNED COHORT (10 x 2 = 20
-     runs per arm, per spec §5 rule 2 verbatim — i.e., ≥ 6 crashes;
-     ``aborted_budget`` counts as crash);
+     runs per arm, per spec §5 rule 2 verbatim — i.e., ≥ 6 harness/driver
+     failures; FF-05: ``aborted_budget`` is a frozen-spec arm outcome and
+     is excluded from the crash class, but still in the /20 denominator);
   3. per-round cumulative tokens > 4,320,000 (V3.1 AMEND_V3_1 item A3;
      pre-emptive: a run is refused to start when cumulative + 90,000 would
      breach the ceiling);
@@ -90,6 +91,20 @@ ARM_ORDER: tuple[str, str] = ("D-E-TELEM", "C-EQ-TELEM")
 ROUND_TOKEN_CEILING = 7_200_000
 SSAT_THRESHOLD = 0.25
 CRASH_RATIO_MAX = 0.25
+# Legitimately-finished arm outcomes for resume purposes: "completed" plus
+# "aborted_budget". Stop-2's crash class is harness/driver failure (S1 §5
+# rule 2: "harness error, abort, or timeout at the 900 s cap"); a per-run
+# token-cap exhaustion under the FROZEN envelope (MAX_TOKENS_PER_RUN, set by
+# AMEND_V3_2 B1) is a frozen-spec arm outcome — an architectural feasibility
+# signal recorded in status.json with full audit, NOT a driver failure. The
+# FF-05 checkpoint (run_live_full_r0c round 0: 11 D-E runs aborted_budget at
+# ~150–155k tok with zero spurious crashes after the harness fixes db5c6e5 /
+# 5f78c82) treats them as legitimate finished runs whose remaining cohort
+# must be resumable. Note the S1 60K-era sentence "a budget-overflow abort
+# counts as a crash here" predates the AMEND_V3_2/B1 envelope; this task's
+# spec-basis supersedes it for the crash CLASS only — the run still counts
+# in the stop-2 denominator and remains non-success for sat/floor.
+LEGITIMATE_FINISHED_STATUSES = frozenset({"completed", "aborted_budget"})
 FLOOR_RUN_SUCCESS_MIN = 2  # < 2/20 run-level successes per arm trips the floor
 FLOOR_ALLZERO_CASES_MIN = 9  # per-case all-seeds success = 0 on >= 9/10 cases
 TOTAL_CASES = 10
@@ -188,17 +203,27 @@ def sat_per_arm(runs: list[RunRecord]) -> dict[str, float]:
 
 
 def crash_rate_per_arm(runs: list[RunRecord]) -> dict[str, float]:
-    """crash_A = crashes for arm A / (10 x 2 = 20 runs).
+    """crash_A = harness/driver failures for arm A / (10 x 2 = 20 runs).
 
     Spec §5 rule 2 verbatim: "crash_A = (...runs with status ∉
-    {completed}...) / (10 × 2 = 20 runs). Stop iff crash_A > 25% (i.e.,
-    ≥ 6 of 20 runs) for either arm." The denominator is the full
-    planned per-arm cohort (20), not the ledgered runs so far (I4.6).
+    {completed} and no partial diagnostic — i.e., harness error, abort, or
+    timeout at the 900 s cap — ...) / (10 × 2 = 20 runs). Stop iff
+    crash_A > 25% (i.e., ≥ 6 of 20 runs) for either arm." The denominator
+    is the full planned per-arm cohort (20), not the ledgered runs so far
+    (I4.6).
+
+    FF-05 correction: ``aborted_budget`` (per-run exhaustion of the frozen
+    MAX_TOKENS_PER_RUN envelope) is EXCLUDED from the crash numerator — it
+    is a frozen-spec arm outcome with a clean status.json, not a
+    harness/driver failure. It still counts in the /20 denominator and
+    remains non-success for sat/floor. ``crashed``, ``refused_ceiling`` and
+    any driver_failure rows remain crashes.
     """
     out: dict[str, float] = {}
     for arm in ARM_ORDER:
         arm_runs = [r for r in runs if r.arm == arm]
-        crashes = [r for r in arm_runs if r.status != "completed"]
+        crashes = [r for r in arm_runs
+                   if r.status != "completed" and r.status != "aborted_budget"]
         out[arm] = len(crashes) / (TOTAL_CASES * len(PILOT_SEEDS))
     return out
 
@@ -572,13 +597,23 @@ def append_ledger(round_dir: Path, line: dict[str, Any]) -> None:
 
 
 def _run_already_done(run_dir: Path) -> bool:
+    """True when the run dir holds a LEGITIMATELY FINISHED run.
+
+    FF-05 correction: accept any status in LEGITIMATE_FINISHED_STATUSES
+    ("completed" or "aborted_budget"), not only "completed". A budget abort
+    under the frozen per-run envelope is a finished arm outcome (clean
+    status.json + audit), so a round dir holding such records is resumable;
+    missing/corrupt status.json or other statuses (crashed, refused_ceiling)
+    still refuse resume.
+    """
     status_path = run_dir / "status.json"
     if not status_path.is_file():
         return False
     try:
-        return json.loads(status_path.read_text(encoding="utf-8")).get("status") == "completed"
+        status = json.loads(status_path.read_text(encoding="utf-8")).get("status")
     except json.JSONDecodeError:
         return False
+    return status in LEGITIMATE_FINISHED_STATUSES
 
 
 def preflight(registry: PilotCaseRegistry, cases: list[str]) -> list[str]:
