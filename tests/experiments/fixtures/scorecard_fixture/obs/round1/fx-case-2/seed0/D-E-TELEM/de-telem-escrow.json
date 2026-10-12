@@ -1,0 +1,4 @@
+{"arm": "D-E-TELEM", "opaque_case_id": "fx-case-2", "entries": [
+  {"agent_id": "inv-a", "phase": "phase1", "ranking": ["adservice", "cartservice", "checkoutservice", "emailservice", "currencyservice"], "confidence": 0.6, "commit_sha256": "fx", "revealed": true},
+  {"agent_id": "inv-b", "phase": "phase1", "ranking": ["adservice", "checkoutservice", "cartservice", "emailservice", "currencyservice"], "confidence": 0.5, "commit_sha256": "fx", "revealed": true}
+]}
