@@ -62,6 +62,7 @@ class LLMClient:
         self.usage = ResourceUsage()
         self._calls = 0
         self._client = None
+        self.last_model: Optional[str] = None  # model id reported by the endpoint
 
     def _ensure_client(self):
         if self._client is not None:
@@ -96,6 +97,38 @@ class LLMClient:
             max_tokens=max_tokens or self.cfg.max_tokens,
             temperature=self.cfg.temperature,
         )
+        u = getattr(resp, "usage", None)
+        if u is not None:
+            self.usage.prompt_tokens += int(getattr(u, "prompt_tokens", 0) or 0)
+            self.usage.completion_tokens += int(getattr(u, "completion_tokens", 0) or 0)
+            self.usage.total_tokens = self.usage.prompt_tokens + self.usage.completion_tokens
+        self.usage.llm_calls += 1
+        return resp.choices[0].message.content or ""
+
+    def chat_messages(
+        self,
+        messages: list,
+        max_tokens: Optional[int] = None,
+    ) -> str:
+        """Multi-turn variant of :meth:`chat`: sends a full message list
+        (system/user/assistant turns) in one call, with the same budget
+        guard and usage accounting. Returns the assistant content string.
+
+        Added for the indepinfo partitioned investigators, whose bounded
+        agentic loops must observe tool results between calls. Purely
+        additive: :meth:`chat` is unchanged.
+        """
+        if self._calls >= self.cfg.max_calls:
+            raise BudgetExceeded(f"exceeded LLM budget ({self.cfg.max_calls} calls)")
+        client = self._ensure_client()
+        self._calls += 1
+        resp = client.chat.completions.create(
+            model=self.cfg.model,
+            messages=messages,
+            max_tokens=max_tokens or self.cfg.max_tokens,
+            temperature=self.cfg.temperature,
+        )
+        self.last_model = getattr(resp, "model", None) or self.last_model
         u = getattr(resp, "usage", None)
         if u is not None:
             self.usage.prompt_tokens += int(getattr(u, "prompt_tokens", 0) or 0)
