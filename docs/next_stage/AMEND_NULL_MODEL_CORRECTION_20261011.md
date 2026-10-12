@@ -3,7 +3,7 @@
 **Worker:** FF-03 (scientific-integrity reviewer)
 **Repo/worktree:** `RepliClaw-ff03` (branch `ff03-null-model`, based on `dev` @ `c0cda69`)
 **Date:** 2026-10-11
-**Status: DRAFT — pending independent science signoff.** This is a *prospective* amendment on the pre-specified amendment path. It corrects a statistical **interpretation** only. It changes **NO** frozen simulation constant, **NO** frozen protocol rule, **NO** stop rule, and **NO** archived review. Frozen files (`design/v3_prereg_final_freeze.md`, `design/v31_prereg_freeze.md`, `design/v32_prereg_freeze.md`, P08 statements) and archived reviews (`docs/next_stage/reviews/*`) are **untouched**. No human approval is claimed.
+**Status: APPROVED (human signoff 2026-10-12).** This is a *prospective* amendment on the pre-specified amendment path. It corrects a statistical **interpretation** only. It changes **NO** frozen simulation constant, **NO** frozen protocol rule, **NO** stop rule, and **NO** archived review. Frozen files (`design/v3_prereg_final_freeze.md`, `design/v31_prereg_freeze.md`, `design/v32_prereg_freeze.md`, P08 statements) and archived reviews (`docs/next_stage/reviews/*`) are **untouched**. FF06 independent review conditions C1/C2 addressed (f33d1b8). Human signoff granted 2026-10-12.
 
 ## 1. The misconception (stated precisely)
 
@@ -72,4 +72,4 @@ Results (verbatim, per check): `PASS  both_arms_complete`, `PASS  payload_parity
 
 ## 6. Signoff
 
-**DRAFT — pending independent science signoff.** Pre-specified amendment path; frozen rules unchanged. No human approval claimed. This document and the single one-line erratum pointer are the complete, prospective correction of the null-model interpretation; they do not alter any frozen constant, rule, or archived review.
+**APPROVED — human signoff granted 2026-10-12.** Pre-specified amendment path; frozen rules unchanged. This document and the single one-line erratum pointer are the complete, prospective correction of the null-model interpretation; they do not alter any frozen constant, rule, or archived review. FF06 independent review (5ec0152) returned CONDITIONAL with C1/C2; both conditions addressed in f33d1b8. Human signoff recorded 2026-10-12, unblocking the prospective heldout freeze (FF-07/G4).
