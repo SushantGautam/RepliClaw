@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Optional, Sequence
 
 from .arms import ARM_NAMES
+from .config import DEFAULT_CAPS, MatchedCaps
 from .evidence import claim_ids
 from .runner import run_comparison
 
@@ -39,6 +40,19 @@ def _build_parser() -> argparse.ArgumentParser:
         help=f"Comma-separated arm names (default: all). Valid: {', '.join(ARM_NAMES)}.",
     )
     parser.add_argument("--out", required=True, help="Output directory for results + receipts.")
+    parser.add_argument(
+        "--token-envelope",
+        type=int,
+        default=None,
+        help=(
+            "Arm-level total token envelope per claim (default: the matched "
+            "DEFAULT_CAPS total of 16000). Must be divisible by 8. Scales the "
+            "per-investigator split so the team arm still matches the total. "
+            "Use a larger value (e.g. 32000) for an adequate envelope where "
+            "partitioned investigators can complete, to separate the escrow "
+            "mechanism from per-investigator budget starvation."
+        ),
+    )
     parser.add_argument(
         "--dry-run",
         action="store_true",
@@ -66,8 +80,16 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if a not in ARM_NAMES:
             parser.error(f"unknown arm {a!r}; valid: {list(ARM_NAMES)}")
 
+    if args.token_envelope is not None:
+        try:
+            caps = MatchedCaps.scaled_to_total_tokens(args.token_envelope)
+        except ValueError as e:
+            parser.error(str(e))
+    else:
+        caps = DEFAULT_CAPS
+
     try:
-        run_comparison(claims, arms, Path(args.out), dry_run=args.dry_run)
+        run_comparison(claims, arms, Path(args.out), dry_run=args.dry_run, caps=caps)
     except RuntimeError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 1
