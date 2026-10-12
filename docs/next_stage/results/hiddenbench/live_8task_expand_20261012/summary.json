@@ -1,0 +1,361 @@
+{
+  "benchmark": "/home/susan/worktrees/repliclaw-hiddenbench/third_party/hiddenbench/data/benchmark.json",
+  "benchmark_file_sha256": "2815afffca4e470d1dfbc81e625160447df1109ce371968181c9e1e6b90443a3",
+  "task_ids": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "arms": [
+    "escrow",
+    "open-share",
+    "central"
+  ],
+  "rounds": 3,
+  "seed": 2026,
+  "caps": {
+    "max_calls_per_arm": 256,
+    "max_total_tokens_per_arm": 200000
+  },
+  "fake": false,
+  "labels": [
+    "OBSERVATIONAL",
+    "ACCESS-MATCHED (not causal)",
+    "MODEL-SUBSTITUTION"
+  ],
+  "git_sha": "da117fd21f2e71eaf6ad544f41b44829e782c6ce",
+  "run_started_at": "2026-10-12T16:04:24.783326+00:00",
+  "per_arm": {
+    "escrow": {
+      "num_tasks": 8,
+      "completed": 8,
+      "failures": 0,
+      "failure_reasons": [],
+      "group_decision_accuracy_completed": 0.0,
+      "group_decision_accuracy_all_tasks": 0.0,
+      "mean_individual_final_vote_accuracy": 0.03125,
+      "total_llm_calls": 180,
+      "total_tokens": 200368,
+      "total_wall_s": 239.78,
+      "by_task": [
+        {
+          "task_id": 5,
+          "scenario": "baker_2010",
+          "completed": true,
+          "group_decision": "Stevens",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 24,
+          "tokens": 44394,
+          "wall_s": 34.04
+        },
+        {
+          "task_id": 6,
+          "scenario": "schulz_hardt_mojzisch_2012",
+          "completed": true,
+          "group_decision": "Candidate B",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 18,
+          "tokens": 16589,
+          "wall_s": 22.3
+        },
+        {
+          "task_id": 7,
+          "scenario": "graetz_et_al_1998",
+          "completed": true,
+          "group_decision": "Cape Industries",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 24,
+          "tokens": 30958,
+          "wall_s": 31.37
+        },
+        {
+          "task_id": 8,
+          "scenario": "Stasser_Stewart_1992",
+          "completed": true,
+          "group_decision": "Mickey Malone",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 18,
+          "tokens": 19799,
+          "wall_s": 26.94
+        },
+        {
+          "task_id": 9,
+          "scenario": "critical_hospital_transfer",
+          "completed": true,
+          "group_decision": "Hospital B",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 24,
+          "tokens": 21691,
+          "wall_s": 24.29
+        },
+        {
+          "task_id": 10,
+          "scenario": "emergency_supply_drop",
+          "completed": true,
+          "group_decision": "Warehouse B",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 24,
+          "tokens": 21941,
+          "wall_s": 27.24
+        },
+        {
+          "task_id": 11,
+          "scenario": "emergency_conference_relocation",
+          "completed": true,
+          "group_decision": "City Library",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 24,
+          "tokens": 22519,
+          "wall_s": 35.59
+        },
+        {
+          "task_id": 12,
+          "scenario": "evacuate_park_dilemma",
+          "completed": true,
+          "group_decision": "Blueberry Ridge",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 24,
+          "tokens": 22477,
+          "wall_s": 38.01
+        }
+      ],
+      "usage": {
+        "calls": 180,
+        "prompt_tokens": 189413,
+        "completion_tokens": 10955,
+        "total_tokens": 200368
+      }
+    },
+    "open-share": {
+      "num_tasks": 8,
+      "completed": 8,
+      "failures": 0,
+      "failure_reasons": [],
+      "group_decision_accuracy_completed": 0.0,
+      "group_decision_accuracy_all_tasks": 0.0,
+      "mean_individual_final_vote_accuracy": 0.03125,
+      "total_llm_calls": 150,
+      "total_tokens": 159721,
+      "total_wall_s": 234.32,
+      "by_task": [
+        {
+          "task_id": 5,
+          "scenario": "baker_2010",
+          "completed": true,
+          "group_decision": "Stevens",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 20,
+          "tokens": 34314,
+          "wall_s": 27.68
+        },
+        {
+          "task_id": 6,
+          "scenario": "schulz_hardt_mojzisch_2012",
+          "completed": true,
+          "group_decision": "Candidate B",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 15,
+          "tokens": 11568,
+          "wall_s": 17.04
+        },
+        {
+          "task_id": 7,
+          "scenario": "graetz_et_al_1998",
+          "completed": true,
+          "group_decision": "Cape Industries",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 20,
+          "tokens": 25484,
+          "wall_s": 33.54
+        },
+        {
+          "task_id": 8,
+          "scenario": "Stasser_Stewart_1992",
+          "completed": true,
+          "group_decision": "Mickey Malone",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 15,
+          "tokens": 13665,
+          "wall_s": 22.58
+        },
+        {
+          "task_id": 9,
+          "scenario": "critical_hospital_transfer",
+          "completed": true,
+          "group_decision": "Hospital B",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 20,
+          "tokens": 18515,
+          "wall_s": 31.44
+        },
+        {
+          "task_id": 10,
+          "scenario": "emergency_supply_drop",
+          "completed": true,
+          "group_decision": "Warehouse B",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 20,
+          "tokens": 19008,
+          "wall_s": 35.95
+        },
+        {
+          "task_id": 11,
+          "scenario": "emergency_conference_relocation",
+          "completed": true,
+          "group_decision": "City Library",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 20,
+          "tokens": 17991,
+          "wall_s": 31.21
+        },
+        {
+          "task_id": 12,
+          "scenario": "evacuate_park_dilemma",
+          "completed": true,
+          "group_decision": "Blueberry Ridge",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 20,
+          "tokens": 19176,
+          "wall_s": 34.88
+        }
+      ],
+      "usage": {
+        "calls": 150,
+        "prompt_tokens": 151318,
+        "completion_tokens": 8403,
+        "total_tokens": 159721
+      }
+    },
+    "central": {
+      "num_tasks": 8,
+      "completed": 8,
+      "failures": 0,
+      "failure_reasons": [],
+      "group_decision_accuracy_completed": 0.75,
+      "group_decision_accuracy_all_tasks": 0.75,
+      "mean_individual_final_vote_accuracy": 0.75,
+      "total_llm_calls": 8,
+      "total_tokens": 7476,
+      "total_wall_s": 14.96,
+      "by_task": [
+        {
+          "task_id": 5,
+          "scenario": "baker_2010",
+          "completed": true,
+          "group_decision": "Roberts",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 1940,
+          "wall_s": 2.25
+        },
+        {
+          "task_id": 6,
+          "scenario": "schulz_hardt_mojzisch_2012",
+          "completed": true,
+          "group_decision": "Candidate C",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 810,
+          "wall_s": 1.44
+        },
+        {
+          "task_id": 7,
+          "scenario": "graetz_et_al_1998",
+          "completed": true,
+          "group_decision": "Franklin Enterprises",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 1175,
+          "wall_s": 1.55
+        },
+        {
+          "task_id": 8,
+          "scenario": "Stasser_Stewart_1992",
+          "completed": true,
+          "group_decision": "Mickey Malone",
+          "correct": false,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 894,
+          "wall_s": 2.86
+        },
+        {
+          "task_id": 9,
+          "scenario": "critical_hospital_transfer",
+          "completed": true,
+          "group_decision": "Hospital A",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 663,
+          "wall_s": 1.65
+        },
+        {
+          "task_id": 10,
+          "scenario": "emergency_supply_drop",
+          "completed": true,
+          "group_decision": "Warehouse C",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 655,
+          "wall_s": 1.44
+        },
+        {
+          "task_id": 11,
+          "scenario": "emergency_conference_relocation",
+          "completed": true,
+          "group_decision": "School Gym",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 654,
+          "wall_s": 1.83
+        },
+        {
+          "task_id": 12,
+          "scenario": "evacuate_park_dilemma",
+          "completed": true,
+          "group_decision": "Green Valley",
+          "correct": true,
+          "failure": null,
+          "llm_calls": 1,
+          "tokens": 685,
+          "wall_s": 1.94
+        }
+      ],
+      "usage": {
+        "calls": 8,
+        "prompt_tokens": 6923,
+        "completion_tokens": 553,
+        "total_tokens": 7476
+      }
+    }
+  },
+  "model": "default",
+  "base_url": "https://simulachat.sushant.pp.ua/api/v1"
+}
