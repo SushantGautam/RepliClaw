@@ -9,4 +9,5 @@ artifacts/verify/
 .artifacts/
 *.egg-info/
 artifacts/benchmark/_work/
+artifacts/indepinfo/
 .worktrees/
