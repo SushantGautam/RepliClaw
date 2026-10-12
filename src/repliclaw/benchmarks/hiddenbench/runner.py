@@ -18,15 +18,13 @@ from __future__ import annotations
 import argparse
 import datetime as _dt
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any, Optional
 
-from . import _vendor
 from ._vendor import ensure_path
-from .arms import load_prompts, run_arm_task, score_arm, ARM_RUNNERS  # noqa: F401
+from .arms import ARM_RUNNERS, load_prompts, run_arm_task, score_arm  # noqa: F401
 from .client import CountingOpenAIClient, FakeClient
 
 ensure_path()
@@ -141,13 +139,13 @@ def _render_report(summary: dict[str, Any]) -> str:
         "- **Claim scope:** observational, access-matched. Not a causal claim.",
         f"- Git SHA: `{summary['git_sha']}`",
         f"- Model: `{summary.get('model')}` @ `{summary.get('base_url')}`"
-        + (" (FAKE — smoke only)" if summary.get("fake") else " (model substitution, not the released HiddenBench baseline)"),
+        + (" (FAKE — smoke only)" if summary.get("fake") else " (model substitution, not the released baseline)"),
         f"- Benchmark: `{summary['benchmark']}` (sha256 `{summary['benchmark_file_sha256'][:16]}…`)",
         f"- Tasks: {summary['task_ids']} | rounds: {summary['rounds']} | seed: {summary['seed']}",
         f"- Caps per arm: {summary['caps']}",
         f"- Started: {summary['run_started_at']}",
         "",
-        "| arm | tasks | completed | group-acc (completed) | group-acc (all) | indiv-final acc | LLM calls | tokens | wall s |",
+        "| arm | tasks | done | acc(done) | acc(all) | indiv-acc | calls | tokens | wall s |",
         "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for arm, s in summary["per_arm"].items():
