@@ -26,6 +26,35 @@ The system is built on [ScienceClaw](./deps/scienceclaw) primitives
 > result below is from the deterministic offline harness, it is labeled as
 > such. We never present offline runs as live results.
 
+## Current work (2026-10-12)
+
+The current, construct-valid focus is an **independent-falsification
+benchmark** that asks whether pre-outcome **evidence escrow** helps when the
+evidence is genuinely *fragmented, contradictory, and potentially misleading*.
+It adds three components, all under `src/repliclaw/benchmarks/`:
+
+- **Evidence-partitioning escrow** (`indepinfo/`) — each investigator sees only
+  its own evidence source and seals a per-claim prediction before any peer
+  result; isolation is enforced and reveal is hash-verified.
+- **Adversarial scientific-audit dataset** (`adversarial_audit/`) — pharma
+  formulation RX-441; 18 artifacts across 4 sources; 7 claims with 5 engineered
+  traps (misleading statistics, contradictions, unreliable sources);
+  evaluator-only ground truth. No single source resolves any claim.
+- **Matched 4-arm live comparison** (`falsification/`) — escrowed-independent
+  vs open-sharing, a strong central manager, and a single investigator, under a
+  matched evidence union and matched spend, with full per-arm receipts.
+
+The live result and short scientific verdict are in
+[`docs/next_stage/science/falsification_indepinfo_verdict.md`](docs/next_stage/science/falsification_indepinfo_verdict.md).
+On this small sample, independent evidence escrow does **not** help: it costs
+accuracy, completion, and spend, and the failure is localized to the
+aggregation/completion mechanism (individual accuracy 90%, team accuracy 20%).
+It is reported, with all raw receipts, as a negative result.
+
+**Tooling disclosure.** This project was developed with AI coding agents and
+uses LLM agents (Qwen3.8-27B) both as a development tool and, by design, as the
+experimental "investigator" arms. Every experimental arm is a real LLM call;
+offline/mock runs are labeled harness checks and are never reported as results.
 
 ## The research program (2026)
 
