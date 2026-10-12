@@ -1,0 +1,22 @@
+{
+  "schema": "adversarial_audit/manifest/v1",
+  "dataset_id": "adversarial_audit_rx441/v1",
+  "source_benchmark": "adversarial_audit_rx441",
+  "domain": "pharmaceutical_formulation_audit",
+  "subject": "Compound RX-441 (fictional oral solid formulation)",
+  "n_claims": 7,
+  "n_artifacts": 18,
+  "n_sources": 4,
+  "heldout": true,
+  "source_type": "hand_authored_synthetic_audit_dataset",
+  "claims": "exploratory dataset; no observed model/agent performance yet",
+  "data_hashes": {
+    "claims.json": "491b3dd72e6dc36093d91abb29766f7831da45fae28e571e20742b30f2338571",
+    "evidence.json": "a8a24ab6024e8f1f0542b56334a6499491fb7b8f76f0424c1fcb91ca2cb4e485"
+  },
+  "ground_truth": {
+    "pointer": "data/private/ground_truth.json",
+    "sha256": "95143f7e910658dd0b424df33e0ad518d2eaeb4ce9bf5aa3aceafcc01c37cfea"
+  },
+  "notes": "Fictional domain; no real compounds, companies, or studies. ground_truth is an EVALUATOR-ONLY pointer (path + hash, never the content); lane/investigator code must not dereference it outside the scorer. Trap taxonomy lives in data/private/trap_annotations.json (also evaluator-only)."
+}

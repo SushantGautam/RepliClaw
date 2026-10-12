@@ -1,0 +1,98 @@
+{
+  "schema": "adversarial_audit/trap_annotations/v1",
+  "dataset_id": "adversarial_audit_rx441/v1",
+  "evaluator_only": true,
+  "note": "EVALUATOR-ONLY trap taxonomy. These tags describe the dataset's design and must never be shown to investigators; the public evidence loader (data.py) does not read this file.",
+  "annotations": [
+    {
+      "artifact_id": "A1",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: powered n=24 study with a 90% CI that excludes the claimed 40%."
+    },
+    {
+      "artifact_id": "A2",
+      "trap_tags": ["supporting", "context"],
+      "description": "Context: established reference baseline AUC used to compute the percentage increase."
+    },
+    {
+      "artifact_id": "A3",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: validated ICH method, D-2 below threshold."
+    },
+    {
+      "artifact_id": "A4",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: age-controlled study showing no significant temperature effect."
+    },
+    {
+      "artifact_id": "A5",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: independent QC corroboration of the 3.1% new-process CV."
+    },
+    {
+      "artifact_id": "A6",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: full 24/7 calibrated in-house chamber log with few excursions."
+    },
+    {
+      "artifact_id": "A7",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: lab-scale potency mean 99.5%."
+    },
+    {
+      "artifact_id": "B1",
+      "trap_tags": ["contradiction", "unreliable_source"],
+      "description": "Contradicts A3 on D-2 level; relies on an UNVALIDATED HPLC method (visible red flag)."
+    },
+    {
+      "artifact_id": "B2",
+      "trap_tags": ["misleading_statistic", "unreliable_source", "contradiction"],
+      "description": "Overclaimed '99.9% uptime' from a business-hours-only window and a miscalibrated sensor; contradicts A6."
+    },
+    {
+      "artifact_id": "B3",
+      "trap_tags": ["misleading_statistic", "unreliable_source"],
+      "description": "Re-presents the underpowered n=6 40% result as 'definitive confirmation'."
+    },
+    {
+      "artifact_id": "C1",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: old-vs-new CV comparison (8.2% -> 3.1%)."
+    },
+    {
+      "artifact_id": "C2",
+      "trap_tags": ["supporting", "context"],
+      "description": "Context: old-process baseline CV 8.2% needed to judge the reduction."
+    },
+    {
+      "artifact_id": "C3",
+      "trap_tags": ["misleading_statistic"],
+      "description": "Overclaimed 25% cost reduction; double-counts a shared overhead (no allocation factor)."
+    },
+    {
+      "artifact_id": "C4",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: pilot-scale potency consistent with lab scale."
+    },
+    {
+      "artifact_id": "D1",
+      "trap_tags": ["misleading_statistic", "small_n_no_ci"],
+      "description": "Small-N (n=6) point estimate with no CI, stated as definitive; the source of the 40% claim."
+    },
+    {
+      "artifact_id": "D2",
+      "trap_tags": ["misleading_statistic", "spurious_correlation"],
+      "description": "Confounded correlation (r=0.85) stated as causal; batch age is the uncontrolled confounder."
+    },
+    {
+      "artifact_id": "D3",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: peer-reviewed evidence that controlled granulation reduces CV."
+    },
+    {
+      "artifact_id": "D4",
+      "trap_tags": ["supporting"],
+      "description": "Genuinely supporting: cost-accounting guidance that shared overhead must be allocated."
+    }
+  ]
+}
