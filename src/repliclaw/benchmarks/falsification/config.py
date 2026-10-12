@@ -122,6 +122,41 @@ class MatchedCaps:
         }
 
 
+    @classmethod
+    def scaled_to_total_tokens(
+        cls,
+        total_tokens: int,
+        *,
+        n_team: int = 4,
+        total_calls: int = 16,
+        calls_per_investigator: int = 4,
+    ) -> "MatchedCaps":
+        """Build a matched envelope from an arm-level ``total_tokens``.
+
+        Scales the per-investigator token split so the team arm still
+        reconstructs the arm-level total (``tokens_per_investigator * n_team
+        == total_tokens``). ``total_tokens`` must be divisible by ``n_team * 2``
+        so the open_sharing two-phase split is integral. Call and wall-clock
+        caps are unchanged (the token budget, not the call budget, is what
+        starves partitioned investigators in practice).
+        """
+        if total_tokens % (n_team * 2) != 0:
+            raise ValueError(
+                f"total_tokens ({total_tokens}) must be divisible by "
+                f"{n_team * 2} for an integral per-investigator / two-phase split"
+            )
+        tpi = total_tokens // n_team
+        return cls(
+            total_tokens=total_tokens,
+            total_calls=total_calls,
+            n_team=n_team,
+            tokens_per_investigator=tpi,
+            calls_per_investigator=calls_per_investigator,
+            open_sharing_phase_tokens=tpi // 2,
+            open_sharing_phase_calls=calls_per_investigator // 2,
+        )
+
+
 #: The default matched envelope used by the runner and the CLI.
 DEFAULT_CAPS = MatchedCaps()
 
