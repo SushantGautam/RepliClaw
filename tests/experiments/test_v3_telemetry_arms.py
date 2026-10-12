@@ -704,6 +704,115 @@ def test_de_best_evidence_commit_after_budget_abort(
     assert any(t.get("to") == "REVEAL" for t in ledger["phase_transitions"])
 
 
+BAD_RANK5 = ["bad01", "bad02", "svc00", "svc01", "svc02"]
+
+
+def test_de_invalid_commit_corrected_once(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """A commit naming a service not in the case inventory is rejected with
+    ONE bounded correction ask; the escrowed packet is the corrected
+    (valid) ranking — identical rule for both arms, no oracle content."""
+
+    def script(prompt: str, call_index: int) -> str:
+        if "Adjudication table" in prompt:
+            return _tool("top_anomalies", k=10)
+        if "Observation for committee" in prompt:
+            return _commit(RANK5, 0.99)
+        if "was REJECTED" in prompt:
+            return _commit(RANK5, 0.85)
+        if "Begin your private" in prompt:
+            return _tool("system_context")
+        if "Observation for" in prompt:
+            return _commit(BAD_RANK5, 0.6)
+        raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
+
+    arm = DetelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking is not None
+    ledger = json.loads(Path(result.escrow_ledger_path).read_text())
+    # Every escrowed packet is the CORRECTED (valid) ranking.
+    assert len(ledger["entries"]) == 3
+    assert all(e["ranking"] == RANK5 for e in ledger["entries"])
+    # Exactly one correction ask per investigator.
+    for s in arm.sessions:
+        if s.agent_id in ("inv-a", "inv-b", "inv-c"):
+            rejects = [p for p in s.prompts if "was REJECTED" in p]
+            assert len(rejects) == 1
+
+
+def test_de_invalid_commit_repeated_is_non_commit_failure(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """Two invalid commits in a row is a recorded non-commit FAILURE (not
+    masked, not a silent infinite loop)."""
+
+    def script(prompt: str, call_index: int) -> str:
+        if "Adjudication table" in prompt:
+            return _commit(RANK5, 0.99)
+        if "Observation for committee" in prompt:
+            return _commit(RANK5, 0.99)
+        if "Begin your private" in prompt:
+            return _tool("system_context")
+        if "Observation for" in prompt or "was REJECTED" in prompt:
+            return _commit(BAD_RANK5, 0.6)
+        raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
+
+    arm = DetelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status != "completed"
+    assert result.submitted_ranking is None
+    assert result.abort_reason is not None
+    assert result.abort_reason.startswith("non_commit:")
+    assert "invalid" in result.abort_reason or "re-commit" in result.abort_reason
+
+
+def test_ceq_invalid_final_commit_corrected_once(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """C-EQ: the manager's final commit is validated against the inventory
+    with one bounded correction ask (same rule as D-E)."""
+
+    def script(prompt: str, call_index: int) -> str:
+        if "One-shot consultation" in prompt:
+            return _commit(RANK5, 0.6)
+        if "Pre-outcome forecast" in prompt:
+            return _commit(RANK5, 0.8)
+        if "was REJECTED" in prompt:
+            return _commit(RANK5, 0.9)
+        if "Planner round" in prompt:
+            return _commit(RANK5, 0.85)
+        if "Final commit" in prompt:
+            return _commit(BAD_RANK5, 0.7)
+        raise AssertionError(f"UNROUTED C-EQ prompt: {prompt[:120]!r}")
+
+    arm = CEQTelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=5,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking == RANK5
+    manager = next(s for s in arm.sessions if s.agent_id == "manager")
+    assert sum(1 for p in manager.prompts if "was REJECTED" in p) == 1
+
+
 def test_parse_action_batch() -> None:
     batch = json.dumps({
         "action": "tool_calls",
