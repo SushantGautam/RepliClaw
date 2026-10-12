@@ -59,8 +59,10 @@ INSTRUMENT; NOT comparable to prior V3.2 rounds):
   issue a BATCH of up to ``CEQ_MANAGER_BATCH_MAX`` tool calls per turn
   (``{"action": "tool_calls", "tools": [...]}``).
 * Commit VALIDATION (both arms, identical rule): a committed ranking that
-  names a service not in the case's metric inventory (hallucinated name)
-  is rejected with ONE bounded correction ask; a second invalid commit is
+  names a service not in the case's metric inventory (hallucinated name) is
+  rejected with up to ``MAX_COMMIT_CORRECTIONS`` bounded correction asks
+  (at most one tool call served per episode if the model asks for
+  observable data such as the inventory); a non-commit / exhausted budget is
   a recorded non-commit failure (``abort_reason="non_commit:..."``).
   Service names are observable data (system_context) — no oracle content.
 * Escrow packets are hashed with ``repliclaw.canonical`` (the escrow
@@ -163,6 +165,10 @@ DE_PHASE1_TOOL_CAP = 6
 #: C-EQ mechanism v2: max tool calls per manager turn (equivalent parallelism;
 #: the batch is executed as one agent turn on the manager's sandbox).
 CEQ_MANAGER_BATCH_MAX = 3
+#: Commit-validation corrections: max bounded correction asks per invalid
+#: commit (and at most one tool call served per episode, if the model asks for
+#: observable data such as the service inventory). Identical for both arms.
+MAX_COMMIT_CORRECTIONS = 2
 
 #: Context-compaction constants (W3g harness-side fix — addendum §6.3).
 #: The provider send-view keeps the system prompt + first user instruction and the
@@ -842,32 +848,60 @@ class _ArmBase:
         """Validate a committed ranking against the case's service inventory.
 
         An unknown service (hallucinated name) is a NORMAL protocol failure,
-        not an arm crash: ONE bounded correction ask (the valid service names
-        are observable data the agent already has access to — no oracle
-        content). A second invalid commit raises :class:`_NonCommitError` —
-        a recorded failure (never masked). Identical rule for both arms.
+        not an arm crash: up to ``MAX_COMMIT_CORRECTIONS`` bounded correction
+        asks (the valid service names are observable data — no oracle
+        content). If a correction ask is answered with a tool call, that ONE
+        tool call is served (e.g. the model fetching the inventory via
+        ``system_context``) and it is asked to commit again. A non-commit or
+        an exhausted correction budget raises :class:`_NonCommitError` — a
+        recorded failure (never masked, never a silent stall). Identical
+        rule for both arms.
         """
-        try:
-            sandbox.validate_ranking(action["ranking"])
-            return action
-        except UnknownServiceError as exc:
-            fixed = session.ask(
-                f"{context}: your commit was REJECTED — {exc}. Commit again "
-                "with a ranked-5 list using ONLY service names that actually "
-                "appear in the case's telemetry (see system_context and the "
-                "other tool outputs); do not invent service names."
-            )
-            if fixed["action"] != "commit":
-                raise _NonCommitError(
-                    f"{agent_id}: no re-commit after inventory correction"
-                ) from None
+        current = action
+        attempts = 0
+        tools_served = 0
+        while True:
             try:
-                sandbox.validate_ranking(fixed["ranking"])
-            except UnknownServiceError as exc2:
-                raise _NonCommitError(
-                    f"{agent_id}: re-commit still invalid ({exc2})"
-                ) from None
-            return fixed
+                sandbox.validate_ranking(current["ranking"])
+                return current
+            except UnknownServiceError as exc:
+                if attempts >= MAX_COMMIT_CORRECTIONS:
+                    raise _NonCommitError(
+                        f"{agent_id}: re-commit still invalid after "
+                        f"{MAX_COMMIT_CORRECTIONS} corrections ({exc})"
+                    ) from None
+                attempts += 1
+                reply = session.ask(
+                    f"{context}: your commit was REJECTED — {exc}. Commit again "
+                    "with a ranked-5 list using ONLY service names that "
+                    "actually appear in the case's telemetry (see "
+                    "system_context and the other tool outputs); do not "
+                    "invent service names. If you are unsure of the service "
+                    "names, request the system_context tool."
+                )
+                if reply["action"] == "tool_call" and tools_served == 0:
+                    obs = self._execute_tool(sandbox, reply)
+                    tools_served += 1
+                    payload = json.dumps(obs["payload"], sort_keys=True)
+                    if len(payload) > 800:
+                        payload = payload[:800] + " ...[truncated]"
+                    follow = session.ask(
+                        f"Observation from {obs['tool']}("
+                        f"{json.dumps(obs['args'], sort_keys=True)}):\n{payload}\n"
+                        "Now commit again (commit action ONLY): ranked-5 list "
+                        "using only the actual service names."
+                    )
+                    if follow["action"] != "commit":
+                        raise _NonCommitError(
+                            f"{agent_id}: no re-commit after inventory correction"
+                        ) from None
+                    current = follow
+                    continue
+                if reply["action"] != "commit":
+                    raise _NonCommitError(
+                        f"{agent_id}: no re-commit after inventory correction"
+                    ) from None
+                current = reply
 
     def _execute_tools(
         self, sandbox: TelemetrySandbox, actions: Sequence[dict[str, Any]]
@@ -1439,6 +1473,7 @@ __all__ = [
     "DE_PHASE1_TOOL_CAP",
     "DE_PHASE2_TOOL_CAP",
     "DetelemArm",
+    "MAX_COMMIT_CORRECTIONS",
     "MECHANISM_LABEL",
     "FakeLLMClient",
     "INVESTIGATOR_IDS",
