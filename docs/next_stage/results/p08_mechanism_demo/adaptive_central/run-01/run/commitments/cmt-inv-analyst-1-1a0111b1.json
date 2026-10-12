@@ -1,0 +1,46 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-1a0111b1",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "824ba91f53f5fb4cfed437cd3e9aeea987db2020c7729cd7f3bf8b36a05e1d48",
+  "phase": "revealed",
+  "timestamp": "2026-10-12T16:20:14.515573+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current policy document explicitly states a 30-day full-refund window for standard items, which aligns with the claim.",
+    "plan": "I examined the `policy_docs` array in the bundled data to identify the most recent and applicable return policy for standard items. I compared the 'current' policy version against any older versions found in the retrieval base to ensure no stale data was prioritized. I verified that the item type in the order matches the policy scope.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_policy_days": 14,
+      "order_item_type": "standard",
+      "order_age_days": 10,
+      "applicable_policy_id": "returns_policy_v2",
+      "policy_text": "Standard items can be returned within 30 days of purchase for a full refund.",
+      "conflict_resolution_note": "The system uses first-match-wins; returns_policy_v2 is listed first and is marked as current (v2 2025-01), overriding the v1 2024-01 policy found in base_retrieval."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-12T16:20:14.516414+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current policy document explicitly states a 30-day full-refund window for standard items, which aligns with the claim.",
+    "plan": "I examined the `policy_docs` array in the bundled data to identify the most recent and applicable return policy for standard items. I compared the 'current' policy version against any older versions found in the retrieval base to ensure no stale data was prioritized. I verified that the item type in the order matches the policy scope.",
+    "evidence": {
+      "current_policy_days": 30,
+      "stale_policy_days": 14,
+      "order_item_type": "standard",
+      "order_age_days": 10,
+      "applicable_policy_id": "returns_policy_v2",
+      "policy_text": "Standard items can be returned within 30 days of purchase for a full refund.",
+      "conflict_resolution_note": "The system uses first-match-wins; returns_policy_v2 is listed first and is marked as current (v2 2025-01), overriding the v1 2024-01 policy found in base_retrieval."
+    },
+    "confidence": 0.98,
+    "executable": true
+  },
+  "seal_hash": "76d0c54da6b7e31200bd05fa25fafa65263c245a928b915257f85bf965769cda"
+}

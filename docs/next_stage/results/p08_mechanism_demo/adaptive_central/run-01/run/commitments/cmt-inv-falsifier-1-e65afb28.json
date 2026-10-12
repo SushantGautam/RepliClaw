@@ -1,0 +1,46 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-e65afb28",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "f07895b981e8cb76ddec87725d9e8478af6e7f2b1a95077c2ede17e25f89b359",
+  "phase": "revealed",
+  "timestamp": "2026-10-12T16:20:14.516066+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The claim that the current return window is 30 days is supported by the active policy document 'returns_policy_v2' which explicitly states a 30-day window, overriding the stale v1 policy found in base retrieval.",
+    "plan": "I examined the provided policy documents and order details. I identified the current policy version (v2) versus the outdated version (v1) present in the base retrieval context. I verified the specific clause for 'standard items' in the current policy and compared it against the order's age to confirm eligibility logic, while noting the conflict resolution rule favors the first-matched current policy.",
+    "evidence": {
+      "current_policy_window_days": 30,
+      "stale_policy_window_days": 14,
+      "order_age_days": 10,
+      "item_type": "standard",
+      "policy_source_id": "returns_policy_v2",
+      "conflict_resolution_applied": "first-match-wins (returns_policy_v2)",
+      "raw_computation_note": "No event counts provided; analysis based on direct policy text extraction and version comparison."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-12T16:20:14.517067+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The claim that the current return window is 30 days is supported by the active policy document 'returns_policy_v2' which explicitly states a 30-day window, overriding the stale v1 policy found in base retrieval.",
+    "plan": "I examined the provided policy documents and order details. I identified the current policy version (v2) versus the outdated version (v1) present in the base retrieval context. I verified the specific clause for 'standard items' in the current policy and compared it against the order's age to confirm eligibility logic, while noting the conflict resolution rule favors the first-matched current policy.",
+    "evidence": {
+      "current_policy_window_days": 30,
+      "stale_policy_window_days": 14,
+      "order_age_days": 10,
+      "item_type": "standard",
+      "policy_source_id": "returns_policy_v2",
+      "conflict_resolution_applied": "first-match-wins (returns_policy_v2)",
+      "raw_computation_note": "No event counts provided; analysis based on direct policy text extraction and version comparison."
+    },
+    "confidence": 0.95,
+    "executable": true
+  },
+  "seal_hash": "89e576831982e94cb22acd66d57f3eec9a1bba8fa18a7db0d6d5b218924f81c2"
+}

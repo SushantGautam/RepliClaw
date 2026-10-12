@@ -1,0 +1,263 @@
+{
+  "schema": "p08.scores/1",
+  "case": "policy_rag_v1",
+  "seed": 20261012,
+  "oracle_path": "/home/susan/projects/RepliClaw/experiments/policy_rag/oracle/oracle.json",
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20261012
+  },
+  "parity": {
+    "identical_envelope_sha256": true,
+    "envelope_hashes": [
+      "fa6f4b413ab9b1f09e306de8c5b5a35c524587f82080d18eac441bedb831bc1c"
+    ],
+    "overruns": [],
+    "executor_parity": {
+      "S5_S4": true,
+      "S5_S3": true,
+      "S5_S0": true
+    },
+    "ok": true
+  },
+  "stopping_rules": {
+    "S1": {
+      "triggered": false,
+      "detail": {
+        "adaptive_central": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "eess": {
+          "value": 0.0,
+          "flag_S1": false
+        },
+        "open_sharing_swarm": {
+          "value": 0.0,
+          "flag_S1": false
+        }
+      }
+    },
+    "S5": {
+      "triggered": false,
+      "detail": {
+        "adaptive_central": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "eess": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        },
+        "open_sharing_swarm": {
+          "total_incidents": 0.0,
+          "flag_S5": false
+        }
+      }
+    }
+  },
+  "p1_decision": {
+    "s5_m1_mean": null,
+    "s4_m1_mean": null,
+    "m1_canary": {
+      "S4": "absent",
+      "S3": "absent",
+      "S0": "absent"
+    },
+    "decision": "no_valid_runs",
+    "note": "S5/S4 run counts differ or empty; paired bootstrap undefined"
+  },
+  "arms": {
+    "adaptive_central": {
+      "n_runs": 1,
+      "n_valid": 1,
+      "n_aborted_budget": 0,
+      "n_invalid_usage": 0,
+      "voided_runs": [],
+      "aborted_runs": [],
+      "M1": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "M2": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M3": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M11": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M5": {
+        "mean": 4162.0,
+        "min": 4162.0,
+        "max": 4162.0
+      },
+      "M6": {
+        "value": null,
+        "n_correct": 0,
+        "note": "no correct runs (reported as such)"
+      },
+      "M7": {
+        "value": 0.0,
+        "flag_S1": false
+      },
+      "M8": {
+        "mean": 0.0
+      },
+      "M9": {
+        "median": 19.8084,
+        "iqr": [
+          19.8084,
+          19.8084
+        ]
+      },
+      "M10": {
+        "value": 1.0,
+        "modal_verdict": "supported"
+      },
+      "M4": {
+        "total_incidents": 0.0,
+        "flag_S5": false
+      }
+    },
+    "eess": {
+      "n_runs": 1,
+      "n_valid": 1,
+      "n_aborted_budget": 0,
+      "n_invalid_usage": 0,
+      "voided_runs": [],
+      "aborted_runs": [],
+      "M1": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "M2": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "M3": {
+        "value": 0.5,
+        "ci95": [
+          0.5,
+          0.5
+        ]
+      },
+      "M11": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "M5": {
+        "mean": 3212.0,
+        "min": 3212.0,
+        "max": 3212.0
+      },
+      "M6": {
+        "value": 3212.0,
+        "n_correct": 1
+      },
+      "M7": {
+        "value": 0.0,
+        "flag_S1": false
+      },
+      "M8": {
+        "mean": 0.0
+      },
+      "M9": {
+        "median": 26.046877,
+        "iqr": [
+          26.046877,
+          26.046877
+        ]
+      },
+      "M10": {
+        "value": 1.0,
+        "modal_verdict": "refuted"
+      },
+      "M4": {
+        "total_incidents": 0.0,
+        "flag_S5": false
+      }
+    },
+    "open_sharing_swarm": {
+      "n_runs": 1,
+      "n_valid": 1,
+      "n_aborted_budget": 0,
+      "n_invalid_usage": 0,
+      "voided_runs": [],
+      "aborted_runs": [],
+      "M1": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "M2": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M3": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M11": {
+        "value": null,
+        "ci95": null,
+        "note": "no valid runs / metric undefined"
+      },
+      "M5": {
+        "mean": 5130.0,
+        "min": 5130.0,
+        "max": 5130.0
+      },
+      "M6": {
+        "value": null,
+        "n_correct": 0,
+        "note": "no correct runs (reported as such)"
+      },
+      "M7": {
+        "value": 0.0,
+        "flag_S1": false
+      },
+      "M8": {
+        "mean": 0.0
+      },
+      "M9": {
+        "median": 21.322351,
+        "iqr": [
+          21.322351,
+          21.322351
+        ]
+      },
+      "M10": {
+        "value": 1.0,
+        "modal_verdict": "supported"
+      },
+      "M4": {
+        "total_incidents": 0.0,
+        "flag_S5": false
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "commitment_id": "cmt-inv-analyst-1-4926a4",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-analyst-1",
+  "role": "analyst",
+  "content_hash": "3a3b44978160194d9a10644184aa0d349665c90a626678a03141e731a1382ba5",
+  "phase": "committed",
+  "timestamp": "2026-10-12T16:19:39.895576+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current policy (v2) explicitly states a 30-day full-refund window for standard items, which supports the claim.",
+    "plan": "1. Identify the current policy document from `policy_docs`. 2. Extract the return window for 'standard' items. 3. Compare this value to the claim's assertion of 30 days. 4. Check for conflicts with other policies or stale data in `base_retrieval`.",
+    "evidence": {
+      "current_policy_id": "returns_policy_v2",
+      "current_policy_text": "Standard items can be returned within 30 days of purchase for a full refund.",
+      "claimed_days": 30,
+      "extracted_days": 30,
+      "match": true,
+      "stale_data_check": "base_retrieval contains v1 (14 days), but policy_docs contains v2 (30 days). The conflict resolution rule 'first-match-wins' applies to the order in policy_docs where returns_policy_v2 is first. Thus, v2 is the active policy."
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "seal_hash": "971ef95b8e1adfe3ded12c1497b7d540db31f24319cc2f825750c90e057f1601"
+}
