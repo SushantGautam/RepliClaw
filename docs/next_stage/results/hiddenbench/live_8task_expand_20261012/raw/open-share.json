@@ -1,0 +1,1533 @@
+{
+  "arm": "open-share",
+  "model": "default",
+  "seed": 2026,
+  "rounds": 3,
+  "runs": [
+    {
+      "task_id": 5,
+      "scenario": "baker_2010",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Roberts",
+      "possible_answers": [
+        "Stevens",
+        "Roberts",
+        "Jones"
+      ],
+      "seed": 2026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience (Provost) and strong academic credentials, whereas Roberts lacks recent university experience and Jones has no direct administrative background in academia."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant academic leadership experience (Provost/Dean) and a strong record of fundraising success tied to his tenure, whereas Roberts lacks recent higher education experience and Jones lacks direct administrative credentials for a university presidency."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic profile (Full Professor, national recognition), directly aligning with the job's core requirements for academic leadership and scholarship, whereas Roberts lacks recent academic experience and Jones lacks an academic background."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with direct, recent experience in higher education administration (Provost/Dean) and a strong academic profile (Full Professor, nationally recognized researcher), which aligns best with the job's emphasis on academic leadership, shared governance, and scholarship."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Stevens\nYour initial rationale was: Stevens is the only candidate with current, relevant higher education leadership experience (Provost) and strong academic credentials, whereas Roberts lacks recent university experience and Jones has no direct administrative background in academia.\n\nYou are the first to speak.\n",
+              "response": "I recommend we select Stevens, as he is the only candidate with current, relevant higher education leadership experience and strong academic credentials, unlike Roberts who lacks recent university experience or Jones who has no direct administrative background in academia."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Stevens\nYour initial rationale was: Stevens is the only candidate with current, relevant academic leadership experience (Provost/Dean) and a strong record of fundraising success tied to his tenure, whereas Roberts lacks recent higher education experience and Jones lacks direct administrative credentials for a university presidency.\n\nPrevious messages from other people:\nPerson 1: I recommend we select Stevens, as he is the only candidate with current, relevant higher education leadership experience and strong academic credentials, unlike Roberts who lacks recent university experience or Jones who has no direct administrative background in academia.\nIt is your turn to speak. \n",
+              "response": "I agree with Person 1; Stevens is the clear choice as the only candidate with current, relevant academic leadership experience and strong fundraising credentials, unlike Roberts or Jones."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Stevens\nYour initial rationale was: Stevens is the only candidate with current, relevant higher education leadership experience (Provost/Dean) and a strong academic profile (Full Professor, national recognition), directly aligning with the job's core requirements for academic leadership and scholarship, whereas Roberts lacks recent academic experience and Jones lacks an academic background.\n\nPrevious messages from other people:\nPerson 1: I recommend we select Stevens, as he is the only candidate with current, relevant higher education leadership experience and strong academic credentials, unlike Roberts who lacks recent university experience or Jones who has no direct administrative background in academia.\nPerson 2: I agree with Person 1; Stevens is the clear choice as the only candidate with current, relevant academic leadership experience and strong fundraising credentials, unlike Roberts or Jones.\nIt is your turn to speak. \n",
+              "response": "I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Stevens\nYour initial rationale was: Stevens is the only candidate with direct, recent experience in higher education administration (Provost/Dean) and a strong academic profile (Full Professor, nationally recognized researcher), which aligns best with the job's emphasis on academic leadership, shared governance, and scholarship.\n\nPrevious messages from other people:\nPerson 1: I recommend we select Stevens, as he is the only candidate with current, relevant higher education leadership experience and strong academic credentials, unlike Roberts who lacks recent university experience or Jones who has no direct administrative background in academia.\nPerson 2: I agree with Person 1; Stevens is the clear choice as the only candidate with current, relevant academic leadership experience and strong fundraising credentials, unlike Roberts or Jones.\nPerson 3: I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance.\nIt is your turn to speak. \n",
+              "response": "I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I agree with Person 1; Stevens is the clear choice as the only candidate with current, relevant academic leadership experience and strong fundraising credentials, unlike Roberts or Jones.\nPerson 3: I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance.\nPerson 4: I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance.\nIt is your turn to speak. \n",
+              "response": "I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance.\nPerson 4: I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance.\nPerson 1: I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance.\nIt is your turn to speak. \n",
+              "response": "I confirm the unanimous consensus to select Stevens, as his current provost role and academic credentials best align with the university's requirements for experienced leadership."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance.\nPerson 1: I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance.\nPerson 2: I confirm the unanimous consensus to select Stevens, as his current provost role and academic credentials best align with the university's requirements for experienced leadership.\nIt is your turn to speak. \n",
+              "response": "I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I agree with the consensus to select Stevens, as his current provost role and strong academic credentials best align with the university's need for experienced leadership in scholarship and shared governance.\nPerson 2: I confirm the unanimous consensus to select Stevens, as his current provost role and academic credentials best align with the university's requirements for experienced leadership.\nPerson 3: I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nIt is your turn to speak. \n",
+              "response": "I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I confirm the unanimous consensus to select Stevens, as his current provost role and academic credentials best align with the university's requirements for experienced leadership.\nPerson 3: I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nPerson 4: I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nIt is your turn to speak. \n",
+              "response": "I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nPerson 4: I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nPerson 1: I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nIt is your turn to speak. \n",
+              "response": "I confirm the final decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nPerson 1: I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nPerson 2: I confirm the final decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nIt is your turn to speak. \n",
+              "response": "I confirm the final selection of Stevens, as his current provost experience and academic credentials best align with the university's needs for leadership in scholarship and shared governance."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I confirm the unanimous decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nPerson 2: I confirm the final decision to select Stevens, as his current provost experience and academic credentials best meet the university's requirements for leadership in scholarship and shared governance.\nPerson 3: I confirm the final selection of Stevens, as his current provost experience and academic credentials best align with the university's needs for leadership in scholarship and shared governance.\nIt is your turn to speak. \n",
+              "response": "I confirm the final selection of Stevens, as his current provost experience and academic credentials best align with the university's needs for leadership in scholarship and shared governance."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience as a provost and strong academic credentials, whereas Roberts lacks recent university experience and Jones has no direct administrative background in academia."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant academic leadership experience as a provost and strong credentials in scholarship and fundraising, which best aligns with the university's requirements for experienced leadership in an academic environment."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant higher education leadership experience as a Provost and strong academic credentials (Full Professor, national recognition), which directly aligns with the job's core requirements for academic leadership, scholarship, and shared governance, unlike Roberts who lacks recent academic experience or Jones who lacks an administrative background in academia."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Stevens",
+          "rationale": "Stevens is the only candidate with current, relevant higher education administrative experience (Provost) and strong academic credentials (Full Professor, nationally recognized researcher), which best aligns with the job's emphasis on academic leadership, shared governance, and scholarship."
+        }
+      ],
+      "group_decision": "Stevens",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Stevens' CV highlights:\n- Currently the provost and executive vice president of a medium-sized university in Florida\n- Previous experience as business dean of a large Mississippi university and Chair of the Information and Technology department at a large Texas University\n- Was Dean in Mississippi when plans were drawn up for a new $25 million business school building and was provost in Florida whenthe business college received $15 million\n- Has the rank of full professor of Information Technology.",
+            "Stevens' information:\n- Left the dean position at the Mississippi University before raisingany funds for the building campaign\n- Enjoys sports, goes to football, and basketball games\n- Stays fit by biking and running\n- Has been observed drinking heavily in public, including at univer-sity events\nRoberts' information:\n- Previous students and faculty say Roberts is an excellent teacher\n- Is divorced and remarried; has two children\n- Faculty research productivity increased while serving as dean in Georgia\nJones' information:\n- Sources at the law firm attribute a high turnover rate at the firm to Jones' somewhat abrasive leadership style\n- Plays bridge as a hobby\n- Enjoys traveling overseas on vacation\n- Feedback from other trustees indicates that there is tension between the current provost and Jones",
+            "Jones' CV highlights:\n- Currently the senior managing partner in a large law firm in Atlanta,Georgia\n- For the past 5 years has served on the Board of Trustees of Higher Education University, and is on the steering committee for the current $150 million capital campaign\n- Has expertise in employment law and has successfully argued infront of the Federal Supreme Court\n- Served as visiting professor of law at a major university in Georgia.",
+            "Stevens' information:\n- Nationally recognized by academics for research in informationtechnology\n- Nationally recognized by business leaders for expertise in information technology\n- In an interview, Stevens emphasized the importance of collaboration with campus leaders and faculty\n- Demonstrated excellent oratory skills during presentation to faculty\n- Someone other than Stevens was primarily responsible for getting the $15 million in Florida.",
+            "Jones' information:\n- Pleasant personality in social settings\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Following the Supreme Court appearance, Jones success rate in litigating employment law cases fell\n- Has been one of the more active members of Higher Education University's Board of Trustees\n- Student enrollment and evaluations from classes indicate that Jonesis well-liked as a teacher.",
+            "Roberts' information:\n- Faculty feedback indicated that Roberts had come across as aloofduring the presentation portion of the selection process\n- Has not worked in higher education for past 6 years\n- Has a condo in Pensacola\n- Has little direct experience dealing with campus-student life issues\n- As a senator, was accused of changing positions on issues for political gain.",
+            "Roberts' CV highlights:\n- Just completed a term as U.S. Senator for Georgia but chose not toseek a second term\n- Raised a significant amount of money in campaign for senator\n- Previous experience as Dean of the College of Arts and Sciences of a medium-sized university in Virginia and later of a large private university in Georgia\n- Had rank of full professor of public administration before becoming senator."
+          ],
+          "assigned_hidden_information": [
+            "Stevens' information:\n- Left the dean position at the Mississippi University before raisingany funds for the building campaign\n- Enjoys sports, goes to football, and basketball games\n- Stays fit by biking and running\n- Has been observed drinking heavily in public, including at univer-sity events\nRoberts' information:\n- Previous students and faculty say Roberts is an excellent teacher\n- Is divorced and remarried; has two children\n- Faculty research productivity increased while serving as dean in Georgia\nJones' information:\n- Sources at the law firm attribute a high turnover rate at the firm to Jones' somewhat abrasive leadership style\n- Plays bridge as a hobby\n- Enjoys traveling overseas on vacation\n- Feedback from other trustees indicates that there is tension between the current provost and Jones"
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Jones' information:\n- Pleasant personality in social settings\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Following the Supreme Court appearance, Jones success rate in litigating employment law cases fell\n- Has been one of the more active members of Higher Education University's Board of Trustees\n- Student enrollment and evaluations from classes indicate that Jonesis well-liked as a teacher.",
+            "Jones' CV highlights:\n- Currently the senior managing partner in a large law firm in Atlanta,Georgia\n- For the past 5 years has served on the Board of Trustees of Higher Education University, and is on the steering committee for the current $150 million capital campaign\n- Has expertise in employment law and has successfully argued infront of the Federal Supreme Court\n- Served as visiting professor of law at a major university in Georgia.",
+            "Stevens' CV highlights:\n- Currently the provost and executive vice president of a medium-sized university in Florida\n- Previous experience as business dean of a large Mississippi university and Chair of the Information and Technology department at a large Texas University\n- Was Dean in Mississippi when plans were drawn up for a new $25 million business school building and was provost in Florida whenthe business college received $15 million\n- Has the rank of full professor of Information Technology.",
+            "Roberts' CV highlights:\n- Just completed a term as U.S. Senator for Georgia but chose not toseek a second term\n- Raised a significant amount of money in campaign for senator\n- Previous experience as Dean of the College of Arts and Sciences of a medium-sized university in Virginia and later of a large private university in Georgia\n- Had rank of full professor of public administration before becoming senator.",
+            "Stevens' information:\n- Nationally recognized by academics for research in informationtechnology\n- Nationally recognized by business leaders for expertise in information technology\n- In an interview, Stevens emphasized the importance of collaboration with campus leaders and faculty\n- Demonstrated excellent oratory skills during presentation to faculty\n- Someone other than Stevens was primarily responsible for getting the $15 million in Florida.",
+            "Roberts' information:\n- Faculty feedback indicated that Roberts had come across as aloofduring the presentation portion of the selection process\n- Has not worked in higher education for past 6 years\n- Has a condo in Pensacola\n- Has little direct experience dealing with campus-student life issues\n- As a senator, was accused of changing positions on issues for political gain.",
+            "Stevens' information:\n- Comments from faculty in Florida and Mississippi indicate thatStevens tends to discourage new, innovative ideas\n- Has been observed drinking heavily in public, including at univer-sity events\n- Does consulting work in IT\n- Likes to garden\nRoberts' information:\n- Enjoys golf and tennis\n- Is divorced and remarried; has two children\n- Increased the diversity of the faculty when dean in Georgia\n- Instrumental in securing a multimillion dollar federal grant for aGeorgia based nonprofit institution\nJones' information:\n- Feedback from other trustees indicates that there is tension betweenthe current provost and Jones\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Reads mystery novels and biographies\n- Loves to cook"
+          ],
+          "assigned_hidden_information": [
+            "Stevens' information:\n- Comments from faculty in Florida and Mississippi indicate thatStevens tends to discourage new, innovative ideas\n- Has been observed drinking heavily in public, including at univer-sity events\n- Does consulting work in IT\n- Likes to garden\nRoberts' information:\n- Enjoys golf and tennis\n- Is divorced and remarried; has two children\n- Increased the diversity of the faculty when dean in Georgia\n- Instrumental in securing a multimillion dollar federal grant for aGeorgia based nonprofit institution\nJones' information:\n- Feedback from other trustees indicates that there is tension betweenthe current provost and Jones\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Reads mystery novels and biographies\n- Loves to cook"
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Jones' information:\n- Pleasant personality in social settings\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Following the Supreme Court appearance, Jones success rate in litigating employment law cases fell\n- Has been one of the more active members of Higher Education University's Board of Trustees\n- Student enrollment and evaluations from classes indicate that Jonesis well-liked as a teacher.",
+            "Roberts' CV highlights:\n- Just completed a term as U.S. Senator for Georgia but chose not toseek a second term\n- Raised a significant amount of money in campaign for senator\n- Previous experience as Dean of the College of Arts and Sciences of a medium-sized university in Virginia and later of a large private university in Georgia\n- Had rank of full professor of public administration before becoming senator.",
+            "Roberts' information:\n- Faculty feedback indicated that Roberts had come across as aloofduring the presentation portion of the selection process\n- Has not worked in higher education for past 6 years\n- Has a condo in Pensacola\n- Has little direct experience dealing with campus-student life issues\n- As a senator, was accused of changing positions on issues for political gain.",
+            "Stevens' information:\n- Nationally recognized by academics for research in informationtechnology\n- Nationally recognized by business leaders for expertise in information technology\n- In an interview, Stevens emphasized the importance of collaboration with campus leaders and faculty\n- Demonstrated excellent oratory skills during presentation to faculty\n- Someone other than Stevens was primarily responsible for getting the $15 million in Florida.",
+            "Stevens' information:\n- Comments from faculty in Florida and Mississippi indicate thatStevens tends to discourage new, innovative ideas\n- Has family in Atlanta\n- Is married with three children\nRoberts' information:\n- Previous faculty members describe Roberts as thoughtful leader andgood listener\n- Previous colleagues say Roberts uses a collaborative decision-making style\n- Enjoys golf and tennis\nJones' information\n- Has two dogs and two cats\n- Jones' spouse is a physician, specializing in internal medicine",
+            "Jones' CV highlights:\n- Currently the senior managing partner in a large law firm in Atlanta,Georgia\n- For the past 5 years has served on the Board of Trustees of Higher Education University, and is on the steering committee for the current $150 million capital campaign\n- Has expertise in employment law and has successfully argued infront of the Federal Supreme Court\n- Served as visiting professor of law at a major university in Georgia.",
+            "Stevens' CV highlights:\n- Currently the provost and executive vice president of a medium-sized university in Florida\n- Previous experience as business dean of a large Mississippi university and Chair of the Information and Technology department at a large Texas University\n- Was Dean in Mississippi when plans were drawn up for a new $25 million business school building and was provost in Florida whenthe business college received $15 million\n- Has the rank of full professor of Information Technology."
+          ],
+          "assigned_hidden_information": [
+            "Stevens' information:\n- Comments from faculty in Florida and Mississippi indicate thatStevens tends to discourage new, innovative ideas\n- Has family in Atlanta\n- Is married with three children\nRoberts' information:\n- Previous faculty members describe Roberts as thoughtful leader andgood listener\n- Previous colleagues say Roberts uses a collaborative decision-making style\n- Enjoys golf and tennis\nJones' information\n- Has two dogs and two cats\n- Jones' spouse is a physician, specializing in internal medicine"
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Stevens' CV highlights:\n- Currently the provost and executive vice president of a medium-sized university in Florida\n- Previous experience as business dean of a large Mississippi university and Chair of the Information and Technology department at a large Texas University\n- Was Dean in Mississippi when plans were drawn up for a new $25 million business school building and was provost in Florida whenthe business college received $15 million\n- Has the rank of full professor of Information Technology.",
+            "Stevens' information:\n- Stevens left the dean position at the Mississippi University beforeraising any funds for building campaign\n- As provost, Stevens teaches a class per year\n- Spouse has a PhD in Spanish and teaches a class or two at college level\nRoberts' information:\n- Has made numerous influential contacts as senator\n- Frequently volunteers for two highly respected nonprofit organiza-tions, one that provides affordable housing and another concernedwith advancing human rights\n- Is a vegetarian\n Jones' information\n- Already lives in the area\n- Is married with a grown child\n- Sources at the law firm attribute a high turnover rate at the firm toJones' somewhat abrasive leadership style",
+            "Roberts' information:\n- Faculty feedback indicated that Roberts had come across as aloofduring the presentation portion of the selection process\n- Has not worked in higher education for past 6 years\n- Has a condo in Pensacola\n- Has little direct experience dealing with campus-student life issues\n- As a senator, was accused of changing positions on issues for political gain.",
+            "Stevens' information:\n- Nationally recognized by academics for research in informationtechnology\n- Nationally recognized by business leaders for expertise in information technology\n- In an interview, Stevens emphasized the importance of collaboration with campus leaders and faculty\n- Demonstrated excellent oratory skills during presentation to faculty\n- Someone other than Stevens was primarily responsible for getting the $15 million in Florida.",
+            "Roberts' CV highlights:\n- Just completed a term as U.S. Senator for Georgia but chose not toseek a second term\n- Raised a significant amount of money in campaign for senator\n- Previous experience as Dean of the College of Arts and Sciences of a medium-sized university in Virginia and later of a large private university in Georgia\n- Had rank of full professor of public administration before becoming senator.",
+            "Jones' CV highlights:\n- Currently the senior managing partner in a large law firm in Atlanta,Georgia\n- For the past 5 years has served on the Board of Trustees of Higher Education University, and is on the steering committee for the current $150 million capital campaign\n- Has expertise in employment law and has successfully argued infront of the Federal Supreme Court\n- Served as visiting professor of law at a major university in Georgia.",
+            "Jones' information:\n- Pleasant personality in social settings\n- Law partners say Jones is a strategic thinker with respect to the direction of the firm\n- Following the Supreme Court appearance, Jones success rate in litigating employment law cases fell\n- Has been one of the more active members of Higher Education University's Board of Trustees\n- Student enrollment and evaluations from classes indicate that Jonesis well-liked as a teacher."
+          ],
+          "assigned_hidden_information": [
+            "Stevens' information:\n- Stevens left the dean position at the Mississippi University beforeraising any funds for building campaign\n- As provost, Stevens teaches a class per year\n- Spouse has a PhD in Spanish and teaches a class or two at college level\nRoberts' information:\n- Has made numerous influential contacts as senator\n- Frequently volunteers for two highly respected nonprofit organiza-tions, one that provides affordable housing and another concernedwith advancing human rights\n- Is a vegetarian\n Jones' information\n- Already lives in the area\n- Is married with a grown child\n- Sources at the law firm attribute a high turnover rate at the firm toJones' somewhat abrasive leadership style"
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 20,
+        "total_tokens": 34314
+      },
+      "wall_s": 27.68
+    },
+    {
+      "task_id": 6,
+      "scenario": "schulz_hardt_mojzisch_2012",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 3,
+      "correct_answer": "Candidate C",
+      "possible_answers": [
+        "Candidate A",
+        "Candidate B",
+        "Candidate C",
+        "Candidate D"
+      ],
+      "seed": 12026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Candidate B",
+          "rationale": "Candidate B possesses the most critical traits for long-distance flight safety, including reliability, crisis calmness, and weather assessment skills, whereas other candidates have significant interpersonal or cognitive deficits."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Candidate B",
+          "rationale": "Candidate B possesses the most critical traits for long-distance flight safety, including reliability, crisis calmness, and weather assessment skills, which outweigh minor personality flaws like grumpiness."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Candidate B",
+          "rationale": "Candidate B possesses the most critical traits for long-distance flight safety, including crisis management, reliability, and weather assessment, which outweighs minor communication issues."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Candidate B\nYour initial rationale was: Candidate B possesses the most critical traits for long-distance flight safety, including reliability, crisis calmness, and weather assessment skills, whereas other candidates have significant interpersonal or cognitive deficits.\n\nYou are the first to speak.\n",
+              "response": "I'm voting for Candidate B because their reliability, calmness in crises, and strong weather assessment skills are essential for long-distance safety, outweighing the interpersonal issues of the other candidates."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Candidate B\nYour initial rationale was: Candidate B possesses the most critical traits for long-distance flight safety, including reliability, crisis calmness, and weather assessment skills, which outweigh minor personality flaws like grumpiness.\n\nPrevious messages from other people:\nPerson 1: I'm voting for Candidate B because their reliability, calmness in crises, and strong weather assessment skills are essential for long-distance safety, outweighing the interpersonal issues of the other candidates.\nIt is your turn to speak. \n",
+              "response": "I agree with Person 1; Candidate B’s reliability and crisis management are indispensable for long-haul safety, making them the clear choice over the others' significant flaws."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Candidate B\nYour initial rationale was: Candidate B possesses the most critical traits for long-distance flight safety, including crisis management, reliability, and weather assessment, which outweighs minor communication issues.\n\nPrevious messages from other people:\nPerson 1: I'm voting for Candidate B because their reliability, calmness in crises, and strong weather assessment skills are essential for long-distance safety, outweighing the interpersonal issues of the other candidates.\nPerson 2: I agree with Person 1; Candidate B’s reliability and crisis management are indispensable for long-haul safety, making them the clear choice over the others' significant flaws.\nIt is your turn to speak. \n",
+              "response": "I agree with both of you; Candidate B’s critical safety skills in crisis management and weather assessment make them the clear best choice for this role."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I agree with Person 1; Candidate B’s reliability and crisis management are indispensable for long-haul safety, making them the clear choice over the others' significant flaws.\nPerson 3: I agree with both of you; Candidate B’s critical safety skills in crisis management and weather assessment make them the clear best choice for this role.\nIt is your turn to speak. \n",
+              "response": "I agree with the consensus; Candidate B’s proven reliability and crisis management skills are the most critical factors for long-distance flight safety."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I agree with both of you; Candidate B’s critical safety skills in crisis management and weather assessment make them the clear best choice for this role.\nPerson 1: I agree with the consensus; Candidate B’s proven reliability and crisis management skills are the most critical factors for long-distance flight safety.\nIt is your turn to speak. \n",
+              "response": "I confirm my vote for Candidate B, as the group consensus aligns with the critical safety requirements of the role."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 1: I agree with the consensus; Candidate B’s proven reliability and crisis management skills are the most critical factors for long-distance flight safety.\nPerson 2: I confirm my vote for Candidate B, as the group consensus aligns with the critical safety requirements of the role.\nIt is your turn to speak. \n",
+              "response": "I confirm my vote for Candidate B, as the group consensus aligns with the critical safety requirements of the role."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I confirm my vote for Candidate B, as the group consensus aligns with the critical safety requirements of the role.\nPerson 3: I confirm my vote for Candidate B, as the group consensus aligns with the critical safety requirements of the role.\nIt is your turn to speak. \n",
+              "response": "I confirm my vote for Candidate B, as their reliability and crisis management skills are essential for long-distance flight safety."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I confirm my vote for Candidate B, as the group consensus aligns with the critical safety requirements of the role.\nPerson 1: I confirm my vote for Candidate B, as their reliability and crisis management skills are essential for long-distance flight safety.\nIt is your turn to speak. \n",
+              "response": "I confirm my vote for Candidate B, as their reliability and crisis management skills are essential for long-distance flight safety."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 1: I confirm my vote for Candidate B, as their reliability and crisis management skills are essential for long-distance flight safety.\nPerson 2: I confirm my vote for Candidate B, as their reliability and crisis management skills are essential for long-distance flight safety.\nIt is your turn to speak. \n",
+              "response": "I confirm my vote for Candidate B, as their reliability and crisis management skills are essential for long-distance flight safety."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Candidate B",
+          "rationale": "Candidate B is the best choice due to their reliability, calmness in crises, and strong weather assessment skills, which are critical for long-distance flight safety."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Candidate B",
+          "rationale": "Candidate B's reliability, calmness in crises, and strong weather assessment skills are the most critical factors for long-distance flight safety, outweighing minor personality flaws."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Candidate B",
+          "rationale": "Candidate B possesses the most critical traits for long-distance flight safety, including crisis management, reliability, and weather assessment, which outweighs minor communication issues."
+        }
+      ],
+      "group_decision": "Candidate B",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Candidate A:\n- can anticipate dangerous situations\n- is able to see complex connections\n- has excellent spatial vision\n- has very good leadership qualities.",
+            "Candidate C:\n- has difficulty communicating ideas\n- is regarded as egocentric\n- is not very willing to further his education.",
+            "Candidate A:\n- is regarded as a show-off\n- is regarded as being not open to new ideas\nCandidate B:\n- has a relatively weak memory for numbers\n- makes nasty remarks about his colleagues\nCandidate C:\n- creates a positive atmosphere with his crew\n- is very conscientious\nCandidate D:\n- is regarded as a 'know-it-all'\n- has a hot temper",
+            "Candidate D:\n- responds to unexpected events adequately\n- can concentrate very well\n- solves problems extremely well\n- takes responsibility seriously.",
+            "Candidate B:\n- keeps calm in a crisis\n- known to be very reliable\n- good at assessing weather conditions\n- has excellent computer skills."
+          ],
+          "assigned_hidden_information": [
+            "Candidate A:\n- is regarded as a show-off\n- is regarded as being not open to new ideas\nCandidate B:\n- has a relatively weak memory for numbers\n- makes nasty remarks about his colleagues\nCandidate C:\n- creates a positive atmosphere with his crew\n- is very conscientious\nCandidate D:\n- is regarded as a 'know-it-all'\n- has a hot temper"
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Candidate A:\n- is sometimes not good at taking criticism\n- can be unorganised\nCandidate B:\n- can be grumpy\n- can be uncooperative\nCandidate C:\n- can make correct decisions quickly\n- handles stress very well\nCandidate D:\n- is regarded as arrogant\n- has relatively weak leadership skills",
+            "Candidate B:\n- keeps calm in a crisis\n- known to be very reliable\n- good at assessing weather conditions\n- has excellent computer skills.",
+            "Candidate A:\n- can anticipate dangerous situations\n- is able to see complex connections\n- has excellent spatial vision\n- has very good leadership qualities.",
+            "Candidate C:\n- has difficulty communicating ideas\n- is regarded as egocentric\n- is not very willing to further his education.",
+            "Candidate D:\n- responds to unexpected events adequately\n- can concentrate very well\n- solves problems extremely well\n- takes responsibility seriously."
+          ],
+          "assigned_hidden_information": [
+            "Candidate A:\n- is sometimes not good at taking criticism\n- can be unorganised\nCandidate B:\n- can be grumpy\n- can be uncooperative\nCandidate C:\n- can make correct decisions quickly\n- handles stress very well\nCandidate D:\n- is regarded as arrogant\n- has relatively weak leadership skills"
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Candidate D:\n- responds to unexpected events adequately\n- can concentrate very well\n- solves problems extremely well\n- takes responsibility seriously.",
+            "Candidate A:\n- is unfriendly\n- eats unhealthily\nCandidate B:\n- is regarded as pretentious\n- sometimes adopts the wrong tone when communicating\nCandidate C:\n- understands complicated technology\n- puts concern for others above everything\nhas excellent attention skills\nCandidate D:\n- is considered moody\n- is regarded as a loner",
+            "Candidate C:\n- has difficulty communicating ideas\n- is regarded as egocentric\n- is not very willing to further his education.",
+            "Candidate B:\n- keeps calm in a crisis\n- known to be very reliable\n- good at assessing weather conditions\n- has excellent computer skills.",
+            "Candidate A:\n- can anticipate dangerous situations\n- is able to see complex connections\n- has excellent spatial vision\n- has very good leadership qualities."
+          ],
+          "assigned_hidden_information": [
+            "Candidate A:\n- is unfriendly\n- eats unhealthily\nCandidate B:\n- is regarded as pretentious\n- sometimes adopts the wrong tone when communicating\nCandidate C:\n- understands complicated technology\n- puts concern for others above everything\nhas excellent attention skills\nCandidate D:\n- is considered moody\n- is regarded as a loner"
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 15,
+        "total_tokens": 11568
+      },
+      "wall_s": 17.04
+    },
+    {
+      "task_id": 7,
+      "scenario": "graetz_et_al_1998",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Starlight Incorporated",
+      "possible_answers": [
+        "Franklin Enterprises",
+        "Starlight Incorporated",
+        "Cape Industries"
+      ],
+      "seed": 22026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Franklin Enterprises",
+          "rationale": "Franklin meets 6 criteria (d, e, f, g, h, and implicitly others not marked N), while Starlight fails critical vehicle requirements (a, c) and Cape fails multiple key specs (b, f, g, h); Franklin has the highest count of satisfied requirements."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Cape Industries",
+          "rationale": "Cape Industries is the only company that meets the critical vehicle criteria (c) and has positive past performance (i), whereas Franklin fails on vehicle fit/speed and Starlight fails on vehicle recovery."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Cape Industries",
+          "rationale": "Cape Industries is the only proposal that meets the critical vehicle size criterion (a), whereas Franklin and Starlight both fail this requirement; although Cape fails on cost and computer weight, it satisfies more core operational constraints than the alternatives which have multiple hard failures."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Starlight Incorporated",
+          "rationale": "Franklin fails critical vehicle criteria (b, c) and past performance; Cape fails weight (f), reliability (g), and sweep time (b); Starlight is the only option without explicit failures in the provided data, meeting key computer specs (d) and sweep time (b)."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Franklin Enterprises\nYour initial rationale was: Franklin meets 6 criteria (d, e, f, g, h, and implicitly others not marked N), while Starlight fails critical vehicle requirements (a, c) and Cape fails multiple key specs (b, f, g, h); Franklin has the highest count of satisfied requirements.\n\nYou are the first to speak.\n",
+              "response": "I'm leaning toward Franklin Enterprises because it satisfies all four computer criteria (d, e, f, g) and the cost requirement (h), whereas Starlight fails critical vehicle specs (a, c) and Cape fails multiple key requirements including cost (h) and reliability (g)."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Cape Industries\nYour initial rationale was: Cape Industries is the only company that meets the critical vehicle criteria (c) and has positive past performance (i), whereas Franklin fails on vehicle fit/speed and Starlight fails on vehicle recovery.\n\nPrevious messages from other people:\nPerson 1: I'm leaning toward Franklin Enterprises because it satisfies all four computer criteria (d, e, f, g) and the cost requirement (h), whereas Starlight fails critical vehicle specs (a, c) and Cape fails multiple key requirements including cost (h) and reliability (g).\nIt is your turn to speak. \n",
+              "response": "I disagree with Person 1; Franklin is disqualified because it fails the mandatory vehicle criteria (a) and (b), whereas Cape Industries meets the critical vehicle recovery requirement (c) and has positive past performance, making it the only viable option despite its cost issue."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Cape Industries\nYour initial rationale was: Cape Industries is the only proposal that meets the critical vehicle size criterion (a), whereas Franklin and Starlight both fail this requirement; although Cape fails on cost and computer weight, it satisfies more core operational constraints than the alternatives which have multiple hard failures.\n\nPrevious messages from other people:\nPerson 1: I'm leaning toward Franklin Enterprises because it satisfies all four computer criteria (d, e, f, g) and the cost requirement (h), whereas Starlight fails critical vehicle specs (a, c) and Cape fails multiple key requirements including cost (h) and reliability (g).\nPerson 2: I disagree with Person 1; Franklin is disqualified because it fails the mandatory vehicle criteria (a) and (b), whereas Cape Industries meets the critical vehicle recovery requirement (c) and has positive past performance, making it the only viable option despite its cost issue.\nIt is your turn to speak. \n",
+              "response": "I agree with Person 2 that Franklin is disqualified due to failing the mandatory vehicle criteria (a) and (c), but I maintain my vote for Cape Industries because it is the only proposal that meets the critical size constraint (a), whereas Starlight also fails this hard requirement."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Starlight Incorporated\nYour initial rationale was: Franklin fails critical vehicle criteria (b, c) and past performance; Cape fails weight (f), reliability (g), and sweep time (b); Starlight is the only option without explicit failures in the provided data, meeting key computer specs (d) and sweep time (b).\n\nPrevious messages from other people:\nPerson 1: I'm leaning toward Franklin Enterprises because it satisfies all four computer criteria (d, e, f, g) and the cost requirement (h), whereas Starlight fails critical vehicle specs (a, c) and Cape fails multiple key requirements including cost (h) and reliability (g).\nPerson 2: I disagree with Person 1; Franklin is disqualified because it fails the mandatory vehicle criteria (a) and (b), whereas Cape Industries meets the critical vehicle recovery requirement (c) and has positive past performance, making it the only viable option despite its cost issue.\nPerson 3: I agree with Person 2 that Franklin is disqualified due to failing the mandatory vehicle criteria (a) and (c), but I maintain my vote for Cape Industries because it is the only proposal that meets the critical size constraint (a), whereas Starlight also fails this hard requirement.\nIt is your turn to speak. \n",
+              "response": "I must correct the record: Franklin actually meets criteria (a) and (c), while Cape fails the mandatory sweep time (b) and reliability (g), making Starlight the only viable option despite its vehicle size issue."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I disagree with Person 1; Franklin is disqualified because it fails the mandatory vehicle criteria (a) and (b), whereas Cape Industries meets the critical vehicle recovery requirement (c) and has positive past performance, making it the only viable option despite its cost issue.\nPerson 3: I agree with Person 2 that Franklin is disqualified due to failing the mandatory vehicle criteria (a) and (c), but I maintain my vote for Cape Industries because it is the only proposal that meets the critical size constraint (a), whereas Starlight also fails this hard requirement.\nPerson 4: I must correct the record: Franklin actually meets criteria (a) and (c), while Cape fails the mandatory sweep time (b) and reliability (g), making Starlight the only viable option despite its vehicle size issue.\nIt is your turn to speak. \n",
+              "response": "I stand by Franklin Enterprises because it is the only proposal that meets all four computer criteria (d, e, f, g) and the cost limit (h), whereas Cape fails critical specs like reliability (g) and cost (h), and Starlight fails vehicle requirements."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I agree with Person 2 that Franklin is disqualified due to failing the mandatory vehicle criteria (a) and (c), but I maintain my vote for Cape Industries because it is the only proposal that meets the critical size constraint (a), whereas Starlight also fails this hard requirement.\nPerson 4: I must correct the record: Franklin actually meets criteria (a) and (c), while Cape fails the mandatory sweep time (b) and reliability (g), making Starlight the only viable option despite its vehicle size issue.\nPerson 1: I stand by Franklin Enterprises because it is the only proposal that meets all four computer criteria (d, e, f, g) and the cost limit (h), whereas Cape fails critical specs like reliability (g) and cost (h), and Starlight fails vehicle requirements.\nIt is your turn to speak. \n",
+              "response": "Person 4 is incorrect; the data clearly shows Franklin fails criteria (a) and (b), disqualifying it, while Cape Industries remains the best choice as it meets the critical vehicle recovery requirement (c) and has positive past performance."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I must correct the record: Franklin actually meets criteria (a) and (c), while Cape fails the mandatory sweep time (b) and reliability (g), making Starlight the only viable option despite its vehicle size issue.\nPerson 1: I stand by Franklin Enterprises because it is the only proposal that meets all four computer criteria (d, e, f, g) and the cost limit (h), whereas Cape fails critical specs like reliability (g) and cost (h), and Starlight fails vehicle requirements.\nPerson 2: Person 4 is incorrect; the data clearly shows Franklin fails criteria (a) and (b), disqualifying it, while Cape Industries remains the best choice as it meets the critical vehicle recovery requirement (c) and has positive past performance.\nIt is your turn to speak. \n",
+              "response": "I stand by Cape Industries because it is the only proposal that meets the mandatory vehicle size criterion (a), whereas both Franklin and Starlight fail this hard requirement."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I stand by Franklin Enterprises because it is the only proposal that meets all four computer criteria (d, e, f, g) and the cost limit (h), whereas Cape fails critical specs like reliability (g) and cost (h), and Starlight fails vehicle requirements.\nPerson 2: Person 4 is incorrect; the data clearly shows Franklin fails criteria (a) and (b), disqualifying it, while Cape Industries remains the best choice as it meets the critical vehicle recovery requirement (c) and has positive past performance.\nPerson 3: I stand by Cape Industries because it is the only proposal that meets the mandatory vehicle size criterion (a), whereas both Franklin and Starlight fail this hard requirement.\nIt is your turn to speak. \n",
+              "response": "I must clarify that the data shows Franklin meets criteria (a) and (c), while Cape fails the mandatory sweep time (b) and reliability (g), making Starlight the only viable option."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: Person 4 is incorrect; the data clearly shows Franklin fails criteria (a) and (b), disqualifying it, while Cape Industries remains the best choice as it meets the critical vehicle recovery requirement (c) and has positive past performance.\nPerson 3: I stand by Cape Industries because it is the only proposal that meets the mandatory vehicle size criterion (a), whereas both Franklin and Starlight fail this hard requirement.\nPerson 4: I must clarify that the data shows Franklin meets criteria (a) and (c), while Cape fails the mandatory sweep time (b) and reliability (g), making Starlight the only viable option.\nIt is your turn to speak. \n",
+              "response": "I must correct the record: the data explicitly shows Franklin fails criteria (a) and (c), while Cape meets (c) and Starlight meets (f) and (i)."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I stand by Cape Industries because it is the only proposal that meets the mandatory vehicle size criterion (a), whereas both Franklin and Starlight fail this hard requirement.\nPerson 4: I must clarify that the data shows Franklin meets criteria (a) and (c), while Cape fails the mandatory sweep time (b) and reliability (g), making Starlight the only viable option.\nPerson 1: I must correct the record: the data explicitly shows Franklin fails criteria (a) and (c), while Cape meets (c) and Starlight meets (f) and (i).\nIt is your turn to speak. \n",
+              "response": "I confirm Person 1's correction: Franklin fails (a) and (b), disqualifying it, while Cape Industries is the correct choice as it meets the critical vehicle recovery requirement (c) and has positive past performance."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I must clarify that the data shows Franklin meets criteria (a) and (c), while Cape fails the mandatory sweep time (b) and reliability (g), making Starlight the only viable option.\nPerson 1: I must correct the record: the data explicitly shows Franklin fails criteria (a) and (c), while Cape meets (c) and Starlight meets (f) and (i).\nPerson 2: I confirm Person 1's correction: Franklin fails (a) and (b), disqualifying it, while Cape Industries is the correct choice as it meets the critical vehicle recovery requirement (c) and has positive past performance.\nIt is your turn to speak. \n",
+              "response": "I agree that Franklin is disqualified for failing criteria (a) and (c), but I maintain Cape Industries is the best choice because it is the only proposal meeting the mandatory vehicle size requirement (a)."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I must correct the record: the data explicitly shows Franklin fails criteria (a) and (c), while Cape meets (c) and Starlight meets (f) and (i).\nPerson 2: I confirm Person 1's correction: Franklin fails (a) and (b), disqualifying it, while Cape Industries is the correct choice as it meets the critical vehicle recovery requirement (c) and has positive past performance.\nPerson 3: I agree that Franklin is disqualified for failing criteria (a) and (c), but I maintain Cape Industries is the best choice because it is the only proposal meeting the mandatory vehicle size requirement (a).\nIt is your turn to speak. \n",
+              "response": "I must correct the record: the data shows Franklin meets criteria (a) and (c), while Cape fails the mandatory sweep time (b) and reliability (g), making Starlight the only viable option."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Cape Industries",
+          "rationale": "Franklin is disqualified for failing mandatory vehicle criteria (a) and (c), and Starlight is disqualified for failing (a) and (c); Cape Industries is the only remaining viable option as it meets the critical vehicle recovery requirement (c) and has positive past performance, despite failing other specs."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Cape Industries",
+          "rationale": "Franklin is disqualified for failing mandatory vehicle criteria (a) and (b), while Cape Industries is the best remaining option as it meets the critical vehicle recovery requirement (c) and has positive past performance, unlike Starlight which fails multiple vehicle specs."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Cape Industries",
+          "rationale": "Cape Industries is the only proposal that meets the mandatory vehicle size criterion (a), whereas both Franklin and Starlight fail this hard requirement, making Cape the most viable option despite its other deficiencies."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Starlight Incorporated",
+          "rationale": "Franklin is disqualified for failing vehicle criteria (b) and (c), and Cape is disqualified for failing the mandatory sweep time (b) and reliability (g); Starlight is the only proposal without explicit failures in the provided data."
+        }
+      ],
+      "group_decision": "Cape Industries",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Franklin Enterprises:\n- (a) N\n- (c) N\nStarlight Incorporated:\n- (f) Y\n- (i) Y\nCape Industries:\n- (b) N\n- (c) Y\n- (d) Y\n- (f) N\n- (h) N\n- (i) Y",
+            "Starlight Incorporated:\n- (a) N\n- (c) N\n",
+            "Franklin Enterprises:\n- (d) Y\n- (e) Y\n- (f) Y\n- (g) Y\n- (h) Y\n- (i) N\n- (j) N\n",
+            "Cape Industries:\n- (g) N"
+          ],
+          "assigned_hidden_information": [
+            "Franklin Enterprises:\n- (a) N\n- (c) N\nStarlight Incorporated:\n- (f) Y\n- (i) Y\nCape Industries:\n- (b) N\n- (c) Y\n- (d) Y\n- (f) N\n- (h) N\n- (i) Y"
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Franklin Enterprises:\n- (d) Y\n- (e) Y\n- (f) Y\n- (g) Y\n- (h) Y\n- (i) N\n- (j) N\n",
+            "Franklin Enterprises:\n- (a) N\n- (b) N\nStarlight Incorporated:\n- (g) Y\n- (j) Y\nCape Industries:\n- (c) Y\n- (d) Y\n- (e) Y\n- (h) N\n- (i) Y\n- (j) Y",
+            "Cape Industries:\n- (g) N",
+            "Starlight Incorporated:\n- (a) N\n- (c) N\n"
+          ],
+          "assigned_hidden_information": [
+            "Franklin Enterprises:\n- (a) N\n- (b) N\nStarlight Incorporated:\n- (g) Y\n- (j) Y\nCape Industries:\n- (c) Y\n- (d) Y\n- (e) Y\n- (h) N\n- (i) Y\n- (j) Y"
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Starlight Incorporated:\n- (a) N\n- (c) N\n",
+            "Franklin Enterprises:\n- (d) Y\n- (e) Y\n- (f) Y\n- (g) Y\n- (h) Y\n- (i) N\n- (j) N\n",
+            "Franklin Enterprises:\n- (a) N\n- (c) N\nStarlight Incorporated:\n- (e) Y\n- (h) Y\nCape Industries:\n- (a) Y\n- (b) N\n- (c) Y\n- (f) N\n- (h) N\n- (j) Y",
+            "Cape Industries:\n- (g) N"
+          ],
+          "assigned_hidden_information": [
+            "Franklin Enterprises:\n- (a) N\n- (c) N\nStarlight Incorporated:\n- (e) Y\n- (h) Y\nCape Industries:\n- (a) Y\n- (b) N\n- (c) Y\n- (f) N\n- (h) N\n- (j) Y"
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Franklin Enterprises:\n- (d) Y\n- (e) Y\n- (f) Y\n- (g) Y\n- (h) Y\n- (i) N\n- (j) N\n",
+            "Cape Industries:\n- (g) N",
+            "Franklin Enterprises:\n- (b) N\n- (c) N\nStarlight Incorporated:\n- (b) Y\n- (d) Y\nCape Industries:\n- (a) Y\n- (b) N\n- (d) Y\n- (e) Y\n- (f) N\n- (i) Y\n- (j) Y",
+            "Starlight Incorporated:\n- (a) N\n- (c) N\n"
+          ],
+          "assigned_hidden_information": [
+            "Franklin Enterprises:\n- (b) N\n- (c) N\nStarlight Incorporated:\n- (b) Y\n- (d) Y\nCape Industries:\n- (a) Y\n- (b) N\n- (d) Y\n- (e) Y\n- (f) N\n- (i) Y\n- (j) Y"
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 20,
+        "total_tokens": 25484
+      },
+      "wall_s": 33.54
+    },
+    {
+      "task_id": 8,
+      "scenario": "Stasser_Stewart_1992",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 3,
+      "correct_answer": "Eddie Sullivan",
+      "possible_answers": [
+        "Eddie Sullivan",
+        "Billy Prentice",
+        "Mickey Malone"
+      ],
+      "seed": 32026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a clear motive (threatened loss of business) and the opportunity, as his claimed alibi of going to a café is geographically inconsistent with picking up Guion for golf in the opposite direction, allowing him to visit the house during the time of death."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mickey Malone",
+          "rationale": "Security footage places Mickey at the café from 6:30 to 6:45 AM, which overlaps with the time of death (6:30-7:00 AM), and he had a clear motive due to Guion's threat to stop supporting his business."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a strong financial motive (threat to stop business support) and the opportunity, as he knew Guion's routine and was seen at the golf course after 7:00 AM, implying he was in the area during the time of death."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Mickey Malone\nYour initial rationale was: Mickey had a clear motive (threatened loss of business) and the opportunity, as his claimed alibi of going to a café is geographically inconsistent with picking up Guion for golf in the opposite direction, allowing him to visit the house during the time of death.\n\nYou are the first to speak.\n",
+              "response": "Mickey Malone is the killer because his claimed café detour is geographically impossible for a golf pickup, giving him the opportunity to strike Guion during the 6:30–7:00 AM window driven by his motive to save his business."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Mickey Malone\nYour initial rationale was: Security footage places Mickey at the café from 6:30 to 6:45 AM, which overlaps with the time of death (6:30-7:00 AM), and he had a clear motive due to Guion's threat to stop supporting his business.\n\nPrevious messages from other people:\nPerson 1: Mickey Malone is the killer because his claimed café detour is geographically impossible for a golf pickup, giving him the opportunity to strike Guion during the 6:30–7:00 AM window driven by his motive to save his business.\nIt is your turn to speak. \n",
+              "response": "I agree that Mickey is the killer; his café alibi contradicts the timeline for picking up Guion, and his motive to save his business aligns perfectly with the time of death."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Mickey Malone\nYour initial rationale was: Mickey had a strong financial motive (threat to stop business support) and the opportunity, as he knew Guion's routine and was seen at the golf course after 7:00 AM, implying he was in the area during the time of death.\n\nPrevious messages from other people:\nPerson 1: Mickey Malone is the killer because his claimed café detour is geographically impossible for a golf pickup, giving him the opportunity to strike Guion during the 6:30–7:00 AM window driven by his motive to save his business.\nPerson 2: I agree that Mickey is the killer; his café alibi contradicts the timeline for picking up Guion, and his motive to save his business aligns perfectly with the time of death.\nIt is your turn to speak. \n",
+              "response": "I agree with the consensus that Mickey Malone is the killer, as his financial motive and the geographical impossibility of his café alibi place him at the scene during the time of death."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I agree that Mickey is the killer; his café alibi contradicts the timeline for picking up Guion, and his motive to save his business aligns perfectly with the time of death.\nPerson 3: I agree with the consensus that Mickey Malone is the killer, as his financial motive and the geographical impossibility of his café alibi place him at the scene during the time of death.\nIt is your turn to speak. \n",
+              "response": "I stand by my vote for Mickey Malone, as the geographical inconsistency in his alibi confirms he had the opportunity to commit the crime driven by his motive."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I agree with the consensus that Mickey Malone is the killer, as his financial motive and the geographical impossibility of his café alibi place him at the scene during the time of death.\nPerson 1: I stand by my vote for Mickey Malone, as the geographical inconsistency in his alibi confirms he had the opportunity to commit the crime driven by his motive.\nIt is your turn to speak. \n",
+              "response": "I confirm my vote for Mickey Malone, as his motive and the flawed alibi provide sufficient evidence to conclude he is the killer."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 1: I stand by my vote for Mickey Malone, as the geographical inconsistency in his alibi confirms he had the opportunity to commit the crime driven by his motive.\nPerson 2: I confirm my vote for Mickey Malone, as his motive and the flawed alibi provide sufficient evidence to conclude he is the killer.\nIt is your turn to speak. \n",
+              "response": "I confirm my vote for Mickey Malone, as his financial motive and the geographical impossibility of his alibi place him at the scene during the time of death."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I confirm my vote for Mickey Malone, as his motive and the flawed alibi provide sufficient evidence to conclude he is the killer.\nPerson 3: I confirm my vote for Mickey Malone, as his financial motive and the geographical impossibility of his alibi place him at the scene during the time of death.\nIt is your turn to speak. \n",
+              "response": "I confirm my vote for Mickey Malone, as the consensus aligns with the evidence of his motive and the geographical impossibility of his alibi."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I confirm my vote for Mickey Malone, as his financial motive and the geographical impossibility of his alibi place him at the scene during the time of death.\nPerson 1: I confirm my vote for Mickey Malone, as the consensus aligns with the evidence of his motive and the geographical impossibility of his alibi.\nIt is your turn to speak. \n",
+              "response": "I stand by my vote for Mickey Malone, as the evidence of his motive and alibi inconsistencies points to him as the killer."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 1: I confirm my vote for Mickey Malone, as the consensus aligns with the evidence of his motive and the geographical impossibility of his alibi.\nPerson 2: I stand by my vote for Mickey Malone, as the evidence of his motive and alibi inconsistencies points to him as the killer.\nIt is your turn to speak. \n",
+              "response": "I confirm my vote for Mickey Malone, as his financial motive and the geographical impossibility of his alibi place him at the scene during the time of death."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a strong financial motive after threatening to cut off Guion's support, and his alibi is geographically impossible as the cafe was in the opposite direction of the golf course, allowing him access to the house during the time of death."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a strong financial motive due to Guion's threat to cut business support, and his alibi is inconsistent with the timeline of events, placing him at the scene during the time of death."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mickey Malone",
+          "rationale": "Mickey had a strong financial motive due to the threat of losing business support, and his alibi is geographically inconsistent with the timeline, placing him at the scene during the time of death."
+        }
+      ],
+      "group_decision": "Mickey Malone",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Billy said Eddie's tools were usually locked up, but the crowbar was oddly left out.",
+            "Eddie knew Guion left home for golf around 6:30 AM.",
+            "Mickey said he left his house to pick Guion up for golf, but turned down and went to a café instead.",
+            "Eddie said he heard Billy's car leave Guion's house around 7:00 AM.",
+            "Guion informed Mickey of his decision to possibly stop supporting Mickey's business the day before.",
+            "Billy borrowed some money from Guion two days before. Nobody actually witnessed Eddie working that morning. It takes more than 15 minutes to drive directly from the café to the golf course, without passing by Guion's house., and Guion's house is actually in the opposite direction.",
+            "The crowbar belongs to Eddie, but Billy's fingerprints were partially on its handle.",
+            "Eddie said he was dismantling a shed around Guion's house from 6:00 AM.",
+            "Mickey knew Guion's house well, as he often picked Guion up for golf."
+          ],
+          "assigned_hidden_information": [
+            "Billy borrowed some money from Guion two days before. Nobody actually witnessed Eddie working that morning. It takes more than 15 minutes to drive directly from the café to the golf course, without passing by Guion's house., and Guion's house is actually in the opposite direction."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Mickey said he left his house to pick Guion up for golf, but turned down and went to a café instead.",
+            "Eddie knew Guion left home for golf around 6:30 AM.",
+            "Billy said Eddie's tools were usually locked up, but the crowbar was oddly left out.",
+            "Eddie is hard of hearing and never wears his hearing aid while working at Guion's. Security footage shows Mickey entering the café at 6:30 and leaving at 6:45 AM. Billy admitted touching the crowbar when he found it.",
+            "The crowbar belongs to Eddie, but Billy's fingerprints were partially on its handle.",
+            "Mickey knew Guion's house well, as he often picked Guion up for golf.",
+            "Guion informed Mickey of his decision to possibly stop supporting Mickey's business the day before.",
+            "Eddie said he heard Billy's car leave Guion's house around 7:00 AM.",
+            "Eddie said he was dismantling a shed around Guion's house from 6:00 AM."
+          ],
+          "assigned_hidden_information": [
+            "Eddie is hard of hearing and never wears his hearing aid while working at Guion's. Security footage shows Mickey entering the café at 6:30 and leaving at 6:45 AM. Billy admitted touching the crowbar when he found it."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Eddie said he heard Billy's car leave Guion's house around 7:00 AM.",
+            "Mickey said he left his house to pick Guion up for golf, but turned down and went to a café instead.",
+            "Billy said Eddie's tools were usually locked up, but the crowbar was oddly left out.",
+            "Eddie said he was dismantling a shed around Guion's house from 6:00 AM.",
+            "Billy needed some money for some purposes a week before. A golfing friend remembered seeing Mickey at the golf course sometime after 7:00 AM. Guion had recently fired Eddie's daughter after insulting her, which left Eddie furious, according to another employee.",
+            "The crowbar belongs to Eddie, but Billy's fingerprints were partially on its handle.",
+            "Eddie knew Guion left home for golf around 6:30 AM.",
+            "Mickey knew Guion's house well, as he often picked Guion up for golf.",
+            "Guion informed Mickey of his decision to possibly stop supporting Mickey's business the day before."
+          ],
+          "assigned_hidden_information": [
+            "Billy needed some money for some purposes a week before. A golfing friend remembered seeing Mickey at the golf course sometime after 7:00 AM. Guion had recently fired Eddie's daughter after insulting her, which left Eddie furious, according to another employee."
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 15,
+        "total_tokens": 13665
+      },
+      "wall_s": 22.58
+    },
+    {
+      "task_id": 9,
+      "scenario": "critical_hospital_transfer",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Hospital A",
+      "possible_answers": [
+        "Hospital A",
+        "Hospital B",
+        "Hospital C"
+      ],
+      "seed": 42026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Hospital B",
+          "rationale": "Hospital C is ruled out due to the critical oxygen supply failure, and Hospital A is too risky due to hazardous mountain pass conditions in heavy rain; Hospital B offers a safe, repaired main road route and confirmed emergency staff availability."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Hospital C",
+          "rationale": "Hospital B is inaccessible due to a confirmed landslide, and Hospital A poses high risk due to hazardous mountain pass conditions in heavy rain; Hospital C remains the only viable option with an upgraded ICU despite secondary road risks."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Hospital B",
+          "rationale": "Hospital B offers the most reliable route via the recently repaired main road and guarantees immediate medical attention with a confirmed doctor on shift, mitigating the risks of weather-related delays or staffing shortages associated with the other options."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Hospital C",
+          "rationale": "Hospital B is ruled out due to a lack of critical care beds, and Hospital A is too risky due to the hazardous mountain pass in heavy rain; Hospital C remains the only viable option as its ICU was recently upgraded and it has a history of handling transfers."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Hospital B\nYour initial rationale was: Hospital C is ruled out due to the critical oxygen supply failure, and Hospital A is too risky due to hazardous mountain pass conditions in heavy rain; Hospital B offers a safe, repaired main road route and confirmed emergency staff availability.\n\nYou are the first to speak.\n",
+              "response": "I vote for Hospital B, as it is the only viable option with a safe, repaired route and confirmed emergency staff, while Hospital C lacks critical care due to an oxygen failure and Hospital A poses excessive risk due to hazardous mountain pass conditions."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Hospital C\nYour initial rationale was: Hospital B is inaccessible due to a confirmed landslide, and Hospital A poses high risk due to hazardous mountain pass conditions in heavy rain; Hospital C remains the only viable option with an upgraded ICU despite secondary road risks.\n\nPrevious messages from other people:\nPerson 1: I vote for Hospital B, as it is the only viable option with a safe, repaired route and confirmed emergency staff, while Hospital C lacks critical care due to an oxygen failure and Hospital A poses excessive risk due to hazardous mountain pass conditions.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital C, as the confirmed 24-hour landslide blockage makes Hospital B completely inaccessible and the hazardous mountain pass renders Hospital A too dangerous in this weather. Despite the secondary road risks, Hospital C is the only reachable facility with a recently upgraded ICU capable of handling this critical case."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Hospital B\nYour initial rationale was: Hospital B offers the most reliable route via the recently repaired main road and guarantees immediate medical attention with a confirmed doctor on shift, mitigating the risks of weather-related delays or staffing shortages associated with the other options.\n\nPrevious messages from other people:\nPerson 1: I vote for Hospital B, as it is the only viable option with a safe, repaired route and confirmed emergency staff, while Hospital C lacks critical care due to an oxygen failure and Hospital A poses excessive risk due to hazardous mountain pass conditions.\nPerson 2: I maintain my vote for Hospital C, as the confirmed 24-hour landslide blockage makes Hospital B completely inaccessible and the hazardous mountain pass renders Hospital A too dangerous in this weather. Despite the secondary road risks, Hospital C is the only reachable facility with a recently upgraded ICU capable of handling this critical case.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Hospital C\nYour initial rationale was: Hospital B is ruled out due to a lack of critical care beds, and Hospital A is too risky due to the hazardous mountain pass in heavy rain; Hospital C remains the only viable option as its ICU was recently upgraded and it has a history of handling transfers.\n\nPrevious messages from other people:\nPerson 1: I vote for Hospital B, as it is the only viable option with a safe, repaired route and confirmed emergency staff, while Hospital C lacks critical care due to an oxygen failure and Hospital A poses excessive risk due to hazardous mountain pass conditions.\nPerson 2: I maintain my vote for Hospital C, as the confirmed 24-hour landslide blockage makes Hospital B completely inaccessible and the hazardous mountain pass renders Hospital A too dangerous in this weather. Despite the secondary road risks, Hospital C is the only reachable facility with a recently upgraded ICU capable of handling this critical case.\nPerson 3: I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital C, as the facts explicitly state Hospital B is out of critical care beds and Hospital A’s route is hazardous in heavy rain, leaving C as the only viable option with a recently upgraded ICU despite its secondary road risks."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I maintain my vote for Hospital C, as the confirmed 24-hour landslide blockage makes Hospital B completely inaccessible and the hazardous mountain pass renders Hospital A too dangerous in this weather. Despite the secondary road risks, Hospital C is the only reachable facility with a recently upgraded ICU capable of handling this critical case.\nPerson 3: I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information.\nPerson 4: I maintain my vote for Hospital C, as the facts explicitly state Hospital B is out of critical care beds and Hospital A’s route is hazardous in heavy rain, leaving C as the only viable option with a recently upgraded ICU despite its secondary road risks.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital B, as Person 2 and Person 4 cite specific blockages and bed shortages that are not present in the provided facts, whereas Fact 1 explicitly confirms Hospital B has a repaired main road and available emergency staff."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information.\nPerson 4: I maintain my vote for Hospital C, as the facts explicitly state Hospital B is out of critical care beds and Hospital A’s route is hazardous in heavy rain, leaving C as the only viable option with a recently upgraded ICU despite its secondary road risks.\nPerson 1: I maintain my vote for Hospital B, as Person 2 and Person 4 cite specific blockages and bed shortages that are not present in the provided facts, whereas Fact 1 explicitly confirms Hospital B has a repaired main road and available emergency staff.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital C, as Fact 2 explicitly confirms a landslide blocking the road to Hospital B for at least 24 hours, making it inaccessible regardless of its staff availability. Since Hospital A’s mountain pass is also hazardous in heavy rain per Fact 1, Hospital C remains the only viable option with an upgraded ICU."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I maintain my vote for Hospital C, as the facts explicitly state Hospital B is out of critical care beds and Hospital A’s route is hazardous in heavy rain, leaving C as the only viable option with a recently upgraded ICU despite its secondary road risks.\nPerson 1: I maintain my vote for Hospital B, as Person 2 and Person 4 cite specific blockages and bed shortages that are not present in the provided facts, whereas Fact 1 explicitly confirms Hospital B has a repaired main road and available emergency staff.\nPerson 2: I maintain my vote for Hospital C, as Fact 2 explicitly confirms a landslide blocking the road to Hospital B for at least 24 hours, making it inaccessible regardless of its staff availability. Since Hospital A’s mountain pass is also hazardous in heavy rain per Fact 1, Hospital C remains the only viable option with an upgraded ICU.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I maintain my vote for Hospital B, as Person 2 and Person 4 cite specific blockages and bed shortages that are not present in the provided facts, whereas Fact 1 explicitly confirms Hospital B has a repaired main road and available emergency staff.\nPerson 2: I maintain my vote for Hospital C, as Fact 2 explicitly confirms a landslide blocking the road to Hospital B for at least 24 hours, making it inaccessible regardless of its staff availability. Since Hospital A’s mountain pass is also hazardous in heavy rain per Fact 1, Hospital C remains the only viable option with an upgraded ICU.\nPerson 3: I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital C, as Fact 3 explicitly states Hospital B is temporarily out of critical care beds, making it unable to treat the patient regardless of road conditions. Since Hospital A’s mountain pass is hazardous in heavy rain per Fact 2, Hospital C remains the only viable option with a recently upgraded ICU."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I maintain my vote for Hospital C, as Fact 2 explicitly confirms a landslide blocking the road to Hospital B for at least 24 hours, making it inaccessible regardless of its staff availability. Since Hospital A’s mountain pass is also hazardous in heavy rain per Fact 1, Hospital C remains the only viable option with an upgraded ICU.\nPerson 3: I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information.\nPerson 4: I maintain my vote for Hospital C, as Fact 3 explicitly states Hospital B is temporarily out of critical care beds, making it unable to treat the patient regardless of road conditions. Since Hospital A’s mountain pass is hazardous in heavy rain per Fact 2, Hospital C remains the only viable option with a recently upgraded ICU.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital B, as the provided facts do not mention any landslide blocking its road or a lack of critical care beds, whereas Fact 4 explicitly rules out Hospital C due to an oxygen supply failure."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information.\nPerson 4: I maintain my vote for Hospital C, as Fact 3 explicitly states Hospital B is temporarily out of critical care beds, making it unable to treat the patient regardless of road conditions. Since Hospital A’s mountain pass is hazardous in heavy rain per Fact 2, Hospital C remains the only viable option with a recently upgraded ICU.\nPerson 1: I maintain my vote for Hospital B, as the provided facts do not mention any landslide blocking its road or a lack of critical care beds, whereas Fact 4 explicitly rules out Hospital C due to an oxygen supply failure.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital C, as Fact 2 explicitly confirms a landslide blocking the road to Hospital B for at least 24 hours, making it inaccessible regardless of its staff or bed availability. Since Hospital A’s mountain pass is also hazardous in heavy rain per Fact 1, Hospital C remains the only viable option with an upgraded ICU."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I maintain my vote for Hospital C, as Fact 3 explicitly states Hospital B is temporarily out of critical care beds, making it unable to treat the patient regardless of road conditions. Since Hospital A’s mountain pass is hazardous in heavy rain per Fact 2, Hospital C remains the only viable option with a recently upgraded ICU.\nPerson 1: I maintain my vote for Hospital B, as the provided facts do not mention any landslide blocking its road or a lack of critical care beds, whereas Fact 4 explicitly rules out Hospital C due to an oxygen supply failure.\nPerson 2: I maintain my vote for Hospital C, as Fact 2 explicitly confirms a landslide blocking the road to Hospital B for at least 24 hours, making it inaccessible regardless of its staff or bed availability. Since Hospital A’s mountain pass is also hazardous in heavy rain per Fact 1, Hospital C remains the only viable option with an upgraded ICU.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I maintain my vote for Hospital B, as the provided facts do not mention any landslide blocking its road or a lack of critical care beds, whereas Fact 4 explicitly rules out Hospital C due to an oxygen supply failure.\nPerson 2: I maintain my vote for Hospital C, as Fact 2 explicitly confirms a landslide blocking the road to Hospital B for at least 24 hours, making it inaccessible regardless of its staff or bed availability. Since Hospital A’s mountain pass is also hazardous in heavy rain per Fact 1, Hospital C remains the only viable option with an upgraded ICU.\nPerson 3: I maintain my vote for Hospital B, as the provided facts confirm its main road is recently repaired and it has a guaranteed doctor on shift, whereas Person 2’s claim of a landslide blockage is not supported by any available information.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Hospital C, as Fact 3 explicitly states Hospital B is temporarily out of critical care beds, making it unable to treat the patient regardless of road conditions. Since Hospital A’s mountain pass is hazardous in heavy rain per Fact 2, Hospital C remains the only viable option with a recently upgraded ICU."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Hospital B",
+          "rationale": "I maintain my vote for Hospital B because the provided facts confirm its main road is repaired and it has emergency staff available, while Fact 4 explicitly rules out Hospital C due to a critical oxygen supply failure, and the claims of blockages or bed shortages at Hospital B are not supported by the given information."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Hospital C",
+          "rationale": "Fact 2 explicitly confirms a landslide blocking the road to Hospital B for at least 24 hours, making it inaccessible, while Fact 1 indicates Hospital A's mountain pass is hazardous in heavy rain; therefore, Hospital C is the only viable option with an upgraded ICU."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Hospital B",
+          "rationale": "The provided facts confirm Hospital B has a recently repaired main road and a doctor on emergency shift, while the claims of landslides or bed shortages cited by others are not supported by the available information."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Hospital C",
+          "rationale": "Hospital B is ruled out because Fact 3 explicitly states it is temporarily out of critical care beds, and Hospital A is too risky due to the hazardous mountain pass in heavy rain described in Fact 2; therefore, Hospital C is the only viable option with a recently upgraded ICU."
+        }
+      ],
+      "group_decision": "Hospital B",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The main road to Hospital B has been recently repaired and is the most commonly used route. Hospital B is known for its large ICU and currently has at least one doctor on emergency shift.",
+            "Hospital C is the oldest hospital and has a history of equipment failures; it’s reached by a secondary road that sometimes floods. However, its ICU was upgraded last year and their ambulance often helps transfer patients.",
+            "Hospital A has a good reputation but is smaller and sometimes lacks staff at night. The northern mountain pass leading to Hospital A can become hazardous after heavy rain.",
+            "Hospital C's recent ICU upgrade is incomplete: the oxygen supply system failed last night, and they have posted an urgent request for repairs—no critical care available until fixed."
+          ],
+          "assigned_hidden_information": [
+            "Hospital C's recent ICU upgrade is incomplete: the oxygen supply system failed last night, and they have posted an urgent request for repairs—no critical care available until fixed."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Hospital A has a good reputation but is smaller and sometimes lacks staff at night. The northern mountain pass leading to Hospital A can become hazardous after heavy rain.",
+            "A police alert reported a landslide blocking the last stretch of the main road to Hospital B this morning—traffic is completely halted for at least 24 hours.",
+            "Hospital C is the oldest hospital and has a history of equipment failures; it’s reached by a secondary road that sometimes floods. However, its ICU was upgraded last year and their ambulance often helps transfer patients.",
+            "The main road to Hospital B has been recently repaired and is the most commonly used route. Hospital B is known for its large ICU and currently has at least one doctor on emergency shift."
+          ],
+          "assigned_hidden_information": [
+            "A police alert reported a landslide blocking the last stretch of the main road to Hospital B this morning—traffic is completely halted for at least 24 hours."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Hospital C is the oldest hospital and has a history of equipment failures; it’s reached by a secondary road that sometimes floods. However, its ICU was upgraded last year and their ambulance often helps transfer patients.",
+            "Hospital A has a good reputation but is smaller and sometimes lacks staff at night. The northern mountain pass leading to Hospital A can become hazardous after heavy rain.",
+            "The main road to Hospital B has been recently repaired and is the most commonly used route. Hospital B is known for its large ICU and currently has at least one doctor on emergency shift.",
+            "The northern mountain pass to Hospital A has been cleared and is confirmed safe for ambulance travel as of an hour ago."
+          ],
+          "assigned_hidden_information": [
+            "The northern mountain pass to Hospital A has been cleared and is confirmed safe for ambulance travel as of an hour ago."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Hospital C is the oldest hospital and has a history of equipment failures; it’s reached by a secondary road that sometimes floods. However, its ICU was upgraded last year and their ambulance often helps transfer patients.",
+            "Hospital A has a good reputation but is smaller and sometimes lacks staff at night. The northern mountain pass leading to Hospital A can become hazardous after heavy rain.",
+            "Hospital B's emergency shift doctor is dealing with a multi-patient accident, and the hospital is temporarily out of critical care beds.",
+            "The main road to Hospital B has been recently repaired and is the most commonly used route. Hospital B is known for its large ICU and currently has at least one doctor on emergency shift."
+          ],
+          "assigned_hidden_information": [
+            "Hospital B's emergency shift doctor is dealing with a multi-patient accident, and the hospital is temporarily out of critical care beds."
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 20,
+        "total_tokens": 18515
+      },
+      "wall_s": 31.44
+    },
+    {
+      "task_id": 10,
+      "scenario": "emergency_supply_drop",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Warehouse C",
+      "possible_answers": [
+        "Warehouse A",
+        "Warehouse B",
+        "Warehouse C"
+      ],
+      "seed": 52026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse B is the only site adjacent to an emergency response center, ensuring immediate coordination for distribution, and its upgraded access roads make it the fastest and safest option given the clear weather and lack of reported issues at the nearby chemical plant."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Warehouse A",
+          "rationale": "Warehouse B is unsafe due to rising noxious gas levels from the chemical plant, and Warehouse C is too far for prompt distribution, leaving Warehouse A as the only accessible and safe option."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse A is inaccessible due to a collapsed bridge, and while Warehouse C is close to shelters, it lacks the critical infrastructure of an emergency response center; Warehouse B is safe (no chemical plant issues), has upgraded access roads for rapid distribution, and is adjacent to an emergency response center."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse A is ruled out because debris blocks distribution, and Warehouse C is less optimal due to distance; Warehouse B is the only site that is safe (no chemical issues), accessible via upgraded roads, and adjacent to an emergency response center for efficient supply distribution."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Warehouse B\nYour initial rationale was: Warehouse B is the only site adjacent to an emergency response center, ensuring immediate coordination for distribution, and its upgraded access roads make it the fastest and safest option given the clear weather and lack of reported issues at the nearby chemical plant.\n\nYou are the first to speak.\n",
+              "response": "I confirm the selection of Warehouse B, as it is the only site adjacent to an emergency response center for immediate coordination and offers the fastest access via upgraded roads under clear weather conditions."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Warehouse A\nYour initial rationale was: Warehouse B is unsafe due to rising noxious gas levels from the chemical plant, and Warehouse C is too far for prompt distribution, leaving Warehouse A as the only accessible and safe option.\n\nPrevious messages from other people:\nPerson 1: I confirm the selection of Warehouse B, as it is the only site adjacent to an emergency response center for immediate coordination and offers the fastest access via upgraded roads under clear weather conditions.\nIt is your turn to speak. \n",
+              "response": "I must reject Warehouse B due to the critical safety hazard of rising noxious gases, which poses an immediate poisoning risk to personnel. I stand by my initial vote for Warehouse A, as it is the only site that is both safe from chemical exposure and accessible for prompt distribution."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Warehouse B\nYour initial rationale was: Warehouse A is inaccessible due to a collapsed bridge, and while Warehouse C is close to shelters, it lacks the critical infrastructure of an emergency response center; Warehouse B is safe (no chemical plant issues), has upgraded access roads for rapid distribution, and is adjacent to an emergency response center.\n\nPrevious messages from other people:\nPerson 1: I confirm the selection of Warehouse B, as it is the only site adjacent to an emergency response center for immediate coordination and offers the fastest access via upgraded roads under clear weather conditions.\nPerson 2: I must reject Warehouse B due to the critical safety hazard of rising noxious gases, which poses an immediate poisoning risk to personnel. I stand by my initial vote for Warehouse A, as it is the only site that is both safe from chemical exposure and accessible for prompt distribution.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Warehouse B, as Fact 1 explicitly confirms the chemical plant has reported no issues and Person 2's claim of rising gases is unsupported by our data. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the critical emergency response center infrastructure (Fact 4), Warehouse B remains the only safe and viable option for rapid distribution."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Warehouse B\nYour initial rationale was: Warehouse A is ruled out because debris blocks distribution, and Warehouse C is less optimal due to distance; Warehouse B is the only site that is safe (no chemical issues), accessible via upgraded roads, and adjacent to an emergency response center for efficient supply distribution.\n\nPrevious messages from other people:\nPerson 1: I confirm the selection of Warehouse B, as it is the only site adjacent to an emergency response center for immediate coordination and offers the fastest access via upgraded roads under clear weather conditions.\nPerson 2: I must reject Warehouse B due to the critical safety hazard of rising noxious gases, which poses an immediate poisoning risk to personnel. I stand by my initial vote for Warehouse A, as it is the only site that is both safe from chemical exposure and accessible for prompt distribution.\nPerson 3: I maintain my vote for Warehouse B, as Fact 1 explicitly confirms the chemical plant has reported no issues and Person 2's claim of rising gases is unsupported by our data. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the critical emergency response center infrastructure (Fact 4), Warehouse B remains the only safe and viable option for rapid distribution.\nIt is your turn to speak. \n",
+              "response": "I stand by Warehouse B, as Fact 4 explicitly confirms the chemical plant has no issues and clear weather, directly refuting Person 2's unsupported safety claims. With Warehouse A blocked by debris (Fact 1) and Warehouse C lacking critical infrastructure, B is the only safe, accessible site for rapid distribution."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I must reject Warehouse B due to the critical safety hazard of rising noxious gases, which poses an immediate poisoning risk to personnel. I stand by my initial vote for Warehouse A, as it is the only site that is both safe from chemical exposure and accessible for prompt distribution.\nPerson 3: I maintain my vote for Warehouse B, as Fact 1 explicitly confirms the chemical plant has reported no issues and Person 2's claim of rising gases is unsupported by our data. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the critical emergency response center infrastructure (Fact 4), Warehouse B remains the only safe and viable option for rapid distribution.\nPerson 4: I stand by Warehouse B, as Fact 4 explicitly confirms the chemical plant has no issues and clear weather, directly refuting Person 2's unsupported safety claims. With Warehouse A blocked by debris (Fact 1) and Warehouse C lacking critical infrastructure, B is the only safe, accessible site for rapid distribution.\nIt is your turn to speak. \n",
+              "response": "I stand by Warehouse B, as the provided facts confirm clear weather and no issues at the chemical plant, directly refuting Person 2's unsupported hazard claims. With A blocked and C lacking critical infrastructure, B is the only safe and accessible option for rapid distribution."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I maintain my vote for Warehouse B, as Fact 1 explicitly confirms the chemical plant has reported no issues and Person 2's claim of rising gases is unsupported by our data. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the critical emergency response center infrastructure (Fact 4), Warehouse B remains the only safe and viable option for rapid distribution.\nPerson 4: I stand by Warehouse B, as Fact 4 explicitly confirms the chemical plant has no issues and clear weather, directly refuting Person 2's unsupported safety claims. With Warehouse A blocked by debris (Fact 1) and Warehouse C lacking critical infrastructure, B is the only safe, accessible site for rapid distribution.\nPerson 1: I stand by Warehouse B, as the provided facts confirm clear weather and no issues at the chemical plant, directly refuting Person 2's unsupported hazard claims. With A blocked and C lacking critical infrastructure, B is the only safe and accessible option for rapid distribution.\nIt is your turn to speak. \n",
+              "response": "I must correct the record: Fact 3 explicitly states sensors are detecting rising noxious gases, making Warehouse B unsafe despite clear weather. I stand by Warehouse A, as it is the only option that avoids the immediate chemical hazard and allows for safe supply distribution."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I stand by Warehouse B, as Fact 4 explicitly confirms the chemical plant has no issues and clear weather, directly refuting Person 2's unsupported safety claims. With Warehouse A blocked by debris (Fact 1) and Warehouse C lacking critical infrastructure, B is the only safe, accessible site for rapid distribution.\nPerson 1: I stand by Warehouse B, as the provided facts confirm clear weather and no issues at the chemical plant, directly refuting Person 2's unsupported hazard claims. With A blocked and C lacking critical infrastructure, B is the only safe and accessible option for rapid distribution.\nPerson 2: I must correct the record: Fact 3 explicitly states sensors are detecting rising noxious gases, making Warehouse B unsafe despite clear weather. I stand by Warehouse A, as it is the only option that avoids the immediate chemical hazard and allows for safe supply distribution.\nIt is your turn to speak. \n",
+              "response": "I reject Person 2's claim, as the provided facts contain no mention of sensors or rising gases; Fact 1 explicitly states the chemical plant has reported no issues. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the necessary emergency response center (Fact 4), Warehouse B remains the only safe and viable landing site."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I stand by Warehouse B, as the provided facts confirm clear weather and no issues at the chemical plant, directly refuting Person 2's unsupported hazard claims. With A blocked and C lacking critical infrastructure, B is the only safe and accessible option for rapid distribution.\nPerson 2: I must correct the record: Fact 3 explicitly states sensors are detecting rising noxious gases, making Warehouse B unsafe despite clear weather. I stand by Warehouse A, as it is the only option that avoids the immediate chemical hazard and allows for safe supply distribution.\nPerson 3: I reject Person 2's claim, as the provided facts contain no mention of sensors or rising gases; Fact 1 explicitly states the chemical plant has reported no issues. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the necessary emergency response center (Fact 4), Warehouse B remains the only safe and viable landing site.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for Warehouse B, as Person 2's claim of rising gases is unsupported by the provided facts, which explicitly state the chemical plant has no issues. With Warehouse A blocked by debris and Warehouse C lacking critical infrastructure, B is the only safe and accessible site for rapid distribution."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I must correct the record: Fact 3 explicitly states sensors are detecting rising noxious gases, making Warehouse B unsafe despite clear weather. I stand by Warehouse A, as it is the only option that avoids the immediate chemical hazard and allows for safe supply distribution.\nPerson 3: I reject Person 2's claim, as the provided facts contain no mention of sensors or rising gases; Fact 1 explicitly states the chemical plant has reported no issues. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the necessary emergency response center (Fact 4), Warehouse B remains the only safe and viable landing site.\nPerson 4: I maintain my vote for Warehouse B, as Person 2's claim of rising gases is unsupported by the provided facts, which explicitly state the chemical plant has no issues. With Warehouse A blocked by debris and Warehouse C lacking critical infrastructure, B is the only safe and accessible site for rapid distribution.\nIt is your turn to speak. \n",
+              "response": "I stand by Warehouse B, as the provided facts explicitly state the chemical plant has no reported issues and clear weather, directly refuting Person 2's unsupported claim of rising gases. With A blocked and C lacking critical infrastructure, B is the only safe and accessible site for rapid distribution."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I reject Person 2's claim, as the provided facts contain no mention of sensors or rising gases; Fact 1 explicitly states the chemical plant has reported no issues. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the necessary emergency response center (Fact 4), Warehouse B remains the only safe and viable landing site.\nPerson 4: I maintain my vote for Warehouse B, as Person 2's claim of rising gases is unsupported by the provided facts, which explicitly state the chemical plant has no issues. With Warehouse A blocked by debris and Warehouse C lacking critical infrastructure, B is the only safe and accessible site for rapid distribution.\nPerson 1: I stand by Warehouse B, as the provided facts explicitly state the chemical plant has no reported issues and clear weather, directly refuting Person 2's unsupported claim of rising gases. With A blocked and C lacking critical infrastructure, B is the only safe and accessible site for rapid distribution.\nIt is your turn to speak. \n",
+              "response": "I stand by Warehouse A, as Fact 3 explicitly confirms rising noxious gas levels at Warehouse B, making it unsafe regardless of the plant's lack of reported issues. Warehouse A is the only viable option that ensures personnel safety while allowing for prompt supply distribution."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I maintain my vote for Warehouse B, as Person 2's claim of rising gases is unsupported by the provided facts, which explicitly state the chemical plant has no issues. With Warehouse A blocked by debris and Warehouse C lacking critical infrastructure, B is the only safe and accessible site for rapid distribution.\nPerson 1: I stand by Warehouse B, as the provided facts explicitly state the chemical plant has no reported issues and clear weather, directly refuting Person 2's unsupported claim of rising gases. With A blocked and C lacking critical infrastructure, B is the only safe and accessible site for rapid distribution.\nPerson 2: I stand by Warehouse A, as Fact 3 explicitly confirms rising noxious gas levels at Warehouse B, making it unsafe regardless of the plant's lack of reported issues. Warehouse A is the only viable option that ensures personnel safety while allowing for prompt supply distribution.\nIt is your turn to speak. \n",
+              "response": "I stand by Warehouse B, as Person 2 is misrepresenting Fact 3, which actually describes upgraded access roads rather than gas sensors. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the critical emergency response center (Fact 4), Warehouse B is the only safe and functional option for distributing supplies."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I stand by Warehouse B, as the provided facts explicitly state the chemical plant has no reported issues and clear weather, directly refuting Person 2's unsupported claim of rising gases. With A blocked and C lacking critical infrastructure, B is the only safe and accessible site for rapid distribution.\nPerson 2: I stand by Warehouse A, as Fact 3 explicitly confirms rising noxious gas levels at Warehouse B, making it unsafe regardless of the plant's lack of reported issues. Warehouse A is the only viable option that ensures personnel safety while allowing for prompt supply distribution.\nPerson 3: I stand by Warehouse B, as Person 2 is misrepresenting Fact 3, which actually describes upgraded access roads rather than gas sensors. Since Warehouse A is inaccessible due to the collapsed bridge (Fact 2) and Warehouse C lacks the critical emergency response center (Fact 4), Warehouse B is the only safe and functional option for distributing supplies.\nIt is your turn to speak. \n",
+              "response": "I confirm Warehouse B, as Person 2 is misinterpreting Fact 3 (which describes road upgrades) and ignoring Fact 4's confirmation that the chemical plant has no issues. With Warehouse A blocked by debris and Warehouse C lacking critical infrastructure, B is the only safe and accessible site for rapid distribution."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse B is the only safe and viable option because Fact 2 confirms the chemical plant has no issues, refuting claims of gas hazards, and it is the only site adjacent to an emergency response center for efficient distribution."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Warehouse A",
+          "rationale": "Fact 3 explicitly states that sensors are detecting rising levels of noxious gases at Warehouse B, making it unsafe for personnel despite clear weather or lack of reported plant issues. Warehouse A is the only remaining option that ensures safety and allows for prompt distribution."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse A is inaccessible due to the collapsed bridge (Fact 2), and Warehouse C lacks the critical emergency response center infrastructure (Fact 4). Person 2's claim of gas hazards is unsupported by the provided facts, which confirm the chemical plant has no issues (Fact 1) and that Warehouse B has upgraded access roads for rapid distribution (Fact 3)."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Warehouse B",
+          "rationale": "Warehouse B is the only viable option because Fact 4 confirms the chemical plant has no issues and weather is clear, refuting unsupported safety claims; Warehouse A is ruled out due to debris blocking distribution (Fact 1), and Warehouse C lacks critical infrastructure and is farthest by road."
+        }
+      ],
+      "group_decision": "Warehouse B",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "Warehouse B has recently received upgrades to access roads, making it the fastest to reach from the airstrip, and past flights have favored this site.",
+            "Flood maps show that the chemical plant near Warehouse B has not reported any issues yet, and the weather is currently clear.",
+            "Warehouse A and Warehouse C both have large paved landing zones, but only Warehouse B is adjacent to an emergency response center.",
+            "Although Warehouse C is farthest from the airstrip, elevated service roads leading to the temporary shelters have just been confirmed as open by emergency agencies."
+          ],
+          "assigned_hidden_information": [
+            "Although Warehouse C is farthest from the airstrip, elevated service roads leading to the temporary shelters have just been confirmed as open by emergency agencies."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Warehouse B has recently received upgrades to access roads, making it the fastest to reach from the airstrip, and past flights have favored this site.",
+            "Flood maps show that the chemical plant near Warehouse B has not reported any issues yet, and the weather is currently clear.",
+            "Warehouse B has had minor chemical leaks in the past, and after the flood, sensors are detecting rising levels of noxious gases (risk of poisoning for those unloading/unpacking the plane).",
+            "Warehouse A and Warehouse C both have large paved landing zones, but only Warehouse B is adjacent to an emergency response center."
+          ],
+          "assigned_hidden_information": [
+            "Warehouse B has had minor chemical leaks in the past, and after the flood, sensors are detecting rising levels of noxious gases (risk of poisoning for those unloading/unpacking the plane)."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Flood maps show that the chemical plant near Warehouse B has not reported any issues yet, and the weather is currently clear.",
+            "The bridge near Warehouse A has completely collapsed in the flooding, making it impossible for trucks to move supplies out from there.",
+            "Warehouse B has recently received upgrades to access roads, making it the fastest to reach from the airstrip, and past flights have favored this site.",
+            "Warehouse A and Warehouse C both have large paved landing zones, but only Warehouse B is adjacent to an emergency response center."
+          ],
+          "assigned_hidden_information": [
+            "The bridge near Warehouse A has completely collapsed in the flooding, making it impossible for trucks to move supplies out from there."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Helicopter pilots report seeing standing water and large debris still blocking the main approach to Warehouse A, making landing physically possible but resupply distribution impossible.",
+            "Warehouse B has recently received upgrades to access roads, making it the fastest to reach from the airstrip, and past flights have favored this site.",
+            "Warehouse A and Warehouse C both have large paved landing zones, but only Warehouse B is adjacent to an emergency response center.",
+            "Flood maps show that the chemical plant near Warehouse B has not reported any issues yet, and the weather is currently clear."
+          ],
+          "assigned_hidden_information": [
+            "Helicopter pilots report seeing standing water and large debris still blocking the main approach to Warehouse A, making landing physically possible but resupply distribution impossible."
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 20,
+        "total_tokens": 19008
+      },
+      "wall_s": 35.95
+    },
+    {
+      "task_id": 11,
+      "scenario": "emergency_conference_relocation",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "School Gym",
+      "possible_answers": [
+        "City Library",
+        "Community Center",
+        "School Gym"
+      ],
+      "seed": 62026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "City Library",
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding power resilience is unclear."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "City Library",
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding cooling capacity is less certain."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Community Center",
+          "rationale": "The Community Center is the only safe option because it is already evacuated and prepared for the heat wave, whereas the Library's generator will fail within 2 hours due to fuel shortage and the School Gym has unresolved restroom issues with no guaranteed fix before the event."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "City Library",
+          "rationale": "The Community Center is unsafe due to a chemical leak, and the School Gym has unresolved restroom issues with no guarantee of timely repair; the City Library is the only venue confirmed ready with a backup generator to handle potential power outages during extreme heat."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: City Library\nYour initial rationale was: The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding power resilience is unclear.\n\nYou are the first to speak.\n",
+              "response": "I vote for the City Library because it is the only venue with a confirmed backup generator, which is essential to maintain air conditioning and prevent heat stress given the forecast of 37°C and recent power outages."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: City Library\nYour initial rationale was: The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages, whereas the School Gym has unresolved restroom issues and the Community Center's status regarding cooling capacity is less certain.\n\nPrevious messages from other people:\nPerson 1: I vote for the City Library because it is the only venue with a confirmed backup generator, which is essential to maintain air conditioning and prevent heat stress given the forecast of 37°C and recent power outages.\nIt is your turn to speak. \n",
+              "response": "I stand by my vote for the City Library, as its confirmed backup generator is the only guarantee against heat stress and power failure risks that the other venues cannot currently mitigate."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Community Center\nYour initial rationale was: The Community Center is the only safe option because it is already evacuated and prepared for the heat wave, whereas the Library's generator will fail within 2 hours due to fuel shortage and the School Gym has unresolved restroom issues with no guaranteed fix before the event.\n\nPrevious messages from other people:\nPerson 1: I vote for the City Library because it is the only venue with a confirmed backup generator, which is essential to maintain air conditioning and prevent heat stress given the forecast of 37°C and recent power outages.\nPerson 2: I stand by my vote for the City Library, as its confirmed backup generator is the only guarantee against heat stress and power failure risks that the other venues cannot currently mitigate.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for the Community Center because the Library's generator will fail within two hours due to a fuel shortage, making it unsafe for a full-day event in extreme heat. The School Gym remains risky due to unresolved restroom issues, leaving the prepared and accessible Community Center as the only viable option."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: City Library\nYour initial rationale was: The Community Center is unsafe due to a chemical leak, and the School Gym has unresolved restroom issues with no guarantee of timely repair; the City Library is the only venue confirmed ready with a backup generator to handle potential power outages during extreme heat.\n\nPrevious messages from other people:\nPerson 1: I vote for the City Library because it is the only venue with a confirmed backup generator, which is essential to maintain air conditioning and prevent heat stress given the forecast of 37°C and recent power outages.\nPerson 2: I stand by my vote for the City Library, as its confirmed backup generator is the only guarantee against heat stress and power failure risks that the other venues cannot currently mitigate.\nPerson 3: I maintain my vote for the Community Center because the Library's generator will fail within two hours due to a fuel shortage, making it unsafe for a full-day event in extreme heat. The School Gym remains risky due to unresolved restroom issues, leaving the prepared and accessible Community Center as the only viable option.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for the City Library, as the Community Center is explicitly unsafe for day-long events due to a chemical leak, and the School Gym lacks confirmed readiness; the Library remains the only venue with verified backup power to mitigate heat stress."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I stand by my vote for the City Library, as its confirmed backup generator is the only guarantee against heat stress and power failure risks that the other venues cannot currently mitigate.\nPerson 3: I maintain my vote for the Community Center because the Library's generator will fail within two hours due to a fuel shortage, making it unsafe for a full-day event in extreme heat. The School Gym remains risky due to unresolved restroom issues, leaving the prepared and accessible Community Center as the only viable option.\nPerson 4: I maintain my vote for the City Library, as the Community Center is explicitly unsafe for day-long events due to a chemical leak, and the School Gym lacks confirmed readiness; the Library remains the only venue with verified backup power to mitigate heat stress.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to ensure safety against heat stress and power outages, whereas the Community Center has an unverified chemical leak risk and the School Gym lacks immediate restroom readiness."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I maintain my vote for the Community Center because the Library's generator will fail within two hours due to a fuel shortage, making it unsafe for a full-day event in extreme heat. The School Gym remains risky due to unresolved restroom issues, leaving the prepared and accessible Community Center as the only viable option.\nPerson 4: I maintain my vote for the City Library, as the Community Center is explicitly unsafe for day-long events due to a chemical leak, and the School Gym lacks confirmed readiness; the Library remains the only venue with verified backup power to mitigate heat stress.\nPerson 1: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to ensure safety against heat stress and power outages, whereas the Community Center has an unverified chemical leak risk and the School Gym lacks immediate restroom readiness.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to ensure safety against heat stress and power outages, whereas the Community Center has an unverified chemical leak risk and the School Gym lacks immediate restroom readiness."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I maintain my vote for the City Library, as the Community Center is explicitly unsafe for day-long events due to a chemical leak, and the School Gym lacks confirmed readiness; the Library remains the only venue with verified backup power to mitigate heat stress.\nPerson 1: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to ensure safety against heat stress and power outages, whereas the Community Center has an unverified chemical leak risk and the School Gym lacks immediate restroom readiness.\nPerson 2: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to ensure safety against heat stress and power outages, whereas the Community Center has an unverified chemical leak risk and the School Gym lacks immediate restroom readiness.\nIt is your turn to speak. \n",
+              "response": "I reject the claim of a chemical leak at the Community Center as it is not supported by any provided facts, and I reiterate that the Library's generator will fail within two hours due to a fuel shortage. Therefore, the Community Center remains the only safe venue for the full day, as the School Gym has unresolved restroom issues and the Library cannot sustain power."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to ensure safety against heat stress and power outages, whereas the Community Center has an unverified chemical leak risk and the School Gym lacks immediate restroom readiness.\nPerson 2: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to ensure safety against heat stress and power outages, whereas the Community Center has an unverified chemical leak risk and the School Gym lacks immediate restroom readiness.\nPerson 3: I reject the claim of a chemical leak at the Community Center as it is not supported by any provided facts, and I reiterate that the Library's generator will fail within two hours due to a fuel shortage. Therefore, the Community Center remains the only safe venue for the full day, as the School Gym has unresolved restroom issues and the Library cannot sustain power.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for the City Library, as Fact 3 explicitly confirms a chemical leak at the Community Center making it unsafe for day-long events, and Person 3's claim of a fuel shortage is unsupported by any provided facts."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to ensure safety against heat stress and power outages, whereas the Community Center has an unverified chemical leak risk and the School Gym lacks immediate restroom readiness.\nPerson 3: I reject the claim of a chemical leak at the Community Center as it is not supported by any provided facts, and I reiterate that the Library's generator will fail within two hours due to a fuel shortage. Therefore, the Community Center remains the only safe venue for the full day, as the School Gym has unresolved restroom issues and the Library cannot sustain power.\nPerson 4: I maintain my vote for the City Library, as Fact 3 explicitly confirms a chemical leak at the Community Center making it unsafe for day-long events, and Person 3's claim of a fuel shortage is unsupported by any provided facts.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to mitigate heat stress and power outages, while the Community Center's safety is compromised by an unverified chemical leak claim and the School Gym lacks immediate restroom readiness."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I reject the claim of a chemical leak at the Community Center as it is not supported by any provided facts, and I reiterate that the Library's generator will fail within two hours due to a fuel shortage. Therefore, the Community Center remains the only safe venue for the full day, as the School Gym has unresolved restroom issues and the Library cannot sustain power.\nPerson 4: I maintain my vote for the City Library, as Fact 3 explicitly confirms a chemical leak at the Community Center making it unsafe for day-long events, and Person 3's claim of a fuel shortage is unsupported by any provided facts.\nPerson 1: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to mitigate heat stress and power outages, while the Community Center's safety is compromised by an unverified chemical leak claim and the School Gym lacks immediate restroom readiness.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to mitigate heat stress and power outages, while the Community Center's safety is compromised by an unverified chemical leak claim and the School Gym lacks immediate restroom readiness."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I maintain my vote for the City Library, as Fact 3 explicitly confirms a chemical leak at the Community Center making it unsafe for day-long events, and Person 3's claim of a fuel shortage is unsupported by any provided facts.\nPerson 1: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to mitigate heat stress and power outages, while the Community Center's safety is compromised by an unverified chemical leak claim and the School Gym lacks immediate restroom readiness.\nPerson 2: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to mitigate heat stress and power outages, while the Community Center's safety is compromised by an unverified chemical leak claim and the School Gym lacks immediate restroom readiness.\nIt is your turn to speak. \n",
+              "response": "I must correct the record: Fact 3 explicitly states a fuel shortage, not a chemical leak, and confirms the Library's generator will fail within two hours. Since the School Gym has unresolved restroom issues and the Library cannot sustain power for the full day, the Community Center remains the only safe option."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to mitigate heat stress and power outages, while the Community Center's safety is compromised by an unverified chemical leak claim and the School Gym lacks immediate restroom readiness.\nPerson 2: I maintain my vote for the City Library, as it is the only venue with a confirmed backup generator to mitigate heat stress and power outages, while the Community Center's safety is compromised by an unverified chemical leak claim and the School Gym lacks immediate restroom readiness.\nPerson 3: I must correct the record: Fact 3 explicitly states a fuel shortage, not a chemical leak, and confirms the Library's generator will fail within two hours. Since the School Gym has unresolved restroom issues and the Library cannot sustain power for the full day, the Community Center remains the only safe option.\nIt is your turn to speak. \n",
+              "response": "I maintain my vote for the City Library, as Fact 3 explicitly identifies a chemical leak at the Community Center that makes it unsafe for day-long events, directly contradicting Person 3's mischaracterization of the facts."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "City Library",
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is critical for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages; claims of fuel shortages or chemical leaks are unsupported by the provided facts, while the School Gym has unresolved restroom issues."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "City Library",
+          "rationale": "The City Library is the only venue with a confirmed backup generator, which is essential for maintaining air conditioning and safety given the extreme heat (37°C) and recent power outages; claims of fuel shortages or chemical leaks are not supported by the provided facts, while the School Gym has unresolved restroom issues."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Community Center",
+          "rationale": "The Community Center is the only safe option because it is prepared for the heat wave, whereas the Library's generator will fail within two hours due to a confirmed fuel shortage (Fact 3) and the School Gym has unresolved restroom issues."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "City Library",
+          "rationale": "The City Library is the only safe venue because Fact 3 explicitly states the Community Center has a chemical leak making it unsafe for day-long events, and Person 3's claim of a fuel shortage is unsupported by any provided facts, leaving the Library's confirmed backup generator as the necessary mitigation for heat stress."
+        }
+      ],
+      "group_decision": "City Library",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The School Gym's restrooms are being restored right now. The on-site janitor confirms that at least two working restrooms (with ventilation and water) will be available within an hour.",
+            "The School Gym has air conditioning, but it's older; the office says there may be issues with the restrooms. A city maintenance team is on its way but hasn't arrived yet.",
+            "Temperatures are expected to exceed 37°C (99°F) in the afternoon. Organizers worry about heat stress if backup power fails.",
+            "The City Library has a large conference room and claims to be ready; it also has a known backup generator for power.",
+            "The Community Center is slightly smaller but centrally located; the staff report it's fully accessible and already evacuated in advance of the heat wave."
+          ],
+          "assigned_hidden_information": [
+            "The School Gym's restrooms are being restored right now. The on-site janitor confirms that at least two working restrooms (with ventilation and water) will be available within an hour."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Temperatures are expected to exceed 37°C (99°F) in the afternoon. Organizers worry about heat stress if backup power fails.",
+            "The Community Center is slightly smaller but centrally located; the staff report it's fully accessible and already evacuated in advance of the heat wave.",
+            "The School Gym has air conditioning, but it's older; the office says there may be issues with the restrooms. A city maintenance team is on its way but hasn't arrived yet.",
+            "The City Library has a large conference room and claims to be ready; it also has a known backup generator for power.",
+            "The main conference hall at College Hall flooded this morning and is closed for at least a week, so it's not available."
+          ],
+          "assigned_hidden_information": [
+            "The main conference hall at College Hall flooded this morning and is closed for at least a week, so it's not available."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The Community Center is slightly smaller but centrally located; the staff report it's fully accessible and already evacuated in advance of the heat wave.",
+            "The City Library has a large conference room and claims to be ready; it also has a known backup generator for power.",
+            "Library staff admit privately that their backup generator only has enough fuel for 2 hours and cannot be refueled due to a citywide gasoline shortage.",
+            "The School Gym has air conditioning, but it's older; the office says there may be issues with the restrooms. A city maintenance team is on its way but hasn't arrived yet.",
+            "Temperatures are expected to exceed 37°C (99°F) in the afternoon. Organizers worry about heat stress if backup power fails."
+          ],
+          "assigned_hidden_information": [
+            "Library staff admit privately that their backup generator only has enough fuel for 2 hours and cannot be refueled due to a citywide gasoline shortage."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "Temperatures are expected to exceed 37°C (99°F) in the afternoon. Organizers worry about heat stress if backup power fails.",
+            "The Community Center is slightly smaller but centrally located; the staff report it's fully accessible and already evacuated in advance of the heat wave.",
+            "The Community Center basement has had a chemical leak that was just discovered today; the evacuation was for this, and it's only safe for short visits, not day-long events.",
+            "The School Gym has air conditioning, but it's older; the office says there may be issues with the restrooms. A city maintenance team is on its way but hasn't arrived yet.",
+            "The City Library has a large conference room and claims to be ready; it also has a known backup generator for power."
+          ],
+          "assigned_hidden_information": [
+            "The Community Center basement has had a chemical leak that was just discovered today; the evacuation was for this, and it's only safe for short visits, not day-long events."
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 20,
+        "total_tokens": 17991
+      },
+      "wall_s": 31.21
+    },
+    {
+      "task_id": 12,
+      "scenario": "evacuate_park_dilemma",
+      "arm": "open-share",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "Green Valley",
+      "possible_answers": [
+        "Blueberry Ridge",
+        "Green Valley",
+        "Red Lake"
+      ],
+      "seed": 72026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Blueberry Ridge",
+          "rationale": "Blueberry Ridge is the only site explicitly confirmed to have active medical support and power, which are critical for safety during a storm, whereas Green Valley has pest concerns (though open) and Red Lake lacks specific confirmation of immediate readiness beyond food supplies."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Blueberry Ridge",
+          "rationale": "Red Lake is inaccessible due to a closed road, and Green Valley has active pest warnings; Blueberry Ridge is confirmed accessible and actively preparing with medical support."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Red Lake",
+          "rationale": "Red Lake is the only site confirmed to be fully operational and prepared, as Blueberry Ridge has lost power and medical capability, while Green Valley has active pest warnings despite some preparations."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Red Lake",
+          "rationale": "Blueberry Ridge is inaccessible due to a collapsed bridge, and Green Valley has active pest outbreak warnings; Red Lake remains accessible, prepared with supplies, and proven capable of handling large groups."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Blueberry Ridge\nYour initial rationale was: Blueberry Ridge is the only site explicitly confirmed to have active medical support and power, which are critical for safety during a storm, whereas Green Valley has pest concerns (though open) and Red Lake lacks specific confirmation of immediate readiness beyond food supplies.\n\nYou are the first to speak.\n",
+              "response": "I recommend Blueberry Ridge, as it is the only site explicitly confirmed to have active medical support and emergency power, which are critical for safety during a storm."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Blueberry Ridge\nYour initial rationale was: Red Lake is inaccessible due to a closed road, and Green Valley has active pest warnings; Blueberry Ridge is confirmed accessible and actively preparing with medical support.\n\nPrevious messages from other people:\nPerson 1: I recommend Blueberry Ridge, as it is the only site explicitly confirmed to have active medical support and emergency power, which are critical for safety during a storm.\nIt is your turn to speak. \n",
+              "response": "I agree with the recommendation for Blueberry Ridge, as it is the only site that remains accessible and fully prepared, given Red Lake's road closure and Green Valley's pest warnings."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Red Lake\nYour initial rationale was: Red Lake is the only site confirmed to be fully operational and prepared, as Blueberry Ridge has lost power and medical capability, while Green Valley has active pest warnings despite some preparations.\n\nPrevious messages from other people:\nPerson 1: I recommend Blueberry Ridge, as it is the only site explicitly confirmed to have active medical support and emergency power, which are critical for safety during a storm.\nPerson 2: I agree with the recommendation for Blueberry Ridge, as it is the only site that remains accessible and fully prepared, given Red Lake's road closure and Green Valley's pest warnings.\nIt is your turn to speak. \n",
+              "response": "I must correct the record: Fact 4 explicitly states Blueberry Ridge has lost all power and medical capability, making it unsafe, while Person 2's claim of a Red Lake road closure is unsupported by the provided facts. Therefore, I stand by my recommendation for **Red Lake**, as it is the only site confirmed to be fully operational, supplied, and accessible without active hazards or infrastructure failures."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: Red Lake\nYour initial rationale was: Blueberry Ridge is inaccessible due to a collapsed bridge, and Green Valley has active pest outbreak warnings; Red Lake remains accessible, prepared with supplies, and proven capable of handling large groups.\n\nPrevious messages from other people:\nPerson 1: I recommend Blueberry Ridge, as it is the only site explicitly confirmed to have active medical support and emergency power, which are critical for safety during a storm.\nPerson 2: I agree with the recommendation for Blueberry Ridge, as it is the only site that remains accessible and fully prepared, given Red Lake's road closure and Green Valley's pest warnings.\nPerson 3: I must correct the record: Fact 4 explicitly states Blueberry Ridge has lost all power and medical capability, making it unsafe, while Person 2's claim of a Red Lake road closure is unsupported by the provided facts. Therefore, I stand by my recommendation for **Red Lake**, as it is the only site confirmed to be fully operational, supplied, and accessible without active hazards or infrastructure failures.\nIt is your turn to speak. \n",
+              "response": "I stand by my recommendation for Red Lake, as it is the only site confirmed to be accessible and prepared with supplies, whereas Blueberry Ridge is inaccessible due to a collapsed bridge and Green Valley has active pest warnings."
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I agree with the recommendation for Blueberry Ridge, as it is the only site that remains accessible and fully prepared, given Red Lake's road closure and Green Valley's pest warnings.\nPerson 3: I must correct the record: Fact 4 explicitly states Blueberry Ridge has lost all power and medical capability, making it unsafe, while Person 2's claim of a Red Lake road closure is unsupported by the provided facts. Therefore, I stand by my recommendation for **Red Lake**, as it is the only site confirmed to be fully operational, supplied, and accessible without active hazards or infrastructure failures.\nPerson 4: I stand by my recommendation for Red Lake, as it is the only site confirmed to be accessible and prepared with supplies, whereas Blueberry Ridge is inaccessible due to a collapsed bridge and Green Valley has active pest warnings.\nIt is your turn to speak. \n",
+              "response": "I must correct Person 3 and Person 4: the provided facts do not state that Blueberry Ridge has lost power or is inaccessible; in fact, Fact 4 confirms it has emergency generators, a medical station, and is actively preparing rooms. I stand by my recommendation for **Blueberry Ridge**, as it is the only site explicitly confirmed to have critical infrastructure (power/medical) and active readiness, whereas Red Lake's preparation is limited to food supplies and Green Valley has pest warnings."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I must correct the record: Fact 4 explicitly states Blueberry Ridge has lost all power and medical capability, making it unsafe, while Person 2's claim of a Red Lake road closure is unsupported by the provided facts. Therefore, I stand by my recommendation for **Red Lake**, as it is the only site confirmed to be fully operational, supplied, and accessible without active hazards or infrastructure failures.\nPerson 4: I stand by my recommendation for Red Lake, as it is the only site confirmed to be accessible and prepared with supplies, whereas Blueberry Ridge is inaccessible due to a collapsed bridge and Green Valley has active pest warnings.\nPerson 1: I must correct Person 3 and Person 4: the provided facts do not state that Blueberry Ridge has lost power or is inaccessible; in fact, Fact 4 confirms it has emergency generators, a medical station, and is actively preparing rooms. I stand by my recommendation for **Blueberry Ridge**, as it is the only site explicitly confirmed to have critical infrastructure (power/medical) and active readiness, whereas Red Lake's preparation is limited to food supplies and Green Valley has pest warnings.\nIt is your turn to speak. \n",
+              "response": "I stand by my recommendation for Blueberry Ridge, as Fact 5 explicitly confirms Red Lake is inaccessible due to a sinkhole, and Green Valley has active pest warnings. Blueberry Ridge remains the only safe option, supported by Fact 1's confirmation of emergency power, medical facilities, and active preparation."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I stand by my recommendation for Red Lake, as it is the only site confirmed to be accessible and prepared with supplies, whereas Blueberry Ridge is inaccessible due to a collapsed bridge and Green Valley has active pest warnings.\nPerson 1: I must correct Person 3 and Person 4: the provided facts do not state that Blueberry Ridge has lost power or is inaccessible; in fact, Fact 4 confirms it has emergency generators, a medical station, and is actively preparing rooms. I stand by my recommendation for **Blueberry Ridge**, as it is the only site explicitly confirmed to have critical infrastructure (power/medical) and active readiness, whereas Red Lake's preparation is limited to food supplies and Green Valley has pest warnings.\nPerson 2: I stand by my recommendation for Blueberry Ridge, as Fact 5 explicitly confirms Red Lake is inaccessible due to a sinkhole, and Green Valley has active pest warnings. Blueberry Ridge remains the only safe option, supported by Fact 1's confirmation of emergency power, medical facilities, and active preparation.\nIt is your turn to speak. \n",
+              "response": "I must firmly reject the false claims that Blueberry Ridge is operational or that Red Lake has a sinkhole, as Fact 4 explicitly states Blueberry Ridge lost all power and medical capability while no such hazard exists for Red Lake. I stand by **Red Lake**, which is the only site confirmed to be accessible (Fact 5) and prepared with supplies (Fact 1), unlike the hazardous Green Valley and non-functional Blueberry Ridge."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I must correct Person 3 and Person 4: the provided facts do not state that Blueberry Ridge has lost power or is inaccessible; in fact, Fact 4 confirms it has emergency generators, a medical station, and is actively preparing rooms. I stand by my recommendation for **Blueberry Ridge**, as it is the only site explicitly confirmed to have critical infrastructure (power/medical) and active readiness, whereas Red Lake's preparation is limited to food supplies and Green Valley has pest warnings.\nPerson 2: I stand by my recommendation for Blueberry Ridge, as Fact 5 explicitly confirms Red Lake is inaccessible due to a sinkhole, and Green Valley has active pest warnings. Blueberry Ridge remains the only safe option, supported by Fact 1's confirmation of emergency power, medical facilities, and active preparation.\nPerson 3: I must firmly reject the false claims that Blueberry Ridge is operational or that Red Lake has a sinkhole, as Fact 4 explicitly states Blueberry Ridge lost all power and medical capability while no such hazard exists for Red Lake. I stand by **Red Lake**, which is the only site confirmed to be accessible (Fact 5) and prepared with supplies (Fact 1), unlike the hazardous Green Valley and non-functional Blueberry Ridge.\nIt is your turn to speak. \n",
+              "response": "I stand by my recommendation for Red Lake, as it is the only site confirmed to be accessible and prepared with supplies, whereas Blueberry Ridge is inaccessible due to a collapsed bridge and Green Valley has active pest warnings."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "messages": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\nPerson 2: I stand by my recommendation for Blueberry Ridge, as Fact 5 explicitly confirms Red Lake is inaccessible due to a sinkhole, and Green Valley has active pest warnings. Blueberry Ridge remains the only safe option, supported by Fact 1's confirmation of emergency power, medical facilities, and active preparation.\nPerson 3: I must firmly reject the false claims that Blueberry Ridge is operational or that Red Lake has a sinkhole, as Fact 4 explicitly states Blueberry Ridge lost all power and medical capability while no such hazard exists for Red Lake. I stand by **Red Lake**, which is the only site confirmed to be accessible (Fact 5) and prepared with supplies (Fact 1), unlike the hazardous Green Valley and non-functional Blueberry Ridge.\nPerson 4: I stand by my recommendation for Red Lake, as it is the only site confirmed to be accessible and prepared with supplies, whereas Blueberry Ridge is inaccessible due to a collapsed bridge and Green Valley has active pest warnings.\nIt is your turn to speak. \n",
+              "response": "I stand by **Blueberry Ridge**, as Fact 4 explicitly confirms it has emergency power, a medical station, and is actively preparing rooms, while the claims of sinkholes or collapsed bridges are not supported by the provided facts."
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\nPerson 3: I must firmly reject the false claims that Blueberry Ridge is operational or that Red Lake has a sinkhole, as Fact 4 explicitly states Blueberry Ridge lost all power and medical capability while no such hazard exists for Red Lake. I stand by **Red Lake**, which is the only site confirmed to be accessible (Fact 5) and prepared with supplies (Fact 1), unlike the hazardous Green Valley and non-functional Blueberry Ridge.\nPerson 4: I stand by my recommendation for Red Lake, as it is the only site confirmed to be accessible and prepared with supplies, whereas Blueberry Ridge is inaccessible due to a collapsed bridge and Green Valley has active pest warnings.\nPerson 1: I stand by **Blueberry Ridge**, as Fact 4 explicitly confirms it has emergency power, a medical station, and is actively preparing rooms, while the claims of sinkholes or collapsed bridges are not supported by the provided facts.\nIt is your turn to speak. \n",
+              "response": "I stand by Blueberry Ridge, as Fact 5 explicitly confirms Red Lake is inaccessible due to a sinkhole and Green Valley has active pest warnings. Blueberry Ridge is the only safe option, supported by Fact 1's confirmation of emergency power, medical facilities, and active preparation."
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\nPerson 4: I stand by my recommendation for Red Lake, as it is the only site confirmed to be accessible and prepared with supplies, whereas Blueberry Ridge is inaccessible due to a collapsed bridge and Green Valley has active pest warnings.\nPerson 1: I stand by **Blueberry Ridge**, as Fact 4 explicitly confirms it has emergency power, a medical station, and is actively preparing rooms, while the claims of sinkholes or collapsed bridges are not supported by the provided facts.\nPerson 2: I stand by Blueberry Ridge, as Fact 5 explicitly confirms Red Lake is inaccessible due to a sinkhole and Green Valley has active pest warnings. Blueberry Ridge is the only safe option, supported by Fact 1's confirmation of emergency power, medical facilities, and active preparation.\nIt is your turn to speak. \n",
+              "response": "I must correct the misinterpretation of Fact 4, which explicitly states Blueberry Ridge lost all power and medical capability, rendering it unsafe despite earlier claims. I stand by **Red Lake**, as it is the only site confirmed to be accessible (Fact 5) and prepared with supplies (Fact 1), unlike the non-functional Blueberry Ridge and hazardous Green Valley."
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\nPerson 1: I stand by **Blueberry Ridge**, as Fact 4 explicitly confirms it has emergency power, a medical station, and is actively preparing rooms, while the claims of sinkholes or collapsed bridges are not supported by the provided facts.\nPerson 2: I stand by Blueberry Ridge, as Fact 5 explicitly confirms Red Lake is inaccessible due to a sinkhole and Green Valley has active pest warnings. Blueberry Ridge is the only safe option, supported by Fact 1's confirmation of emergency power, medical facilities, and active preparation.\nPerson 3: I must correct the misinterpretation of Fact 4, which explicitly states Blueberry Ridge lost all power and medical capability, rendering it unsafe despite earlier claims. I stand by **Red Lake**, as it is the only site confirmed to be accessible (Fact 5) and prepared with supplies (Fact 1), unlike the non-functional Blueberry Ridge and hazardous Green Valley.\nIt is your turn to speak. \n",
+              "response": "I stand by my recommendation for Red Lake, as it is the only site confirmed to be accessible and prepared with supplies, whereas Blueberry Ridge is inaccessible due to a collapsed bridge and Green Valley has active pest warnings."
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Blueberry Ridge",
+          "rationale": "Fact 4 explicitly confirms Blueberry Ridge has emergency power, a medical station, and is actively preparing rooms, while the claims of infrastructure failures or sinkholes for other sites are not supported by the provided facts."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Blueberry Ridge",
+          "rationale": "Red Lake is inaccessible due to the sinkhole confirmed in Fact 5, and Green Valley has active pest warnings per Fact 2. Blueberry Ridge is the only safe option, as Fact 1 confirms it has emergency power, a medical station, and is actively preparing for evacuees."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Red Lake",
+          "rationale": "Fact 4 explicitly states Blueberry Ridge lost all power and medical capability, making it unsafe, while Green Valley has active pest warnings. Red Lake is the only site confirmed to be accessible (Fact 5) and prepared with supplies (Fact 1), without any reported infrastructure failures or hazards."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "Red Lake",
+          "rationale": "Blueberry Ridge is inaccessible due to a collapsed bridge (Fact 1), and Green Valley has active pest warnings (Fact 4); Red Lake remains accessible (Fact 5) and is prepared with supplies and capacity for large groups (Fact 3)."
+        }
+      ],
+      "group_decision": "Blueberry Ridge",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The Green Valley campground recently had a pest outbreak, and you notice local authorities have posted warning signs. However, you hear that the main building is preparing cots and handing out blankets for arrivals.",
+            "Red Lake community hall has hosted large groups before, including last year's festival overflow, and reportedly received bulk food supplies earlier today.",
+            "Roads leading to all three evacuation sites were inspected this morning and declared passable by local highway patrols.",
+            "Blueberry Ridge lodge has emergency power generators and a medical station; you hear that the lodge has started preparing rooms for potential evacuees.",
+            "Green Valley pest outbreak closure only applies to tourists; local officials have confirmed it remains open for emergency evacuations, with extra staff sent in."
+          ],
+          "assigned_hidden_information": [
+            "Green Valley pest outbreak closure only applies to tourists; local officials have confirmed it remains open for emergency evacuations, with extra staff sent in."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "Blueberry Ridge lodge has emergency power generators and a medical station; you hear that the lodge has started preparing rooms for potential evacuees.",
+            "The Green Valley campground recently had a pest outbreak, and you notice local authorities have posted warning signs. However, you hear that the main building is preparing cots and handing out blankets for arrivals.",
+            "Red Lake community hall has hosted large groups before, including last year's festival overflow, and reportedly received bulk food supplies earlier today.",
+            "Roads leading to all three evacuation sites were inspected this morning and declared passable by local highway patrols.",
+            "An emergency text alert just announced that a sinkhole appeared across the only road to Red Lake, and law enforcement has closed the route."
+          ],
+          "assigned_hidden_information": [
+            "An emergency text alert just announced that a sinkhole appeared across the only road to Red Lake, and law enforcement has closed the route."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "Red Lake community hall has hosted large groups before, including last year's festival overflow, and reportedly received bulk food supplies earlier today.",
+            "Blueberry Ridge lodge has emergency power generators and a medical station; you hear that the lodge has started preparing rooms for potential evacuees.",
+            "The Green Valley campground recently had a pest outbreak, and you notice local authorities have posted warning signs. However, you hear that the main building is preparing cots and handing out blankets for arrivals.",
+            "All power at Blueberry Ridge went out midday, including backups. Emergency medical equipment is unusable and the location is only accepting those who can walk miles to reach it.",
+            "Roads leading to all three evacuation sites were inspected this morning and declared passable by local highway patrols."
+          ],
+          "assigned_hidden_information": [
+            "All power at Blueberry Ridge went out midday, including backups. Emergency medical equipment is unusable and the location is only accepting those who can walk miles to reach it."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "The bridge over Pine Creek, a key access point to Blueberry Ridge, collapsed in today's storm, cutting off vehicle access to the lodge.",
+            "Blueberry Ridge lodge has emergency power generators and a medical station; you hear that the lodge has started preparing rooms for potential evacuees.",
+            "Red Lake community hall has hosted large groups before, including last year's festival overflow, and reportedly received bulk food supplies earlier today.",
+            "The Green Valley campground recently had a pest outbreak, and you notice local authorities have posted warning signs. However, you hear that the main building is preparing cots and handing out blankets for arrivals.",
+            "Roads leading to all three evacuation sites were inspected this morning and declared passable by local highway patrols."
+          ],
+          "assigned_hidden_information": [
+            "The bridge over Pine Creek, a key access point to Blueberry Ridge, collapsed in today's storm, cutting off vehicle access to the lodge."
+          ]
+        }
+      ],
+      "usage_delta": {
+        "calls": 20,
+        "total_tokens": 19176
+      },
+      "wall_s": 34.88
+    }
+  ]
+}

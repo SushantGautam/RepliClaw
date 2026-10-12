@@ -1,0 +1,1383 @@
+{
+  "arm": "escrow",
+  "model": "default",
+  "seed": 2026,
+  "rounds": 3,
+  "runs": [
+    {
+      "task_id": 1,
+      "scenario": "evacuation_west_city",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "West City",
+      "possible_answers": [
+        "West City",
+        "East Town",
+        "North Hill"
+      ],
+      "seed": 2026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "East Town",
+          "rationale": "North Hill is inaccessible due to closed trails, and West City lacks medical supplies for the elderly; East Town offers accessible tunnel access and guaranteed volunteer assistance."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "rationale": "North Hill is inaccessible due to a mudslide, and West City poses risks from rising river levels despite current clearance; East Town offers the safest route via tunnel with guaranteed accommodations and volunteer support."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "North Hill",
+          "rationale": "The massive fire blocking the supply truck likely obstructs the main roads to West City and East Town, making North Hill's driveway and trails the only accessible route, while its school provides essential self-sufficient shelter."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "North Hill",
+          "rationale": "East Town is inaccessible due to the stuck truck in the tunnel, and West City risks flooding with potential medical supply shortages; North Hill offers a safe, accessible route via trails and a self-sufficient school facility."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: North Hill is inaccessible due to closed trails, and West City lacks medical supplies for the elderly; East Town offers accessible tunnel access and guaranteed volunteer assistance.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: North Hill is inaccessible due to a mudslide, and West City poses risks from rising river levels despite current clearance; East Town offers the safest route via tunnel with guaranteed accommodations and volunteer support.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: North Hill\nYour initial rationale was: The massive fire blocking the supply truck likely obstructs the main roads to West City and East Town, making North Hill's driveway and trails the only accessible route, while its school provides essential self-sufficient shelter.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: North Hill\nYour initial rationale was: East Town is inaccessible due to the stuck truck in the tunnel, and West City risks flooding with potential medical supply shortages; North Hill offers a safe, accessible route via trails and a self-sufficient school facility.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "East Town",
+          "rationale": "North Hill is inaccessible due to closed trails, and West City lacks medical supplies; East Town offers accessible tunnel access and guaranteed volunteer assistance for vulnerable residents."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "rationale": "North Hill is inaccessible due to the mudslide covering the driveway, and West City poses risks from rising river levels and lacks medical supplies; East Town offers a safe tunnel route with guaranteed accommodations and volunteer support for vulnerable residents."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "North Hill",
+          "rationale": "The massive fire blocking the supply truck likely obstructs the main roads to West City and East Town, making North Hill's driveway and trails the only accessible route, while its school provides essential self-sufficient shelter."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "North Hill",
+          "rationale": "East Town is inaccessible due to the supply truck stuck in the tunnel, and West City poses risks of flooding and medical supply shortages; North Hill offers a safe, accessible route via trails and a self-sufficient school facility."
+        }
+      ],
+      "group_decision": "East Town",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. While these hotels are fully stocked with food, they may lack medical supplies.",
+            "The walking trails have been closed since last weekend due to fallen trees.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The river level is still below the bridge to West City.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them."
+          ],
+          "assigned_hidden_information": [
+            "The walking trails have been closed since last weekend due to fallen trees."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. While these hotels are fully stocked with food, they may lack medical supplies.",
+            "The river level is still below the bridge to West City.",
+            "A mudslide just occurred, covering the driveway to North Hill."
+          ],
+          "assigned_hidden_information": [
+            "A mudslide just occurred, covering the driveway to North Hill."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The river level is still below the bridge to West City.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. While these hotels are fully stocked with food, they may lack medical supplies.",
+            "A massive fire has blocked the supply truck and all other traffic."
+          ],
+          "assigned_hidden_information": [
+            "A massive fire has blocked the supply truck and all other traffic."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The supply truck headed to the village from East Town was stuck in the tunnel.",
+            "The river level is still below the bridge to West City.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. While these hotels are fully stocked with food, they may lack medical supplies."
+          ],
+          "assigned_hidden_information": [
+            "The supply truck headed to the village from East Town was stuck in the tunnel."
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "East Town",
+          "ranking": [
+            "East Town",
+            "West City",
+            "North Hill"
+          ],
+          "rationale": "East Town is the only option with guaranteed volunteer assistance for vulnerable residents and accessible tunnel access, whereas North Hill trails are closed and West City lacks medical supplies."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "ranking": [
+            "East Town",
+            "West City",
+            "North Hill"
+          ],
+          "rationale": "East Town is the only accessible route with guaranteed volunteer support for vulnerable residents, whereas North Hill is blocked by a mudslide and West City poses risks from rising river levels."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "North Hill",
+          "ranking": [
+            "North Hill",
+            "West City",
+            "East Town"
+          ],
+          "rationale": "The massive fire blocking the supply truck likely obstructs main roads to West City and East Town, making North Hill's driveway and trails the only accessible route, while its school provides essential self-sufficient shelter."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "North Hill",
+          "ranking": [
+            "North Hill",
+            "West City",
+            "East Town"
+          ],
+          "rationale": "East Town is inaccessible due to the stuck truck in the tunnel, and West City poses risks of flooding and medical supply shortages; North Hill offers a safe, accessible route via trails and a self-sufficient school facility."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "a75d532e4669d87d0b28b90a5a7221475c4faf17ecf95d2963030262dd386a7f"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "c1d6ea852830d70e5875d23182387fbfdd0be6d67c53cea28062f2216d2e2e0d"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "c4cc351f00c7a8e157cf84de4b8a96d342bfa2e94cf80e74e2e26036394b1354"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "3bb701a0dbbc0e2330b9eb9f57a9f503553a80f213e31861d799103cfa44463c"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "13e0f576e4c8ea3561c4cc9a181b195abe18099261d1b3bf8b38f6f77abb1bb2"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "21d15dfb6dc4d3961f1a92723f62de9e21abb8b9432b760cc3a52de3b10e6e0f"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "5a1dc0ffc6931822a9491350b392e103d221fd86ee3a92353c6197e1c410f1a9"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "f2e7df29565294761f22e8cee5c0b4b99c01d9bc65053e449044ab3a974efd40"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "39f341e884b62e0d7bd3f87a3d4db91c483dd98b1b4b280a07b77b00b6429e15"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "05758bf6fd6ed935ae0f2fc60c00dec4fae6f4c98771291d55575ab59c629dbe"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "00bd4fdead380af955536fb7aa37a31117fe6002de2c205ba44fc15a96de8524"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "ab39540695c08194051180b94b78688e4b31bd4b41fa8a69b379edb3a7fcccbe"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "1c4203726148d2f227d06bae63e06ec18ea4d72b1daa35ff682e4d65dbc044a5"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "e0a86d150b21f2cd43347c5825b3e17a9285de0249b473ebcdf3b294b3083d34"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "69802b4d7d9252e1e13393902ed8057a12a93e95db5e6640099c6ab70fcdb4cc"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "740f74b5e20fe2cd03e778a294d89c9616e0c97df415227410dc8fc9a0047da5"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "87441b8e79c68aca3bf8027a15fbb811514be4de0d263c394b617bd6e598e946"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "ae91cedf4a80c89b723ee4165b714ed0a2dca92339d559994f309c9cf936d8d5"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "b1374fda9375db28cf51b96b3b099c3cf9fb279b705d49fef8f9c1df5541ed05"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "461e1785f19ef11fa81ef725ba48d0b51952cbac7e86b3355b65c23d26246b7c"
+        }
+      ],
+      "usage_delta": {
+        "calls": 24,
+        "total_tokens": 24564
+      },
+      "wall_s": 31.32
+    },
+    {
+      "task_id": 2,
+      "scenario": "evacuation_north_hill",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "North Hill",
+      "possible_answers": [
+        "West City",
+        "East Town",
+        "North Hill"
+      ],
+      "seed": 12026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "rationale": "East Town is inaccessible due to the stuck truck in the tunnel, and North Hill's walking trails are blocked by mudslides which endangers vulnerable villagers; West City remains accessible via bridge and offers fully stocked hotels."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "rationale": "West City is inaccessible due to the fire blocking traffic, and North Hill's walking trails are blocked by a mudslide, leaving East Town as the only viable option with confirmed accommodations and volunteer assistance."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "East Town",
+          "rationale": "West City is too risky due to the river level being just below the bridge, and North Hill's walking trails are blocked by a mudslide, making it inaccessible for those who cannot drive; East Town offers a safe tunnel route and confirmed accommodations with volunteer assistance."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "East Town",
+          "rationale": "The dam release makes the West City bridge dangerous, and the mudslide blocks the walking trails to North Hill which are essential for elderly and children; East Town's tunnel is on middle ground and offers confirmed accommodations with volunteer assistance."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: West City\nYour initial rationale was: East Town is inaccessible due to the stuck truck in the tunnel, and North Hill's walking trails are blocked by mudslides which endangers vulnerable villagers; West City remains accessible via bridge and offers fully stocked hotels.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: West City is inaccessible due to the fire blocking traffic, and North Hill's walking trails are blocked by a mudslide, leaving East Town as the only viable option with confirmed accommodations and volunteer assistance.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: West City is too risky due to the river level being just below the bridge, and North Hill's walking trails are blocked by a mudslide, making it inaccessible for those who cannot drive; East Town offers a safe tunnel route and confirmed accommodations with volunteer assistance.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: East Town\nYour initial rationale was: The dam release makes the West City bridge dangerous, and the mudslide blocks the walking trails to North Hill which are essential for elderly and children; East Town's tunnel is on middle ground and offers confirmed accommodations with volunteer assistance.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "rationale": "Based on the verified facts, East Town's tunnel is blocked by a stuck truck and North Hill's walking trails are impassable due to mudslides, making West City the only accessible route for all villagers, including those who cannot drive."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "rationale": "West City is inaccessible due to the fire blocking traffic, and North Hill's walking trails are blocked by a mudslide, making East Town the only viable option with confirmed accommodations and volunteer assistance for vulnerable villagers."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "East Town",
+          "rationale": "East Town is the only safe and accessible option, as West City's bridge is at risk from rising water and North Hill's trails are blocked by mudslides, making it inaccessible for vulnerable villagers; East Town offers a safe tunnel route and confirmed volunteer assistance."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "East Town",
+          "rationale": "East Town is the only safe and accessible option, as the dam release threatens the West City bridge and the mudslide blocks North Hill's trails for vulnerable residents, while East Town offers confirmed volunteer assistance."
+        }
+      ],
+      "group_decision": "East Town",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The supply truck headed to the village from East Town was stuck in the tunnel.",
+            "A mudslide just occurred. While the driveway to North Hill remains open, the walking trails are blocked.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym, but it lacks privacy."
+          ],
+          "assigned_hidden_information": [
+            "The supply truck headed to the village from East Town was stuck in the tunnel."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "A massive fire has blocked the supply truck and all other traffic.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "A mudslide just occurred. While the driveway to North Hill remains open, the walking trails are blocked.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym, but it lacks privacy."
+          ],
+          "assigned_hidden_information": [
+            "A massive fire has blocked the supply truck and all other traffic."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym, but it lacks privacy.",
+            "A mudslide just occurred. While the driveway to North Hill remains open, the walking trails are blocked.",
+            "The river level is just below the bridge to West City.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them."
+          ],
+          "assigned_hidden_information": [
+            "The river level is just below the bridge to West City."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "The dam upstream will release water in a minute.",
+            "A mudslide just occurred. While the driveway to North Hill remains open, the walking trails are blocked.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym, but it lacks privacy.",
+            "The mayor of East Town has offered accommodations for any evacuees. She also ensures that volunteers are available to assist them."
+          ],
+          "assigned_hidden_information": [
+            "The dam upstream will release water in a minute."
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "ranking": [
+            "West City",
+            "North Hill",
+            "East Town"
+          ],
+          "rationale": "West City is the only location with a fully accessible route for all villagers, including those who cannot walk long distances, as East Town's tunnel is blocked and North Hill's trails are impassable due to mudslides."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "East Town",
+          "ranking": [
+            "East Town",
+            "North Hill",
+            "West City"
+          ],
+          "rationale": "East Town is the only fully accessible route with confirmed accommodations and volunteer assistance, whereas West City is blocked by fire and North Hill's trails are impassable due to mudslides."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "East Town",
+          "ranking": [
+            "East Town",
+            "West City",
+            "North Hill"
+          ],
+          "rationale": "East Town is the safest option as the tunnel route is accessible and the mayor has confirmed volunteer assistance for vulnerable villagers. West City is risky due to the river level being just below the bridge, and North Hill is inaccessible for those who cannot drive because the walking trails are blocked by a mudslide."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "East Town",
+          "ranking": [
+            "East Town",
+            "North Hill",
+            "West City"
+          ],
+          "rationale": "East Town is the only safe and accessible option with volunteer support for vulnerable residents, as West City's bridge is threatened by the dam release and North Hill's trails are blocked by mudslides."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "c193c896207cf20182b28e27fa58cca618fea45bc9bd04db54c4dd25c5d6eb2d"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "ac05af3c802fd89deed7db59374d112e4d73097716ec98483e8259bb9e9f9106"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "7d1ba7232407eb2b4897f045f669e1787fc9981f7a407c86b9e8959c424866d8"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "76ee715cb66c9eb1438fdf0cb9bec029eb43d1b8582f2ffb8a36ef6028c51b9f"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "84b4bec84c604638b6811ef382d2cd69a81ee57fa303d5b293af28f75cc7f7c1"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "5a167ea37d4dbbaa57c93bcf1c170bfd024ca8005b396220831e0332201d70ec"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "7ef44c950b81db11103a0a03ef225c25eee34b58e40d09086343ebce77351fe2"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "5b3377771e080e1896874548ab2640462c66b52cca0237b249c15f884406fe90"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "fb9a7c976b99b4ba6e611e43b77cfd3786a1acc3c6a9945a9d6f80b67aada025"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "ee2c3e717a0e8fc70bae0e29e00bd32b1f4732583ed6981740122be3efc23421"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "33c76efdc62daf81552aaf503e35a17163032ebc22b7f846d1d78d7472704399"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "f7ac04d60ccdd09b321c09fab8de5a0bd209016ce08a2b9c1cdc5b3aded24468"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "0341a6f7cf0efde03b57800634835471182fa9a671e8679a84e21f8b258297ef"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "c8fb97fe2abf4c4c66d8f0cdbad9bf26209e053725370b79e19a7447c10a0ca4"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "e3115abefc13d5596959b94640d431311419ceab5aee5b46fad8c23464236b1e"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "4cafd6f15bc31bb7fce22223b5efe3b86f14c32469ceef89a2c788c8396908ec"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "94e611527dc90d810c5bb1a170b6ab3ac31d32ea81305370aebd771b77eec9c7"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "3d1b586c556abf537f940fb88848ae5507558bd1d0510c45056bbdaf755c5cdf"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "1368281624d3b49d11438585702f710362b3d40abc597ef87a9882f9b5c1815f"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "ac4323634309e9fb3b9a5da29f1af78d134a4a2bfa99abfb838e29c35fb1f70e"
+        }
+      ],
+      "usage_delta": {
+        "calls": 24,
+        "total_tokens": 25914
+      },
+      "wall_s": 34.8
+    },
+    {
+      "task_id": 3,
+      "scenario": "evacuation_east_town",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 4,
+      "correct_answer": "East Town",
+      "possible_answers": [
+        "West City",
+        "East Town",
+        "North Hill"
+      ],
+      "seed": 22026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "rationale": "North Hill is inaccessible due to closed trails, and East Town has a volunteer shortage; West City offers accessible hotels with full supplies."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "West City",
+          "rationale": "North Hill is inaccessible due to a mudslide, and East Town has volunteer shortages; West City offers fully stocked hotels with medical supplies, making it the safest and most prepared option."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "North Hill",
+          "rationale": "The dam release makes the river bridge to West City dangerous, and East Town is likely compromised by the delayed supply truck and volunteer shortage; North Hill offers a safe, self-sufficient evacuation center."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "North Hill",
+          "rationale": "West City is risky due to the river level near the bridge, and East Town has volunteer shortages; North Hill offers a self-sufficient school shelter with supplies and safer terrain for vulnerable villagers."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: West City\nYour initial rationale was: North Hill is inaccessible due to closed trails, and East Town has a volunteer shortage; West City offers accessible hotels with full supplies.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: West City\nYour initial rationale was: North Hill is inaccessible due to a mudslide, and East Town has volunteer shortages; West City offers fully stocked hotels with medical supplies, making it the safest and most prepared option.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: North Hill\nYour initial rationale was: The dam release makes the river bridge to West City dangerous, and East Town is likely compromised by the delayed supply truck and volunteer shortage; North Hill offers a safe, self-sufficient evacuation center.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Your initial vote was: North Hill\nYour initial rationale was: West City is risky due to the river level near the bridge, and East Town has volunteer shortages; North Hill offers a self-sufficient school shelter with supplies and safer terrain for vulnerable villagers.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 4",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "rationale": "West City is the only option with confirmed accessible accommodations and full supplies, whereas North Hill's trails are closed due to fallen trees and East Town faces a volunteer shortage."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "West City",
+          "rationale": "North Hill is inaccessible due to a mudslide covering the driveway, and East Town has a volunteer shortage; West City offers fully stocked hotels with medical supplies and no reported access issues, making it the safest and most prepared option."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "North Hill",
+          "rationale": "The imminent dam release makes the river bridge to West City dangerously unsafe, and East Town is compromised by volunteer shortages and the delayed supply truck; North Hill offers a safe, self-sufficient school shelter with two weeks of supplies, making it the only viable option for our vulnerable villagers."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "North Hill",
+          "rationale": "North Hill is the correct choice because the school provides a self-sufficient evacuation center with two weeks of supplies, which is critical given the delayed supply truck from East Town and the volunteer shortages there, while West City's bridge is risky due to high river levels."
+        }
+      ],
+      "group_decision": "West City",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "The walking trails have been closed since last weekend due to fallen trees.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The supply truck was supposed to come from East Town.",
+            "The mayor of East Town has offered accommodations for any evacuees. However, she has expressed concern about a possible shortage of volunteers to assist them.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym."
+          ],
+          "assigned_hidden_information": [
+            "The walking trails have been closed since last weekend due to fallen trees."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "The mayor of East Town has offered accommodations for any evacuees. However, she has expressed concern about a possible shortage of volunteers to assist them.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "A mudslide just occurred, covering the driveway to North Hill.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The supply truck was supposed to come from East Town."
+          ],
+          "assigned_hidden_information": [
+            "A mudslide just occurred, covering the driveway to North Hill."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies.",
+            "The supply truck was supposed to come from East Town.",
+            "The dam upstream will release water in a minute.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The mayor of East Town has offered accommodations for any evacuees. However, she has expressed concern about a possible shortage of volunteers to assist them."
+          ],
+          "assigned_hidden_information": [
+            "The dam upstream will release water in a minute."
+          ]
+        },
+        {
+          "agent": "Person 4",
+          "visible_facts": [
+            "The river level is just below the bridge to West City.",
+            "The supply truck was supposed to come from East Town.",
+            "The school at North Hill can serve as a temporary evacuation center, providing a two-week supply of essentials and sleeping space in the gym.",
+            "The mayor of East Town has offered accommodations for any evacuees. However, she has expressed concern about a possible shortage of volunteers to assist them.",
+            "The local government announced that hotels in West City are prepared to accommodate evacuees. These hotels are fully stocked with food and medical supplies."
+          ],
+          "assigned_hidden_information": [
+            "The river level is just below the bridge to West City."
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "West City",
+          "ranking": [
+            "West City",
+            "East Town",
+            "North Hill"
+          ],
+          "rationale": "West City is the only option with confirmed accessible accommodations and full supplies, whereas North Hill trails are closed and East Town faces a volunteer shortage."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "West City",
+          "ranking": [
+            "West City",
+            "East Town",
+            "North Hill"
+          ],
+          "rationale": "West City is the only option with confirmed, fully stocked accommodations and no reported access issues, whereas North Hill is blocked by a mudslide and East Town has volunteer shortages."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "North Hill",
+          "ranking": [
+            "North Hill",
+            "East Town",
+            "West City"
+          ],
+          "rationale": "The dam release makes West City's bridge dangerous, and East Town has a volunteer shortage; North Hill offers a safe, self-sufficient school shelter."
+        },
+        {
+          "agent": "Person 4",
+          "vote": "North Hill",
+          "ranking": [
+            "North Hill",
+            "West City",
+            "East Town"
+          ],
+          "rationale": "North Hill is the safest option because the school is self-sufficient with two weeks of supplies, which is critical since the supply truck has not arrived, and it avoids the bridge risks at West City and volunteer shortages in East Town."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "0c58261569039d4f8fc6d8df1026a1542f3743901b13e2690eb7461425b7156a"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "3d389210c3bc45dd5a10ba694992ff559f888d761542a208f74d4bcfd7625225"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "8dbc2ae9eb77675f6c1fc688011f27a992652993038e0f1eeeb153f77b1d9608"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "3054808b2842079b350a9bfb1bfba94d7d9377fbba5595b8a06ce671585a7943"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "5cd861d2f6f363cf8c6d3693eef8b5cf520a1a47eb70410503017728aa66f6f7"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "d0d863445d68ffe197453c98a4057261b0dc9216fab01f500cc10fabf8c43322"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "e69bbeebc7bde5ee7c56cb94c2b3813eafcd51702574e760dd2601b1eeb2cf50"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "4d5b191c8bae135ac82cd8ef8f418230f8eb03ce3615934416de4530c3f539bb"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "2cf3052868374978ecc09fc108080761dab01da5a6d387faab77243836ae7486"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "70af4c90f7109d60d4f9f91fe76de65903bd1d52f5cc46487cc99ac460288135"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "8c4db62b4d5f5691b02f07ce05fe5478e519d181b753e1a2db679abc1e13ba48"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "d0b33a00c327b20295527fb466c21d48526e789ff5769573b9e5bfad18f66843"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "25f87e575ae42c0a7ba985da9c820b20cf3448d9c9a8c61f0d6cc447f3829437"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "146eb62cd12e56b238f32e311444f508d99249f4faaa24dbb9abdf7f1344e976"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "acf8e85918bb8c1efc6aec587b76d93328307e336afd6f16b00ac5713ec7d4fe"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "eafab49a264939527e2ad8568cee22c87a6db5234bba9565492234bb577d277f"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "9001aa58b5215c275d3396e2a25382bc4fa6ae89962232b3993685d2b1d024ad"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "b90d28e649803b9e970aa38f7289450c96e0191563b906617d743c2e703f1e56"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "57e8352fe1c16b012214ccab7e9eda5b69e8378bc65efab72d7b6efef32f83a3"
+        },
+        {
+          "agent_id": "Person 4",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "dba5b7a0ebddd69a241c8f76b07fb598fbda7c93056668320569f0e74983fb27"
+        }
+      ],
+      "usage_delta": {
+        "calls": 24,
+        "total_tokens": 24629
+      },
+      "wall_s": 34.54
+    },
+    {
+      "task_id": 4,
+      "scenario": "toma_butera_2009",
+      "arm": "escrow",
+      "profile": "hidden",
+      "model": "default",
+      "num_agents": 3,
+      "correct_answer": "Mr. X's son",
+      "possible_answers": [
+        "Mr. X",
+        "Mr. X's son",
+        "Mrs. Y",
+        "Mr. Z"
+      ],
+      "seed": 32026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Mrs. Y",
+          "rationale": "Mrs. Y is the only suspect who fits all criteria: she is under 30, has limited experience (1 year license), and her damaged lights explain why she did not see others in the poorly lit intersection."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mr. X",
+          "rationale": "Fact 4 states the guilty person is male ('he') and was in a car with alcohol, which matches Mr. X (drunk, driving) but excludes Mrs. Y (female), Mr. Z (motorcycle), and the son (no alcohol mentioned)."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mr. X's son",
+          "rationale": "Fact 1 states the guilty person is a man whose father is indirectly responsible; Mr. X (the father) was drunk, making him indirectly responsible, which points to his son as the direct perpetrator."
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Your initial vote was: Mrs. Y\nYour initial rationale was: Mrs. Y is the only suspect who fits all criteria: she is under 30, has limited experience (1 year license), and her damaged lights explain why she did not see others in the poorly lit intersection.\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Your initial vote was: Mr. X\nYour initial rationale was: Fact 4 states the guilty person is male ('he') and was in a car with alcohol, which matches Mr. X (drunk, driving) but excludes Mrs. Y (female), Mr. Z (motorcycle), and the son (no alcohol mentioned).\n\nYou are the first to speak.\n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Your initial vote was: Mr. X's son\nYour initial rationale was: Fact 1 states the guilty person is a man whose father is indirectly responsible; Mr. X (the father) was drunk, making him indirectly responsible, which points to his son as the direct perpetrator.\n\nYou are the first to speak.\n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "packets": [
+            {
+              "agent": "Person 1",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 2",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            },
+            {
+              "agent": "Person 3",
+              "prompt": "Previous messages from other people:\n(Escrow protocol: statements from other agents are held in escrow and are NOT visible before the reveal phase. Write your evidence packet now; it will be recorded and revealed only at the end.) Your earlier packets are in your private history.\nIt is your turn to speak. \n",
+              "committed": true
+            }
+          ]
+        }
+      ],
+      "final_votes": [
+        {
+          "agent": "Person 1",
+          "vote": "Mrs. Y",
+          "rationale": "Mrs. Y is the only suspect who satisfies all conditions: she is under 30, has limited experience (1 year license), and her damaged lights explain why she did not see others in the poorly lit intersection."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mr. X",
+          "rationale": "Fact 4 explicitly states the guilty person is male ('he'), driving a car, and had a BAC of 1.5. Mr. X is the only suspect who fits all these criteria: he is male, was driving a car, and was intoxicated. Mrs. Y is female, Mr. Z was on a motorcycle, and there is no evidence the son was drinking or that he was the one with the high BAC."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mr. X's son",
+          "rationale": "Fact 1 states the guilty person is a man whose father is indirectly responsible; Mr. X was drunk, making him indirectly responsible, which points to his son as the direct perpetrator driving at 110 km/h."
+        }
+      ],
+      "group_decision": "Mrs. Y",
+      "completed": true,
+      "failure": null,
+      "fact_assignments": [
+        {
+          "agent": "Person 1",
+          "visible_facts": [
+            "On the motorcycle, Mr. Z, 28 years old, who has held a driving license for 5 years, is going to meet his sick father who asked him to come rapidly. He is speeding on the N13 road.",
+            "The guilty person is less than 30 years old. Due to inexperience, the guilty person wasn't able to avoid the collision. The guilty person claims that he or she did not see others approaching the intersection.",
+            "In the first car, Mr. X—who is 53 years old and has held a driving license for 30 years—and his 17-year-old son return home. The father had just drunk several glasses of spirits during a dinner with his friends.",
+            "In the second car, Mrs. Y, 27 years old and having held a driving license for only 1 year, is going shopping. Her car's lights are damaged."
+          ],
+          "assigned_hidden_information": [
+            "The guilty person is less than 30 years old. Due to inexperience, the guilty person wasn't able to avoid the collision. The guilty person claims that he or she did not see others approaching the intersection."
+          ]
+        },
+        {
+          "agent": "Person 2",
+          "visible_facts": [
+            "In the first car, Mr. X—who is 53 years old and has held a driving license for 30 years—and his 17-year-old son return home. The father had just drunk several glasses of spirits during a dinner with his friends.",
+            "On the motorcycle, Mr. Z, 28 years old, who has held a driving license for 5 years, is going to meet his sick father who asked him to come rapidly. He is speeding on the N13 road.",
+            "In the second car, Mrs. Y, 27 years old and having held a driving license for only 1 year, is going shopping. Her car's lights are damaged.",
+            "The guilty person is driving a car. During police inspection, the guilty car owner was discovered to have a 1.5 level of alcohol. The guilty person admits that he was inattentive at the time of the collision."
+          ],
+          "assigned_hidden_information": [
+            "The guilty person is driving a car. During police inspection, the guilty car owner was discovered to have a 1.5 level of alcohol. The guilty person admits that he was inattentive at the time of the collision."
+          ]
+        },
+        {
+          "agent": "Person 3",
+          "visible_facts": [
+            "The guilty person is a man. His father is indirectly responsible for the accident. The guilty person was driving at 110 km/h.",
+            "In the second car, Mrs. Y, 27 years old and having held a driving license for only 1 year, is going shopping. Her car's lights are damaged.",
+            "In the first car, Mr. X—who is 53 years old and has held a driving license for 30 years—and his 17-year-old son return home. The father had just drunk several glasses of spirits during a dinner with his friends.",
+            "On the motorcycle, Mr. Z, 28 years old, who has held a driving license for 5 years, is going to meet his sick father who asked him to come rapidly. He is speeding on the N13 road."
+          ],
+          "assigned_hidden_information": [
+            "The guilty person is a man. His father is indirectly responsible for the accident. The guilty person was driving at 110 km/h."
+          ]
+        }
+      ],
+      "commitments": [
+        {
+          "agent": "Person 1",
+          "vote": "Mrs. Y",
+          "ranking": [
+            "Mrs. Y",
+            "Mr. Z",
+            "Mr. X's son",
+            "Mr. X"
+          ],
+          "rationale": "Mrs. Y is the only suspect under 30 with limited experience (1 year license) and damaged lights that explain her failure to see others in the poorly lit intersection."
+        },
+        {
+          "agent": "Person 2",
+          "vote": "Mr. X",
+          "ranking": [
+            "Mr. X",
+            "Mrs. Y",
+            "Mr. Z",
+            "Mr. X's son"
+          ],
+          "rationale": "Fact 4 identifies the perpetrator as a male car driver with a BAC of 1.5, which uniquely matches Mr. X."
+        },
+        {
+          "agent": "Person 3",
+          "vote": "Mr. X's son",
+          "ranking": [
+            "Mr. X's son",
+            "Mr. Z",
+            "Mr. X",
+            "Mrs. Y"
+          ],
+          "rationale": "Fact 1 identifies the guilty person as a man whose father is indirectly responsible; Mr. X was drunk, making him indirectly responsible for his son's actions, and the son fits the male driver profile."
+        }
+      ],
+      "pre_reveal_digest": [
+        {
+          "agent_id": "Person 1",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "8603ff2c938bee359b771f4049df2527078778591cb48e7b533037e9ccf66f6e"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "a64c0ff099471d8295912384f79a62b7b2aade4035e7c9a5a17a0b967f177326"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "initial_vote",
+          "round": 0,
+          "commitment_sha256": "37a3ffd0696bcbbf194c5737a0c7e1e4ed166b1f70fb2685946bb6894daf3ef0"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "e765e0a0c3f7941c35ea8765d4daeb5255523f477552ff254609407b30d27359"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "0af29b49a0b5e1b625056dac1a2e8ffe33643d639cc570fed00a909d7d642e24"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 1,
+          "commitment_sha256": "529601dbdf3dca6fc054642b4bc1b993e94e0ff381a08b0cc79e097fe21a3738"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "8301b37f080a328b83862cf1eee063ce5608a315240d3cba89a6ed18d8a2d428"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "32b9d26ff9a504e5173e14ed0b231bfdef76ea24a08e0f0023e8e14e355e17da"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 2,
+          "commitment_sha256": "554fbd3b39df413f325c091323366badc4f1a96d9f4d5fb3d336fa3eb857c597"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "98c1d130dabebb2f43eaa565fed5549dda85f5b06a9e52e35247442098dbf35f"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "3b525da1789be173df13340f00662bf13486843927f11391019cb2363c5e8103"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "evidence_packet",
+          "round": 3,
+          "commitment_sha256": "f2a636a3ce0b508400f8d0f6a0d681ff1a199f4ca07e176d704260b37b8711f8"
+        },
+        {
+          "agent_id": "Person 1",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "6c9a87305843c302a18f078db44325d2ef7ccd57f6e50dce292684ad5ba484b3"
+        },
+        {
+          "agent_id": "Person 2",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "81886e580d8e921a6463af5a3f1fc80b30f539e8d3c73e4630e65092e87b6067"
+        },
+        {
+          "agent_id": "Person 3",
+          "kind": "ranked_commitment",
+          "round": 4,
+          "commitment_sha256": "13542fbc2ec2d6dc6b3812fef246cdcd22856739d593863f1bbb45c2a113a8d1"
+        }
+      ],
+      "usage_delta": {
+        "calls": 18,
+        "total_tokens": 17159
+      },
+      "wall_s": 25.78
+    }
+  ]
+}

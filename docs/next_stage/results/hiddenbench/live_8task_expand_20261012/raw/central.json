@@ -1,0 +1,321 @@
+{
+  "arm": "central",
+  "model": "default",
+  "seed": 2026,
+  "rounds": 3,
+  "runs": [
+    {
+      "task_id": 5,
+      "scenario": "baker_2010",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "Roberts",
+      "possible_answers": [
+        "Stevens",
+        "Roberts",
+        "Jones"
+      ],
+      "seed": 2026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Roberts",
+          "rationale": "Roberts is the only candidate with a strong track record in fundraising (campaign and grants), relevant academic leadership experience as a Dean, and evidence of collaborative governance and diversity initiatives, whereas Stevens has significant ethical concerns (drinking) and innovation issues, and Jones lacks higher education administrative experience and has a negative leadership reputation."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Roberts",
+          "rationale": "Roberts is the only candidate with a strong track record in fundraising (campaign and grants), relevant academic leadership experience as a Dean, and evidence of collaborative governance and diversity initiatives, whereas Stevens has significant ethical concerns (drinking) and innovation issues, and Jones lacks higher education administrative experience and has a negative leadership reputation."
+        }
+      ],
+      "group_decision": "Roberts",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 1940
+      },
+      "wall_s": 2.25
+    },
+    {
+      "task_id": 6,
+      "scenario": "schulz_hardt_mojzisch_2012",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "Candidate C",
+      "possible_answers": [
+        "Candidate A",
+        "Candidate B",
+        "Candidate C",
+        "Candidate D"
+      ],
+      "seed": 12026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Candidate C",
+          "rationale": "Candidate C possesses the critical combination of quick decision-making, stress management, and crew cohesion, which are essential for long-distance flights, whereas other candidates have significant reliability or leadership deficits."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Candidate C",
+          "rationale": "Candidate C possesses the critical combination of quick decision-making, stress management, and crew cohesion, which are essential for long-distance flights, whereas other candidates have significant reliability or leadership deficits."
+        }
+      ],
+      "group_decision": "Candidate C",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 810
+      },
+      "wall_s": 1.44
+    },
+    {
+      "task_id": 7,
+      "scenario": "graetz_et_al_1998",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "Starlight Incorporated",
+      "possible_answers": [
+        "Franklin Enterprises",
+        "Starlight Incorporated",
+        "Cape Industries"
+      ],
+      "seed": 22026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Franklin Enterprises",
+          "rationale": "Franklin Enterprises is the only proposal that meets all 10 criteria, whereas Starlight and Cape Industries both fail to meet multiple critical requirements."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Franklin Enterprises",
+          "rationale": "Franklin Enterprises is the only proposal that meets all 10 criteria, whereas Starlight and Cape Industries both fail to meet multiple critical requirements."
+        }
+      ],
+      "group_decision": "Franklin Enterprises",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 1175
+      },
+      "wall_s": 1.55
+    },
+    {
+      "task_id": 8,
+      "scenario": "Stasser_Stewart_1992",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "Eddie Sullivan",
+      "possible_answers": [
+        "Eddie Sullivan",
+        "Billy Prentice",
+        "Mickey Malone"
+      ],
+      "seed": 32026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Mickey Malone",
+          "rationale": "Security footage places Mickey at a café from 6:30 to 6:45 AM, which is inconsistent with his claim of picking Guion up for golf (as it takes >15 mins to drive to the course and the house is in the opposite direction), giving him both the motive (threatened business support) and the opportunity to be at the scene during the time of death."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Mickey Malone",
+          "rationale": "Security footage places Mickey at a café from 6:30 to 6:45 AM, which is inconsistent with his claim of picking Guion up for golf (as it takes >15 mins to drive to the course and the house is in the opposite direction), giving him both the motive (threatened business support) and the opportunity to be at the scene during the time of death."
+        }
+      ],
+      "group_decision": "Mickey Malone",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 894
+      },
+      "wall_s": 2.86
+    },
+    {
+      "task_id": 9,
+      "scenario": "critical_hospital_transfer",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "Hospital A",
+      "possible_answers": [
+        "Hospital A",
+        "Hospital B",
+        "Hospital C"
+      ],
+      "seed": 42026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Hospital A",
+          "rationale": "Hospital B is inaccessible due to a landslide and lacks critical care beds, while Hospital C has no available ICU capacity due to equipment failure; Hospital A is the only viable option as its route is confirmed safe and it retains general capability despite smaller size."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Hospital A",
+          "rationale": "Hospital B is inaccessible due to a landslide and lacks critical care beds, while Hospital C has no available ICU capacity due to equipment failure; Hospital A is the only viable option as its route is confirmed safe and it retains general capability despite smaller size."
+        }
+      ],
+      "group_decision": "Hospital A",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 663
+      },
+      "wall_s": 1.65
+    },
+    {
+      "task_id": 10,
+      "scenario": "emergency_supply_drop",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "Warehouse C",
+      "possible_answers": [
+        "Warehouse A",
+        "Warehouse B",
+        "Warehouse C"
+      ],
+      "seed": 52026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Warehouse C",
+          "rationale": "Warehouse A is inaccessible due to a collapsed bridge and blocked approach, while Warehouse B poses a health risk from rising noxious gases; Warehouse C is the only safe option with confirmed open roads leading directly to temporary shelters."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Warehouse C",
+          "rationale": "Warehouse A is inaccessible due to a collapsed bridge and blocked approach, while Warehouse B poses a health risk from rising noxious gases; Warehouse C is the only safe option with confirmed open roads leading directly to temporary shelters."
+        }
+      ],
+      "group_decision": "Warehouse C",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 655
+      },
+      "wall_s": 1.44
+    },
+    {
+      "task_id": 11,
+      "scenario": "emergency_conference_relocation",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "School Gym",
+      "possible_answers": [
+        "City Library",
+        "Community Center",
+        "School Gym"
+      ],
+      "seed": 62026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "School Gym",
+          "rationale": "The Community Center is unsafe due to a chemical leak, and the City Library's generator fuel is insufficient for the day given the heat; the School Gym offers air conditioning and confirmed restroom availability within the deadline."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "School Gym",
+          "rationale": "The Community Center is unsafe due to a chemical leak, and the City Library's generator fuel is insufficient for the day given the heat; the School Gym offers air conditioning and confirmed restroom availability within the deadline."
+        }
+      ],
+      "group_decision": "School Gym",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 654
+      },
+      "wall_s": 1.83
+    },
+    {
+      "task_id": 12,
+      "scenario": "evacuate_park_dilemma",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "Green Valley",
+      "possible_answers": [
+        "Blueberry Ridge",
+        "Green Valley",
+        "Red Lake"
+      ],
+      "seed": 72026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Green Valley",
+          "rationale": "Red Lake is inaccessible due to a sinkhole closing the only road, and Blueberry Ridge is cut off by a collapsed bridge with no power; Green Valley remains open for evacuations despite the pest warning, which does not apply to emergency use."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Green Valley",
+          "rationale": "Red Lake is inaccessible due to a sinkhole closing the only road, and Blueberry Ridge is cut off by a collapsed bridge with no power; Green Valley remains open for evacuations despite the pest warning, which does not apply to emergency use."
+        }
+      ],
+      "group_decision": "Green Valley",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 685
+      },
+      "wall_s": 1.94
+    }
+  ]
+}
