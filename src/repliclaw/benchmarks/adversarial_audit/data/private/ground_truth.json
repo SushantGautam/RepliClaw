@@ -1,0 +1,57 @@
+{
+  "schema": "adversarial_audit/ground_truth/v1",
+  "dataset_id": "adversarial_audit_rx441/v1",
+  "evaluator_only": true,
+  "note": "EVALUATOR-ONLY. Never expose this file (or its content) to investigators/agents. The public evidence loader (data.py) does not read this file.",
+  "answers": [
+    {
+      "claim_id": "C1",
+      "answer": "FALSE",
+      "correct_conclusion": "The bioavailability increase is approximately 15% (90% CI 1.08-1.22), not 40%.",
+      "rationale": "The 40% figure originates from an underpowered n=6 pilot (D1) with no confidence interval, echoed by the vendor's re-analysis of the same 6-subject data (B3). The properly powered n=24 crossover study (A1) reports a 15% increase whose 90% CI (1.08-1.22) excludes 1.40. A careful auditor weights the powered, CI-bearing study over the small-N point estimate and rejects the 40% claim.",
+      "required_artifacts": ["A1", "D1"]
+    },
+    {
+      "claim_id": "C2",
+      "answer": "TRUE",
+      "correct_conclusion": "RX-441 is stable at 25C/60% RH over 6 months; D-2 is 0.18%, below the 0.5% threshold.",
+      "rationale": "Two reports conflict: the in-house validated ICH method (A3) measures D-2 at 0.18% (below threshold), while the vendor (B1) reports 0.7% (above threshold) using method ST-HPLC-7, which has NO formal validation on file. The unvalidated method is a visible red flag; the validated in-house result stands, so the product is stable as claimed.",
+      "required_artifacts": ["A3", "B1"]
+    },
+    {
+      "claim_id": "C3",
+      "answer": "FALSE",
+      "correct_conclusion": "Storage temperature is not the cause of potency loss; the temperature-potency association is confounded by batch age.",
+      "rationale": "The quoted correlation (D2, r=0.85) is confounded: warmer-stored batches were also older (9 vs 4 months mean age), and no age-matched design was used. The controlled in-house study (A4) holding batch age constant finds no significant temperature effect (p=0.71). Correlation without confounder control does not establish causation; the claim is false.",
+      "required_artifacts": ["A4", "D2"]
+    },
+    {
+      "claim_id": "C4",
+      "answer": "TRUE",
+      "correct_conclusion": "The new granulation process reduces batch-to-batch CV from 8.2% to 3.1%.",
+      "rationale": "Process engineering (C1) reports CV dropping from 8.2% (old) to 3.1% (new) over 12 batches each; the old-process baseline logs (C2) corroborate the 8.2% figure, and independent QC batch logs (A5) corroborate the 3.1% new-process figure. A peer-reviewed study of similar APIs (D3) supports the mechanism. Multiple concordant sources confirm the variability reduction.",
+      "required_artifacts": ["C1", "C2", "A5"]
+    },
+    {
+      "claim_id": "C5",
+      "answer": "FALSE",
+      "correct_conclusion": "The vendor chamber is NOT more reliable; its '99.9% uptime' is an artifact of a flawed measurement window and a miscalibrated sensor.",
+      "rationale": "The vendor's reliability claim (B2) is computed from business-hours-only readings (excluding nights/weekends) and used a sensor that drifted +1.8C and was unrecalibrated for 5 months. The in-house chamber (A6) has full 24/7 ISO 17025-calibrated logging with only 2 minor excursions in 6 months. The vendor's methodology is visibly flawed, so the 'more reliable' claim is false.",
+      "required_artifacts": ["A6", "B2"]
+    },
+    {
+      "claim_id": "C6",
+      "answer": "FALSE",
+      "correct_conclusion": "The cost reduction is approximately 9%, not 25%; the 25% figure double-counts a shared overhead.",
+      "rationale": "The cost model (C3) attributes 100% of the shared solvent-recovery line's $1.2M cost to RX-441 under the old process, without the standard allocation factor across the three products that share it. Quoted cost-accounting guidance (D4) states shared infrastructure must be allocated, and that 100% attribution systematically overstates apparent savings. Correcting the allocation yields roughly a 9% reduction, not 25%.",
+      "required_artifacts": ["C3", "D4"]
+    },
+    {
+      "claim_id": "C7",
+      "answer": "TRUE",
+      "correct_conclusion": "Pilot-scale potency (mean 99.7%, range 98.9-100.4%) is consistent with lab-scale potency (mean 99.5%).",
+      "rationale": "Lab-scale potency (A7) averages 99.5% across 5 batches; pilot-scale potency (C4) averages 99.7% across 3 batches, with all values within the 98-102% spec and overlapping the lab range. The two scales agree, so the pilot data confirms the lab-scale potency results.",
+      "required_artifacts": ["A7", "C4"]
+    }
+  ]
+}
