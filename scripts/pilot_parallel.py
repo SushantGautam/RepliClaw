@@ -172,9 +172,22 @@ def cmd_run(args: argparse.Namespace) -> int:
     # the first N DISTINCT cases here (intuitive), unlike the sequential
     # driver's row-projection quirk — the parallel driver is the surface
     # for the live round-4 run, so the semantics are made unambiguous.
-    case_ids = sorted({row["case"] for row in pr.build_plan()})
-    if args.max_cases is not None:
-        case_ids = case_ids[: args.max_cases]
+    all_case_ids = sorted({row["case"] for row in pr.build_plan()})
+    if getattr(args, "cases", None):
+        # Explicit case filter (comma-separated). Must be a subset of the
+        # frozen roster; rejects unknown IDs. Used for heldout rounds that
+        # target specific cases (e.g., RCA-P-08,09,10).
+        requested = [c.strip() for c in args.cases.split(",") if c.strip()]
+        unknown = [c for c in requested if c not in all_case_ids]
+        if unknown:
+            print(f"ERROR: unknown case IDs: {unknown}. Valid: {all_case_ids}",
+                  file=sys.stderr)
+            return EXIT_REFUSED
+        case_ids = sorted(requested)
+    else:
+        case_ids = all_case_ids
+        if args.max_cases is not None:
+            case_ids = case_ids[: args.max_cases]
 
     code = pr.check_frozen_ids_and_manifest(pr.MANIFEST_PATH)
     if code != EXIT_OK:
@@ -440,6 +453,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--concurrency", type=int, default=6)
     p.add_argument("--fake", action="store_true", help="offline scripted client")
     p.add_argument("--max-cases", type=int, default=None)
+    p.add_argument("--cases", type=str, default=None,
+                   help="Comma-separated explicit case IDs (e.g., RCA-P-08,RCA-P-09)")
     p.add_argument("--no-index", action="store_true")
     p.add_argument("--cases-index", type=str,
                    default=str(pr.DEFAULT_CASES_INDEX))
