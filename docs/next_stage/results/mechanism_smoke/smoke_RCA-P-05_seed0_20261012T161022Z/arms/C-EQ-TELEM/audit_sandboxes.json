@@ -1,0 +1,87 @@
+[
+  {
+    "file_opened_count": 1,
+    "call_log": [
+      {
+        "tool": "submit_diagnosis",
+        "args": {
+          "ranked_services": [
+            "cartservice",
+            "checkoutservice",
+            "emailservice",
+            "paymentservice",
+            "frontend"
+          ]
+        },
+        "wall_ms": 0.011,
+        "payload_bytes": 228
+      }
+    ]
+  },
+  {
+    "file_opened_count": 2,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 7.444,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 12.142,
+        "payload_bytes": 1941
+      }
+    ]
+  },
+  {
+    "file_opened_count": 3,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 7.893,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 18.028,
+        "payload_bytes": 1941
+      },
+      {
+        "tool": "service_logs",
+        "args": {
+          "svc": "cartservice",
+          "k": 50
+        },
+        "wall_ms": 48.148,
+        "payload_bytes": 5236
+      }
+    ]
+  },
+  {
+    "file_opened_count": 2,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 9.703,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 13.16,
+        "payload_bytes": 1941
+      }
+    ]
+  }
+]

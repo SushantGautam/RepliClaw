@@ -510,6 +510,26 @@ class TelemetrySandbox:
     # ------------------------------------------------------------------
     # diagnosis commit
     # ------------------------------------------------------------------
+    def validate_ranking(self, ranked_services: list[str]) -> list[str]:
+        """Normalize + validate a ranking against the case's metric inventory.
+
+        Returns the normalized ranking. Raises :class:`UnknownServiceError`
+        naming the first invalid service. Does NOT commit (the arms use this
+        to check an agent's commit BEFORE the single :meth:`submit_diagnosis`
+        / before escrow, so an invalid commit triggers a bounded correction
+        instead of crashing the run).
+        """
+        if not ranked_services:
+            raise UnknownServiceError("ranked_services must be non-empty")
+        inventory = {normalize_service(s) for s in self._inventory()}
+        normalized: list[str] = []
+        for svc in ranked_services:
+            n = normalize_service(svc)
+            if n not in inventory:
+                raise UnknownServiceError(f"unknown service in diagnosis: {svc!r}")
+            normalized.append(n)
+        return normalized
+
     def submit_diagnosis(self, ranked_services: list[str]) -> dict[str, Any]:
         """Commit the arm's SINGLE ranked diagnosis (service ranking).
 
@@ -521,15 +541,7 @@ class TelemetrySandbox:
         if self._submission is not None:
             raise DiagnosisAlreadyCommitted("diagnosis already committed for this sandbox")
         self._check_budget("submit_diagnosis")
-        if not ranked_services:
-            raise UnknownServiceError("ranked_services must be non-empty")
-        inventory = {normalize_service(s) for s in self._inventory()}
-        normalized: list[str] = []
-        for svc in ranked_services:
-            n = normalize_service(svc)
-            if n not in inventory:
-                raise UnknownServiceError(f"unknown service in diagnosis: {svc!r}")
-            normalized.append(n)
+        normalized = self.validate_ranking(ranked_services)
         payload = {
             "opaque_case_id": self._opaque_id,
             "committed": True,

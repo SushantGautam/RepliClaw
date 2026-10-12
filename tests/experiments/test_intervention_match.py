@@ -6,11 +6,15 @@ same real interface. Six tests, one per ticket item:
 1. ``test_action_menu_byte_identical``   — the tool menu presented to the LLM
    (captured from the messages actually sent on the real serving path) is
    byte-identical across every session of both arms and equals the shared
-   ``TOOL_DOCS + ACTION_PROTOCOL`` canonical block.
+   ``TOOL_DOCS + ACTION_PROTOCOL`` canonical block (mechanism v2: the ONLY
+   disclosed menu difference is the C-EQ manager's batch extension).
 2. ``test_budget_caps_identical``        — both arms enforce the identical
-   total (``MAX_TOOL_CALLS``) and per-tool (``MAX_LOGS_CALLS``) caps with
-   identical exhaustion behavior, driven by a scripted client hammering one
-   tool, plus the identical shared token/wall envelope.
+   shared sandbox total (``MAX_TOOL_CALLS``) and per-tool (``MAX_LOGS_CALLS``)
+   caps with identical exhaustion behavior, driven by a scripted client
+   hammering one tool, plus the identical shared token/wall envelope.
+   (Mechanism v2: D-E additionally bounds each investigator at
+   ``DE_PHASE1_TOOL_CAP`` turns — a designed mechanism difference — and still
+   completes via the forced best-evidence commit.)
 3. ``test_environment_snapshot_identical`` — the same opaque case id resolves
    to the same case dir and byte-identical ``system_context`` /
    ``top_anomalies`` payloads in both arms.
@@ -52,6 +56,9 @@ from repliclaw.experiments.v3.telemetry import (
 )
 from repliclaw.experiments.v3.telemetry_arms import (
     ACTION_PROTOCOL,
+    BATCH_ACTION_PROTOCOL,
+    CEQ_MANAGER_BATCH_MAX,
+    DE_PHASE1_TOOL_CAP,
     MAX_TOKENS_PER_RUN,
     TOOL_DOCS,
     WALL_CAP_S,
@@ -139,25 +146,18 @@ def _sha(payload: Any) -> str:
 
 
 def _de_complete_script() -> Script:
-    p1 = {"inv-a": (_ranking("svc04"), 0.9), "inv-b": (_ranking("svc00"), 0.8), "inv-c": (_ranking("svc01"), 0.7)}
-    p2 = {k: (_ranking("svc04"), 0.95) for k in ("inv-a", "inv-b", "inv-c")}
-    state: dict[str, set] = {"p1_done": set()}
+    """Mechanism v2: one pre-outcome escrow commit per independent
+    investigator (no consultation round), then the committee commit."""
 
     def script(prompt: str, call_index: int) -> str:
         if "Adjudication table" in prompt:
             return _commit(_ranking("svc04"), 0.99)
-        if "Begin your private investigation" in prompt:
+        if "BEST-EVIDENCE COMMIT" in prompt:
+            return _commit(_ranking("svc04"), 0.4)
+        if "Begin your private" in prompt:
             return _tool("system_context")
-        if "Commit-reveal consultation round" in prompt:
-            return _tool("service_metrics", svc="svc00", k=30)
         if "Observation for" in prompt:
-            inv = "inv-a" if "Observation for inv-a" in prompt else (
-                "inv-b" if "Observation for inv-b" in prompt else "inv-c"
-            )
-            first = inv not in state["p1_done"]
-            state["p1_done"].add(inv)
-            rank, conf = (p1 if first else p2)[inv]
-            return _commit(rank, conf)
+            return _commit(_ranking("svc04"), 0.8)
         raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
 
     return script
@@ -235,17 +235,35 @@ def test_action_menu_byte_identical(registry: PilotCaseRegistry, tmp_path: Path)
     for call in [*cap_de.sent, *cap_ceq.sent]:
         assert call[0]["role"] == "system"
         blocks.append(_menu_block(call[0]["content"]))
-    # (a) byte-identical across EVERY session of BOTH arms (canonical JSON form)
+    # Mechanism v2: the ONE designed, disclosed difference in the menu is the
+    # C-EQ manager's batch extension (equivalent parallelism). Every session
+    # must present exactly the shared frozen menu, optionally followed by the
+    # manager-only batch extension and nothing else.
+    base_menu = TOOL_DOCS + "\n\n" + ACTION_PROTOCOL
+    batch_suffix = "\n\n" + BATCH_ACTION_PROTOCOL.format(batch_max=CEQ_MANAGER_BATCH_MAX)
+    cores: list[str] = []
+    for b in blocks:
+        if b == base_menu:
+            cores.append(b)
+        elif b == base_menu + batch_suffix:
+            cores.append(base_menu)
+        else:
+            raise AssertionError(f"unexpected action-menu block (menu drift): {b[-200:]!r}")
+    # (a) byte-identical core menu across EVERY session of BOTH arms
     canonical = {
         json.dumps({"tools": re.findall(r"^- (\w+)\(", b, re.M),
                     "menu_sha256": hashlib.sha256(b.encode("utf-8")).hexdigest()}, sort_keys=True)
-        for b in blocks
+        for b in cores
     }
     assert len(canonical) == 1, f"action menu differs across arms/sessions: {len(blocks)} blocks"
     # (b) equals the shared frozen menu block (no arm-local drift)
-    assert all(b == TOOL_DOCS + "\n\n" + ACTION_PROTOCOL for b in blocks)
+    assert all(b == base_menu for b in cores)
     # (c) advertises exactly the frozen OBS tool set, in order
     assert re.findall(r"^- (\w+)\(", blocks[0], re.M) == EXPECTED_MENU_TOOLS
+    # (d) the batch extension appears ONLY on C-EQ manager sessions
+    for b in blocks:
+        if "tool_calls" in b:
+            assert b == base_menu + batch_suffix
 
 
 # ---------------------------------------------------------------------------
@@ -302,21 +320,29 @@ def test_budget_caps_identical(registry: PilotCaseRegistry, tmp_path: Path) -> N
     assert de.envelope.max_tokens_per_run == MAX_TOKENS_PER_RUN
     assert de.envelope.wall_cap_s == WALL_CAP_S
 
-    # End-to-end: a full D-E run hammered with one tool exhausts the SAME
-    # shared sandbox ceiling (48) — the run path reaches the cap for real.
-    # Budget exhaustion is now a NORMAL observation (not an arm crash): the
-    # agent keeps receiving ``budget_exhausted`` and eventually hits the shared
-    # per-run TOKEN ceiling, so the run ends as aborted_budget at exactly the
-    # shared tool cap — no ToolBudgetExhausted crash.
+    # End-to-end (mechanism v2): a full D-E run hammered with one tool is
+    # bounded by the DESIGNED per-investigator tool cap (bounded experiment
+    # selection — a disclosed mechanism difference, not a parity item); each
+    # investigator still finishes via the forced best-evidence commit, so the
+    # run completes with exactly 3 x DE_PHASE1_TOOL_CAP tool calls.
+    def _de_hammer(prompt: str, _i: int) -> str:
+        if "BEST-EVIDENCE COMMIT" in prompt:
+            return _commit(_ranking("svc04"), 0.3)
+        if "Adjudication table" in prompt:
+            return _commit(_ranking("svc04"), 0.99)
+        return _tool("top_anomalies", k=20)
+
     r = DetelemArm(
-        client=FakeLLMClient(lambda _p, _i: _tool("top_anomalies", k=20)),
+        client=FakeLLMClient(_de_hammer),
         registry=registry,
         opaque_id=OP1,
         out_dir=tmp_path / "de-ham",
         seed=1,
     ).run()
-    assert r.status == "aborted_budget"
-    assert r.tool_calls == MAX_TOOL_CALLS
+    assert r.status == "completed", r
+    # 3 investigators x bounded cap + 1 committee submit_diagnosis.
+    assert r.tool_calls == 3 * DE_PHASE1_TOOL_CAP + 1
+    assert r.submitted_ranking is not None
     assert not r.crash_error
 
 
@@ -370,10 +396,12 @@ def _ceq_feedback_script() -> Script:
             return _commit(_ranking("svc00"), 0.5)
         if "Planner round" in prompt:
             return _tool("system_context")
-        if "Observation from system_context" in prompt:
-            return _tool("top_anomalies", k=20)
-        if "Observation from top_anomalies" in prompt:
+        # Mechanism v2: the post-batch continuation renders
+        # "Observations from the last batch: - <tool>(...) -> ...".
+        if "Observations from the last batch" in prompt and "- top_anomalies(" in prompt:
             return _commit(_ranking(_first_service(prompt) or "svc00"), 0.85)
+        if "Observations from the last batch" in prompt:
+            return _tool("top_anomalies", k=20)
         if "Final commit" in prompt:
             return _commit(_ranking(_first_service(prompt) or "svc00"), 0.9)
         raise AssertionError(f"UNROUTED C-EQ prompt: {prompt[:120]!r}")

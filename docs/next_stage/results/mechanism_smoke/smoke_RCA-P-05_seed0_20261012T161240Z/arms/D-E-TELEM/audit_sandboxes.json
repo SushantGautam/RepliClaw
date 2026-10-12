@@ -1,0 +1,172 @@
+[
+  {
+    "file_opened_count": 2,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 7.923,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 14.15,
+        "payload_bytes": 1941
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "cartservice",
+          "k": 30
+        },
+        "wall_ms": 2.187,
+        "payload_bytes": 959
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "checkoutservice",
+          "k": 30
+        },
+        "wall_ms": 1.779,
+        "payload_bytes": 862
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "emailservice",
+          "k": 30
+        },
+        "wall_ms": 3.234,
+        "payload_bytes": 959
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "paymentservice",
+          "k": 30
+        },
+        "wall_ms": 2.076,
+        "payload_bytes": 956
+      }
+    ]
+  },
+  {
+    "file_opened_count": 3,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 5.396,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 20.071,
+        "payload_bytes": 1941
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 11.941,
+        "payload_bytes": 1941
+      },
+      {
+        "tool": "service_logs",
+        "args": {
+          "svc": "cartservice",
+          "k": 50
+        },
+        "wall_ms": 47.468,
+        "payload_bytes": 5236
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 11.931,
+        "payload_bytes": 1941
+      },
+      {
+        "tool": "service_logs",
+        "args": {
+          "svc": "checkoutservice",
+          "k": 50
+        },
+        "wall_ms": 24.996,
+        "payload_bytes": 5088
+      }
+    ]
+  },
+  {
+    "file_opened_count": 2,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 1.047,
+        "payload_bytes": 649
+      }
+    ]
+  },
+  {
+    "file_opened_count": 3,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 5.888,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 11.926,
+        "payload_bytes": 1941
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "cartservice",
+          "k": 30
+        },
+        "wall_ms": 2.098,
+        "payload_bytes": 959
+      },
+      {
+        "tool": "service_logs",
+        "args": {
+          "svc": "cartservice",
+          "k": 50
+        },
+        "wall_ms": 38.199,
+        "payload_bytes": 5236
+      },
+      {
+        "tool": "submit_diagnosis",
+        "args": {
+          "ranked_services": [
+            "cartservice",
+            "checkoutservice",
+            "emailservice",
+            "paymentservice",
+            "frontend"
+          ]
+        },
+        "wall_ms": 0.011,
+        "payload_bytes": 228
+      }
+    ]
+  }
+]

@@ -103,29 +103,23 @@ def _commit(ranking: list[str], confidence: float = 0.9) -> str:
     return json.dumps({"action": "commit", "ranking": ranking, "confidence": confidence})
 
 
-def _de_script() -> Any:
-    """Deterministic D-E fake script.
+DE_P1 = {
+    "inv-a": (["svc04", "svc00", "svc01", "svc02", "svc03"], 0.9),
+    "inv-b": (["svc04", "svc01", "svc00", "svc02", "svc05"], 0.8),
+    "inv-c": (["svc00", "svc04", "svc01", "svc02", "svc03"], 0.7),
+}
 
-    Phase 1 (each investigator, own sandbox): system_context, then commit p1.
-    Phase 2 (same sessions continue after reveal): service_metrics, commit p2.
+
+def _de_script() -> Any:
+    """Deterministic D-E fake script (mechanism v2).
+
+    Phase 1 (each independent investigator, own sandbox): system_context,
+    then the pre-outcome escrow commit (p1). No consultation round —
+    investigators never see each other's inferences.
     Committee (fresh session): top_anomalies, then commit (arm submits the
-    deterministic committee-score ranking regardless of the committee's
-    reply ranking).
+    deterministic committee-score ranking over the REVEALED p1 packets
+    regardless of the committee's reply ranking).
     """
-    p1 = {
-        "inv-a": (["svc04", "svc00", "svc01", "svc02", "svc03"], 0.9),
-        "inv-b": (["svc04", "svc01", "svc00", "svc02", "svc05"], 0.8),
-        "inv-c": (["svc00", "svc04", "svc01", "svc02", "svc03"], 0.7),
-    }
-    p2 = {
-        "inv-a": (["svc04", "svc00", "svc01", "svc02", "svc03"], 0.95),
-        "inv-b": (["svc04", "svc00", "svc01", "svc02", "svc05"], 0.75),
-        "inv-c": (["svc04", "svc01", "svc00", "svc02", "svc03"], 0.7),
-    }
-    # Phase-1 commits happen strictly before any consultation prompt exists
-    # in the transcript, so per-investigator "already committed once" state
-    # disambiguates phase1 vs phase2-final (both continuation prompts share
-    # the "Observation for <inv>" shape).
     state: dict[str, set] = {"p1_done": set()}
 
     def script(prompt: str, call_index: int) -> str:
@@ -133,21 +127,26 @@ def _de_script() -> Any:
             return _tool("top_anomalies", k=10)
         if "Observation for committee" in prompt:
             return _commit(RANK5, 0.99)
-        if "Begin your private investigation" in prompt:
+        if "BEST-EVIDENCE COMMIT" in prompt:
+            return _commit(RANK5, 0.5)  # best-evidence fallback commit
+        if "Begin your private" in prompt:
             return _tool("system_context")
-        if "Commit-reveal consultation round" in prompt:
-            return _tool("service_metrics", svc="svc04", k=30)
         if "Observation for" in prompt:
-            inv = "inv-a" if "Observation for inv-a" in prompt else (
-                "inv-b" if "Observation for inv-b" in prompt else "inv-c"
-            )
-            first = inv not in state["p1_done"]
+            inv = _inv_of(prompt)
+            assert inv not in state["p1_done"]
             state["p1_done"].add(inv)
-            rank, conf = (p1 if first else p2)[inv]
-            return _commit(rank, conf)
+            return _commit(*DE_P1[inv])
         raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
 
     return script
+
+
+def _inv_of(prompt: str) -> str:
+    for inv in ("inv-a", "inv-b", "inv-c"):
+        if f"Observation for {inv}" in prompt or f"agent {inv}" in prompt or f"investigator {inv}" in prompt:
+            return inv
+    # Forced-commit prompts carry the investigator in the context.
+    raise AssertionError(f"cannot route prompt to an investigator: {prompt[:120]!r}")
 
 
 def _ceq_script() -> Any:
@@ -457,22 +456,13 @@ def test_de_escrow_commit_before_reveal_ordering(fake_registry: PilotCaseRegistr
     ledger = json.loads(Path(result.escrow_ledger_path).read_text())
     assert ledger["arm"] == "D-E-TELEM"
     entries = ledger["entries"]
-    assert len(entries) == 6  # 3 phase1 + 3 phase2-final
-    phase1 = [e for e in entries if e["phase"] == "phase1"]
-    phase2 = [e for e in entries if e["phase"] == "phase2-final"]
-    assert {e["agent_id"] for e in phase1} == {"inv-a", "inv-b", "inv-c"}
-    assert {e["agent_id"] for e in phase2} == {"inv-a", "inv-b", "inv-c"}
-    max_p1 = max(e["committed_at"] for e in phase1)
-    min_p2 = min(e["committed_at"] for e in phase2)
-    # Every phase1 commit precedes its own reveal, all reveals complete
-    # before any phase2-final commit, and all phase1 commits precede
-    # phase2 commits (commit-reveal ordering).
-    for e in phase1:
+    # Mechanism v2: exactly ONE pre-outcome packet per investigator.
+    assert len(entries) == 3
+    assert {e["agent_id"] for e in entries} == {"inv-a", "inv-b", "inv-c"}
+    assert all(e["phase"] == "phase1" for e in entries)
+    # Every commit precedes its own reveal (commit-reveal ordering).
+    for e in entries:
         assert e["committed_at"] < e["revealed_at"]
-    assert max(e["revealed_at"] for e in phase1) < min_p2
-    assert max_p1 < min_p2
-    for e in phase2:
-        assert e["revealed"] is False  # phase2 finals are committed, never re-revealed
     # Commit sha256 recomputes from the canonical payload.
     for e in entries:
         payload = json.dumps(
@@ -481,13 +471,36 @@ def test_de_escrow_commit_before_reveal_ordering(fake_registry: PilotCaseRegistr
             sort_keys=True, separators=(",", ":"),
         )
         assert e["commit_sha256"] == hashlib.sha256(payload.encode()).hexdigest()
-    # Phase-2 prompt revealed only the OTHER two investigators.
-    inv_a_p2 = [p for s in arm.sessions if s.agent_id == "inv-a" for p in s.prompts
-                if "Commit-reveal consultation round" in p]
-    assert len(inv_a_p2) == 1
-    p = inv_a_p2[0]
-    assert "inv-b" in p and "inv-c" in p
-    assert "inv-a:" not in p
+    # PhaseGate transitions persisted: COMMIT init -> REVEAL after all commits.
+    transitions = ledger["phase_transitions"]
+    assert transitions[0]["phase"] == "COMMIT"
+    assert any(t.get("to") == "REVEAL" for t in transitions)
+
+
+def test_de_investigators_independent_no_shared_inference(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """Mechanism v2: no shared reasoning channel — no investigator prompt may
+    mention another investigator's id, and no consultation prompt exists."""
+    arm = DetelemArm(
+        client=FakeLLMClient(_de_script()),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status == "completed"
+    for s in arm.sessions:
+        if s.agent_id not in ("inv-a", "inv-b", "inv-c"):
+            continue  # the committee adjudicates, it is not an investigator
+        for p in s.prompts:
+            assert "Commit-reveal consultation round" not in p
+            for other in ("inv-a", "inv-b", "inv-c"):
+                if other != s.agent_id:
+                    assert other not in p, f"shared-inference leak of {other}"
+    # 3 independent sandboxes (one per investigator) + 1 fresh committee.
+    assert len(arm.sandboxes) == 4
 
 
 def test_de_committee_ranking_math_hand_computed(fake_registry: PilotCaseRegistry, tmp_path: Path) -> None:
@@ -502,21 +515,18 @@ def test_de_committee_ranking_math_hand_computed(fake_registry: PilotCaseRegistr
     assert result.status == "completed"
 
     # Committee score = sum over investigators of (5 - rank + 1) * confidence
-    # over each phase2-final ranking (rank 1-based); ties broken alphabetically.
-    p2 = {
-        "inv-a": (["svc04", "svc00", "svc01", "svc02", "svc03"], 0.95),
-        "inv-b": (["svc04", "svc00", "svc01", "svc02", "svc05"], 0.75),
-        "inv-c": (["svc04", "svc01", "svc00", "svc02", "svc03"], 0.7),
-    }
+    # over each REVEALED phase-1 escrowed packet (rank 1-based); ties broken
+    # alphabetically (mechanism v2: no consultation round, synthesis reads
+    # the pre-outcome packets directly).
     scores: dict[str, float] = {}
-    for rank_list, conf in p2.values():
+    for rank_list, conf in DE_P1.values():
         for idx, svc in enumerate(rank_list, start=1):
             scores[svc] = scores.get(svc, 0.0) + (5 - idx + 1) * conf
     # Hand-check two entries (coef = 5-rank+1 = 6-rank: rank1->5, rank2->4, rank3->3):
-    #   svc04 (rank1 all) = 5*0.95 + 5*0.75 + 5*0.7 = 12.0
-    #   svc00 (rank2,rank2,rank3) = 4*0.95 + 4*0.75 + 3*0.7 = 8.9
-    assert scores["svc04"] == pytest.approx(12.0)
-    assert scores["svc00"] == pytest.approx(8.9)
+    #   svc04 (rank1, rank1, rank2) = 5*0.9 + 5*0.8 + 4*0.7 = 11.3
+    #   svc00 (rank2, rank3, rank1) = 4*0.9 + 3*0.8 + 5*0.7 = 9.5
+    assert scores["svc04"] == pytest.approx(11.3)
+    assert scores["svc00"] == pytest.approx(9.5)
     expected = sorted(scores, key=lambda s: (-scores[s], s))[:5]
     assert result.submitted_ranking == expected
     assert result.submitted_ranking[0] == "svc04"
@@ -579,6 +589,291 @@ def test_de_aborts_on_token_budget(fake_registry: PilotCaseRegistry, tmp_path: P
     assert result.status == "aborted_budget"
     assert result.submitted_ranking is None
     assert result.tokens_total > MAX_TOKENS_PER_RUN
+    # Mechanism v2: the best-evidence commit path fires after the budget
+    # abort; the script never commits, so the failure is a recorded
+    # NON-COMMIT (transparent abort_reason, not a silent stall).
+    assert result.abort_reason is not None
+    assert result.abort_reason.startswith("non_commit:")
+
+
+def test_de_tool_cap_forced_best_evidence_commit(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """Bounded experiment selection: the investigator gets exactly
+    DE_PHASE1_TOOL_CAP tool calls; on exhaustion the arm forces a
+    best-evidence commit (no silent stall, no 7th tool call)."""
+    from repliclaw.experiments.v3.telemetry_arms import DE_PHASE1_TOOL_CAP
+
+    def script(prompt: str, call_index: int) -> str:
+        if "Adjudication table" in prompt:
+            return _tool("top_anomalies", k=10)
+        if "Observation for committee" in prompt:
+            return _commit(RANK5, 0.99)
+        if "BEST-EVIDENCE COMMIT" in prompt:
+            return _commit(RANK5, 0.4)
+        if "Begin your private" in prompt or "Observation for" in prompt:
+            return _tool("system_context")  # keeps asking for tools forever
+        raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
+
+    arm = DetelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking is not None
+    assert result.abort_reason is None  # cap path is NOT a budget failure
+    for sb in arm.sandboxes[:3]:  # the three investigator sandboxes
+        assert len(sb.call_log) == DE_PHASE1_TOOL_CAP
+    ledger = json.loads(Path(result.escrow_ledger_path).read_text())
+    assert len(ledger["entries"]) == 3  # every investigator committed anyway
+    # The forced best-evidence prompt is in the audit transcript.
+    assert any(
+        "BEST-EVIDENCE COMMIT" in e["content"]
+        for s in arm.sessions[:3] for e in s.transcript
+    )
+
+
+def test_de_non_commit_recorded_as_failure(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """An agent that never commits (even after the bounded forced-commit
+    asks) is a FAILURE: recorded with abort_reason, never masked."""
+
+    def script(prompt: str, call_index: int) -> str:
+        return _tool("system_context")  # tool call forever, never a commit
+
+    arm = DetelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status != "completed"
+    assert result.submitted_ranking is None
+    assert result.success_eligible is False
+    assert result.abort_reason is not None
+    assert result.abort_reason.startswith("non_commit:")
+    # The escrow ledger was still persisted (audit trail intact).
+    assert result.escrow_ledger_path is not None
+    ledger = json.loads(Path(result.escrow_ledger_path).read_text())
+    assert ledger["entries"] == []  # nothing was ever committed
+
+
+def test_de_best_evidence_commit_after_budget_abort(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """Budget (token envelope) exhausted mid-investigation: every
+    investigator still commits a best-evidence packet and the arm still
+    submits — transparently flagged with abort_reason + warning."""
+
+    def script(prompt: str, call_index: int) -> str | tuple[str, dict]:
+        if "Adjudication table" in prompt:
+            return _tool("top_anomalies", k=10)
+        if "Observation for committee" in prompt:
+            return _commit(RANK5, 0.99)
+        if "BEST-EVIDENCE COMMIT" in prompt:
+            return _commit(RANK5, 0.4)
+        if "Begin your private" in prompt:
+            return (
+                _tool("system_context"),
+                {"prompt_tokens": MAX_TOKENS_PER_RUN + 1, "completion_tokens": 1},
+            )
+        raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
+
+    arm = DetelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking is not None
+    assert result.abort_reason is not None
+    assert result.abort_reason.startswith("budget_exhausted:")
+    assert any("best-evidence commit path" in w for w in result.warnings)
+    ledger = json.loads(Path(result.escrow_ledger_path).read_text())
+    assert len(ledger["entries"]) == 3  # all three committed pre-reveal
+    assert any(t.get("to") == "REVEAL" for t in ledger["phase_transitions"])
+
+
+BAD_RANK5 = ["bad01", "bad02", "svc00", "svc01", "svc02"]
+
+
+def test_de_invalid_commit_corrected_once(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """A commit naming a service not in the case inventory is rejected with
+    ONE bounded correction ask; the escrowed packet is the corrected
+    (valid) ranking — identical rule for both arms, no oracle content."""
+
+    def script(prompt: str, call_index: int) -> str:
+        if "Adjudication table" in prompt:
+            return _tool("top_anomalies", k=10)
+        if "Observation for committee" in prompt:
+            return _commit(RANK5, 0.99)
+        if "was REJECTED" in prompt:
+            return _commit(RANK5, 0.85)
+        if "Begin your private" in prompt:
+            return _tool("system_context")
+        if "Observation for" in prompt:
+            return _commit(BAD_RANK5, 0.6)
+        raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
+
+    arm = DetelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking is not None
+    ledger = json.loads(Path(result.escrow_ledger_path).read_text())
+    # Every escrowed packet is the CORRECTED (valid) ranking.
+    assert len(ledger["entries"]) == 3
+    assert all(e["ranking"] == RANK5 for e in ledger["entries"])
+    # Exactly one correction ask per investigator.
+    for s in arm.sessions:
+        if s.agent_id in ("inv-a", "inv-b", "inv-c"):
+            rejects = [p for p in s.prompts if "was REJECTED" in p]
+            assert len(rejects) == 1
+
+
+def test_de_invalid_commit_correction_tool_served(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """A correction ask answered with a tool call (the model fetching the
+    inventory) is served ONCE, then the agent commits a valid ranking."""
+
+    def script(prompt: str, call_index: int) -> str:
+        if "Adjudication table" in prompt:
+            return _commit(RANK5, 0.99)
+        if "Observation for committee" in prompt:
+            return _commit(RANK5, 0.99)
+        if "Now commit again (commit action ONLY)" in prompt:
+            return _commit(RANK5, 0.7)
+        if "was REJECTED" in prompt:
+            return _tool("system_context")  # fetch the actual inventory
+        if "Begin your private" in prompt:
+            return _tool("system_context")
+        if "Observation for" in prompt:
+            return _commit(BAD_RANK5, 0.6)
+        raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
+
+    arm = DetelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking is not None
+    ledger = json.loads(Path(result.escrow_ledger_path).read_text())
+    assert len(ledger["entries"]) == 3
+    assert all(e["ranking"] == RANK5 for e in ledger["entries"])
+
+
+def test_de_invalid_commit_repeated_is_non_commit_failure(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """Two invalid commits in a row is a recorded non-commit FAILURE (not
+    masked, not a silent infinite loop)."""
+
+    def script(prompt: str, call_index: int) -> str:
+        if "Adjudication table" in prompt:
+            return _commit(RANK5, 0.99)
+        if "Observation for committee" in prompt:
+            return _commit(RANK5, 0.99)
+        if "Begin your private" in prompt:
+            return _tool("system_context")
+        if "Observation for" in prompt or "was REJECTED" in prompt:
+            return _commit(BAD_RANK5, 0.6)
+        raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
+
+    arm = DetelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status != "completed"
+    assert result.submitted_ranking is None
+    assert result.abort_reason is not None
+    assert result.abort_reason.startswith("non_commit:")
+    assert "invalid" in result.abort_reason or "re-commit" in result.abort_reason
+
+
+def test_ceq_invalid_final_commit_corrected_once(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """C-EQ: the manager's final commit is validated against the inventory
+    with one bounded correction ask (same rule as D-E)."""
+
+    def script(prompt: str, call_index: int) -> str:
+        if "One-shot consultation" in prompt:
+            return _commit(RANK5, 0.6)
+        if "Pre-outcome forecast" in prompt:
+            return _commit(RANK5, 0.8)
+        if "was REJECTED" in prompt:
+            return _commit(RANK5, 0.9)
+        if "Planner round" in prompt:
+            return _commit(RANK5, 0.85)
+        if "Final commit" in prompt:
+            return _commit(BAD_RANK5, 0.7)
+        raise AssertionError(f"UNROUTED C-EQ prompt: {prompt[:120]!r}")
+
+    arm = CEQTelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=5,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking == RANK5
+    manager = next(s for s in arm.sessions if s.agent_id == "manager")
+    assert sum(1 for p in manager.prompts if "was REJECTED" in p) == 1
+
+
+def test_parse_action_batch() -> None:
+    batch = json.dumps({
+        "action": "tool_calls",
+        "tools": [{"tool": "system_context", "args": {}},
+                  {"tool": "service_metrics", "args": {"svc": "svc01", "k": 10}}],
+    })
+    action = parse_action(batch)
+    assert action["action"] == "tool_calls"
+    assert len(action["tools"]) == 2
+    assert action["tools"][1]["args"] == {"svc": "svc01", "k": 10}
+    # Empty / oversized / malformed batches are rejected.
+    with pytest.raises(_malformed_type()):
+        parse_action(json.dumps({"action": "tool_calls", "tools": []}))
+    with pytest.raises(_malformed_type()):
+        parse_action(json.dumps({"action": "tool_calls", "tools":
+                                 [{"tool": f"t{i}"} for i in range(4)]}))
+    with pytest.raises(_malformed_type()):
+        parse_action(json.dumps({"action": "tool_calls", "tools": [
+            {"tool": "top_anomalies", "args": "not-a-dict"}]}))
+
+
+def _malformed_type() -> type:
+    from repliclaw.experiments.v3.telemetry_arms import _MalformedActionError
+
+    return _MalformedActionError
 
 
 # ---------------------------------------------------------------------------
@@ -739,6 +1034,87 @@ def test_ceq_findings_collected_once(fake_registry: PilotCaseRegistry, tmp_path:
     assert "Investigator findings (collected once, post-loop)" in final
     for inv in ("inv-a", "inv-b", "inv-c"):
         assert inv in final
+
+
+def test_ceq_manager_batch_equivalent_parallelism(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """Mechanism v2: the C-EQ manager may issue a BATCH of tool calls in one
+    turn (equivalent parallelism); both calls execute in one agent turn."""
+    batch = json.dumps({"action": "tool_calls", "tools": [
+        {"tool": "system_context", "args": {}},
+        {"tool": "top_anomalies", "args": {"k": 20}},
+    ]})
+
+    def script(prompt: str, call_index: int) -> str:
+        if "One-shot consultation" in prompt:
+            return _commit(RANK5, 0.6)
+        if "Pre-outcome forecast" in prompt:
+            return _commit(RANK5, 0.8)
+        if "Planner round" in prompt:
+            return batch
+        if "Observations from the last batch" in prompt:
+            return _commit(RANK5, 0.85)
+        if "Final commit" in prompt:
+            return _commit(RANK5, 0.9)
+        raise AssertionError(f"UNROUTED C-EQ prompt: {prompt[:120]!r}")
+
+    arm = CEQTelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=5,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking == RANK5
+    manager = next(s for s in arm.sessions if s.agent_id == "manager")
+    # Batch executed in ONE turn: forecast + batch ask + post-batch commit
+    # + final commit = 4 manager calls (vs 5 for two single tool turns).
+    assert manager.llm_call_count == 4
+    tools = [c["tool"] for c in arm.sandboxes[0].call_log]
+    assert tools == ["system_context", "top_anomalies", "submit_diagnosis"]
+    # The batch extension is disclosed to the manager (system prompt), never
+    # to C-EQ's consult-only investigators.
+    assert "tool_calls" in manager.messages[0]["content"]
+    for s in arm.sessions:
+        if s.agent_id != "manager":
+            assert "tool_calls" not in s.messages[0]["content"]
+
+
+def test_ceq_best_evidence_commit_after_budget_abort(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """Mechanism v2 (parity with D-E): token budget exhausted mid-investigation
+    -> the manager still commits its best-evidence ranking (flagged)."""
+
+    def script(prompt: str, call_index: int) -> str | tuple[str, dict]:
+        if "Pre-outcome forecast" in prompt:
+            return _commit(RANK5, 0.8)
+        if "BEST-EVIDENCE COMMIT" in prompt:
+            return _commit(RANK5, 0.5)
+        return (
+            _tool("system_context"),
+            {"prompt_tokens": MAX_TOKENS_PER_RUN + 1, "completion_tokens": 1},
+        )
+
+    arm = CEQTelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=5,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking is not None
+    assert result.abort_reason is not None
+    assert result.abort_reason.startswith("budget_exhausted:")
+    assert any("best-evidence commit path" in w for w in result.warnings)
+    ledger = json.loads(Path(result.escrow_ledger_path).read_text())
+    phases = [e["phase"] for e in ledger["entries"]]
+    assert "forecast" in phases and "final" in phases
 
 
 def test_volume_band_function() -> None:

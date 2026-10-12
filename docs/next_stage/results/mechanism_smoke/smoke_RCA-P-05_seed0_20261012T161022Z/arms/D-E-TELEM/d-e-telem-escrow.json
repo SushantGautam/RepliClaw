@@ -1,0 +1,45 @@
+{
+  "arm": "D-E-TELEM",
+  "opaque_case_id": "RCA-P-05",
+  "entries": [
+    {
+      "agent_id": "inv-a",
+      "phase": "phase1",
+      "committed_at": 113730.17553321,
+      "commit_sha256": "256d8a04d77a69fb132588412ff174fac4981e8aa6c9a1f240895c8f7137c6e2",
+      "ranking": [
+        "emailservice",
+        "cartservice",
+        "paymentservice",
+        "checkoutservice",
+        "frontend"
+      ],
+      "confidence": 0.55,
+      "revealed_at": null,
+      "revealed": false
+    },
+    {
+      "agent_id": "inv-b",
+      "phase": "phase1",
+      "committed_at": 113739.572601697,
+      "commit_sha256": "55d4b9c36427b7421a187b8a0ee38175ffde84644cb310e5359c28be2cc474b4",
+      "ranking": [
+        "cartservice",
+        "checkoutservice",
+        "emailservice",
+        "paymentservice",
+        "shippingservice"
+      ],
+      "confidence": 0.5,
+      "revealed_at": null,
+      "revealed": false
+    }
+  ],
+  "phase_transitions": [
+    {
+      "phase": "COMMIT",
+      "at": null,
+      "note": "gate initialized"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+  "status": "completed",
+  "tokens": 10659,
+  "wall_s": 12.15,
+  "tool_calls": 8,
+  "llm_calls": 13,
+  "submitted_ranking": [
+    "cartservice",
+    "checkoutservice",
+    "emailservice",
+    "paymentservice",
+    "frontend"
+  ],
+  "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+  "arm": "C-EQ-TELEM",
+  "case_id": "RCA-P-05",
+  "seed": 0,
+  "caps": {
+    "max_tokens_per_run": 30000,
+    "wall_cap_s": 600.0,
+    "de_phase1_tool_cap": null
+  },
+  "envelope_source": "identical _Envelope for both arms (mechanism smoke)",
+  "case_sha256": "14aecb10e7cbb07415e2512eeb67ea617abbe681824370066b6dea4df09fe67b",
+  "protocol_errors": 0,
+  "crash_error": null,
+  "abort_reason": null,
+  "warnings": [
+    "prompt-volume canary breach: prompt-volume ratio 0.2442 outside canary band [0.6, 1.4]"
+  ],
+  "prompt_volume_ratio": 0.24423337856173677,
+  "escrow_ledger_path": "/home/susan/worktrees/repliclaw-mechanism/docs/next_stage/results/mechanism_smoke/smoke_RCA-P-05_seed0_20261012T161240Z/arms/C-EQ-TELEM/c-eq-telem-escrow.json",
+  "backend_model": [
+    "Qwen/Qwen3.8-27B-FP8",
+    "Qwen/Qwen3.8-27B-FP8",
+    "Qwen/Qwen3.8-27B-FP8",
+    "Qwen/Qwen3.8-27B-FP8"
+  ],
+  "interface": "mechanism v2: independent D-E (bounded tool turns, pre-outcome escrow, best-evidence commit) vs C-EQ (strong, batch parallelism); ACCESS-MATCHED OBSERVATIONAL (no executable interventions)",
+  "escrow_commitments": [
+    {
+      "agent_id": "manager",
+      "phase": "forecast",
+      "commit_sha256": "ec26d0e3459f07bed66473d396dc16ab0c17d47d33435bd29a341b8083008a96",
+      "revealed": false,
+      "ranking": [
+        "svc1",
+        "svc2",
+        "svc3",
+        "svc4",
+        "svc5"
+      ],
+      "confidence": 0.1
+    }
+  ]
+}
