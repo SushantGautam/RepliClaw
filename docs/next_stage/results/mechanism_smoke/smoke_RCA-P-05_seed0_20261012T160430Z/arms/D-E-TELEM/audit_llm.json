@@ -1,0 +1,376 @@
+[
+  {
+    "agent_id": "inv-a",
+    "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+    "transcript_sha256": "2ef0a057431c02162457e7d9976010c68df1cf5cbcbf1b1b5be74158b02e6763",
+    "tokens": {
+      "prompt": 15801,
+      "completion": 372,
+      "total": 16173
+    },
+    "llm_calls": 9,
+    "transcript": [
+      {
+        "role": "prompt",
+        "agent": "inv-a",
+        "content": "Begin your private, independent investigation of opaque case RCA-P-05. You have at most 6 tool calls. Issue tool calls to gather evidence. When (and only when) you are ready \u2014 or as soon as your tool budget runs out \u2014 commit your best-evidence ranked-5 diagnosis with a confidence. Your commit is ESCROWED: it is hashed and sealed now, and revealed for the deterministic committee synthesis only AFTER every investigator has committed. You see no other investigator's inferences.",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821070.4818954
+      },
+      {
+        "role": "response",
+        "agent": "inv-a",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"system_context\", \"args\": {}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821071.1130657
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-a",
+        "content": "Observation for inv-a from system_context({}):\n{\"anomaly_onset\": 1705666511, \"has_logs\": true, \"has_traces\": true, \"opaque_case_id\": \"RCA-P-05\", \"per_service_metric_count\": {\"adservice\": 7, \"cartservice\": 7, \"checkoutservice\": 6, \"currencyservice\": 7, \"emailservice\": 7, \"frontend\": 8, \"frontend-external\": 2, \"paymentservice\": 7, \"productcatalogservice\": 7, \"recommendationservice\": 7, \"redis\": 4, \"shippingservice\": 6}, \"services\": [\"adservice\", \"cartservice\", \"checkoutservice\", \"currencyservice\", \"emailservice\", \"frontend\", \"frontend-external\", \"paymentservice\", \"productcatalogservice\", \"recommendationservice\", \"redis\", \"shippingservice\"], \"time_end\": 1705667231, \"time_start\": 1705665791}\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821071.1217453
+      },
+      {
+        "role": "response",
+        "agent": "inv-a",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"top_anomalies\", \"args\": {\"k\": 20}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821071.9549632
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-a",
+        "content": "Observation for inv-a from top_anomalies({\"k\": 20}):\n{\"rows\": [{\"metric\": \"cartservice_latency-90\", \"rank\": 1, \"score\": 10.0, \"service\": \"cartservice\"}, {\"metric\": \"checkoutservice_latency-50\", \"rank\": 2, \"score\": 10.0, \"service\": \"checkoutservice\"}, {\"metric\": \"checkoutservice_latency-90\", \"rank\": 3, \"score\": 10.0, \"service\": \"checkoutservice\"}, {\"metric\": \"emailservice_latency-50\", \"rank\": 4, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"emailservice_latency-90\", \"rank\": 5, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"emailservice_mem\", \"rank\": 6, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"paymentservice_latency-50\", \"rank\": 7, \"score\": 10.0, \"service\": \"paymentservice\"}, {\"metric\": \"paymentservice_latency-90\", \"rank\": 8, \"score\": 10.0, \"service\": \"paymentservice\"}, {\"metric\": \"shippingservice_latency-90\", \"r ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821071.9705691
+      },
+      {
+        "role": "response",
+        "agent": "inv-a",
+        "content": "I need to see the full top_anomalies list. Let me re-call it, but I already have a good picture. The top anomalies are dominated by cartservice, checkoutservice, emailservice, paymentservice, shippingservice \u2014 all latency metrics at score 10.0. This is a broad cascade pattern. Let me drill into the top-scoring service first: cartservice (rank 1).\n\nMy stance is top-down: start from aggregate anomaly scores and drill into top-scoring services. Rank 1 is cartservice_latency-90. Let me examine cartservice metrics.",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821074.571135
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-a",
+        "content": "Your last reply was not a single valid JSON action object. Reply again with EXACTLY ONE JSON object matching the action protocol \u2014 no prose, no markdown fences.",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821074.5712094
+      },
+      {
+        "role": "response",
+        "agent": "inv-a",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_metrics\", \"args\": {\"svc\": \"cartservice\", \"k\": 30}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821075.5220332
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-a",
+        "content": "Observation for inv-a from service_metrics({\"k\": 30, \"svc\": \"cartservice\"}):\n{\"rows\": [{\"faulty_max\": 0.007925, \"median\": 0.004894, \"metric\": \"cartservice_latency-90\", \"normal_max\": 0.004958, \"p95\": 0.007087, \"z_peak\": 28.56283}, {\"faulty_max\": 44843008.0, \"median\": 44625920.0, \"metric\": \"cartservice_mem\", \"normal_max\": 44888064.0, \"p95\": 44802048.0, \"z_peak\": 3.555556}, {\"faulty_max\": 0.003298, \"median\": 0.003164, \"metric\": \"cartservice_latency-50\", \"normal_max\": 0.003199, \"p95\": 0.003281, \"z_peak\": 2.27619}, {\"faulty_max\": 3.139832, \"median\": 2.365288, \"metric\": \"cartservice_cpu\", \"normal_max\": 3.245714, \"p95\": 3.012486, \"z_peak\": 1.69447}, {\"faulty_max\": 29.133, \"median\": 25.133, \"metric\": \"cartservice_workload\", \"normal_max\": 29.067, \"p95\": 28.2, \"z_peak\": 1.538462}, {\"faulty_max\": 0.0, \"median\": 0.0, \"metric\": \"cartservice_diskio\", \"normal_max\": 0.0, \"p95\": 0. ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821075.524218
+      },
+      {
+        "role": "response",
+        "agent": "inv-a",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_metrics\", \"args\": {\"svc\": \"checkoutservice\", \"k\": 30}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821076.478812
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-a",
+        "content": "Observation for inv-a from service_metrics({\"k\": 30, \"svc\": \"checkoutservice\"}):\n{\"rows\": [{\"faulty_max\": 0.743255, \"median\": 0.447732, \"metric\": \"checkoutservice_cpu\", \"normal_max\": 0.524045, \"p95\": 0.609625, \"z_peak\": 3.32392}, {\"faulty_max\": 1.6, \"median\": 1.0, \"metric\": \"checkoutservice_workload\", \"normal_max\": 1.733, \"p95\": 1.467, \"z_peak\": 2.201201}, {\"faulty_max\": 12414976.0, \"median\": 11771904.0, \"metric\": \"checkoutservice_mem\", \"normal_max\": 12197888.0, \"p95\": 12128256.0, \"z_peak\": 2.150685}, {\"faulty_max\": 2.8125, \"median\": 0.142073, \"metric\": \"checkoutservice_latency-50\", \"normal_max\": 0.149219, \"p95\": 2.413462, \"z_peak\": 1.281549}, {\"faulty_max\": 4.6875, \"median\": 0.244783, \"metric\": \"checkoutservice_latency-90\", \"normal_max\": 0.2464, \"p95\": 4.472222, \"z_peak\": 1.080865}, {\"faulty_max\": 9.0, \"median\": 9.0, \"metric\": \"checkoutservice_socket\", \"normal_max\": 9 ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821076.4806993
+      },
+      {
+        "role": "response",
+        "agent": "inv-a",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_metrics\", \"args\": {\"svc\": \"emailservice\", \"k\": 30}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821077.4563756
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-a",
+        "content": "Observation for inv-a from service_metrics({\"k\": 30, \"svc\": \"emailservice\"}):\n{\"rows\": [{\"faulty_max\": 0.120192, \"median\": 0.003054, \"metric\": \"emailservice_latency-50\", \"normal_max\": 0.003059, \"p95\": 0.109375, \"z_peak\": 58.569127}, {\"faulty_max\": 43638784.0, \"median\": 43499520.0, \"metric\": \"emailservice_mem\", \"normal_max\": 43503616.0, \"p95\": 43507712.0, \"z_peak\": 34.0}, {\"faulty_max\": 0.371357, \"median\": 0.325087, \"metric\": \"emailservice_cpu\", \"normal_max\": 0.365578, \"p95\": 0.351298, \"z_peak\": 7.191888}, {\"faulty_max\": 1.667, \"median\": 0.933, \"metric\": \"emailservice_workload\", \"normal_max\": 1.6, \"p95\": 1.467, \"z_peak\": 1.835}, {\"faulty_max\": 0.224038, \"median\": 0.004697, \"metric\": \"emailservice_latency-90\", \"normal_max\": 0.004706, \"p95\": 0.221875, \"z_peak\": 1.018297}, {\"faulty_max\": 0.0, \"median\": 0.0, \"metric\": \"emailservice_diskio\", \"normal_max\": 0.0, \"p95\": 0.0, ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821077.45858
+      },
+      {
+        "role": "response",
+        "agent": "inv-a",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_logs\", \"args\": {\"svc\": \"emailservice\", \"k\": 50}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821078.319056
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-a",
+        "content": "Observation for inv-a from service_logs({\"k\": 50, \"svc\": \"emailservice\"}):\n{\"available\": true, \"count\": 50, \"rows\": [{\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666211}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666214}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666217}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666219}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666222}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666223}, {\"msg\": \"A request to send order confirmation email to someone@example.com ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821078.375724
+      },
+      {
+        "role": "response",
+        "agent": "inv-a",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_metrics\", \"args\": {\"svc\": \"paymentservice\", \"k\": 30}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821079.3701131
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-a",
+        "content": "BEST-EVIDENCE COMMIT (tool budget cap (6) reached): your investigation budget is exhausted and no further tool calls are allowed. You MUST commit now: reply with a commit action containing your current best-evidence ranked-5 diagnosis and a confidence (lower the confidence if your evidence is thin).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821079.3701417
+      },
+      {
+        "role": "response",
+        "agent": "inv-a",
+        "content": "{\"action\": \"commit\", \"ranking\": [\"emailservice\", \"cartservice\", \"checkoutservice\", \"paymentservice\", \"inventoryservice\"], \"confidence\": 0.55}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821081.2198622
+      }
+    ]
+  },
+  {
+    "agent_id": "inv-b",
+    "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+    "transcript_sha256": "ef571d3407fd0a963794cd523a641c05a79f46bc1537926f9113160d65d47e12",
+    "tokens": {
+      "prompt": 13885,
+      "completion": 314,
+      "total": 14199
+    },
+    "llm_calls": 8,
+    "transcript": [
+      {
+        "role": "prompt",
+        "agent": "inv-b",
+        "content": "Begin your private, independent investigation of opaque case RCA-P-05. You have at most 6 tool calls. Issue tool calls to gather evidence. When (and only when) you are ready \u2014 or as soon as your tool budget runs out \u2014 commit your best-evidence ranked-5 diagnosis with a confidence. Your commit is ESCROWED: it is hashed and sealed now, and revealed for the deterministic committee synthesis only AFTER every investigator has committed. You see no other investigator's inferences.",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821081.2199497
+      },
+      {
+        "role": "response",
+        "agent": "inv-b",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"system_context\", \"args\": {}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821081.9652352
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-b",
+        "content": "Observation for inv-b from system_context({}):\n{\"anomaly_onset\": 1705666511, \"has_logs\": true, \"has_traces\": true, \"opaque_case_id\": \"RCA-P-05\", \"per_service_metric_count\": {\"adservice\": 7, \"cartservice\": 7, \"checkoutservice\": 6, \"currencyservice\": 7, \"emailservice\": 7, \"frontend\": 8, \"frontend-external\": 2, \"paymentservice\": 7, \"productcatalogservice\": 7, \"recommendationservice\": 7, \"redis\": 4, \"shippingservice\": 6}, \"services\": [\"adservice\", \"cartservice\", \"checkoutservice\", \"currencyservice\", \"emailservice\", \"frontend\", \"frontend-external\", \"paymentservice\", \"productcatalogservice\", \"recommendationservice\", \"redis\", \"shippingservice\"], \"time_end\": 1705667231, \"time_start\": 1705665791}\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821081.9717963
+      },
+      {
+        "role": "response",
+        "agent": "inv-b",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"top_anomalies\", \"args\": {\"k\": 20}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821082.7126708
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-b",
+        "content": "Observation for inv-b from top_anomalies({\"k\": 20}):\n{\"rows\": [{\"metric\": \"cartservice_latency-90\", \"rank\": 1, \"score\": 10.0, \"service\": \"cartservice\"}, {\"metric\": \"checkoutservice_latency-50\", \"rank\": 2, \"score\": 10.0, \"service\": \"checkoutservice\"}, {\"metric\": \"checkoutservice_latency-90\", \"rank\": 3, \"score\": 10.0, \"service\": \"checkoutservice\"}, {\"metric\": \"emailservice_latency-50\", \"rank\": 4, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"emailservice_latency-90\", \"rank\": 5, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"emailservice_mem\", \"rank\": 6, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"paymentservice_latency-50\", \"rank\": 7, \"score\": 10.0, \"service\": \"paymentservice\"}, {\"metric\": \"paymentservice_latency-90\", \"rank\": 8, \"score\": 10.0, \"service\": \"paymentservice\"}, {\"metric\": \"shippingservice_latency-90\", \"r ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821082.726563
+      },
+      {
+        "role": "response",
+        "agent": "inv-b",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"top_anomalies\", \"args\": {\"k\": 20}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821083.4107528
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-b",
+        "content": "Observation for inv-b from top_anomalies({\"k\": 20}):\n{\"rows\": [{\"metric\": \"cartservice_latency-90\", \"rank\": 1, \"score\": 10.0, \"service\": \"cartservice\"}, {\"metric\": \"checkoutservice_latency-50\", \"rank\": 2, \"score\": 10.0, \"service\": \"checkoutservice\"}, {\"metric\": \"checkoutservice_latency-90\", \"rank\": 3, \"score\": 10.0, \"service\": \"checkoutservice\"}, {\"metric\": \"emailservice_latency-50\", \"rank\": 4, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"emailservice_latency-90\", \"rank\": 5, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"emailservice_mem\", \"rank\": 6, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"paymentservice_latency-50\", \"rank\": 7, \"score\": 10.0, \"service\": \"paymentservice\"}, {\"metric\": \"paymentservice_latency-90\", \"rank\": 8, \"score\": 10.0, \"service\": \"paymentservice\"}, {\"metric\": \"shippingservice_latency-90\", \"r ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821083.4239473
+      },
+      {
+        "role": "response",
+        "agent": "inv-b",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_logs\", \"args\": {\"svc\": \"cartservice\", \"k\": 50}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821084.4302583
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-b",
+        "content": "Observation for inv-b from service_logs({\"k\": 50, \"svc\": \"cartservice\"}):\n{\"available\": true, \"count\": 50, \"rows\": [{\"msg\": \"GetCartAsync called with userId=fdebbb24-0949-4cad-8a1f-69d6a2de04e8\", \"t\": 1705666211}, {\"msg\": \"AddItemAsync called with userId=fdebbb24-0949-4cad-8a1f-69d6a2de04e8, productId=LS4PSXUNUM, quantity=1\", \"t\": 1705666211}, {\"msg\": \"GetCartAsync called with userId=fdebbb24-0949-4cad-8a1f-69d6a2de04e8\", \"t\": 1705666211}, {\"msg\": \"GetCartAsync called with userId=fdebbb24-0949-4cad-8a1f-69d6a2de04e8\", \"t\": 1705666211}, {\"msg\": \"EmptyCartAsync called with userId=fdebbb24-0949-4cad-8a1f-69d6a2de04e8\", \"t\": 1705666211}, {\"msg\": \"GetCartAsync called with userId=a43bee64-d0a1-492f-9b0a-1484208ec840\", \"t\": 1705666211}, {\"msg\": \"GetCartAsync called with userId=fb1e73fe-f92e-4f8f-99dc-148d47dc359b\", \"t\": 1705666211}, {\"msg\": \"GetCartAsync called with us ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821084.482976
+      },
+      {
+        "role": "response",
+        "agent": "inv-b",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_logs\", \"args\": {\"svc\": \"checkoutservice\", \"k\": 50}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821085.3895416
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-b",
+        "content": "Observation for inv-b from service_logs({\"k\": 50, \"svc\": \"checkoutservice\"}):\n{\"available\": true, \"count\": 50, \"rows\": [{\"msg\": \"[PlaceOrder] user_id=\\\"fdebbb24-0949-4cad-8a1f-69d6a2de04e8\\\" user_currency=\\\"USD\", \"t\": 1705666211}, {\"msg\": \"payment went through (transaction_id: 50bbb76b-bab6-46ba-bb09-148c3bd44f19)\", \"t\": 1705666211}, {\"msg\": \"order confirmation email sent to \\\"someone@example.com\", \"t\": 1705666211}, {\"msg\": \"[PlaceOrder] user_id=\\\"fdebbb24-0949-4cad-8a1f-69d6a2de04e8\\\" user_currency=\\\"USD\", \"t\": 1705666214}, {\"msg\": \"payment went through (transaction_id: 0bca68d3-1a24-480c-907b-f03dcea7c838)\", \"t\": 1705666214}, {\"msg\": \"order confirmation email sent to \\\"someone@example.com\", \"t\": 1705666214}, {\"msg\": \"[PlaceOrder] user_id=\\\"1f45a2d5-a170-4d3d-8cf5-baf096328fcb\\\" user_currency=\\\"EUR\", \"t\": 1705666217}, {\"msg\": \"payment went through (transaction_id:  ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821085.4191532
+      },
+      {
+        "role": "response",
+        "agent": "inv-b",
+        "content": "I need to see the full top_anomalies list and check logs around the actual anomaly onset (1705666511), since the logs I've seen so far are at t=1705666211, which is before onset. Let me get more targeted evidence.\n\n{\"action\": \"tool_call\", \"tool\": \"service_logs\", \"args\": {\"svc\": \"emailservice\", \"k\": 50}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821087.6104143
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-b",
+        "content": "Observation for inv-b from service_logs({\"k\": 50, \"svc\": \"emailservice\"}):\n{\"available\": true, \"count\": 50, \"rows\": [{\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666211}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666214}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666217}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666219}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666222}, {\"msg\": \"A request to send order confirmation email to someone@example.com has been received.\", \"t\": 1705666223}, {\"msg\": \"A request to send order confirmation email to someone@example.com ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821087.6385775
+      },
+      {
+        "role": "response",
+        "agent": "inv-b",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_traces\", \"args\": {\"svc\": \"cartservice\", \"k\": 30}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821088.6062105
+      },
+      {
+        "role": "prompt",
+        "agent": "inv-b",
+        "content": "BEST-EVIDENCE COMMIT (tool budget cap (6) reached): your investigation budget is exhausted and no further tool calls are allowed. You MUST commit now: reply with a commit action containing your current best-evidence ranked-5 diagnosis and a confidence (lower the confidence if your evidence is thin).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821088.606244
+      },
+      {
+        "role": "response",
+        "agent": "inv-b",
+        "content": "{\"action\": \"commit\", \"ranking\": [\"cartservice\", \"checkoutservice\", \"emailservice\", \"paymentservice\", \"shippingservice\"], \"confidence\": 0.45}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821089.746455
+      }
+    ]
+  },
+  {
+    "agent_id": "inv-c",
+    "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+    "transcript_sha256": "1a4810b1d917baa31d4b66b2cad7f7902a7924459256184326371d53296378ec",
+    "tokens": {
+      "prompt": 568,
+      "completion": 38,
+      "total": 606
+    },
+    "llm_calls": 1,
+    "transcript": [
+      {
+        "role": "prompt",
+        "agent": "inv-c",
+        "content": "BEST-EVIDENCE COMMIT (budget_exhausted:token budget 30000 exceeded (30372 tokens)): your investigation budget is exhausted and no further tool calls are allowed. You MUST commit now: reply with a commit action containing your current best-evidence ranked-5 diagnosis and a confidence (lower the confidence if your evidence is thin).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821089.7465892
+      },
+      {
+        "role": "response",
+        "agent": "inv-c",
+        "content": "{\"action\": \"commit\", \"ranking\": [\"svc1\", \"svc2\", \"svc3\", \"svc4\", \"svc5\"], \"confidence\": 0.1}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821090.8641882
+      }
+    ]
+  },
+  {
+    "agent_id": "committee",
+    "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+    "transcript_sha256": "8f3a4b577d2a04782946ba52c2cece354089e934d9121811bbd0ccf24d4c21cf",
+    "tokens": {
+      "prompt": 6617,
+      "completion": 144,
+      "total": 6761
+    },
+    "llm_calls": 5,
+    "transcript": [
+      {
+        "role": "prompt",
+        "agent": "committee",
+        "content": "Adjudication table (sum of (6-rank)*confidence across investigators):\n- cartservice: 4.4500\n- emailservice: 4.1000\n- checkoutservice: 3.4500\n- paymentservice: 2.0000\n- inventoryservice: 0.5500\n- svc1: 0.5000\n- shippingservice: 0.4500\n- svc2: 0.4000\n- svc3: 0.3000\n- svc4: 0.2000\n- svc5: 0.1000\n\nCommittee ranking: ['cartservice', 'emailservice', 'checkoutservice', 'paymentservice', 'inventoryservice']. Inspect if useful, then commit.",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821090.8643165
+      },
+      {
+        "role": "response",
+        "agent": "committee",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"system_context\", \"args\": {}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821091.4489481
+      },
+      {
+        "role": "prompt",
+        "agent": "committee",
+        "content": "Observation for committee from system_context({}):\n{\"anomaly_onset\": 1705666511, \"has_logs\": true, \"has_traces\": true, \"opaque_case_id\": \"RCA-P-05\", \"per_service_metric_count\": {\"adservice\": 7, \"cartservice\": 7, \"checkoutservice\": 6, \"currencyservice\": 7, \"emailservice\": 7, \"frontend\": 8, \"frontend-external\": 2, \"paymentservice\": 7, \"productcatalogservice\": 7, \"recommendationservice\": 7, \"redis\": 4, \"shippingservice\": 6}, \"services\": [\"adservice\", \"cartservice\", \"checkoutservice\", \"currencyservice\", \"emailservice\", \"frontend\", \"frontend-external\", \"paymentservice\", \"productcatalogservice\", \"recommendationservice\", \"redis\", \"shippingservice\"], \"time_end\": 1705667231, \"time_start\": 1705665791}\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821091.4554737
+      },
+      {
+        "role": "response",
+        "agent": "committee",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"top_anomalies\", \"args\": {\"k\": 20}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821092.2613132
+      },
+      {
+        "role": "prompt",
+        "agent": "committee",
+        "content": "Observation for committee from top_anomalies({\"k\": 20}):\n{\"rows\": [{\"metric\": \"cartservice_latency-90\", \"rank\": 1, \"score\": 10.0, \"service\": \"cartservice\"}, {\"metric\": \"checkoutservice_latency-50\", \"rank\": 2, \"score\": 10.0, \"service\": \"checkoutservice\"}, {\"metric\": \"checkoutservice_latency-90\", \"rank\": 3, \"score\": 10.0, \"service\": \"checkoutservice\"}, {\"metric\": \"emailservice_latency-50\", \"rank\": 4, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"emailservice_latency-90\", \"rank\": 5, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"emailservice_mem\", \"rank\": 6, \"score\": 10.0, \"service\": \"emailservice\"}, {\"metric\": \"paymentservice_latency-50\", \"rank\": 7, \"score\": 10.0, \"service\": \"paymentservice\"}, {\"metric\": \"paymentservice_latency-90\", \"rank\": 8, \"score\": 10.0, \"service\": \"paymentservice\"}, {\"metric\": \"shippingservice_latency-90\", \"r ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821092.2741404
+      },
+      {
+        "role": "response",
+        "agent": "committee",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_metrics\", \"args\": {\"svc\": \"cartservice\", \"k\": 30}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821093.0210955
+      },
+      {
+        "role": "prompt",
+        "agent": "committee",
+        "content": "Observation for committee from service_metrics({\"k\": 30, \"svc\": \"cartservice\"}):\n{\"rows\": [{\"faulty_max\": 0.007925, \"median\": 0.004894, \"metric\": \"cartservice_latency-90\", \"normal_max\": 0.004958, \"p95\": 0.007087, \"z_peak\": 28.56283}, {\"faulty_max\": 44843008.0, \"median\": 44625920.0, \"metric\": \"cartservice_mem\", \"normal_max\": 44888064.0, \"p95\": 44802048.0, \"z_peak\": 3.555556}, {\"faulty_max\": 0.003298, \"median\": 0.003164, \"metric\": \"cartservice_latency-50\", \"normal_max\": 0.003199, \"p95\": 0.003281, \"z_peak\": 2.27619}, {\"faulty_max\": 3.139832, \"median\": 2.365288, \"metric\": \"cartservice_cpu\", \"normal_max\": 3.245714, \"p95\": 3.012486, \"z_peak\": 1.69447}, {\"faulty_max\": 29.133, \"median\": 25.133, \"metric\": \"cartservice_workload\", \"normal_max\": 29.067, \"p95\": 28.2, \"z_peak\": 1.538462}, {\"faulty_max\": 0.0, \"median\": 0.0, \"metric\": \"cartservice_diskio\", \"normal_max\": 0.0, \"p95\": 0. ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821093.023696
+      },
+      {
+        "role": "response",
+        "agent": "committee",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_metrics\", \"args\": {\"svc\": \"emailservice\", \"k\": 30}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821094.1979287
+      },
+      {
+        "role": "prompt",
+        "agent": "committee",
+        "content": "Observation for committee from service_metrics({\"k\": 30, \"svc\": \"emailservice\"}):\n{\"rows\": [{\"faulty_max\": 0.120192, \"median\": 0.003054, \"metric\": \"emailservice_latency-50\", \"normal_max\": 0.003059, \"p95\": 0.109375, \"z_peak\": 58.569127}, {\"faulty_max\": 43638784.0, \"median\": 43499520.0, \"metric\": \"emailservice_mem\", \"normal_max\": 43503616.0, \"p95\": 43507712.0, \"z_peak\": 34.0}, {\"faulty_max\": 0.371357, \"median\": 0.325087, \"metric\": \"emailservice_cpu\", \"normal_max\": 0.365578, \"p95\": 0.351298, \"z_peak\": 7.191888}, {\"faulty_max\": 1.667, \"median\": 0.933, \"metric\": \"emailservice_workload\", \"normal_max\": 1.6, \"p95\": 1.467, \"z_peak\": 1.835}, {\"faulty_max\": 0.224038, \"median\": 0.004697, \"metric\": \"emailservice_latency-90\", \"normal_max\": 0.004706, \"p95\": 0.221875, \"z_peak\": 1.018297}, {\"faulty_max\": 0.0, \"median\": 0.0, \"metric\": \"emailservice_diskio\", \"normal_max\": 0.0, \"p95\": 0.0, ...[truncated]\nRespond with your next action (one more tool call, or commit when ready).",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821094.2015808
+      },
+      {
+        "role": "response",
+        "agent": "committee",
+        "content": "{\"action\": \"tool_call\", \"tool\": \"service_logs\", \"args\": {\"svc\": \"emailservice\", \"k\": 50}}",
+        "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+        "ts": 1791821094.970739
+      }
+    ]
+  }
+]

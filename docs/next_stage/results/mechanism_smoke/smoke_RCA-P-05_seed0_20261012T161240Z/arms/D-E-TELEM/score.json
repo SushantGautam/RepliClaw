@@ -1,0 +1,8 @@
+{
+  "hit": true,
+  "true_service": "checkoutservice",
+  "method": "rcaeval-official-service-acc5",
+  "scorer_sha": "0f68edd687eea192e0ba0dd81bb0954d9cd38d3338f024d5ad2313b0968daf00",
+  "top1_hit": false,
+  "true_service_norm": "checkoutservice"
+}
