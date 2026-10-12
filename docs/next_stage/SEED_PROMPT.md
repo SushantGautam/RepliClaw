@@ -12,7 +12,7 @@ TASK B (rc-causal): reuse actual `src/repliclaw/counterfactual/`, `src/repliclaw
 
 TASK C (rc-eval): prepare a lightweight, resumable paired observational measurement on existing RCAEval cases for the revised D-E and existing C-EQ, with case+seed raw data, top-1/top-5, completion, per-arm tokens/time, tool calls, phase transitions and actual failure reasons. Reuse `scripts/pilot_parallel.py` and `scripts/pilot_report.py`; avoid A/B-owned files. Be ready to run immediately once A is integrated. Do NOT create a new dashboard or large test framework.
 
-TASK D (rc-integrity): in parallel, read-only audit and SHORT versioned correction for two critical errors: telemetry access-matched vs intervention-matched claim, and RCA-P-08 prior exposure. Verify whether top-5 saturated cases conceal top-1 differences. Review pilot findings after first real run, without holding A/B/C hostage. Do not alter frozen result files.
+TASK D (rc-integrity): in parallel, read-only audit of two critical errors: telemetry access-matched vs intervention-matched claim, and RCA-P-08 prior exposure. Verify whether top-5 saturated cases conceal top-1 differences. Review pilot findings after first real run, without holding A/B/C hostage. Send exact citations to the lead; the lead owns any versioned correction. Do not alter frozen result files.
 
 LEAD ACTIONS:
 1. Within 5 minutes show running sessions, worktree paths, actual assigned models and SHA. If session orchestration is unavailable, give me four copy-paste task prompts and keep integrating locally—never imply agents started.
