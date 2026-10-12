@@ -1,0 +1,39 @@
+{
+  "case": "drift_sign_and_v1",
+  "cause_set": [
+    "correction_sign_error",
+    "uncalibrated_instrument"
+  ],
+  "expected_mean_concentration": 479.706706,
+  "hidden_fields": [
+    "true_cause",
+    "cause_set",
+    "injected_defects",
+    "expected_mean_concentration",
+    "tolerance_abs_umg_ml",
+    "abs_diff",
+    "per_arm_expected_outcome",
+    "oracle_schema"
+  ],
+  "injected_defects": [
+    {
+      "description": "Correction routine ADDS the logged blank drift instead of subtracting it; invisible whenever the logged drift is 0.",
+      "id": "correction_sign_error"
+    },
+    {
+      "description": "Instrument ran uncalibrated, so per-sample logged drift is nonzero.",
+      "id": "uncalibrated_instrument"
+    }
+  ],
+  "interaction_type": "two_cause_and",
+  "note": "Frozen 2026-10-12 from the frozen batch_assay.json (32 samples, k = 96.0 counts/(umg/mL)). Expected mean = mean_i (raw_i - drift_i)/k = 479.706706 umg/mL; as-run buggy mean (sign flipped, drift present) = 485.178711 umg/mL (deviation 5.472005 umg/mL). The judge (judge.py) is the ONLY reader; these fields are stripped from all persisted investigator-visible artifacts via the case's public_judgment_drop.",
+  "per_arm_expected_outcome": {
+    "I0_baseline": "fail",
+    "I1_fix_sign": "pass",
+    "I2_recalibrate": "pass",
+    "I3_fix_both": "pass"
+  },
+  "schema": "repliclaw.sealed_oracle/v1",
+  "tolerance_abs_umg_ml": 0.05,
+  "true_cause": "correction_sign_error AND uncalibrated_instrument"
+}
