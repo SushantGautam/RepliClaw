@@ -748,6 +748,42 @@ def test_de_invalid_commit_corrected_once(
             assert len(rejects) == 1
 
 
+def test_de_invalid_commit_correction_tool_served(
+    fake_registry: PilotCaseRegistry, tmp_path: Path
+) -> None:
+    """A correction ask answered with a tool call (the model fetching the
+    inventory) is served ONCE, then the agent commits a valid ranking."""
+
+    def script(prompt: str, call_index: int) -> str:
+        if "Adjudication table" in prompt:
+            return _commit(RANK5, 0.99)
+        if "Observation for committee" in prompt:
+            return _commit(RANK5, 0.99)
+        if "Now commit again (commit action ONLY)" in prompt:
+            return _commit(RANK5, 0.7)
+        if "was REJECTED" in prompt:
+            return _tool("system_context")  # fetch the actual inventory
+        if "Begin your private" in prompt:
+            return _tool("system_context")
+        if "Observation for" in prompt:
+            return _commit(BAD_RANK5, 0.6)
+        raise AssertionError(f"UNROUTED D-E prompt: {prompt[:120]!r}")
+
+    arm = DetelemArm(
+        client=FakeLLMClient(script),
+        registry=fake_registry,
+        opaque_id="RCA-P-01",
+        out_dir=tmp_path,
+        seed=3,
+    )
+    result = arm.run()
+    assert result.status == "completed", result
+    assert result.submitted_ranking is not None
+    ledger = json.loads(Path(result.escrow_ledger_path).read_text())
+    assert len(ledger["entries"]) == 3
+    assert all(e["ranking"] == RANK5 for e in ledger["entries"])
+
+
 def test_de_invalid_commit_repeated_is_non_commit_failure(
     fake_registry: PilotCaseRegistry, tmp_path: Path
 ) -> None:
