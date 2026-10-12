@@ -1,0 +1,77 @@
+{
+  "label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+  "status": "crashed",
+  "tokens": 37739,
+  "wall_s": 24.49,
+  "tool_calls": 16,
+  "llm_calls": 23,
+  "submitted_ranking": null,
+  "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+  "arm": "D-E-TELEM",
+  "case_id": "RCA-P-05",
+  "seed": 0,
+  "caps": {
+    "max_tokens_per_run": 30000,
+    "wall_cap_s": 600.0,
+    "de_phase1_tool_cap": 6
+  },
+  "envelope_source": "identical _Envelope for both arms (mechanism smoke)",
+  "case_sha256": "14aecb10e7cbb07415e2512eeb67ea617abbe681824370066b6dea4df09fe67b",
+  "protocol_errors": 0,
+  "crash_error": "UnknownServiceError: unknown service in diagnosis: 'inventoryservice'",
+  "abort_reason": null,
+  "warnings": [],
+  "prompt_volume_ratio": null,
+  "escrow_ledger_path": "/home/susan/worktrees/repliclaw-mechanism/docs/next_stage/results/mechanism_smoke/smoke_RCA-P-05_seed0_20261012T160430Z/arms/D-E-TELEM/d-e-telem-escrow.json",
+  "backend_model": [
+    "Qwen/Qwen3.8-27B-FP8",
+    "Qwen/Qwen3.8-27B-FP8",
+    "Qwen/Qwen3.8-27B-FP8",
+    "Qwen/Qwen3.8-27B-FP8"
+  ],
+  "interface": "mechanism v2: independent D-E (bounded tool turns, pre-outcome escrow, best-evidence commit) vs C-EQ (strong, batch parallelism); ACCESS-MATCHED OBSERVATIONAL (no executable interventions)",
+  "escrow_commitments": [
+    {
+      "agent_id": "inv-a",
+      "phase": "phase1",
+      "commit_sha256": "d012dc076ead37db7c71bf8efcd709dde64e6710e746f116001c4f4a0beb21b6",
+      "revealed": true,
+      "ranking": [
+        "emailservice",
+        "cartservice",
+        "checkoutservice",
+        "paymentservice",
+        "inventoryservice"
+      ],
+      "confidence": 0.55
+    },
+    {
+      "agent_id": "inv-b",
+      "phase": "phase1",
+      "commit_sha256": "87f5707e557c290cc35a1e01dc97393a207f698f33ea40943b4496d8abe7a0c7",
+      "revealed": true,
+      "ranking": [
+        "cartservice",
+        "checkoutservice",
+        "emailservice",
+        "paymentservice",
+        "shippingservice"
+      ],
+      "confidence": 0.45
+    },
+    {
+      "agent_id": "inv-c",
+      "phase": "phase1",
+      "commit_sha256": "f432fcab97e0acc3c377d24c6cb628d6f7f295c5d0ad0239462fd6b9874e5edb",
+      "revealed": true,
+      "ranking": [
+        "svc1",
+        "svc2",
+        "svc3",
+        "svc4",
+        "svc5"
+      ],
+      "confidence": 0.1
+    }
+  ]
+}
