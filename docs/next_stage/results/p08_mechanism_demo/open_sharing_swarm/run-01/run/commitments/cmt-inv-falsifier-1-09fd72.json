@@ -1,0 +1,31 @@
+{
+  "commitment_id": "cmt-inv-falsifier-1-09fd72",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-falsifier-1",
+  "role": "falsifier",
+  "content_hash": "de082b8e4e5e418fc34ae900f02bc7a8e27291165543f8797278333b8fdde560",
+  "phase": "committed",
+  "timestamp": "2026-10-12T16:19:54.058196+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": null,
+  "reveal_timestamp": null,
+  "reveal_verified": null,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current policy document (returns_policy_v2) explicitly defines a 30-day full-refund window for standard items, which matches the claim.",
+    "plan": "1. Identify the active policy from `policy_docs` using the provided conflict resolution rule (first-match-wins). 2. Extract the numerical return window for 'standard' items from the active policy text. 3. Compare the extracted value to the claimed value of 30 days. 4. Verify that stale data in `base_retrieval` does not override the current policy based on the defined precedence rules.",
+    "evidence": {
+      "active_policy_id": "returns_policy_v2",
+      "extracted_window_days": 30,
+      "claimed_window_days": 30,
+      "difference": 0,
+      "stale_data_value_days": 14,
+      "precedence_rule_applied": "first-match-wins on policy_docs order",
+      "conflict_resolution_outcome": "returns_policy_v2 (30 days) takes precedence over base_retrieval v1 (14 days)"
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "seal_hash": "469a577344404f6bd48e469423c0bf8e483e31688164dc915eaf04257f640429"
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "p08.run_manifest/1",
+  "incomplete": false,
+  "arms": {
+    "adaptive_central": [
+      {
+        "run": "adaptive_central/run-01",
+        "status": "completed",
+        "usage_present_ratio": 1.0
+      }
+    ],
+    "eess": [
+      {
+        "run": "eess/run-01",
+        "status": "completed",
+        "usage_present_ratio": 1.0
+      }
+    ],
+    "open_sharing_swarm": [
+      {
+        "run": "open_sharing_swarm/run-01",
+        "status": "completed",
+        "usage_present_ratio": 1.0
+      }
+    ]
+  }
+}
