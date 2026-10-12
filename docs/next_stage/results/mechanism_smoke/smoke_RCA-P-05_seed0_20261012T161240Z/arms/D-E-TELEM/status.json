@@ -1,0 +1,85 @@
+{
+  "label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+  "status": "completed",
+  "tokens": 39267,
+  "wall_s": 26.317,
+  "tool_calls": 18,
+  "llm_calls": 25,
+  "submitted_ranking": [
+    "cartservice",
+    "checkoutservice",
+    "emailservice",
+    "paymentservice",
+    "frontend"
+  ],
+  "model_label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+  "arm": "D-E-TELEM",
+  "case_id": "RCA-P-05",
+  "seed": 0,
+  "caps": {
+    "max_tokens_per_run": 30000,
+    "wall_cap_s": 600.0,
+    "de_phase1_tool_cap": 6
+  },
+  "envelope_source": "identical _Envelope for both arms (mechanism smoke)",
+  "case_sha256": "14aecb10e7cbb07415e2512eeb67ea617abbe681824370066b6dea4df09fe67b",
+  "protocol_errors": 0,
+  "crash_error": null,
+  "abort_reason": "budget_exhausted:token budget 30000 exceeded (30542 tokens)",
+  "warnings": [
+    "best-evidence commit path used: budget_exhausted:token budget 30000 exceeded (30542 tokens)"
+  ],
+  "prompt_volume_ratio": null,
+  "escrow_ledger_path": "/home/susan/worktrees/repliclaw-mechanism/docs/next_stage/results/mechanism_smoke/smoke_RCA-P-05_seed0_20261012T161240Z/arms/D-E-TELEM/d-e-telem-escrow.json",
+  "backend_model": [
+    "Qwen/Qwen3.8-27B-FP8",
+    "Qwen/Qwen3.8-27B-FP8",
+    "Qwen/Qwen3.8-27B-FP8",
+    "Qwen/Qwen3.8-27B-FP8"
+  ],
+  "interface": "mechanism v2: independent D-E (bounded tool turns, pre-outcome escrow, best-evidence commit) vs C-EQ (strong, batch parallelism); ACCESS-MATCHED OBSERVATIONAL (no executable interventions)",
+  "escrow_commitments": [
+    {
+      "agent_id": "inv-a",
+      "phase": "phase1",
+      "commit_sha256": "256d8a04d77a69fb132588412ff174fac4981e8aa6c9a1f240895c8f7137c6e2",
+      "revealed": true,
+      "ranking": [
+        "emailservice",
+        "cartservice",
+        "paymentservice",
+        "checkoutservice",
+        "frontend"
+      ],
+      "confidence": 0.55
+    },
+    {
+      "agent_id": "inv-b",
+      "phase": "phase1",
+      "commit_sha256": "55d4b9c36427b7421a187b8a0ee38175ffde84644cb310e5359c28be2cc474b4",
+      "revealed": true,
+      "ranking": [
+        "cartservice",
+        "checkoutservice",
+        "emailservice",
+        "paymentservice",
+        "shippingservice"
+      ],
+      "confidence": 0.5
+    },
+    {
+      "agent_id": "inv-c",
+      "phase": "phase1",
+      "commit_sha256": "d7f8e77734aa44e39f858dcabda5d1f6232b9912b9930e9ace59d5f9f011e697",
+      "revealed": true,
+      "ranking": [
+        "checkoutservice",
+        "paymentservice",
+        "cartservice",
+        "frontend",
+        "redis"
+      ],
+      "confidence": 0.35
+    }
+  ]
+}

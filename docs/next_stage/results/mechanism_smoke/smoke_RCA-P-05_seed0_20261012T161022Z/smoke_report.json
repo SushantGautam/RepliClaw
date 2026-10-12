@@ -1,0 +1,133 @@
+{
+  "label": "MECHANISM SMOKE (v2, lane-mechanism) \u2014 ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes observational queries only \u2014 NO executable interventions); MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B); EVOLVING INSTRUMENT: non-comparable to prior ledgers; exploratory, single reused pilot case; no confirmatory or causal-intervention claims.",
+  "D-E-TELEM": {
+    "arm": "D-E-TELEM",
+    "status": "aborted_budget",
+    "tokens_total": 33003,
+    "wall_s": 20.911,
+    "tool_calls": 12,
+    "llm_calls": 19,
+    "submitted_ranking": null,
+    "abort_reason": "non_commit:inv-c: no re-commit after inventory correction",
+    "crash_error": null,
+    "protocol_errors": 0,
+    "warnings": [],
+    "prompt_volume_ratio": null,
+    "backend_models": [
+      "Qwen/Qwen3.8-27B-FP8",
+      "Qwen/Qwen3.8-27B-FP8",
+      "Qwen/Qwen3.8-27B-FP8"
+    ],
+    "escrow_commitments": [
+      {
+        "agent_id": "inv-a",
+        "phase": "phase1",
+        "commit_sha256": "256d8a04d77a69fb132588412ff174fac4981e8aa6c9a1f240895c8f7137c6e2",
+        "revealed": false,
+        "ranking": [
+          "emailservice",
+          "cartservice",
+          "paymentservice",
+          "checkoutservice",
+          "frontend"
+        ],
+        "confidence": 0.55
+      },
+      {
+        "agent_id": "inv-b",
+        "phase": "phase1",
+        "commit_sha256": "55d4b9c36427b7421a187b8a0ee38175ffde84644cb310e5359c28be2cc474b4",
+        "revealed": false,
+        "ranking": [
+          "cartservice",
+          "checkoutservice",
+          "emailservice",
+          "paymentservice",
+          "shippingservice"
+        ],
+        "confidence": 0.5
+      }
+    ],
+    "run_dir": "/home/susan/worktrees/repliclaw-mechanism/docs/next_stage/results/mechanism_smoke/smoke_RCA-P-05_seed0_20261012T161022Z/arms/D-E-TELEM",
+    "score": null
+  },
+  "C-EQ-TELEM": {
+    "arm": "C-EQ-TELEM",
+    "status": "completed",
+    "tokens_total": 10659,
+    "wall_s": 14.418,
+    "tool_calls": 8,
+    "llm_calls": 13,
+    "submitted_ranking": [
+      "cartservice",
+      "checkoutservice",
+      "emailservice",
+      "paymentservice",
+      "frontend"
+    ],
+    "abort_reason": null,
+    "crash_error": null,
+    "protocol_errors": 0,
+    "warnings": [
+      "prompt-volume canary breach: prompt-volume ratio 0.2442 outside canary band [0.6, 1.4]"
+    ],
+    "prompt_volume_ratio": 0.24423337856173677,
+    "backend_models": [
+      "Qwen/Qwen3.8-27B-FP8",
+      "Qwen/Qwen3.8-27B-FP8",
+      "Qwen/Qwen3.8-27B-FP8",
+      "Qwen/Qwen3.8-27B-FP8"
+    ],
+    "escrow_commitments": [
+      {
+        "agent_id": "manager",
+        "phase": "forecast",
+        "commit_sha256": "ec26d0e3459f07bed66473d396dc16ab0c17d47d33435bd29a341b8083008a96",
+        "revealed": false,
+        "ranking": [
+          "svc1",
+          "svc2",
+          "svc3",
+          "svc4",
+          "svc5"
+        ],
+        "confidence": 0.1
+      }
+    ],
+    "run_dir": "/home/susan/worktrees/repliclaw-mechanism/docs/next_stage/results/mechanism_smoke/smoke_RCA-P-05_seed0_20261012T161022Z/arms/C-EQ-TELEM",
+    "score": {
+      "hit": true,
+      "true_service": "checkoutservice",
+      "method": "rcaeval-official-service-acc5",
+      "scorer_sha": "0f68edd687eea192e0ba0dd81bb0954d9cd38d3338f024d5ad2313b0968daf00",
+      "top1_hit": false,
+      "true_service_norm": "checkoutservice"
+    }
+  },
+  "generated_at": "2026-10-12T16:10:56.613785+00:00",
+  "git_sha": "f8fe440566a39e02203ed2acd2f270b7d68f83fe",
+  "branch": "lane-mechanism",
+  "model_requested": "default",
+  "base_url_env": "SIMULACHAT_BASE_URL (operator env; default https://simulachat.sushant.pp.ua/api/v1)",
+  "case_id": "RCA-P-05",
+  "case_sha256": "14aecb10e7cbb07415e2512eeb67ea617abbe681824370066b6dea4df09fe67b",
+  "seed": 0,
+  "index_sha": "c49a288920dbba2e8e724679a14636d5c7eb2b45426bba14007ef79a6c0ab1bb",
+  "caps": {
+    "tokens_per_run_each_arm": 30000,
+    "pair_token_cap": 120000,
+    "wall_cap_s_each_arm": 600.0,
+    "de_phase1_tool_cap": 6
+  },
+  "pair_tokens_total": 43662,
+  "failures": [
+    {
+      "arm": "D-E-TELEM",
+      "status": "aborted_budget",
+      "abort_reason": "non_commit:inv-c: no re-commit after inventory correction",
+      "crash_error": null
+    }
+  ],
+  "interpretation": "MECHANISM SMOKE ONLY. Access-matched observational diagnosis on a single reused pilot case with low caps; evolving instrument; NOT comparable to prior ledgers; no confirmatory, statistical, or causal-intervention claim is supported.",
+  "run_root": "/home/susan/worktrees/repliclaw-mechanism/docs/next_stage/results/mechanism_smoke/smoke_RCA-P-05_seed0_20261012T161022Z"
+}

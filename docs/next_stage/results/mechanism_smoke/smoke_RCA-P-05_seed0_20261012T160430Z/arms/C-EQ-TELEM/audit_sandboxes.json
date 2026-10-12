@@ -1,0 +1,66 @@
+[
+  {
+    "file_opened_count": 1,
+    "call_log": []
+  },
+  {
+    "file_opened_count": 2,
+    "call_log": [
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 21.151,
+        "payload_bytes": 1941
+      }
+    ]
+  },
+  {
+    "file_opened_count": 3,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 11.66,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 17.703,
+        "payload_bytes": 1941
+      },
+      {
+        "tool": "service_logs",
+        "args": {
+          "svc": "cartservice",
+          "k": 50
+        },
+        "wall_ms": 41.342,
+        "payload_bytes": 5236
+      }
+    ]
+  },
+  {
+    "file_opened_count": 2,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 5.464,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 14.677,
+        "payload_bytes": 1941
+      }
+    ]
+  }
+]

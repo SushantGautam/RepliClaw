@@ -1,0 +1,29 @@
+{
+  "arm": "C-EQ-TELEM",
+  "opaque_case_id": "RCA-P-05",
+  "entries": [
+    {
+      "agent_id": "manager",
+      "phase": "forecast",
+      "committed_at": 113890.459445833,
+      "commit_sha256": "ec26d0e3459f07bed66473d396dc16ab0c17d47d33435bd29a341b8083008a96",
+      "ranking": [
+        "svc1",
+        "svc2",
+        "svc3",
+        "svc4",
+        "svc5"
+      ],
+      "confidence": 0.1,
+      "revealed_at": null,
+      "revealed": false
+    }
+  ],
+  "phase_transitions": [
+    {
+      "phase": "COMMIT",
+      "at": null,
+      "note": "gate initialized"
+    }
+  ]
+}
