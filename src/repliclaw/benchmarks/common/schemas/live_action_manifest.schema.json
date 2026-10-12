@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repliclaw.live_action_manifest/v1",
+  "title": "RepliClaw live action-set manifest (one problem)",
+  "description": "Freeze-time, single-source-of-truth action manifest for one registered AIOpsLab mitigation problem. Both intervention-matched arms (D-E centralized, C-EQ) MUST draw their admissible action vocabulary, budget cap, escrow->action mapping and reset digest exclusively from this file, so tool parity holds by construction. Validatable with a stock JSON-Schema validator (jsonschema); no custom dependencies.",
+  "type": "object",
+  "required": [
+    "schema",
+    "problem_id",
+    "pinned_repo_sha",
+    "app",
+    "namespace",
+    "action_set",
+    "max_steps",
+    "escrow_mapping",
+    "reset_digest_spec",
+    "approval_gate",
+    "excluded_actions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "repliclaw.live_action_manifest/v1" },
+    "problem_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_]+(-[a-z0-9_]+)*-mitigation-[0-9]+$",
+      "description": "Registered AIOpsLab problem id, e.g. 'k8s_target_port-misconfig-mitigation-1'."
+    },
+    "pinned_repo_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "AIOpsLab upstream commit the action surface was read from. Frozen: ccf08d0d1d5fa5b30f120e2e8549662d44411b35."
+    },
+    "app": {
+      "type": "string",
+      "enum": ["social-network", "hotel-reservation", "astronomy-shop"],
+      "description": "AIOpsLab Application this problem deploys (SocialNetwork / HotelReservation / AstronomyShop)."
+    },
+    "namespace": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Kubernetes namespace the app (and thus the fault + digest) is scoped to."
+    },
+    "action_set": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The EXACT admissible intervention/observation action vocabulary for this problem, read from the code's registered action registry (aiopslab/utils/actions.py get_actions('mitigation')). Arm-identical: both arms receive this list.",
+      "items": {
+        "type": "object",
+        "required": ["action_id", "changed_factors", "arm_visible"],
+        "additionalProperties": false,
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Registered action method name, e.g. 'exec_shell', 'submit', 'get_logs'."
+          },
+          "changed_factors": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": ["observation", "cluster_state", "episode_termination"]
+            },
+            "description": "Which environment dimension(s) the action perturbs (RepliClaw InterventionSpec.changed_factors analogue). 'cluster_state' = the write/intervention channel; 'observation' = read-only; 'episode_termination' = submit. Both arms read the same factor names so selection is matched on the factor menu, not the outcome."
+          },
+          "arm_visible": {
+            "type": "boolean",
+            "description": "Whether this action is exposed to BOTH arms (true) or one arm only (false). For matched-tools parity every admissible action is arm_visible=true; false is reserved for a pre-freeze, pre-registered gating decision and must be documented in the design doc."
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Optional frozen signature/param constraints, e.g. exec_shell timeout=30."
+          }
+        }
+      }
+    },
+    "max_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Frozen per-trial step cap passed to Orchestrator.start_problem(max_steps). AIOpsLab itself imposes NO per-problem cap (start_problem just loops range(max_steps), service.py default is 10); this value is a RepliClaw freeze decision. Arm-neutral: the SAME integer is passed to both arms' start_problem, so the cap cannot bias one arm."
+    },
+    "escrow_mapping": {
+      "type": "object",
+      "required": ["function_id", "seed"],
+      "additionalProperties": false,
+      "properties": {
+        "function_id": {
+          "type": "string",
+          "const": "explicit_table_lookup_v1",
+          "description": "Deterministic escrow-selection -> action_id function. Chosen over a hash: the frozen action_set IS the table; a selection resolves by identity lookup of the action_id (or its 0-based ordinal in action_set) into this manifest. Arm-identical by construction, fully auditable, no truncation/ambiguity."
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Reserved seed. Unused for the explicit-table path; used ONLY by the D-R (random-selection) comparator to seed uniform selection FROM the same admissible action_set, so D-R stays inside the matched vocabulary."
+        }
+      }
+    },
+    "reset_digest_spec": {
+      "type": "object",
+      "required": ["resources", "hash_algorithm"],
+      "additionalProperties": false,
+      "properties": {
+        "resources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Post-reset resources snapshotted to prove the environment returned to baseline before each trial. Namespace-scoped workload objects + PVs for this app.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "deployments",
+              "statefulsets",
+              "services",
+              "pods",
+              "configmaps",
+              "secrets",
+              "persistentvolumeclaims",
+              "persistentvolumes"
+            ]
+          }
+        },
+        "hash_algorithm": {
+          "type": "string",
+          "const": "sha256",
+          "description": "Digest algorithm over the canonical (sorted, compact JSON) serialization of the enumerated resource list for the problem namespace (+ PVs by name). sha256 for cross-platform stability (matches RepliClaw canonical_bytes/sha256 convention)."
+        },
+        "canonicalization": {
+          "type": "string",
+          "const": "sort_keys_compact_json",
+          "description": "Serialization rule: json.dumps(sort_keys=True, separators=(',',':')) per resource, concatenated in the fixed order of `resources`."
+        }
+      }
+    },
+    "approval_gate": {
+      "type": "object",
+      "required": ["required", "gates"],
+      "additionalProperties": false,
+      "properties": {
+        "required": {
+          "type": "boolean",
+          "description": "true = this problem requires a human-approved, VM-backed deployment before any live trial (hotel-reservation / astronomy-shop). Never fake their state: no live run until approved."
+        },
+        "gates": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What the gate controls, e.g. 'VM provisioning + paid run for test-hotel-reservation / astronomy-shop namespaces'."
+        }
+      }
+    },
+    "excluded_actions": {
+      "type": "array",
+      "description": "AIOpsLab actions that are NOT mappable to a matched intervention vocabulary, each with a reason. Single source of truth so both arms exclude the same surface.",
+      "items": {
+        "type": "object",
+        "required": ["action_id", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "action_id": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}

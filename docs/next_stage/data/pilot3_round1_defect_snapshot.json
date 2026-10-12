@@ -1,0 +1,245 @@
+{
+  "note": "Pilot #3 round1 evidence snapshot \u2014 stopped by harness-defect stop trip (W3h, addendum 6.4). Non-pilot evidence per frozen no-confirmatory-reuse; preserved as real-run data (C-EQ completions + D-E aborted_budget cohort inputs).",
+  "stop": {
+    "tripped": [
+      "stop1_ssat",
+      "stop2_crash"
+    ],
+    "checks": {
+      "cases_completed": 1,
+      "runs_recorded": 4,
+      "stop1_ssat": {
+        "sat": {
+          "D-E-TELEM": 0.0,
+          "C-EQ-TELEM": 1.0
+        },
+        "threshold": 0.25,
+        "tripped": true
+      },
+      "stop2_crash": {
+        "rate": {
+          "D-E-TELEM": 1.0,
+          "C-EQ-TELEM": 0.0
+        },
+        "max_allowed": 0.25,
+        "per_arm_crashes": {
+          "D-E-TELEM": 2,
+          "C-EQ-TELEM": 0
+        },
+        "per_arm_runs": {
+          "D-E-TELEM": 2,
+          "C-EQ-TELEM": 2
+        },
+        "tripped": true
+      },
+      "stop3_tokens": {
+        "cumulative": 232726,
+        "ceiling": 2880000,
+        "next_run_would_breach": false,
+        "tripped": false
+      },
+      "stop4_floor": {
+        "per_arm_run_successes": {
+          "D-E-TELEM": "0/2",
+          "C-EQ-TELEM": "2/2"
+        },
+        "run_success_floor_min": 2,
+        "run_success_floor": {
+          "D-E-TELEM": false,
+          "C-EQ-TELEM": false
+        },
+        "allzero_cases": [],
+        "allzero_case_count": 0,
+        "allzero_floor_min": 9,
+        "allzero_floor": false,
+        "tripped": false
+      },
+      "any_tripped": true
+    },
+    "written_at": "2026-10-10T16:36:57.665249+00:00"
+  },
+  "runs": {
+    "seed20261011/D-E-TELEM": {
+      "status": "aborted_budget",
+      "tokens": 62751,
+      "wall_s": 16.042,
+      "submitted_ranking": null,
+      "sessions": [
+        {
+          "agent_id": "inv-a",
+          "llm_calls": 23,
+          "tokens": {
+            "prompt": 61977,
+            "completion": 774,
+            "total": 62751
+          }
+        },
+        {
+          "agent_id": "inv-b",
+          "llm_calls": 0,
+          "tokens": {
+            "prompt": 0,
+            "completion": 0,
+            "total": 0
+          }
+        },
+        {
+          "agent_id": "inv-c",
+          "llm_calls": 0,
+          "tokens": {
+            "prompt": 0,
+            "completion": 0,
+            "total": 0
+          }
+        }
+      ]
+    },
+    "seed20261011/C-EQ-TELEM": {
+      "status": "completed",
+      "tokens": 54717,
+      "wall_s": 13.724,
+      "submitted_ranking": [
+        "adservice",
+        "cartservice",
+        "checkoutservice",
+        "recommendationservice",
+        "productcatalogservice"
+      ],
+      "score": {
+        "hit": true,
+        "true_service": "adservice",
+        "method": "rcaeval-official-service-acc5",
+        "scorer_sha": "a8c545f200a288b6cca2310d223af16967de55c6f13962d9a157acf9fd79db56"
+      },
+      "sessions": [
+        {
+          "agent_id": "manager",
+          "llm_calls": 14,
+          "tokens": {
+            "prompt": 44531,
+            "completion": 454,
+            "total": 44985
+          }
+        },
+        {
+          "agent_id": "inv-a",
+          "llm_calls": 1,
+          "tokens": {
+            "prompt": 3200,
+            "completion": 42,
+            "total": 3242
+          }
+        },
+        {
+          "agent_id": "inv-b",
+          "llm_calls": 1,
+          "tokens": {
+            "prompt": 3204,
+            "completion": 41,
+            "total": 3245
+          }
+        },
+        {
+          "agent_id": "inv-c",
+          "llm_calls": 1,
+          "tokens": {
+            "prompt": 3203,
+            "completion": 42,
+            "total": 3245
+          }
+        }
+      ]
+    },
+    "seed20261012/D-E-TELEM": {
+      "status": "aborted_budget",
+      "tokens": 60537,
+      "wall_s": 19.006,
+      "submitted_ranking": null,
+      "sessions": [
+        {
+          "agent_id": "inv-a",
+          "llm_calls": 23,
+          "tokens": {
+            "prompt": 59627,
+            "completion": 910,
+            "total": 60537
+          }
+        },
+        {
+          "agent_id": "inv-b",
+          "llm_calls": 0,
+          "tokens": {
+            "prompt": 0,
+            "completion": 0,
+            "total": 0
+          }
+        },
+        {
+          "agent_id": "inv-c",
+          "llm_calls": 0,
+          "tokens": {
+            "prompt": 0,
+            "completion": 0,
+            "total": 0
+          }
+        }
+      ]
+    },
+    "seed20261012/C-EQ-TELEM": {
+      "status": "completed",
+      "tokens": 54721,
+      "wall_s": 12.797,
+      "submitted_ranking": [
+        "adservice",
+        "cartservice",
+        "checkoutservice",
+        "recommendationservice",
+        "productcatalogservice"
+      ],
+      "score": {
+        "hit": true,
+        "true_service": "adservice",
+        "method": "rcaeval-official-service-acc5",
+        "scorer_sha": "a8c545f200a288b6cca2310d223af16967de55c6f13962d9a157acf9fd79db56"
+      },
+      "sessions": [
+        {
+          "agent_id": "manager",
+          "llm_calls": 14,
+          "tokens": {
+            "prompt": 44532,
+            "completion": 456,
+            "total": 44988
+          }
+        },
+        {
+          "agent_id": "inv-a",
+          "llm_calls": 1,
+          "tokens": {
+            "prompt": 3200,
+            "completion": 42,
+            "total": 3242
+          }
+        },
+        {
+          "agent_id": "inv-b",
+          "llm_calls": 1,
+          "tokens": {
+            "prompt": 3204,
+            "completion": 42,
+            "total": 3246
+          }
+        },
+        {
+          "agent_id": "inv-c",
+          "llm_calls": 1,
+          "tokens": {
+            "prompt": 3203,
+            "completion": 42,
+            "total": 3245
+          }
+        }
+      ]
+    }
+  }
+}

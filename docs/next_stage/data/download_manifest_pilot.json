@@ -1,0 +1,197 @@
+{
+  "cases": [
+    "re1ob_adservice_cpu_1",
+    "re1ob_cartservice_cpu_1",
+    "re1ob_adservice_delay_1",
+    "re1ob_cartservice_delay_1",
+    "re2ob_checkoutservice_delay_1",
+    "re2ob_currencyservice_delay_1",
+    "re2ob_emailservice_delay_1",
+    "re2ob_productcatalogservice_delay_1",
+    "re3ob_cartservice_f1_1",
+    "re3ob_adservice_f3_1"
+  ],
+  "files": [
+    {
+      "bytes": 368024,
+      "file": "re1ob_adservice_cpu_1/metrics.parquet",
+      "sha256": "464dcc215afe145d37f8b107ea291df7ffc0691756d375c54ddc1c09d0a2ac74"
+    },
+    {
+      "bytes": 10,
+      "file": "re1ob_adservice_cpu_1/inject_time.txt",
+      "sha256": "392017698b9b1df43c5b9a5e96dfb9c19676348d67d2ee6a4ad2061abe729112"
+    },
+    {
+      "bytes": 379137,
+      "file": "re1ob_cartservice_cpu_1/metrics.parquet",
+      "sha256": "0f4df7e0eca4c9db7fcbdf2dab29065e14c3ed770c6a70d4a70b8784eb0c0199"
+    },
+    {
+      "bytes": 10,
+      "file": "re1ob_cartservice_cpu_1/inject_time.txt",
+      "sha256": "72b74f590a5fdeb7f0df289b7afaa56a73108248600c824ac3e8ba99b13f5a6c"
+    },
+    {
+      "bytes": 136982,
+      "file": "re1ob_adservice_delay_1/metrics.parquet",
+      "sha256": "9b7ec68509171e914417748fb1adea118233867c3bf8d7ee3716df3e85417dc9"
+    },
+    {
+      "bytes": 10,
+      "file": "re1ob_adservice_delay_1/inject_time.txt",
+      "sha256": "ad166a1b84a89404204f1f044c04a6a958dcd80bb108dd0735f67e8778fedc50"
+    },
+    {
+      "bytes": 163459,
+      "file": "re1ob_cartservice_delay_1/metrics.parquet",
+      "sha256": "4eda964565765755f8ada1d14d19206261f09967607985495bb76d5b0cdf4c7f"
+    },
+    {
+      "bytes": 10,
+      "file": "re1ob_cartservice_delay_1/inject_time.txt",
+      "sha256": "e91afb93ad52f2c685d3dae217fd92aa56a035f3a17f43510bfcc40248c72e6f"
+    },
+    {
+      "bytes": 161729,
+      "file": "re2ob_checkoutservice_delay_1/metrics.parquet",
+      "sha256": "3a428e2e4792c6ceecd1e47c770477887b7c14c175347ac52b28011595d23088"
+    },
+    {
+      "bytes": 350672,
+      "file": "re2ob_checkoutservice_delay_1/logs.parquet",
+      "sha256": "f3645724f7c021ba532deea938049a575b75d265e1e0535038f5ea5fbb854b16"
+    },
+    {
+      "bytes": 10233639,
+      "file": "re2ob_checkoutservice_delay_1/traces.parquet",
+      "sha256": "a86818c7ab72aa360c3d81aafd9c4dc6a4da0ef75204cbf3a0c70d07a1fd44da"
+    },
+    {
+      "bytes": 10,
+      "file": "re2ob_checkoutservice_delay_1/inject_time.txt",
+      "sha256": "5b8132d68105c187d8aad124f7af4a8bdee399082a1fbf35f2f58aa9d1229d55"
+    },
+    {
+      "bytes": 158114,
+      "file": "re2ob_currencyservice_delay_1/metrics.parquet",
+      "sha256": "5a7291e34ce019824e0dafb6c3f2d29153b54563c65795444d9a329e745c4b25"
+    },
+    {
+      "bytes": 321294,
+      "file": "re2ob_currencyservice_delay_1/logs.parquet",
+      "sha256": "32c77b4bcdeba1e0fa770c96417c79616b7c6c41576644d193e1d5a2944c4b1d"
+    },
+    {
+      "bytes": 9806239,
+      "file": "re2ob_currencyservice_delay_1/traces.parquet",
+      "sha256": "9e6b77c4512536fa9d83cb6ff2c037e31af6db28e752891ba35f822d888f23af"
+    },
+    {
+      "bytes": 10,
+      "file": "re2ob_currencyservice_delay_1/inject_time.txt",
+      "sha256": "939e7b2a0b2d465dc22075f479b38548c47759c612cf0c5b6e72dbc954c9553a"
+    },
+    {
+      "bytes": 153820,
+      "file": "re2ob_emailservice_delay_1/metrics.parquet",
+      "sha256": "888dae20bf94fe78534fe3e2bb821b898ab66f53e2c87101d21466c0fb88aea1"
+    },
+    {
+      "bytes": 336154,
+      "file": "re2ob_emailservice_delay_1/logs.parquet",
+      "sha256": "9f742c0c42f0739222db8c92d5d716e1a94a1774d66cb82de3e5bbd64744f9aa"
+    },
+    {
+      "bytes": 10184723,
+      "file": "re2ob_emailservice_delay_1/traces.parquet",
+      "sha256": "569e86b874736c9815ea4be07726a4abe4a76990c93c1b992e356b686fed1a9d"
+    },
+    {
+      "bytes": 10,
+      "file": "re2ob_emailservice_delay_1/inject_time.txt",
+      "sha256": "f174f8bbe484e6506b2fc986044c10dbef2f5719f42dd1064a042362f291f59a"
+    },
+    {
+      "bytes": 153586,
+      "file": "re2ob_productcatalogservice_delay_1/metrics.parquet",
+      "sha256": "58640c77551e8eddb189f555457d597fefebd65ac28043d1f633891cd9f0178d"
+    },
+    {
+      "bytes": 312686,
+      "file": "re2ob_productcatalogservice_delay_1/logs.parquet",
+      "sha256": "51243d1ea9378b7ec45c87c450d19f104a8c143f87cbafbe5c768df03bbff565"
+    },
+    {
+      "bytes": 9445147,
+      "file": "re2ob_productcatalogservice_delay_1/traces.parquet",
+      "sha256": "5669ed603a30e6727cc2279b774844c545fd6410a9dc9ac5f869f9ae67f15036"
+    },
+    {
+      "bytes": 10,
+      "file": "re2ob_productcatalogservice_delay_1/inject_time.txt",
+      "sha256": "add38087b4414942f62d47bff8e07a144417c939eefe5f8f5bd5d3220edb3d8a"
+    },
+    {
+      "bytes": 148622,
+      "file": "re3ob_cartservice_f1_1/metrics.parquet",
+      "sha256": "f48dbce429636dfabb33f5695f0992d91c92b97c4b3031cfe0606a37bf49221c"
+    },
+    {
+      "bytes": 117073,
+      "file": "re3ob_cartservice_f1_1/logs.parquet",
+      "sha256": "daba5217f71f5a595e28cf9d5a3bda414d6e0cfaf19aa754a24aad9c14677a63"
+    },
+    {
+      "bytes": 4094874,
+      "file": "re3ob_cartservice_f1_1/traces.parquet",
+      "sha256": "13bb4dfddce23145579f9189e125d72463b5045348dfb6f6cf247b21b4f43cfa"
+    },
+    {
+      "bytes": 10,
+      "file": "re3ob_cartservice_f1_1/inject_time.txt",
+      "sha256": "3acf7c7b4c1388a39a895006b4963c0ae10f60eba4efc6590f5728e60d5a0567"
+    },
+    {
+      "bytes": 149939,
+      "file": "re3ob_adservice_f3_1/metrics.parquet",
+      "sha256": "79548b07b082297d85b061ff8a9269e85f7522bd721c167274eb748b36d4b084"
+    },
+    {
+      "bytes": 129908,
+      "file": "re3ob_adservice_f3_1/logs.parquet",
+      "sha256": "d8fb490a359db7cda3ce618ce51251ceec89b90026839f90a891391e3d51b197"
+    },
+    {
+      "bytes": 4516189,
+      "file": "re3ob_adservice_f3_1/traces.parquet",
+      "sha256": "6ec516a79bbd427766b02d0d87f06ea9ec15d0b990f4d65f74283e341e70eda7"
+    },
+    {
+      "bytes": 10,
+      "file": "re3ob_adservice_f3_1/inject_time.txt",
+      "sha256": "cbe30ff13bb6f3da75dcc04cf201c3a5bef0a9cda7cd18ebd0f028d170487716"
+    }
+  ],
+  "skipped_not_in_dataset": [
+    "re1ob_adservice_cpu_1/logs.parquet",
+    "re1ob_adservice_cpu_1/root_cause.txt",
+    "re1ob_adservice_cpu_1/traces.parquet",
+    "re1ob_adservice_delay_1/logs.parquet",
+    "re1ob_adservice_delay_1/root_cause.txt",
+    "re1ob_adservice_delay_1/traces.parquet",
+    "re1ob_cartservice_cpu_1/logs.parquet",
+    "re1ob_cartservice_cpu_1/root_cause.txt",
+    "re1ob_cartservice_cpu_1/traces.parquet",
+    "re1ob_cartservice_delay_1/logs.parquet",
+    "re1ob_cartservice_delay_1/root_cause.txt",
+    "re1ob_cartservice_delay_1/traces.parquet",
+    "re2ob_checkoutservice_delay_1/root_cause.txt",
+    "re2ob_currencyservice_delay_1/root_cause.txt",
+    "re2ob_emailservice_delay_1/root_cause.txt",
+    "re2ob_productcatalogservice_delay_1/root_cause.txt",
+    "re3ob_adservice_f3_1/root_cause.txt",
+    "re3ob_cartservice_f1_1/root_cause.txt"
+  ],
+  "sorted_ids_sha256": "955a462175200909577c8c71db64e3fc8f879c83f1a9028e307926c471503a02"
+}
