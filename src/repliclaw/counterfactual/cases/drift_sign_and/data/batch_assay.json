@@ -1,0 +1,270 @@
+{
+  "batch_id": "B-2026-094",
+  "case": "drift_sign_and_v1",
+  "generator": "data/generate.py (deterministic 64-bit LCG, seed 20261013)",
+  "instrument": {
+    "gain_state": "factory",
+    "model": "AX-550",
+    "state_at_run": "uncalibrated"
+  },
+  "n_samples": 32,
+  "samples": [
+    {
+      "log_lines": [
+        "INFO sample=S01 raw=42512 blank_ref_drift=390 state=uncalibrated"
+      ],
+      "raw_counts": 42512,
+      "reference_drift_counts": 390,
+      "sample_id": "S01"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S02 raw=46434 blank_ref_drift=147 state=uncalibrated"
+      ],
+      "raw_counts": 46434,
+      "reference_drift_counts": 147,
+      "sample_id": "S02"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S03 raw=50484 blank_ref_drift=294 state=uncalibrated"
+      ],
+      "raw_counts": 50484,
+      "reference_drift_counts": 294,
+      "sample_id": "S03"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S04 raw=49926 blank_ref_drift=365 state=uncalibrated"
+      ],
+      "raw_counts": 49926,
+      "reference_drift_counts": 365,
+      "sample_id": "S04"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S05 raw=47560 blank_ref_drift=226 state=uncalibrated"
+      ],
+      "raw_counts": 47560,
+      "reference_drift_counts": 226,
+      "sample_id": "S05"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S06 raw=50618 blank_ref_drift=400 state=uncalibrated"
+      ],
+      "raw_counts": 50618,
+      "reference_drift_counts": 400,
+      "sample_id": "S06"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S07 raw=44556 blank_ref_drift=405 state=uncalibrated"
+      ],
+      "raw_counts": 44556,
+      "reference_drift_counts": 405,
+      "sample_id": "S07"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S08 raw=48526 blank_ref_drift=342 state=uncalibrated"
+      ],
+      "raw_counts": 48526,
+      "reference_drift_counts": 342,
+      "sample_id": "S08"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S09 raw=45024 blank_ref_drift=159 state=uncalibrated"
+      ],
+      "raw_counts": 45024,
+      "reference_drift_counts": 159,
+      "sample_id": "S09"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S10 raw=42978 blank_ref_drift=178 state=uncalibrated"
+      ],
+      "raw_counts": 42978,
+      "reference_drift_counts": 178,
+      "sample_id": "S10"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S11 raw=46260 blank_ref_drift=305 state=uncalibrated"
+      ],
+      "raw_counts": 46260,
+      "reference_drift_counts": 305,
+      "sample_id": "S11"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S12 raw=45542 blank_ref_drift=142 state=uncalibrated"
+      ],
+      "raw_counts": 45542,
+      "reference_drift_counts": 142,
+      "sample_id": "S12"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S13 raw=43368 blank_ref_drift=153 state=uncalibrated"
+      ],
+      "raw_counts": 43368,
+      "reference_drift_counts": 153,
+      "sample_id": "S13"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S14 raw=49914 blank_ref_drift=110 state=uncalibrated"
+      ],
+      "raw_counts": 49914,
+      "reference_drift_counts": 110,
+      "sample_id": "S14"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S15 raw=45596 blank_ref_drift=169 state=uncalibrated"
+      ],
+      "raw_counts": 45596,
+      "reference_drift_counts": 169,
+      "sample_id": "S15"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S16 raw=42494 blank_ref_drift=342 state=uncalibrated"
+      ],
+      "raw_counts": 42494,
+      "reference_drift_counts": 342,
+      "sample_id": "S16"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S17 raw=50272 blank_ref_drift=238 state=uncalibrated"
+      ],
+      "raw_counts": 50272,
+      "reference_drift_counts": 238,
+      "sample_id": "S17"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S18 raw=48034 blank_ref_drift=183 state=uncalibrated"
+      ],
+      "raw_counts": 48034,
+      "reference_drift_counts": 183,
+      "sample_id": "S18"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S19 raw=50676 blank_ref_drift=353 state=uncalibrated"
+      ],
+      "raw_counts": 50676,
+      "reference_drift_counts": 353,
+      "sample_id": "S19"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S20 raw=46742 blank_ref_drift=299 state=uncalibrated"
+      ],
+      "raw_counts": 46742,
+      "reference_drift_counts": 299,
+      "sample_id": "S20"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S21 raw=46232 blank_ref_drift=336 state=uncalibrated"
+      ],
+      "raw_counts": 46232,
+      "reference_drift_counts": 336,
+      "sample_id": "S21"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S22 raw=46458 blank_ref_drift=203 state=uncalibrated"
+      ],
+      "raw_counts": 46458,
+      "reference_drift_counts": 203,
+      "sample_id": "S22"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S23 raw=46300 blank_ref_drift=129 state=uncalibrated"
+      ],
+      "raw_counts": 46300,
+      "reference_drift_counts": 129,
+      "sample_id": "S23"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S24 raw=43966 blank_ref_drift=357 state=uncalibrated"
+      ],
+      "raw_counts": 43966,
+      "reference_drift_counts": 357,
+      "sample_id": "S24"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S25 raw=42880 blank_ref_drift=141 state=uncalibrated"
+      ],
+      "raw_counts": 42880,
+      "reference_drift_counts": 141,
+      "sample_id": "S25"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S26 raw=46354 blank_ref_drift=200 state=uncalibrated"
+      ],
+      "raw_counts": 46354,
+      "reference_drift_counts": 200,
+      "sample_id": "S26"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S27 raw=46228 blank_ref_drift=418 state=uncalibrated"
+      ],
+      "raw_counts": 46228,
+      "reference_drift_counts": 418,
+      "sample_id": "S27"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S28 raw=44838 blank_ref_drift=105 state=uncalibrated"
+      ],
+      "raw_counts": 44838,
+      "reference_drift_counts": 105,
+      "sample_id": "S28"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S29 raw=49336 blank_ref_drift=420 state=uncalibrated"
+      ],
+      "raw_counts": 49336,
+      "reference_drift_counts": 420,
+      "sample_id": "S29"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S30 raw=42346 blank_ref_drift=384 state=uncalibrated"
+      ],
+      "raw_counts": 42346,
+      "reference_drift_counts": 384,
+      "sample_id": "S30"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S31 raw=42572 blank_ref_drift=408 state=uncalibrated"
+      ],
+      "raw_counts": 42572,
+      "reference_drift_counts": 408,
+      "sample_id": "S31"
+    },
+    {
+      "log_lines": [
+        "INFO sample=S32 raw=47038 blank_ref_drift=104 state=uncalibrated"
+      ],
+      "raw_counts": 47038,
+      "reference_drift_counts": 104,
+      "sample_id": "S32"
+    }
+  ],
+  "schema": "repliclaw.frozen_batch_assay/v1"
+}
