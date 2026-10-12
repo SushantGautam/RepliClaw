@@ -1,0 +1,20 @@
+{
+  "status": "crashed",
+  "tokens": 900,
+  "wall_s": 12.0,
+  "tool_calls": 3,
+  "llm_calls": 5,
+  "submitted_ranking": null,
+  "submitted_at": null,
+  "model": "fx-model",
+  "label": "fx",
+  "arm": "C-EQ-TELEM",
+  "case_id": "fx-case-2",
+  "seed": 0,
+  "round": 1,
+  "envelope": {"max_tokens": 600000, "max_wall_s": 900.0},
+  "protocol_errors": 1,
+  "crash_error": "RuntimeError: scripted action parse failed",
+  "warnings": [],
+  "escrow_ledger_path": null
+}

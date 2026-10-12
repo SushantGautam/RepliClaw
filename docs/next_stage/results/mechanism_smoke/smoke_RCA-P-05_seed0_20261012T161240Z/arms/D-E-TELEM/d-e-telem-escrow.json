@@ -1,0 +1,66 @@
+{
+  "arm": "D-E-TELEM",
+  "opaque_case_id": "RCA-P-05",
+  "entries": [
+    {
+      "agent_id": "inv-a",
+      "phase": "phase1",
+      "committed_at": 113871.351600482,
+      "commit_sha256": "256d8a04d77a69fb132588412ff174fac4981e8aa6c9a1f240895c8f7137c6e2",
+      "ranking": [
+        "emailservice",
+        "cartservice",
+        "paymentservice",
+        "checkoutservice",
+        "frontend"
+      ],
+      "confidence": 0.55,
+      "revealed_at": 113883.677588406,
+      "revealed": true
+    },
+    {
+      "agent_id": "inv-b",
+      "phase": "phase1",
+      "committed_at": 113880.376903634,
+      "commit_sha256": "55d4b9c36427b7421a187b8a0ee38175ffde84644cb310e5359c28be2cc474b4",
+      "ranking": [
+        "cartservice",
+        "checkoutservice",
+        "emailservice",
+        "paymentservice",
+        "shippingservice"
+      ],
+      "confidence": 0.5,
+      "revealed_at": 113883.677588406,
+      "revealed": true
+    },
+    {
+      "agent_id": "inv-c",
+      "phase": "phase1",
+      "committed_at": 113883.677579928,
+      "commit_sha256": "d7f8e77734aa44e39f858dcabda5d1f6232b9912b9930e9ace59d5f9f011e697",
+      "ranking": [
+        "checkoutservice",
+        "paymentservice",
+        "cartservice",
+        "frontend",
+        "redis"
+      ],
+      "confidence": 0.35,
+      "revealed_at": 113883.677588406,
+      "revealed": true
+    }
+  ],
+  "phase_transitions": [
+    {
+      "phase": "COMMIT",
+      "at": null,
+      "note": "gate initialized"
+    },
+    {
+      "from": "COMMIT",
+      "to": "REVEAL",
+      "at": 113883.677588406
+    }
+  ]
+}

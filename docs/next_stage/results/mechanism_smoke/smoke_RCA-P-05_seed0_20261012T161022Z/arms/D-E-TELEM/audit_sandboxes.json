@@ -1,0 +1,116 @@
+[
+  {
+    "file_opened_count": 2,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 10.657,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 12.51,
+        "payload_bytes": 1941
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "cartservice",
+          "k": 30
+        },
+        "wall_ms": 2.088,
+        "payload_bytes": 959
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "checkoutservice",
+          "k": 30
+        },
+        "wall_ms": 2.951,
+        "payload_bytes": 862
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "emailservice",
+          "k": 30
+        },
+        "wall_ms": 5.382,
+        "payload_bytes": 959
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "paymentservice",
+          "k": 30
+        },
+        "wall_ms": 3.827,
+        "payload_bytes": 956
+      }
+    ]
+  },
+  {
+    "file_opened_count": 3,
+    "call_log": [
+      {
+        "tool": "system_context",
+        "args": {},
+        "wall_ms": 8.658,
+        "payload_bytes": 649
+      },
+      {
+        "tool": "top_anomalies",
+        "args": {
+          "k": 20
+        },
+        "wall_ms": 14.743,
+        "payload_bytes": 1941
+      },
+      {
+        "tool": "service_logs",
+        "args": {
+          "svc": "cartservice",
+          "k": 50
+        },
+        "wall_ms": 51.373,
+        "payload_bytes": 5236
+      },
+      {
+        "tool": "service_logs",
+        "args": {
+          "svc": "checkoutservice",
+          "k": 50
+        },
+        "wall_ms": 29.317,
+        "payload_bytes": 5088
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "cartservice",
+          "k": 30
+        },
+        "wall_ms": 6.1,
+        "payload_bytes": 959
+      },
+      {
+        "tool": "service_metrics",
+        "args": {
+          "svc": "checkoutservice",
+          "k": 30
+        },
+        "wall_ms": 3.003,
+        "payload_bytes": 862
+      }
+    ]
+  },
+  {
+    "file_opened_count": 1,
+    "call_log": []
+  }
+]

@@ -1,0 +1,165 @@
+{
+  "arm": "central",
+  "model": "default",
+  "seed": 2026,
+  "rounds": 3,
+  "runs": [
+    {
+      "task_id": 1,
+      "scenario": "evacuation_west_city",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "West City",
+      "possible_answers": [
+        "West City",
+        "East Town",
+        "North Hill"
+      ],
+      "seed": 2026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "West City",
+          "rationale": "North Hill is inaccessible due to a mudslide and closed trails, while East Town's tunnel is blocked by a stuck truck; West City remains accessible via the bridge and has prepared hotel accommodations."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "West City",
+          "rationale": "North Hill is inaccessible due to a mudslide and closed trails, while East Town's tunnel is blocked by a stuck truck; West City remains accessible via the bridge and has prepared hotel accommodations."
+        }
+      ],
+      "group_decision": "West City",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 764
+      },
+      "wall_s": 1.57
+    },
+    {
+      "task_id": 2,
+      "scenario": "evacuation_north_hill",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "North Hill",
+      "possible_answers": [
+        "West City",
+        "East Town",
+        "North Hill"
+      ],
+      "seed": 12026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "North Hill",
+          "rationale": "West City is unsafe due to the imminent dam release raising river levels, and East Town is inaccessible because the tunnel is blocked by a fire; North Hill remains accessible via the open driveway despite the mudslide blocking trails."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "North Hill",
+          "rationale": "West City is unsafe due to the imminent dam release raising river levels, and East Town is inaccessible because the tunnel is blocked by a fire; North Hill remains accessible via the open driveway despite the mudslide blocking trails."
+        }
+      ],
+      "group_decision": "North Hill",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 774
+      },
+      "wall_s": 1.4
+    },
+    {
+      "task_id": 3,
+      "scenario": "evacuation_east_town",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "East Town",
+      "possible_answers": [
+        "West City",
+        "East Town",
+        "North Hill"
+      ],
+      "seed": 22026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "East Town",
+          "rationale": "West City is unsafe due to the imminent dam release raising river levels, and North Hill is inaccessible due to a mudslide; East Town remains accessible via tunnel and has confirmed accommodations."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "East Town",
+          "rationale": "West City is unsafe due to the imminent dam release raising river levels, and North Hill is inaccessible due to a mudslide; East Town remains accessible via tunnel and has confirmed accommodations."
+        }
+      ],
+      "group_decision": "East Town",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 755
+      },
+      "wall_s": 1.12
+    },
+    {
+      "task_id": 4,
+      "scenario": "toma_butera_2009",
+      "arm": "central",
+      "profile": "pooled-central",
+      "model": "default",
+      "num_agents": 1,
+      "correct_answer": "Mr. X's son",
+      "possible_answers": [
+        "Mr. X",
+        "Mr. X's son",
+        "Mrs. Y",
+        "Mr. Z"
+      ],
+      "seed": 32026,
+      "rounds_planned": 3,
+      "initial_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Mr. X's son",
+          "rationale": "The perpetrator is a man under 30 driving a car with 1.5 alcohol level, which fits Mr. X's son (17) who was in the car with his intoxicated father (indirectly responsible), whereas Mr. Z is on a motorcycle and Mrs. Y is female."
+        }
+      ],
+      "rounds": [],
+      "final_votes": [
+        {
+          "agent": "Controller",
+          "vote": "Mr. X's son",
+          "rationale": "The perpetrator is a man under 30 driving a car with 1.5 alcohol level, which fits Mr. X's son (17) who was in the car with his intoxicated father (indirectly responsible), whereas Mr. Z is on a motorcycle and Mrs. Y is female."
+        }
+      ],
+      "group_decision": "Mr. X's son",
+      "completed": true,
+      "failure": null,
+      "usage_delta": {
+        "calls": 1,
+        "total_tokens": 771
+      },
+      "wall_s": 1.77
+    }
+  ]
+}

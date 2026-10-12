@@ -1,0 +1,20 @@
+{
+  "status": "completed",
+  "tokens": 1000,
+  "wall_s": 30.0,
+  "tool_calls": 8,
+  "llm_calls": 10,
+  "submitted_ranking": ["cartservice", "adservice", "checkoutservice", "emailservice", "currencyservice"],
+  "submitted_at": "2026-10-12T10:00:00+00:00",
+  "model": "fx-model",
+  "label": "fx",
+  "arm": "D-E-TELEM",
+  "case_id": "fx-case-1",
+  "seed": 0,
+  "round": 1,
+  "envelope": {"max_tokens": 600000, "max_wall_s": 900.0},
+  "protocol_errors": 0,
+  "crash_error": null,
+  "warnings": [],
+  "escrow_ledger_path": "de-telem-escrow.json"
+}

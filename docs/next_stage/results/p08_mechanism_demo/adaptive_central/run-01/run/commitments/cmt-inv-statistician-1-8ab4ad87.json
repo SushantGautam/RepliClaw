@@ -1,0 +1,42 @@
+{
+  "commitment_id": "cmt-inv-statistician-1-8ab4ad87",
+  "claim_id": "claim-policy_rag_v1",
+  "agent_id": "inv-statistician-1",
+  "role": "statistician",
+  "content_hash": "1470260f12902c58c75cd272665df1f135d612e3b5622d995045288b6a3b75ba",
+  "phase": "revealed",
+  "timestamp": "2026-10-12T16:20:14.515874+00:00",
+  "model": "default",
+  "evidence_refs": [],
+  "revealed_content": {
+    "conclusion": "supported",
+    "statement": "The current policy document explicitly states a 30-day full-refund window for standard items, which is consistent with the claim.",
+    "plan": "Analyze the provided policy documents to identify the current return window for standard items and compare it against the claim. Verify if the order details fall within this window.",
+    "evidence": {
+      "current_policy_days": 30,
+      "claimed_window_days": 30,
+      "order_age_days": 10,
+      "is_within_window": true,
+      "conflict_analysis": "Policy v2 (2025-01) supersedes Policy v1 (2024-01). The base retrieval contained stale data (14 days), but the primary policy_docs list contains the correct current version (30 days). The conflict resolution rule 'first-match-wins' applied to the `policy_docs` array correctly selected `returns_policy_v2`."
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "reveal_timestamp": "2026-10-12T16:20:14.516802+00:00",
+  "reveal_verified": true,
+  "content": {
+    "conclusion": "supported",
+    "statement": "The current policy document explicitly states a 30-day full-refund window for standard items, which is consistent with the claim.",
+    "plan": "Analyze the provided policy documents to identify the current return window for standard items and compare it against the claim. Verify if the order details fall within this window.",
+    "evidence": {
+      "current_policy_days": 30,
+      "claimed_window_days": 30,
+      "order_age_days": 10,
+      "is_within_window": true,
+      "conflict_analysis": "Policy v2 (2025-01) supersedes Policy v1 (2024-01). The base retrieval contained stale data (14 days), but the primary policy_docs list contains the correct current version (30 days). The conflict resolution rule 'first-match-wins' applied to the `policy_docs` array correctly selected `returns_policy_v2`."
+    },
+    "confidence": 1.0,
+    "executable": true
+  },
+  "seal_hash": "f4567522e19b620e335496cfec2856755bf1936884d5864a86b2dc35525c31ce"
+}

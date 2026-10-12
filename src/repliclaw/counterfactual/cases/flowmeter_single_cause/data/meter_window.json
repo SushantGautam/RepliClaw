@@ -1,0 +1,137 @@
+{
+  "case": "flowmeter_single_cause_v1",
+  "days": [
+    {
+      "day": "2026-06-01",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-01 pulses=179123 window_close=ok",
+        "INFO day=2026-06-01 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 179123
+    },
+    {
+      "day": "2026-06-02",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-02 pulses=125462 window_close=ok",
+        "INFO day=2026-06-02 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 125462
+    },
+    {
+      "day": "2026-06-03",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-03 pulses=137133 window_close=ok",
+        "INFO day=2026-06-03 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 137133
+    },
+    {
+      "day": "2026-06-04",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-04 pulses=113640 window_close=ok",
+        "INFO day=2026-06-04 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 113640
+    },
+    {
+      "day": "2026-06-05",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-05 pulses=141863 window_close=ok",
+        "INFO day=2026-06-05 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 141863
+    },
+    {
+      "day": "2026-06-06",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-06 pulses=147130 window_close=ok",
+        "INFO day=2026-06-06 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 147130
+    },
+    {
+      "day": "2026-06-07",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-07 pulses=116737 window_close=ok",
+        "INFO day=2026-06-07 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 116737
+    },
+    {
+      "day": "2026-06-08",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-08 pulses=159116 window_close=ok",
+        "INFO day=2026-06-08 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 159116
+    },
+    {
+      "day": "2026-06-09",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-09 pulses=110347 window_close=ok",
+        "INFO day=2026-06-09 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 110347
+    },
+    {
+      "day": "2026-06-10",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-10 pulses=150382 window_close=ok",
+        "INFO day=2026-06-10 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 150382
+    },
+    {
+      "day": "2026-06-11",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-11 pulses=137733 window_close=ok",
+        "INFO day=2026-06-11 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 137733
+    },
+    {
+      "day": "2026-06-12",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-12 pulses=162096 window_close=ok",
+        "INFO day=2026-06-12 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 162096
+    },
+    {
+      "day": "2026-06-13",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-13 pulses=171727 window_close=ok",
+        "INFO day=2026-06-13 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 171727
+    },
+    {
+      "day": "2026-06-14",
+      "dropped_events": 0,
+      "log_lines": [
+        "INFO day=2026-06-14 pulses=175858 window_close=ok",
+        "INFO day=2026-06-14 dropped_events=0 meter=FT-7731"
+      ],
+      "pulse_counts": 175858
+    }
+  ],
+  "generator": "data/generate.py (deterministic 64-bit LCG, seed 20261012)",
+  "line": "distribution-loop-7",
+  "meter_id": "FT-7731",
+  "pulse_unit": "count",
+  "schema": "repliclaw.frozen_meter_window/v1",
+  "window_days": 14
+}

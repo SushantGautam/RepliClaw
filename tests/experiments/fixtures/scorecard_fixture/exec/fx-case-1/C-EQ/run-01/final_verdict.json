@@ -1,0 +1,24 @@
+{
+  "schema": "p08.final_verdict/1",
+  "arm": "C-EQ",
+  "case_id": "fx-case-1",
+  "run_id": "C-EQ/run-01",
+  "harness_seed": 20261010,
+  "n_agents": 3,
+  "total_tokens": 2500,
+  "wall_s": 120.0,
+  "status": "completed",
+  "verdict": "supported",
+  "defect_class": "resource_pressure",
+  "target_artifact": "cartservice",
+  "confidence": 0.8,
+  "hypotheses": [{"id": "hyp-1", "counterfactual_slot": "armB", "outcome": "supported"}],
+  "counterfactual_slots_granted": 3,
+  "counterfactual_slots_executed": 1,
+  "integrity_rejections": 0,
+  "agent_verdicts": [
+    {"agent_id": "a-1", "verdict": "supported", "confidence": 0.8},
+    {"agent_id": "a-2", "verdict": "supported", "confidence": 0.7},
+    {"agent_id": "manager", "verdict": "supported", "confidence": 0.85}
+  ]
+}

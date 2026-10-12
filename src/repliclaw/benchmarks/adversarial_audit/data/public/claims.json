@@ -1,0 +1,44 @@
+{
+  "schema": "adversarial_audit/claims/v1",
+  "dataset_id": "adversarial_audit_rx441/v1",
+  "domain": "pharmaceutical_formulation_audit",
+  "subject": "Compound RX-441 (fictional oral solid formulation)",
+  "task": "Audit each claim below using the available evidence artifacts. For each claim, decide whether it is TRUE or FALSE as stated. A claim is TRUE only if the evidence supports it exactly as worded; if the evidence supports a materially different conclusion (a different magnitude, or a confounded association rather than a causal one), the claim is FALSE. You may be given only a subset of the evidence (one source partition); cross-reference across sources wherever possible and weigh each artifact's methodology before trusting its headline number.",
+  "claims": [
+    {
+      "claim_id": "C1",
+      "statement": "The new RX-441 formulation increases bioavailability by 40% relative to the reference formulation.",
+      "answer_type": "boolean"
+    },
+    {
+      "claim_id": "C2",
+      "statement": "RX-441 is chemically stable at 25C/60% RH over 6 months, with no degradation product above the 0.5% acceptance threshold.",
+      "answer_type": "boolean"
+    },
+    {
+      "claim_id": "C3",
+      "statement": "Higher storage temperature is the cause of the observed potency loss in RX-441.",
+      "answer_type": "boolean"
+    },
+    {
+      "claim_id": "C4",
+      "statement": "The new granulation process reduces batch-to-batch variability relative to the old process.",
+      "answer_type": "boolean"
+    },
+    {
+      "claim_id": "C5",
+      "statement": "The vendor's stability chamber is more reliable than the in-house stability chamber.",
+      "answer_type": "boolean"
+    },
+    {
+      "claim_id": "C6",
+      "statement": "The new formulation reduces manufacturing cost by 25%.",
+      "answer_type": "boolean"
+    },
+    {
+      "claim_id": "C7",
+      "statement": "The pilot-scale data confirms the lab-scale potency results for RX-441.",
+      "answer_type": "boolean"
+    }
+  ]
+}
