@@ -8,7 +8,7 @@ reach the answers.
 
 Mirrors the CompoundCausal-32 convention: ``load_dataset`` there returns the
 private gold as a second value that "NEVER [may be] exposed to agents", and the
-RCAEval lane keeps ``heldout_ground_truth`` out of the public package surface.
+RCAEval lane keeps its private heldout answers out of the public package surface.
 """
 from __future__ import annotations
 
