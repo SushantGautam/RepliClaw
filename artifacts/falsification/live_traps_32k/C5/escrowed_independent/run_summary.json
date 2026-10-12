@@ -1,0 +1,67 @@
+{
+  "case_id": "C5",
+  "failures": [],
+  "finished_at": "2026-10-12T18:56:37.773126+00:00",
+  "investigators": {
+    "escrowed-source_a": {
+      "bounds_hit": [
+        "token_budget"
+      ],
+      "commitment_sha256": null,
+      "model_reported": "Qwen/Qwen3.8-27B-FP8",
+      "model_requested": "default",
+      "num_llm_calls": 4,
+      "num_tool_calls": 2,
+      "reveal_status": null,
+      "source_id": "source_a",
+      "status": "bound",
+      "total_tokens": 8720,
+      "wall_s": 2.0671
+    },
+    "escrowed-source_b": {
+      "bounds_hit": [],
+      "commitment_sha256": "1df97dd2d5293b5d9b249c34591202f4091e239afb1bd11189fc69bda63d111a",
+      "model_reported": "Qwen/Qwen3.8-27B-FP8",
+      "model_requested": "default",
+      "num_llm_calls": 3,
+      "num_tool_calls": 0,
+      "reveal_status": "verified",
+      "source_id": "source_b",
+      "status": "committed",
+      "total_tokens": 4216,
+      "wall_s": 5.1915
+    },
+    "escrowed-source_c": {
+      "bounds_hit": [
+        "max_turns"
+      ],
+      "commitment_sha256": null,
+      "model_reported": "Qwen/Qwen3.8-27B-FP8",
+      "model_requested": "default",
+      "num_llm_calls": 4,
+      "num_tool_calls": 1,
+      "reveal_status": null,
+      "source_id": "source_c",
+      "status": "bound",
+      "total_tokens": 5630,
+      "wall_s": 2.1122
+    },
+    "escrowed-source_d": {
+      "bounds_hit": [
+        "max_turns"
+      ],
+      "commitment_sha256": null,
+      "model_reported": "Qwen/Qwen3.8-27B-FP8",
+      "model_requested": "default",
+      "num_llm_calls": 4,
+      "num_tool_calls": 0,
+      "reveal_status": null,
+      "source_id": "source_d",
+      "status": "bound",
+      "total_tokens": 5864,
+      "wall_s": 2.0015
+    }
+  },
+  "ledger_violations": [],
+  "status": "completed"
+}

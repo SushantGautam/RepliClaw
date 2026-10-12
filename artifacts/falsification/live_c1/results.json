@@ -1,0 +1,249 @@
+{
+  "arms": [
+    "escrowed_independent",
+    "open_sharing",
+    "central_adaptive",
+    "single_investigator"
+  ],
+  "caps": {
+    "calls_per_investigator": 4,
+    "max_tokens_per_call": 1024,
+    "model": "default",
+    "n_team": 4,
+    "open_sharing_phase_calls": 2,
+    "open_sharing_phase_tokens": 2000,
+    "temperature": 0.2,
+    "tokens_per_investigator": 4000,
+    "total_calls": 16,
+    "total_tokens": 16000,
+    "wall_s": 300.0,
+    "wall_s_per_investigator": 75.0
+  },
+  "claims": [
+    "C1"
+  ],
+  "dataset": "adversarial_audit_rx441/v1",
+  "dataset_sha256": "c3d4c9399f87f18861996bc5e9cf4fc99786535d5e345d05e737fb6c9f81bf98",
+  "dry_run": false,
+  "generated_at": "2026-10-12T18:50:47.462431+00:00",
+  "harness_check_only": false,
+  "model_requested": "default",
+  "per_arm_per_claim": {
+    "central_adaptive": [
+      {
+        "arm": "central_adaptive",
+        "claim_id": "C1",
+        "error": null,
+        "individual_verdicts": {
+          "central": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 2,
+        "total_tokens": 6189,
+        "total_tool_calls": 1,
+        "total_wall_s": 3.1657
+      }
+    ],
+    "escrowed_independent": [
+      {
+        "arm": "escrowed_independent",
+        "claim_id": "C1",
+        "error": null,
+        "individual_verdicts": {
+          "escrowed-source_a": null,
+          "escrowed-source_b": "FALSE",
+          "escrowed-source_c": null,
+          "escrowed-source_d": null
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "ABSTAIN",
+        "total_llm_calls": 12,
+        "total_tokens": 18441,
+        "total_tool_calls": 2,
+        "total_wall_s": 9.3756
+      }
+    ],
+    "open_sharing": [
+      {
+        "arm": "open_sharing",
+        "claim_id": "C1",
+        "error": null,
+        "individual_verdicts": {
+          "open-0": "FALSE",
+          "open-1": "FALSE",
+          "open-2": "FALSE",
+          "open-3": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 8,
+        "total_tokens": 24913,
+        "total_tool_calls": 0,
+        "total_wall_s": 16.893
+      }
+    ],
+    "single_investigator": [
+      {
+        "arm": "single_investigator",
+        "claim_id": "C1",
+        "error": null,
+        "individual_verdicts": {
+          "single": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 1,
+        "total_tokens": 2806,
+        "total_tool_calls": 0,
+        "total_wall_s": 2.2679
+      }
+    ]
+  },
+  "schema": "repliclaw.falsification.results/v1",
+  "scores": {
+    "central_adaptive": {
+      "abstained": 0,
+      "abstention_rate": 0.0,
+      "accuracy": 1.0,
+      "arm": "central_adaptive",
+      "correct": 1,
+      "false_consensus_rate": null,
+      "individual_accuracy": 1.0,
+      "individual_correct": 1,
+      "individual_total": 1,
+      "per_claim": {
+        "C1": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "central": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        }
+      },
+      "robustness_trap_accuracy": 1.0,
+      "team_wrong": 0,
+      "team_wrong_individual_right": 0,
+      "total": 1,
+      "total_llm_calls": 2,
+      "total_tokens": 6189,
+      "total_tool_calls": 1,
+      "total_wall_s": 3.1657,
+      "trap_correct": 1,
+      "trap_total": 1
+    },
+    "escrowed_independent": {
+      "abstained": 1,
+      "abstention_rate": 1.0,
+      "accuracy": 0.0,
+      "arm": "escrowed_independent",
+      "correct": 0,
+      "false_consensus_rate": 1.0,
+      "individual_accuracy": 1.0,
+      "individual_correct": 1,
+      "individual_total": 1,
+      "per_claim": {
+        "C1": {
+          "abstained": true,
+          "correct": false,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "escrowed-source_a": null,
+            "escrowed-source_b": "FALSE",
+            "escrowed-source_c": null,
+            "escrowed-source_d": null
+          },
+          "is_trap": true,
+          "predicted": "ABSTAIN"
+        }
+      },
+      "robustness_trap_accuracy": 0.0,
+      "team_wrong": 1,
+      "team_wrong_individual_right": 1,
+      "total": 1,
+      "total_llm_calls": 12,
+      "total_tokens": 18441,
+      "total_tool_calls": 2,
+      "total_wall_s": 9.3756,
+      "trap_correct": 0,
+      "trap_total": 1
+    },
+    "open_sharing": {
+      "abstained": 0,
+      "abstention_rate": 0.0,
+      "accuracy": 1.0,
+      "arm": "open_sharing",
+      "correct": 1,
+      "false_consensus_rate": null,
+      "individual_accuracy": 1.0,
+      "individual_correct": 4,
+      "individual_total": 4,
+      "per_claim": {
+        "C1": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "open-0": "FALSE",
+            "open-1": "FALSE",
+            "open-2": "FALSE",
+            "open-3": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        }
+      },
+      "robustness_trap_accuracy": 1.0,
+      "team_wrong": 0,
+      "team_wrong_individual_right": 0,
+      "total": 1,
+      "total_llm_calls": 8,
+      "total_tokens": 24913,
+      "total_tool_calls": 0,
+      "total_wall_s": 16.893,
+      "trap_correct": 1,
+      "trap_total": 1
+    },
+    "single_investigator": {
+      "abstained": 0,
+      "abstention_rate": 0.0,
+      "accuracy": 1.0,
+      "arm": "single_investigator",
+      "correct": 1,
+      "false_consensus_rate": null,
+      "individual_accuracy": 1.0,
+      "individual_correct": 1,
+      "individual_total": 1,
+      "per_claim": {
+        "C1": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "single": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        }
+      },
+      "robustness_trap_accuracy": 1.0,
+      "team_wrong": 0,
+      "team_wrong_individual_right": 0,
+      "total": 1,
+      "total_llm_calls": 1,
+      "total_tokens": 2806,
+      "total_tool_calls": 0,
+      "total_wall_s": 2.2679,
+      "trap_correct": 1,
+      "trap_total": 1
+    }
+  },
+  "temperature": 0.2
+}
