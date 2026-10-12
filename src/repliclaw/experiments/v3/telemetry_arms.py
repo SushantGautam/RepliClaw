@@ -58,6 +58,11 @@ INSTRUMENT; NOT comparable to prior V3.2 rounds):
   per-run token envelope, and equivalent parallelism — the manager may
   issue a BATCH of up to ``CEQ_MANAGER_BATCH_MAX`` tool calls per turn
   (``{"action": "tool_calls", "tools": [...]}``).
+* Commit VALIDATION (both arms, identical rule): a committed ranking that
+  names a service not in the case's metric inventory (hallucinated name)
+  is rejected with ONE bounded correction ask; a second invalid commit is
+  a recorded non-commit failure (``abort_reason="non_commit:..."``).
+  Service names are observable data (system_context) — no oracle content.
 * Escrow packets are hashed with ``repliclaw.canonical`` (the escrow
   module's canonical form) and the COMMIT -> REVEAL boundary is gated by
   ``repliclaw.escrow.phase.PhaseGate`` (transitions persisted in the
@@ -107,6 +112,7 @@ from repliclaw.experiments.v3.telemetry import (
     PilotCaseRegistry,
     TelemetrySandbox,
     ToolBudgetExhausted,
+    UnknownServiceError,
 )
 
 # ---------------------------------------------------------------------------
@@ -829,6 +835,40 @@ class _ArmBase:
                 f"({self._tokens_total()} tokens)"
             )
 
+    def _commit_or_correct(
+        self, session: LLMToolSession, agent_id: str, sandbox: TelemetrySandbox,
+        action: dict[str, Any], context: str,
+    ) -> dict[str, Any]:
+        """Validate a committed ranking against the case's service inventory.
+
+        An unknown service (hallucinated name) is a NORMAL protocol failure,
+        not an arm crash: ONE bounded correction ask (the valid service names
+        are observable data the agent already has access to — no oracle
+        content). A second invalid commit raises :class:`_NonCommitError` —
+        a recorded failure (never masked). Identical rule for both arms.
+        """
+        try:
+            sandbox.validate_ranking(action["ranking"])
+            return action
+        except UnknownServiceError as exc:
+            fixed = session.ask(
+                f"{context}: your commit was REJECTED — {exc}. Commit again "
+                "with a ranked-5 list using ONLY service names that actually "
+                "appear in the case's telemetry (see system_context and the "
+                "other tool outputs); do not invent service names."
+            )
+            if fixed["action"] != "commit":
+                raise _NonCommitError(
+                    f"{agent_id}: no re-commit after inventory correction"
+                ) from None
+            try:
+                sandbox.validate_ranking(fixed["ranking"])
+            except UnknownServiceError as exc2:
+                raise _NonCommitError(
+                    f"{agent_id}: re-commit still invalid ({exc2})"
+                ) from None
+            return fixed
+
     def _execute_tools(
         self, sandbox: TelemetrySandbox, actions: Sequence[dict[str, Any]]
     ) -> list[dict[str, Any]]:
@@ -1042,6 +1082,10 @@ class DetelemArm(_ArmBase):
                         session, inv,
                         f"tool budget cap ({self._phase1_tool_cap}) reached",
                     )
+                commit_action = self._commit_or_correct(
+                    session, inv, sandbox, commit_action,
+                    f"investigator {inv} phase-1 escrow commit",
+                )
                 escrow.commit(inv, "phase1", commit_action["ranking"],
                               commit_action["confidence"])
                 committed.add(inv)
@@ -1050,10 +1094,14 @@ class DetelemArm(_ArmBase):
             # wall cap) broke mid-investigation — every investigator still
             # commits its best-evidence packet before the reveal boundary.
             abort_reason = f"budget_exhausted:{exc}"
-            for inv, session in zip(INVESTIGATOR_IDS, sessions):
+            for inv, sandbox, session in zip(INVESTIGATOR_IDS, sandboxes, sessions):
                 if inv in committed:
                     continue
                 commit_action = self._forced_commit(session, inv, abort_reason)
+                commit_action = self._commit_or_correct(
+                    session, inv, sandbox, commit_action,
+                    f"investigator {inv} best-evidence commit",
+                )
                 escrow.commit(inv, "phase1", commit_action["ranking"],
                               commit_action["confidence"])
                 committed.add(inv)
@@ -1208,6 +1256,10 @@ class CEQTelemArm(_ArmBase):
                                     abort_reason=f"non_commit:{nce}")
             escrow.commit("manager", "final", commit_action["ranking"],
                           commit_action["confidence"])
+            commit_action = self._commit_or_correct(
+                manager_session, "manager", manager_sandbox, commit_action,
+                "manager best-evidence final commit",
+            )
             confirmed = manager_sandbox.submit_diagnosis(commit_action["ranking"])
             return self._result(
                 submitted_ranking=confirmed["ranking"],
@@ -1342,6 +1394,10 @@ class CEQTelemArm(_ArmBase):
             "ranked-5 diagnosis with a confidence."
         )
         assert final_action["action"] == "commit"
+        final_action = self._commit_or_correct(
+            manager_session, "manager", manager_sandbox, final_action,
+            "manager final commit",
+        )
         self._enforce_envelope()
         confirmed = manager_sandbox.submit_diagnosis(final_action["ranking"])
         escrow_path = self._out_dir / f"{self.arm_label.lower()}-escrow.json"
