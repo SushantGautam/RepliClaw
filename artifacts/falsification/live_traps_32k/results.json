@@ -1,0 +1,701 @@
+{
+  "arms": [
+    "escrowed_independent",
+    "open_sharing",
+    "central_adaptive",
+    "single_investigator"
+  ],
+  "caps": {
+    "calls_per_investigator": 4,
+    "max_tokens_per_call": 1024,
+    "model": "default",
+    "n_team": 4,
+    "open_sharing_phase_calls": 2,
+    "open_sharing_phase_tokens": 4000,
+    "temperature": 0.2,
+    "tokens_per_investigator": 8000,
+    "total_calls": 16,
+    "total_tokens": 32000,
+    "wall_s": 300.0,
+    "wall_s_per_investigator": 75.0
+  },
+  "claims": [
+    "C1",
+    "C2",
+    "C3",
+    "C5",
+    "C6"
+  ],
+  "dataset": "adversarial_audit_rx441/v1",
+  "dataset_sha256": "c3d4c9399f87f18861996bc5e9cf4fc99786535d5e345d05e737fb6c9f81bf98",
+  "dry_run": false,
+  "generated_at": "2026-10-12T18:57:40.881366+00:00",
+  "harness_check_only": false,
+  "model_requested": "default",
+  "per_arm_per_claim": {
+    "central_adaptive": [
+      {
+        "arm": "central_adaptive",
+        "claim_id": "C1",
+        "error": null,
+        "individual_verdicts": {
+          "central": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 2,
+        "total_tokens": 6202,
+        "total_tool_calls": 1,
+        "total_wall_s": 3.0417
+      },
+      {
+        "arm": "central_adaptive",
+        "claim_id": "C2",
+        "error": null,
+        "individual_verdicts": {
+          "central": "TRUE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "TRUE",
+        "total_llm_calls": 4,
+        "total_tokens": 12543,
+        "total_tool_calls": 3,
+        "total_wall_s": 4.9019
+      },
+      {
+        "arm": "central_adaptive",
+        "claim_id": "C3",
+        "error": null,
+        "individual_verdicts": {
+          "central": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 4,
+        "total_tokens": 11551,
+        "total_tool_calls": 0,
+        "total_wall_s": 3.9075
+      },
+      {
+        "arm": "central_adaptive",
+        "claim_id": "C5",
+        "error": null,
+        "individual_verdicts": {
+          "central": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 2,
+        "total_tokens": 5927,
+        "total_tool_calls": 1,
+        "total_wall_s": 2.9169
+      },
+      {
+        "arm": "central_adaptive",
+        "claim_id": "C6",
+        "error": null,
+        "individual_verdicts": {
+          "central": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 5,
+        "total_tokens": 14601,
+        "total_tool_calls": 0,
+        "total_wall_s": 4.1917
+      }
+    ],
+    "escrowed_independent": [
+      {
+        "arm": "escrowed_independent",
+        "claim_id": "C1",
+        "error": null,
+        "individual_verdicts": {
+          "escrowed-source_a": "FALSE",
+          "escrowed-source_b": "FALSE",
+          "escrowed-source_c": null,
+          "escrowed-source_d": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 16,
+        "total_tokens": 27079,
+        "total_tool_calls": 4,
+        "total_wall_s": 15.9861
+      },
+      {
+        "arm": "escrowed_independent",
+        "claim_id": "C2",
+        "error": null,
+        "individual_verdicts": {
+          "escrowed-source_a": "TRUE",
+          "escrowed-source_b": "FALSE",
+          "escrowed-source_c": null,
+          "escrowed-source_d": null
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "ABSTAIN",
+        "total_llm_calls": 16,
+        "total_tokens": 27012,
+        "total_tool_calls": 3,
+        "total_wall_s": 14.4529
+      },
+      {
+        "arm": "escrowed_independent",
+        "claim_id": "C3",
+        "error": null,
+        "individual_verdicts": {
+          "escrowed-source_a": "FALSE",
+          "escrowed-source_b": null,
+          "escrowed-source_c": null,
+          "escrowed-source_d": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "ABSTAIN",
+        "total_llm_calls": 16,
+        "total_tokens": 26496,
+        "total_tool_calls": 4,
+        "total_wall_s": 12.9342
+      },
+      {
+        "arm": "escrowed_independent",
+        "claim_id": "C5",
+        "error": null,
+        "individual_verdicts": {
+          "escrowed-source_a": null,
+          "escrowed-source_b": "FALSE",
+          "escrowed-source_c": null,
+          "escrowed-source_d": null
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "ABSTAIN",
+        "total_llm_calls": 15,
+        "total_tokens": 24430,
+        "total_tool_calls": 3,
+        "total_wall_s": 11.3723
+      },
+      {
+        "arm": "escrowed_independent",
+        "claim_id": "C6",
+        "error": null,
+        "individual_verdicts": {
+          "escrowed-source_a": null,
+          "escrowed-source_b": null,
+          "escrowed-source_c": "FALSE",
+          "escrowed-source_d": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "ABSTAIN",
+        "total_llm_calls": 16,
+        "total_tokens": 26457,
+        "total_tool_calls": 4,
+        "total_wall_s": 14.1446
+      }
+    ],
+    "open_sharing": [
+      {
+        "arm": "open_sharing",
+        "claim_id": "C1",
+        "error": null,
+        "individual_verdicts": {
+          "open-0": "FALSE",
+          "open-1": "FALSE",
+          "open-2": "FALSE",
+          "open-3": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 8,
+        "total_tokens": 24920,
+        "total_tool_calls": 0,
+        "total_wall_s": 16.3855
+      },
+      {
+        "arm": "open_sharing",
+        "claim_id": "C2",
+        "error": null,
+        "individual_verdicts": {
+          "open-0": "TRUE",
+          "open-1": "TRUE",
+          "open-2": "TRUE",
+          "open-3": "TRUE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "TRUE",
+        "total_llm_calls": 12,
+        "total_tokens": 34957,
+        "total_tool_calls": 8,
+        "total_wall_s": 18.7635
+      },
+      {
+        "arm": "open_sharing",
+        "claim_id": "C3",
+        "error": null,
+        "individual_verdicts": {
+          "open-0": "FALSE",
+          "open-1": "FALSE",
+          "open-2": "FALSE",
+          "open-3": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 8,
+        "total_tokens": 25628,
+        "total_tool_calls": 0,
+        "total_wall_s": 20.8135
+      },
+      {
+        "arm": "open_sharing",
+        "claim_id": "C5",
+        "error": null,
+        "individual_verdicts": {
+          "open-0": "FALSE",
+          "open-1": "FALSE",
+          "open-2": "FALSE",
+          "open-3": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 11,
+        "total_tokens": 32508,
+        "total_tool_calls": 6,
+        "total_wall_s": 18.3039
+      },
+      {
+        "arm": "open_sharing",
+        "claim_id": "C6",
+        "error": null,
+        "individual_verdicts": {
+          "open-0": "FALSE",
+          "open-1": "FALSE",
+          "open-2": "FALSE",
+          "open-3": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 8,
+        "total_tokens": 25969,
+        "total_tool_calls": 0,
+        "total_wall_s": 20.8287
+      }
+    ],
+    "single_investigator": [
+      {
+        "arm": "single_investigator",
+        "claim_id": "C1",
+        "error": null,
+        "individual_verdicts": {
+          "single": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 1,
+        "total_tokens": 2836,
+        "total_tool_calls": 0,
+        "total_wall_s": 2.427
+      },
+      {
+        "arm": "single_investigator",
+        "claim_id": "C2",
+        "error": null,
+        "individual_verdicts": {
+          "single": "TRUE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "TRUE",
+        "total_llm_calls": 1,
+        "total_tokens": 2888,
+        "total_tool_calls": 0,
+        "total_wall_s": 2.9963
+      },
+      {
+        "arm": "single_investigator",
+        "claim_id": "C3",
+        "error": null,
+        "individual_verdicts": {
+          "single": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 1,
+        "total_tokens": 2767,
+        "total_tool_calls": 0,
+        "total_wall_s": 1.8499
+      },
+      {
+        "arm": "single_investigator",
+        "claim_id": "C5",
+        "error": null,
+        "individual_verdicts": {
+          "single": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 1,
+        "total_tokens": 2828,
+        "total_tool_calls": 0,
+        "total_wall_s": 2.5574
+      },
+      {
+        "arm": "single_investigator",
+        "claim_id": "C6",
+        "error": null,
+        "individual_verdicts": {
+          "single": "FALSE"
+        },
+        "model_reported": "Qwen/Qwen3.8-27B-FP8",
+        "status": "completed",
+        "team_verdict": "FALSE",
+        "total_llm_calls": 1,
+        "total_tokens": 2814,
+        "total_tool_calls": 0,
+        "total_wall_s": 2.4377
+      }
+    ]
+  },
+  "schema": "repliclaw.falsification.results/v1",
+  "scores": {
+    "central_adaptive": {
+      "abstained": 0,
+      "abstention_rate": 0.0,
+      "accuracy": 1.0,
+      "arm": "central_adaptive",
+      "correct": 5,
+      "false_consensus_rate": null,
+      "individual_accuracy": 1.0,
+      "individual_correct": 5,
+      "individual_total": 5,
+      "per_claim": {
+        "C1": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "central": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C2": {
+          "abstained": false,
+          "correct": true,
+          "expected": "TRUE",
+          "individual_verdicts": {
+            "central": "TRUE"
+          },
+          "is_trap": true,
+          "predicted": "TRUE"
+        },
+        "C3": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "central": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C5": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "central": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C6": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "central": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        }
+      },
+      "robustness_trap_accuracy": 1.0,
+      "team_wrong": 0,
+      "team_wrong_individual_right": 0,
+      "total": 5,
+      "total_llm_calls": 17,
+      "total_tokens": 50824,
+      "total_tool_calls": 5,
+      "total_wall_s": 18.9597,
+      "trap_correct": 5,
+      "trap_total": 5
+    },
+    "escrowed_independent": {
+      "abstained": 4,
+      "abstention_rate": 0.8,
+      "accuracy": 0.2,
+      "arm": "escrowed_independent",
+      "correct": 1,
+      "false_consensus_rate": 1.0,
+      "individual_accuracy": 0.9,
+      "individual_correct": 9,
+      "individual_total": 10,
+      "per_claim": {
+        "C1": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "escrowed-source_a": "FALSE",
+            "escrowed-source_b": "FALSE",
+            "escrowed-source_c": null,
+            "escrowed-source_d": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C2": {
+          "abstained": true,
+          "correct": false,
+          "expected": "TRUE",
+          "individual_verdicts": {
+            "escrowed-source_a": "TRUE",
+            "escrowed-source_b": "FALSE",
+            "escrowed-source_c": null,
+            "escrowed-source_d": null
+          },
+          "is_trap": true,
+          "predicted": "ABSTAIN"
+        },
+        "C3": {
+          "abstained": true,
+          "correct": false,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "escrowed-source_a": "FALSE",
+            "escrowed-source_b": null,
+            "escrowed-source_c": null,
+            "escrowed-source_d": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "ABSTAIN"
+        },
+        "C5": {
+          "abstained": true,
+          "correct": false,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "escrowed-source_a": null,
+            "escrowed-source_b": "FALSE",
+            "escrowed-source_c": null,
+            "escrowed-source_d": null
+          },
+          "is_trap": true,
+          "predicted": "ABSTAIN"
+        },
+        "C6": {
+          "abstained": true,
+          "correct": false,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "escrowed-source_a": null,
+            "escrowed-source_b": null,
+            "escrowed-source_c": "FALSE",
+            "escrowed-source_d": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "ABSTAIN"
+        }
+      },
+      "robustness_trap_accuracy": 0.2,
+      "team_wrong": 4,
+      "team_wrong_individual_right": 4,
+      "total": 5,
+      "total_llm_calls": 79,
+      "total_tokens": 131474,
+      "total_tool_calls": 18,
+      "total_wall_s": 68.8901,
+      "trap_correct": 1,
+      "trap_total": 5
+    },
+    "open_sharing": {
+      "abstained": 0,
+      "abstention_rate": 0.0,
+      "accuracy": 1.0,
+      "arm": "open_sharing",
+      "correct": 5,
+      "false_consensus_rate": null,
+      "individual_accuracy": 1.0,
+      "individual_correct": 20,
+      "individual_total": 20,
+      "per_claim": {
+        "C1": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "open-0": "FALSE",
+            "open-1": "FALSE",
+            "open-2": "FALSE",
+            "open-3": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C2": {
+          "abstained": false,
+          "correct": true,
+          "expected": "TRUE",
+          "individual_verdicts": {
+            "open-0": "TRUE",
+            "open-1": "TRUE",
+            "open-2": "TRUE",
+            "open-3": "TRUE"
+          },
+          "is_trap": true,
+          "predicted": "TRUE"
+        },
+        "C3": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "open-0": "FALSE",
+            "open-1": "FALSE",
+            "open-2": "FALSE",
+            "open-3": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C5": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "open-0": "FALSE",
+            "open-1": "FALSE",
+            "open-2": "FALSE",
+            "open-3": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C6": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "open-0": "FALSE",
+            "open-1": "FALSE",
+            "open-2": "FALSE",
+            "open-3": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        }
+      },
+      "robustness_trap_accuracy": 1.0,
+      "team_wrong": 0,
+      "team_wrong_individual_right": 0,
+      "total": 5,
+      "total_llm_calls": 47,
+      "total_tokens": 143982,
+      "total_tool_calls": 14,
+      "total_wall_s": 95.0951,
+      "trap_correct": 5,
+      "trap_total": 5
+    },
+    "single_investigator": {
+      "abstained": 0,
+      "abstention_rate": 0.0,
+      "accuracy": 1.0,
+      "arm": "single_investigator",
+      "correct": 5,
+      "false_consensus_rate": null,
+      "individual_accuracy": 1.0,
+      "individual_correct": 5,
+      "individual_total": 5,
+      "per_claim": {
+        "C1": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "single": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C2": {
+          "abstained": false,
+          "correct": true,
+          "expected": "TRUE",
+          "individual_verdicts": {
+            "single": "TRUE"
+          },
+          "is_trap": true,
+          "predicted": "TRUE"
+        },
+        "C3": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "single": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C5": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "single": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        },
+        "C6": {
+          "abstained": false,
+          "correct": true,
+          "expected": "FALSE",
+          "individual_verdicts": {
+            "single": "FALSE"
+          },
+          "is_trap": true,
+          "predicted": "FALSE"
+        }
+      },
+      "robustness_trap_accuracy": 1.0,
+      "team_wrong": 0,
+      "team_wrong_individual_right": 0,
+      "total": 5,
+      "total_llm_calls": 5,
+      "total_tokens": 14133,
+      "total_tool_calls": 0,
+      "total_wall_s": 12.2683,
+      "trap_correct": 5,
+      "trap_total": 5
+    }
+  },
+  "temperature": 0.2
+}
