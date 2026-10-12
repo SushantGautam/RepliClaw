@@ -37,6 +37,37 @@ post-loop consultation of 3 fresh investigators (single prompt, no
 tools beyond 3 calls each), and a final ranked-5 commit through its own
 sandbox.
 
+Mechanism v2 (lane-mechanism mechanism smoke, 2026-10-12 — EVOLVING
+INSTRUMENT; NOT comparable to prior V3.2 rounds):
+
+* D-E-TELEM investigators operate INDEPENDENTLY: the original phase-2
+  cross-consultation (which shared the other investigators' inferences)
+  is REMOVED. Investigators may share raw observational tool access only,
+  never inferences. Each investigator gets a bounded number of tool/query
+  turns (``DE_PHASE1_TOOL_CAP``, CLI-overridable) and MUST escrow a
+  ranked candidate-cause packet (phase "phase1") BEFORE any reveal or
+  synthesis. Synthesis is the deterministic committee ranking over the
+  revealed escrowed packets, submitted through the arm's own fresh
+  sandbox.
+* BEST-EVIDENCE COMMIT rule (BOTH arms): when a budget is exhausted (tool
+  cap, token envelope, or wall cap) the arm still commits a best-evidence
+  ranking. A non-commit is a recorded FAILURE carrying
+  ``ArmRunResult.abort_reason`` (``"non_commit:..."``) — it is never
+  masked and never silently retry-stalled.
+* C-EQ-TELEM stays STRONG (not crippled): identical tool set, identical
+  per-run token envelope, and equivalent parallelism — the manager may
+  issue a BATCH of up to ``CEQ_MANAGER_BATCH_MAX`` tool calls per turn
+  (``{"action": "tool_calls", "tools": [...]}``).
+* Escrow packets are hashed with ``repliclaw.canonical`` (the escrow
+  module's canonical form) and the COMMIT -> REVEAL boundary is gated by
+  ``repliclaw.escrow.phase.PhaseGate`` (transitions persisted in the
+  ledger JSON).
+
+This remains ACCESS-MATCHED OBSERVATIONAL diagnosis: the sandbox exposes
+observational queries only (no executable interventions). Label every
+result with :data:`MECHANISM_LABEL`; never claim a causal-intervention
+advantage from these runs.
+
 Prompt-volume parity hook: :func:`prompt_volume_ratio` mirrors the exact
 ratio definition at ``experiments/v3/ceq.py:329`` (manager total prompt
 tokens / (number of investigator prompts x mean investigator prompt
@@ -70,6 +101,8 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, Callable, Protocol, Sequence, runtime_checkable
 
+from repliclaw.canonical import canonical_json, sha256_hex
+from repliclaw.escrow.phase import Phase, PhaseGate
 from repliclaw.experiments.v3.telemetry import (
     PilotCaseRegistry,
     TelemetrySandbox,
@@ -82,6 +115,13 @@ from repliclaw.experiments.v3.telemetry import (
 
 #: Mandatory scientific label for any run through these arms (J-SCI rule).
 MODEL_SUBSTITUTION_LABEL = "MODEL-SUBSTITUTION (SimulaChat default, Qwen3.8-27B)"
+
+#: Mandatory mechanism label for mechanism-v2 runs (observational diagnosis
+#: only — the sandbox has no executable interventions).
+MECHANISM_LABEL = (
+    "ACCESS-MATCHED OBSERVATIONAL diagnosis (telemetry sandbox exposes "
+    "observational queries only — NO executable interventions)"
+)
 
 #: Per-run token envelope (V3.2: AMEND_V3_2 item B1, approved D-V3-017 —
 #: 90,000 -> 150,000, applied IDENTICALLY to BOTH arms via this shared
@@ -108,7 +148,15 @@ PLANNER_ROUNDS_MAX = 4
 #: C-EQ post-loop investigator tool cap (addendum: no tools beyond 3 calls).
 CEQ_INVESTIGATOR_TOOL_CAP = 3
 #: D-E phase-2 additional tool-call cap per investigator (one consultation round).
+#: RETAINED for API backward compatibility; the mechanism-v2 D-E arm has no
+#: consultation round (investigators are independent) — use DE_PHASE1_TOOL_CAP.
 DE_PHASE2_TOOL_CAP = 4
+#: D-E mechanism v2: bounded tool/query turns per investigator (phase 1).
+#: Small by design; CLI-overridable (mechanism smoke runner ``--de-tool-cap``).
+DE_PHASE1_TOOL_CAP = 6
+#: C-EQ mechanism v2: max tool calls per manager turn (equivalent parallelism;
+#: the batch is executed as one agent turn on the manager's sandbox).
+CEQ_MANAGER_BATCH_MAX = 3
 
 #: Context-compaction constants (W3g harness-side fix — addendum §6.3).
 #: The provider send-view keeps the system prompt + first user instruction and the
@@ -148,6 +196,14 @@ to invoke one of the OBS tools, or, only when you are ready to commit:
 The commit ranking is your ranked-5 root-cause diagnosis (rank 1 = most
 likely root cause). Do not emit any text outside the single JSON object."""
 
+#: C-EQ-only batch extension (disclosed in the C-EQ manager prompt; D-E
+#: investigators never see it, so their action space stays single-call).
+BATCH_ACTION_PROTOCOL = """C-EQ batch extension — you may instead issue up to
+  {batch_max} tool calls as ONE batch in a single turn:
+  {{"action": "tool_calls", "tools": [{{"tool": "<tool name>", "args": {{...}}}}, ...]}}
+Batched calls are executed as one equivalent-parallel batch against your
+sandbox (each call still counts against the shared per-sandbox budgets)."""
+
 
 class AgentProtocolError(RuntimeError):
     """The LLM produced malformed action output twice in a row."""
@@ -159,6 +215,12 @@ class _MalformedActionError(AgentProtocolError):
 
 class _BudgetAbort(Exception):
     """Internal: the per-run token envelope or wall cap was breached."""
+
+
+class _NonCommitError(Exception):
+    """Internal: an agent refused/failed to commit its best-evidence ranking
+    after the bounded forced-commit asks. Recorded as a FAILURE with
+    ``abort_reason="non_commit:..."`` (never masked, never retry-stalled)."""
 
 
 # ---------------------------------------------------------------------------
@@ -295,13 +357,34 @@ def _extract_json_object(text: str) -> dict[str, Any]:
 def parse_action(content: str) -> dict[str, Any]:
     """Parse + validate one model output into an action dict.
 
-    Returns ``{"action": "tool_call", "tool": str, "args": dict}`` or
+    Returns ``{"action": "tool_call", "tool": str, "args": dict}``,
+    ``{"action": "tool_calls", "tools": [ {tool, args}, ... ]}`` (C-EQ batch,
+    1..``CEQ_MANAGER_BATCH_MAX`` entries), or
     ``{"action": "commit", "ranking": list[str] (len 5), "confidence": float
     in [0,1]}``. Raises :class:`AgentProtocolError` (via
     :class:`_MalformedActionError`) on anything else.
     """
     obj = _extract_json_object(content)
     action = obj.get("action")
+    if action == "tool_calls":
+        tools = obj.get("tools")
+        if (
+            not isinstance(tools, list)
+            or not tools
+            or len(tools) > CEQ_MANAGER_BATCH_MAX
+            or not all(isinstance(t, dict) and isinstance(t.get("tool"), str) for t in tools)
+            or any(
+                t.get("args") is not None and not isinstance(t.get("args"), dict) for t in tools
+            )
+        ):
+            raise _MalformedActionError(f"bad tool_calls batch: {obj!r}")
+        return {
+            "action": "tool_calls",
+            "tools": [
+                {"tool": t["tool"], "args": dict(t["args"]) if t.get("args") is not None else {}}
+                for t in tools
+            ],
+        }
     if action == "tool_call":
         tool = obj.get("tool")
         args = obj.get("args")
@@ -533,11 +616,13 @@ def assert_volume_band(ratio: float) -> None:
 class ArmEscrow:
     """Minimal commit-reveal escrow for pre-outcome diagnosis commitments.
 
-    A commit stores a sha256 over the canonical payload while keeping the
-    payload private (``revealed=False``); :meth:`reveal_all` stamps the
-    reveal timestamp only after every agent has committed. The ledger is
-    persisted as JSON at :meth:`save`. ``clock`` is injectable for
-    deterministic test ledgers.
+    A commit stores a sha256 over the canonical payload (``repliclaw.canonical``
+    — the escrow module's canonical form) while keeping the payload private
+    (``revealed=False``); :meth:`reveal_all` stamps the reveal timestamp only
+    after every agent has committed. The COMMIT -> REVEAL boundary is gated by
+    a ``repliclaw.escrow.phase.PhaseGate`` and every transition is recorded in
+    :attr:`phase_transitions`. The ledger is persisted as JSON at
+    :meth:`save`. ``clock`` is injectable for deterministic test ledgers.
     """
 
     def __init__(self, arm_label: str, opaque_case_id: str,
@@ -546,21 +631,24 @@ class ArmEscrow:
         self.opaque_case_id = opaque_case_id
         self._clock = clock if clock is not None else time.time
         self.entries: list[dict[str, Any]] = []
+        self.gate = PhaseGate()
+        self.phase_transitions: list[dict[str, Any]] = [
+            {"phase": Phase.COMMIT.name, "at": None, "note": "gate initialized"}
+        ]
 
     @staticmethod
     def _canonical_payload(agent_id: str, phase: str, ranking: list[str], confidence: float) -> str:
-        return json.dumps(
-            {"agent_id": agent_id, "phase": phase, "ranking": ranking, "confidence": confidence},
-            sort_keys=True,
-            separators=(",", ":"),
+        return canonical_json(
+            {"agent_id": agent_id, "phase": phase, "ranking": ranking, "confidence": confidence}
         )
 
     def commit(self, agent_id: str, phase: str, ranking: list[str], confidence: float) -> dict[str, Any]:
         # Service-validity (ranking must cover the case's metric inventory) is
         # NOT checked here — escrow has no sandbox reference; validation
         # happens at the final TelemetrySandbox.submit_diagnosis.
+        self.gate.assert_can(agent_id, "commit")
         payload = self._canonical_payload(agent_id, phase, ranking, confidence)
-        sha = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+        sha = sha256_hex(payload)
         entry = {
             "agent_id": agent_id,
             "phase": phase,
@@ -575,8 +663,16 @@ class ArmEscrow:
         return entry
 
     def reveal_all(self) -> None:
-        """COMMIT -> REVEAL boundary: legal only after all agents committed."""
+        """COMMIT -> REVEAL boundary: legal only after all agents committed
+        (PhaseGate: one forward transition, recorded in the ledger)."""
+        if self.gate.phase is not Phase.COMMIT:
+            raise RuntimeError("ArmEscrow.reveal_all: reveal boundary already passed")
         now = self._clock()
+        self.gate.advance()  # COMMIT -> REVEAL
+        self.gate.assert_can("gate", "reveal")
+        self.phase_transitions.append(
+            {"from": Phase.COMMIT.name, "to": Phase.REVEAL.name, "at": now}
+        )
         for entry in self.entries:
             entry["revealed_at"] = now
             entry["revealed"] = True
@@ -585,7 +681,8 @@ class ArmEscrow:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(
-            {"arm": self.arm_label, "opaque_case_id": self.opaque_case_id, "entries": self.entries},
+            {"arm": self.arm_label, "opaque_case_id": self.opaque_case_id,
+             "entries": self.entries, "phase_transitions": self.phase_transitions},
             indent=2,
         ) + "\n", encoding="utf-8")
         return path
@@ -611,6 +708,10 @@ class ArmRunResult:
     protocol_errors: int
     status: str  # "completed" | "crashed" | "aborted_budget"
     crash_error: str | None = None  # type + text of the crashing exception (cause attribution)
+    #: Transparent failure attribution (mechanism v2): "budget_exhausted:..."
+    #: when the best-evidence commit path fired, "non_commit:..." when an
+    #: agent failed to commit after the bounded forced-commit asks.
+    abort_reason: str | None = None
     backend_models: tuple[str | None, ...] = ()  # AMEND_V3_1 A4: per-agent gateway echoes
     warnings: tuple[str, ...] = ()  # non-fatal disclosures (e.g. prompt-volume band breach)
 
@@ -728,6 +829,36 @@ class _ArmBase:
                 f"({self._tokens_total()} tokens)"
             )
 
+    def _execute_tools(
+        self, sandbox: TelemetrySandbox, actions: Sequence[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
+        """Execute a batch of tool_call actions on one sandbox in ONE agent
+        turn (C-EQ equivalent parallelism). Sandbox calls stay sequential
+        and each still counts against the shared per-sandbox budgets."""
+        return [self._execute_tool(sandbox, a) for a in actions]
+
+    def _forced_commit(self, session: LLMToolSession, agent_id: str, context: str) -> dict[str, Any]:
+        """BEST-EVIDENCE COMMIT: bounded final asks to commit (no further
+        tool calls allowed). A non-commit raises :class:`_NonCommitError` —
+        the caller records it as a failure with an abort_reason."""
+        action = session.ask(
+            f"BEST-EVIDENCE COMMIT ({context}): your investigation budget is "
+            "exhausted and no further tool calls are allowed. You MUST commit "
+            "now: reply with a commit action containing your current "
+            "best-evidence ranked-5 diagnosis and a confidence (lower the "
+            "confidence if your evidence is thin)."
+        )
+        if action["action"] != "commit":
+            action = session.ask(
+                "No further tool calls are possible. Reply NOW with a commit "
+                "action ONLY: your best-evidence ranked-5 ranking + confidence."
+            )
+        if action["action"] != "commit":
+            raise _NonCommitError(
+                f"{agent_id}: no best-evidence commit after budget exhaustion"
+            )
+        return action
+
     def _execute_tool(self, sandbox: TelemetrySandbox, action: dict[str, Any]) -> dict[str, Any]:
         """Execute one tool_call action on a sandbox; returns the observation.
 
@@ -770,6 +901,7 @@ class _ArmBase:
         escrow_ledger_path: str | None,
         prompt_volume_ratio: float | None,
         warnings: Sequence[str] = (),
+        abort_reason: str | None = None,
     ) -> ArmRunResult:
         return ArmRunResult(
             arm=self.arm_label,
@@ -787,6 +919,7 @@ class _ArmBase:
             crash_error=self._crash_error if status == "crashed" else None,
             backend_models=tuple(s.backend_model for s in self.sessions),
             warnings=tuple(warnings),
+            abort_reason=abort_reason,
         )
 
 
@@ -812,16 +945,34 @@ _INVESTIGATOR_STANCES: dict[str, str] = {
 
 
 class DetelemArm(_ArmBase):
-    """D-E-TELEM: 3 investigators, own sandboxes, escrow commit-reveal, committee."""
+    """D-E-TELEM (mechanism v2): 3 INDEPENDENT investigators (own sandboxes,
+    bounded tool/query turns, no shared reasoning channel), pre-outcome
+    escrow commit BEFORE any reveal, then deterministic synthesis over the
+    revealed packets via the arm's own fresh sandbox.
+
+    BEST-EVIDENCE COMMIT: if a budget (tool cap / token envelope / wall cap)
+    is exhausted, the arm still commits a best-evidence ranking; a non-commit
+    is a recorded failure carrying ``abort_reason``.
+    """
 
     arm_label = "D-E-TELEM"
+
+    def __init__(self, *, phase1_tool_cap: int = DE_PHASE1_TOOL_CAP, **kwargs: Any) -> None:
+        if phase1_tool_cap < 1:
+            raise ValueError("phase1_tool_cap must be >= 1")
+        super().__init__(**kwargs)
+        self._phase1_tool_cap = int(phase1_tool_cap)
 
     def _investigator_system_prompt(self, inv_id: str) -> str:
         stance = _INVESTIGATOR_STANCES[inv_id]
         return (
             f"You are investigator {inv_id} on a root-cause diagnosis task over one "
-            f"incident's telemetry (opaque case {self._opaque_id}). You have NO access "
-            f"to ground truth, and no other data source.\n"
+            f"incident's telemetry (opaque case {self._opaque_id}). You work "
+            f"INDEPENDENTLY: no other investigator shares inferences with you, and "
+            f"you will share nothing but your escrowed packet. You have NO access "
+            f"to ground truth, and no other data source. You have at most "
+            f"{self._phase1_tool_cap} tool calls; when your tool budget is exhausted "
+            f"you must commit your best-evidence ranking.\n"
             f"Assigned stance (deterministic, seed {self._seed}): {stance}.\n\n"
             f"{TOOL_DOCS}\n\n{ACTION_PROTOCOL}"
         )
@@ -833,10 +984,19 @@ class DetelemArm(_ArmBase):
         escrow_path = self._out_dir / f"{self.arm_label.lower()}-escrow.json"
         try:
             return self._run_inner(escrow)
-        except _BudgetAbort:
+        except _BudgetAbort as exc:
+            # Normal path only: the budget broke before the best-evidence
+            # commit path could produce a ranking (e.g. during synthesis).
             return self._result(submitted_ranking=None, status="aborted_budget",
                                 escrow_ledger_path=str(escrow.save(escrow_path)),
-                                prompt_volume_ratio=None)
+                                prompt_volume_ratio=None,
+                                abort_reason=f"budget_exhausted:{exc}")
+        except _NonCommitError as exc:
+            self._record_crash(exc)
+            return self._result(submitted_ranking=None, status="aborted_budget",
+                                escrow_ledger_path=str(escrow.save(escrow_path)),
+                                prompt_volume_ratio=None,
+                                abort_reason=f"non_commit:{exc}")
         except Exception as exc:  # noqa: BLE001 — crash is recorded, not raised
             self._record_crash(exc)
             return self._result(submitted_ranking=None, status="crashed",
@@ -848,77 +1008,89 @@ class DetelemArm(_ArmBase):
         sessions = [self._new_session(inv, self._investigator_system_prompt(inv))
                     for inv in INVESTIGATOR_IDS]
 
-        # ---- Phase 1: private investigation + escrow commit (no cross-sharing)
+        # ---- Phase 1: independent investigation + escrow commit (NO cross-sharing)
         phase1_prompt = (
-            f"Begin your private investigation of opaque case {self._opaque_id}. "
-            f"Issue tool calls to gather evidence. When (and only when) you are ready, "
-            f"commit your ranked-5 diagnosis with a confidence. Your commit is ESCROWED: "
-            f"it is hashed and sealed now, and revealed to the other investigators only "
-            f"after everyone has committed. You will get one consultation round after "
-            f"the reveal."
+            f"Begin your private, independent investigation of opaque case "
+            f"{self._opaque_id}. You have at most {self._phase1_tool_cap} tool "
+            f"calls. Issue tool calls to gather evidence. When (and only when) you "
+            f"are ready — or as soon as your tool budget runs out — commit your "
+            f"best-evidence ranked-5 diagnosis with a confidence. Your commit is "
+            f"ESCROWED: it is hashed and sealed now, and revealed for the "
+            f"deterministic committee synthesis only AFTER every investigator has "
+            f"committed. You see no other investigator's inferences."
         )
-        for inv, sandbox, session in zip(INVESTIGATOR_IDS, sandboxes, sessions):
-            observations: list[dict[str, Any]] = []
-            action = session.ask(phase1_prompt)
-            while action["action"] == "tool_call":
+        committed: set[str] = set()
+        abort_reason: str | None = None
+        try:
+            for inv, sandbox, session in zip(INVESTIGATOR_IDS, sandboxes, sessions):
                 self._enforce_envelope()
-                observations.append(self._execute_tool(sandbox, action))
-                self._enforce_envelope()
-                action = session.ask(self._continuation_prompt(observations, inv))
-            escrow.commit(inv, "phase1", action["ranking"], action["confidence"])
+                action = session.ask(phase1_prompt)
+                observations: list[dict[str, Any]] = []
+                tools_left = self._phase1_tool_cap
+                while action["action"] == "tool_call":
+                    if tools_left <= 0:
+                        break  # tool budget exhausted -> forced best-evidence commit
+                    tools_left -= 1
+                    self._enforce_envelope()
+                    observations.append(self._execute_tool(sandbox, action))
+                    self._enforce_envelope()
+                    action = session.ask(self._continuation_prompt(observations, inv))
+                if action["action"] == "commit":
+                    commit_action = action
+                else:
+                    commit_action = self._forced_commit(
+                        session, inv,
+                        f"tool budget cap ({self._phase1_tool_cap}) reached",
+                    )
+                escrow.commit(inv, "phase1", commit_action["ranking"],
+                              commit_action["confidence"])
+                committed.add(inv)
+        except _BudgetAbort as exc:
+            # BEST-EVIDENCE COMMIT rule: the run budget (token envelope or
+            # wall cap) broke mid-investigation — every investigator still
+            # commits its best-evidence packet before the reveal boundary.
+            abort_reason = f"budget_exhausted:{exc}"
+            for inv, session in zip(INVESTIGATOR_IDS, sessions):
+                if inv in committed:
+                    continue
+                commit_action = self._forced_commit(session, inv, abort_reason)
+                escrow.commit(inv, "phase1", commit_action["ranking"],
+                              commit_action["confidence"])
+                committed.add(inv)
         # COMMIT -> REVEAL boundary (only now that all three committed).
         escrow.reveal_all()
+        return self._synthesize_and_submit(escrow, abort_reason=abort_reason)
 
-        # ---- Phase 2: one shared consultation round (see OTHER two only)
-        for inv, sandbox, session in zip(INVESTIGATOR_IDS, sandboxes, sessions):
-            others = [e for e in escrow.entries if e["agent_id"] != inv and e["phase"] == "phase1"]
-            reveal_block = "\n".join(
-                f"- {e['agent_id']}: ranking={e['ranking']} confidence={e['confidence']}"
-                for e in others
-            )
-            prompt = (
-                "Commit-reveal consultation round. The OTHER investigators have "
-                "committed and revealed their escrowed phase-1 diagnoses (you never "
-                "see your own reveal here):\n"
-                f"{reveal_block}\n"
-                "You may issue up to "
-                f"{DE_PHASE2_TOOL_CAP} more tool calls on your own sandbox, then you "
-                "MUST commit your FINAL ranked-5 diagnosis with a confidence. Your "
-                "final submission is what the committee adjudication uses."
-            )
-            p2_observations: list[dict[str, Any]] = []
-            tools_left = DE_PHASE2_TOOL_CAP
-            action = session.ask(prompt)
-            while action["action"] == "tool_call":
-                if tools_left <= 0:
-                    raise _BudgetAbort(f"{inv}: phase-2 tool cap ({DE_PHASE2_TOOL_CAP}) exceeded")
-                tools_left -= 1
-                self._enforce_envelope()
-                p2_observations.append(self._execute_tool(sandbox, action))
-                self._enforce_envelope()
-                action = session.ask(self._continuation_prompt(p2_observations, inv))
-            escrow.commit(inv, "phase2-final", action["ranking"], action["confidence"])
-
-        # ---- Phase 3: deterministic committee ranking via a fresh 4th sandbox
-        finals = {e["agent_id"]: e for e in escrow.entries if e["phase"] == "phase2-final"}
+    def _synthesize_and_submit(self, escrow: ArmEscrow,
+                               *, abort_reason: str | None = None) -> ArmRunResult:
+        """Deterministic synthesis over the REVEALED escrowed packets, submitted
+        through the arm's own fresh 4th (equal-access) sandbox. In the
+        best-evidence commit path (``abort_reason`` set) the per-round envelope
+        gate is skipped so the arm can still finish; the extra spend is
+        recorded transparently on the result."""
+        phase1 = {e["agent_id"]: e for e in escrow.entries if e["phase"] == "phase1"}
         scores: dict[str, float] = {}
         for agent_id in INVESTIGATOR_IDS:
-            entry = finals[agent_id]
+            entry = phase1[agent_id]
             for rank, svc in enumerate(entry["ranking"], start=1):
                 # (5 - rank + 1) * confidence; rank is 1-based over the 5 slots.
                 scores[svc] = scores.get(svc, 0.0) + (RANKING_LENGTH - rank + 1) * entry["confidence"]
         committee_ranking = sorted(scores, key=lambda s: (-scores[s], s))[:RANKING_LENGTH]
 
+        def _gate() -> None:
+            if abort_reason is None:
+                self._enforce_envelope()
+
         committee_sandbox = self._new_sandbox()  # fresh: equal tool access (parity)
         committee_session = self._new_session(
             "committee",
             "You are the D-E adjudication committee over opaque case "
-            f"{self._opaque_id}. The investigators' final escrowed submissions have "
-            f"been adjudicated deterministically into a committee ranking (scores "
-            f"below). You may inspect telemetry with the OBS tools before the arm "
-            f"submits; you do NOT choose the ranking — reply with a commit action "
-            f"when you are ready for submission.\n\n{TOOL_DOCS}\n\n"
-            + ACTION_PROTOCOL,
+            f"{self._opaque_id}. The investigators' escrowed packets have been "
+            f"revealed and adjudicated deterministically into a committee "
+            f"ranking (scores below). You may inspect telemetry with the OBS "
+            f"tools before the arm submits; you do NOT choose the ranking — "
+            f"reply with a commit action when you are ready for submission.\n\n"
+            f"{TOOL_DOCS}\n\n" + ACTION_PROTOCOL,
         )
         score_block = "\n".join(f"- {s}: {v:.4f}" for s, v in sorted(scores.items(), key=lambda kv: (-kv[1], kv[0])))
         committee_observations: list[dict[str, Any]] = []
@@ -932,21 +1104,23 @@ class DetelemArm(_ArmBase):
             if tools_left <= 0:
                 break  # unconditional submit below; sandbox budget also caps this
             tools_left -= 1
-            self._enforce_envelope()
+            _gate()
             committee_observations.append(self._execute_tool(committee_sandbox, action))
-            self._enforce_envelope()
+            _gate()
             action = committee_session.ask(self._continuation_prompt(committee_observations, "committee"))
-        self._enforce_envelope()
+        _gate()
         confirmed = committee_sandbox.submit_diagnosis(committee_ranking)
 
         escrow_path = self._out_dir / f"{self.arm_label.lower()}-escrow.json"
-        result = self._result(
+        warnings = (f"best-evidence commit path used: {abort_reason}",) if abort_reason else ()
+        return self._result(
             submitted_ranking=confirmed["ranking"],
             status="completed",
             escrow_ledger_path=str(escrow.save(escrow_path)),
             prompt_volume_ratio=None,
+            warnings=warnings,
+            abort_reason=abort_reason,
         )
-        return result
 
     def _continuation_prompt(self, observations: list[dict[str, Any]], inv: str) -> str:
         last = observations[-1]
@@ -966,9 +1140,18 @@ class DetelemArm(_ArmBase):
 
 
 class CEQTelemArm(_ArmBase):
-    """C-EQ-TELEM: sealed pre-loop forecast, <=4 planner rounds, findings once."""
+    """C-EQ-TELEM (mechanism v2): sealed pre-loop forecast, <=4 planner rounds
+    with EQUIVALENT PARALLELISM (the manager may batch up to
+    ``CEQ_MANAGER_BATCH_MAX`` tool calls per turn), findings once, final
+    commit — with the same best-evidence commit rule as D-E."""
 
     arm_label = "C-EQ-TELEM"
+
+    def __init__(self, *, batch_max: int = CEQ_MANAGER_BATCH_MAX, **kwargs: Any) -> None:
+        if not (1 <= batch_max <= CEQ_MANAGER_BATCH_MAX):
+            raise ValueError(f"batch_max must be 1..{CEQ_MANAGER_BATCH_MAX}")
+        super().__init__(**kwargs)
+        self._batch_max = int(batch_max)
 
     def _manager_system_prompt(self) -> str:
         base = (
@@ -982,7 +1165,12 @@ class CEQTelemArm(_ArmBase):
             f"When you have enough evidence, commit your ranked-5 diagnosis.\n\n"
             f"{TOOL_DOCS}\n\n"
         )
-        return base + ACTION_PROTOCOL
+        return (
+            base
+            + ACTION_PROTOCOL
+            + "\n\n"
+            + BATCH_ACTION_PROTOCOL.format(batch_max=self._batch_max)
+        )
 
     def _investigator_system_prompt(self, inv_id: str) -> str:
         stance = _INVESTIGATOR_STANCES[inv_id]
@@ -1003,10 +1191,32 @@ class CEQTelemArm(_ArmBase):
         escrow_path = self._out_dir / f"{self.arm_label.lower()}-escrow.json"
         try:
             return self._run_inner(escrow, manager_sandbox, manager_session)
-        except _BudgetAbort:
-            return self._result(submitted_ranking=None, status="aborted_budget",
-                                escrow_ledger_path=str(escrow.save(escrow_path)),
-                                prompt_volume_ratio=None)
+        except _BudgetAbort as exc:
+            # BEST-EVIDENCE COMMIT rule (same as D-E): the run budget broke
+            # mid-investigation — the manager still commits its best-evidence
+            # ranking (one bounded final ask) and the arm submits it.
+            abort_reason = f"budget_exhausted:{exc}"
+            try:
+                commit_action = self._forced_commit(
+                    manager_session, "manager", abort_reason
+                )
+            except _NonCommitError as nce:
+                self._record_crash(nce)
+                return self._result(submitted_ranking=None, status="aborted_budget",
+                                    escrow_ledger_path=str(escrow.save(escrow_path)),
+                                    prompt_volume_ratio=None,
+                                    abort_reason=f"non_commit:{nce}")
+            escrow.commit("manager", "final", commit_action["ranking"],
+                          commit_action["confidence"])
+            confirmed = manager_sandbox.submit_diagnosis(commit_action["ranking"])
+            return self._result(
+                submitted_ranking=confirmed["ranking"],
+                status="completed",
+                escrow_ledger_path=str(escrow.save(escrow_path)),
+                prompt_volume_ratio=None,
+                warnings=(f"best-evidence commit path used: {abort_reason}",),
+                abort_reason=abort_reason,
+            )
         except Exception as exc:  # noqa: BLE001 — crash is recorded, not raised
             self._record_crash(exc)
             return self._result(submitted_ranking=None, status="crashed",
@@ -1046,27 +1256,32 @@ class CEQTelemArm(_ArmBase):
                 f"Sealed forecast line: {forecast_line}\n"
                 f"Union evidence view (everything observed in your sandbox):\n"
                 f"{_render_observations(observations)}\n"
-                "Issue 1-3 tool calls for this round by responding with a single "
-                "tool_call action (you will be asked again for the rest of the "
-                "round), or commit your ranked-5 diagnosis if you already have "
-                "enough evidence."
+                f"Issue 1-3 tool calls for this round — either as ONE batch "
+                f"action (\"tool_calls\", up to {self._batch_max} tools per turn) "
+                "or as separate tool_call actions — or commit your ranked-5 "
+                "diagnosis if you already have enough evidence."
             )
             round_tools = 0
             action = manager_session.ask(prompt)
-            while action["action"] == "tool_call":
-                if round_tools >= 3:
-                    break  # 1-3 tool calls per round; continue next round
-                round_tools += 1
+            while action["action"] in ("tool_call", "tool_calls"):
+                batch = (
+                    [action] if action["action"] == "tool_call"
+                    else action["tools"][: self._batch_max]
+                )
+                remaining = 3 - round_tools
+                batch = batch[:remaining]  # 1-3 tool calls per round
+                if not batch:
+                    break  # round full; continue next round
+                round_tools += len(batch)
                 self._enforce_envelope()
-                last_action = action
-                observations.append(self._execute_tool(manager_sandbox, last_action))
+                new_obs = self._execute_tools(manager_sandbox, batch)
+                observations.extend(new_obs)
                 self._enforce_envelope()
                 action = manager_session.ask(
-                    f"Observation from {last_action['tool']}("
-                    f"{json.dumps(last_action['args'], sort_keys=True)}):\n"
-                    f"{_render_observations(observations[-1:])}\n"
-                    f"Round {round_no}: issue another tool call (up to 3 this "
-                    "round) or commit."
+                    f"Observations from the last batch:\n"
+                    f"{_render_observations(new_obs)}\n"
+                    f"Round {round_no}: issue another batch (up to {remaining - len(batch)} "
+                    "more this round) or commit."
                 )
             if action["action"] == "commit":
                 loop_committed = action
@@ -1158,13 +1373,17 @@ __all__ = [
     "AgentProtocolError",
     "ArmEscrow",
     "ArmRunResult",
+    "BATCH_ACTION_PROTOCOL",
     "CEQ_INVESTIGATOR_TOOL_CAP",
+    "CEQ_MANAGER_BATCH_MAX",
     "CEQTelemArm",
     "ChatClientLike",
     "ChatCompletionsLike",
     "DE_COMMITTEE_TOOL_CAP",
+    "DE_PHASE1_TOOL_CAP",
     "DE_PHASE2_TOOL_CAP",
     "DetelemArm",
+    "MECHANISM_LABEL",
     "FakeLLMClient",
     "INVESTIGATOR_IDS",
     "LLMToolSession",
