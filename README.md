@@ -30,47 +30,47 @@ ledger.
 ## Results
 
 Live runs, Qwen3.8-27B, temperature 0.2. "Trap" = claim engineered to fool
-a naive reading (misleading statistic, contradiction, unreliable source);
-accuracy on traps is the robustness measure.
+## Results — every run, one table
 
-**Matched four-arm comparison — 5 trap claims, 32,000 tokens/claim (live run)**
+✅ worked · ❌ failed · ➖ tie / inconclusive. All LLM runs used Qwen3.8-27B
+(OpenAI-compatible endpoint, temperature 0.2); where that model is not a
+benchmark's released baseline the run is model-substitution, and the
+telemetry runs are observational (access-matched), not intervention-based.
 
-| Arm | Verdict acc | Trap acc | Abstain | Per-individual acc | Tokens | Verdict |
-|---|---:|---:|---:|---:|---:|---|
-| single_investigator | 100% | 100% | 0% | — | 14,133 | ✅ works — cheapest by far |
-| central_adaptive | 100% | 100% | 0% | — | 50,824 | ✅ works |
-| open_sharing | 100% | 100% | 0% | 100% (20/20) | 143,982 | ✅ works — but most expensive |
-| escrowed_independent | **20%** | **20%** | **80%** | 90% (9/10) | 131,474 | ❌ fails |
+| Run | Setup | Result | Verdict |
+|---|---|---|---|
+| Prototype benchmark (archived) | 6 known-answer tasks × 5 strategies; deterministic, offline | repl_claw 1.000 correct, 1.000 recovery; best baseline 0.500 | ✅ (offline harness only) |
+| G3 pilot (V3, 60K cap) | 10 cases × 2 seeds × 2 arms, 2 rounds | D-E 0/12 completed (budget aborts + 2 crashes); C-EQ 5/12 completed, all hits | ❌ D-E (feasibility stop); C-EQ partial |
+| Fast-finish heldout (V3.2, 150K/48t) | 10 cases × 2 seeds; D-E 19 vs C-EQ 17 runs | D-E 0/19 completed (all spent the full budget); C-EQ 17/17 hit at ~63K tokens | ❌ D-E; ✅ C-EQ |
+| V3 campaign final (V3) | 8 cases, full cohort | D-E 6/8 vs C-EQ 6/8 (C-EQ a lower bound); D-E ~3.7× cost per run | ➖ tie |
+| P08 one-seed demo | 1 case (policy_rag_v1), 3 arms, matched envelope, real counterfactual interventions | escrow+interventions 1.0 vs open-share 0.0 (CI [1.0, 1.0]) | ✅ demonstration only (1 seed) |
+| P1 preregistered campaign | 6 arms × 20 runs (120), 1 seeded case, 1.72M tokens | S5 1.000 vs open-share 0.200 (Δ 0.800, CI [0.60, 0.95]); no-escrow and random-select ablations also 1.000 | ✅ — but the effect is attributable to the interventions, not escrow (1 case) |
+| V4 full re-run | 10 frozen cases × 2 seeds × 2 arms (40 runs); cases historically exposed | D-E top-1 80% vs C-EQ 65% (+15 pp, p=0.555, CI crosses 0) | ➖ inconclusive |
+| V4 AIOpsLab live | 5 live K8s fault-injection tasks, 2 arms, 150K | D-E 4/5 (1 budget abort), C-EQ 5/5; C-EQ used half the tokens, ~1/3 the time | ✅ C-EQ (directional, n=5) |
+| HiddenBench (ICML 2026), observational | 12 tasks × 3 arms, seed 2026 | escrow 0/12, open-share 0/12, central (pooled) 10/12 | ❌ both distributed arms; ✅ pooled control |
+| Mechanism smoke v2 | 1 reused case × 2 arms, 3 live runs | 2/2 completed, 2/2 acc@5 hits, 0/2 top-1 hits | ➖ exploratory |
+| **Falsification 4-arm (current, live)** | 5 trap claims, 32K matched envelope | single 100% (14K tokens), central 100% (51K), open-share 100% (144K, 20/20 individual); escrow 20%, 80% abstention, 90% individual (9/10) | ✅ pooled arms; ❌ escrow |
+| Falsification budget sensitivity | C1, 16K envelope | pooled arms all correct (2.8K–24.9K tokens); escrow ABSTAIN — 3 of 4 investigators hit their per-investigator budget before committing | ❌ escrow |
 
-**Budget sensitivity — C1 only, 16,000 tokens/claim (live run)**
+**Big picture across all runs**
 
-| Arm | Verdict (expected FALSE) | Outcome |
-|---|---|---|
-| single_investigator | FALSE | ✅ correct, 2,806 tokens |
-| central_adaptive | FALSE | ✅ correct, 6,189 tokens |
-| open_sharing | FALSE | ✅ correct, 24,913 tokens |
-| escrowed_independent | ABSTAIN | ❌ 3 of 4 investigators hit the per-investigator token budget before committing |
+- The centralized and single-agent arms (C-EQ, central_adaptive,
+  single_investigator, pooled controls) win or tie in every run.
+- Decentralized escrow never beats the centralized baseline: one tie (V3, at
+  ~3.7× the cost) and losses or non-completions everywhere else. Its failure
+  modes are consistent: budget exhaustion during coordination (G3,
+  fast-finish, AIOpsLab, C1) and aggregation discarding correct individual
+  votes (falsification 4-arm, HiddenBench).
+- The only escrow-involved win (P1) is attributable to the counterfactual
+  interventions, not escrow — ablation arms without escrow that ran the same
+  interventions also scored 1.000.
+- On current valid evidence, independent evidence escrow has not shown a
+  benefit and has a measurable cost in accuracy, completion, and spend.
 
-**What this shows**
-
-- The single investigator and the central manager both work: on the traps,
-  one careful pass over all the evidence beats every multi-agent design here.
-- Open sharing works but costs ~10× the single investigator for the same
-  answer — four agents seeing everything is a good way to spend money, not a
-  way to be more accurate.
-- **Independent evidence escrow fails, and we know exactly why.** Its
-  investigators were 90% accurate *individually*, but each saw only one
-  source, which was often not enough to commit; strict-majority aggregation
-  then turned those non-commits into abstentions, discarding the correct
-  votes (on every abstained claim, at least one investigator had the right
-  answer). Under a tighter budget the same arm additionally starves
-  before it can finish.
-- Nothing in this sample shows a case where escrow beat the pooled arms; the
-  pooled arms got all five traps right.
-
-Full methods, limits, and the conditions that would change the conclusion:
-[`docs/next_stage/science/falsification_indepinfo_verdict.md`](docs/next_stage/science/falsification_indepinfo_verdict.md).
-Raw messages, usage, receipts, and ledgers for both runs: `artifacts/falsification/`.
+Detail, methods, limits, and raw evidence for each run:
+[`docs/next_stage/science/falsification_indepinfo_verdict.md`](docs/next_stage/science/falsification_indepinfo_verdict.md)
+(current experiment), `docs/next_stage/results/` (per-run reports), and
+`artifacts/` (receipts, ledgers, transcripts).
 
 ## Install & reproduce
 
