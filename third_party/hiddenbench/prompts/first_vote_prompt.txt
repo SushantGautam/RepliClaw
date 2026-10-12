@@ -1,5 +1,0 @@
-Please decide and provide your rationale in the following JSON format:
-{
-    "vote": <A string, %possible_answers%>,
-    "rationale": <A string, representing your rationale>
-}

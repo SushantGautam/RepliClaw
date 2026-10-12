@@ -1,0 +1,27 @@
+{
+  "schema": "p08.run_manifest/1",
+  "incomplete": false,
+  "arms": {
+    "S3": [
+      {
+        "run": "S3/run-01",
+        "status": "completed",
+        "usage_present_ratio": 1.0
+      }
+    ],
+    "S4": [
+      {
+        "run": "S4/run-01",
+        "status": "completed",
+        "usage_present_ratio": 1.0
+      }
+    ],
+    "S5": [
+      {
+        "run": "S5/run-01",
+        "status": "completed",
+        "usage_present_ratio": 1.0
+      }
+    ]
+  }
+}

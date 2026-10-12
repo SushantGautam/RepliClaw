@@ -1,5 +1,0 @@
-hiddenbench-vendored
-  repo: https://github.com/Yassellee/HiddenBench_ICML
-  pinned_commit: 3be6ca16973e4fb751ffc0dfb7eb11f2d28335d1
-  vendored_date: 2026-10-12
-  note: unmodified copy (only .git removed); adapter lives in src/repliclaw/benchmarks/hiddenbench/

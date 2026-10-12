@@ -1,3 +1,0 @@
-Previous messages from other people:
-%messages%
-It is your turn to speak. %extra%
